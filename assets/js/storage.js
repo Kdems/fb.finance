@@ -1,59 +1,84 @@
-(function exposeStorage(global) {
-  'use strict';
+const STORAGE_KEY = "skybar.finance.dashboard.entries.v1";
 
-  const storageKey = 'skybar.finance.dashboard.entries.v1';
+// Get all entries
+function getEntries() {
+  const data = localStorage.getItem(STORAGE_KEY);
+  return data ? JSON.parse(data) : [];
+}
 
-  function safeParse(value) {
-    try {
-      const parsed = JSON.parse(value);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (error) {
-      console.warn('Unable to parse saved SKYBAR entries:', error);
-      return [];
+// Save all entries
+function saveEntries(entries) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+}
+
+// Add new entry
+function addEntry(entry) {
+  const entries = getEntries();
+
+  const newEntry = {
+    id: Date.now().toString(),
+    ...entry,
+    createdAt: new Date().toISOString()
+  };
+
+  entries.push(newEntry);
+
+  saveEntries(entries);
+
+  return newEntry;
+}
+
+// Update existing entry
+function updateEntry(id, updatedData) {
+  const entries = getEntries();
+
+  const updatedEntries = entries.map(entry => {
+    if (entry.id === id) {
+      return {
+        ...entry,
+        ...updatedData,
+        updatedAt: new Date().toISOString()
+      };
     }
-  }
+    return entry;
+  });
 
-  function loadEntries() {
-    return safeParse(global.localStorage.getItem(storageKey)).sort((a, b) => a.date.localeCompare(b.date));
-  }
+  saveEntries(updatedEntries);
+}
 
-  function persist(entries) {
-    global.localStorage.setItem(storageKey, JSON.stringify(entries));
-    return entries;
-  }
+// Delete entry
+function deleteEntry(id) {
+  const entries = getEntries();
 
-  function saveEntry(entry, originalDate = '') {
-    const normalized = global.SkybarCalculations.normalizeEntry(entry);
-    if (!normalized.date) {
-      return { ok: false, message: 'Date is required before saving an entry.', entries: loadEntries() };
-    }
+  const filteredEntries = entries.filter(
+    entry => entry.id !== id
+  );
 
-    const entries = loadEntries();
-    const duplicate = entries.find((item) => item.date === normalized.date && item.date !== originalDate);
-    if (duplicate) {
-      return { ok: false, message: `An entry already exists for ${normalized.date}. Edit the existing row instead.`, entries };
-    }
+  saveEntries(filteredEntries);
+}
 
-    const filtered = originalDate ? entries.filter((item) => item.date !== originalDate) : entries;
-    const nextEntries = [...filtered, normalized].sort((a, b) => a.date.localeCompare(b.date));
-    persist(nextEntries);
-    return { ok: true, message: originalDate ? 'Entry updated.' : 'Entry saved.', entries: nextEntries };
-  }
+// Get entry by ID
+function getEntryById(id) {
+  const entries = getEntries();
 
-  function deleteEntry(date) {
-    const entries = loadEntries();
-    const nextEntries = entries.filter((entry) => entry.date !== date);
-    persist(nextEntries);
-    return { ok: nextEntries.length !== entries.length, entries: nextEntries };
-  }
+  return entries.find(
+    entry => entry.id === id
+  );
+}
 
-  function findEntry(date) {
-    return loadEntries().find((entry) => entry.date === date) || null;
-  }
+// Filter by year and month
+function filterEntries(year, month) {
+  const entries = getEntries();
 
-  function clearEntries() {
-    global.localStorage.removeItem(storageKey);
-  }
+  return entries.filter(entry => {
+    const date = new Date(entry.date);
 
-  global.SkybarStorage = { clearEntries, deleteEntry, findEntry, loadEntries, saveEntry };
-})(window);
+    const entryYear = date.getFullYear();
+    const entryMonth = date.getMonth() + 1;
+
+    return (
+      entryYear === year &&
+      entryMonth === month
+    );
+  });
+}
