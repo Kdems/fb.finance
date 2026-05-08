@@ -1,96 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SKYBAR Operating Review</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>
+    SKYBAR Reports
+  </title>
+
   <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
+
+
 <body class="bg-slate-100 font-sans">
+
   <div class="flex min-h-screen">
-    <!-- Sidebar -->
+
+
+    <!-- SIDEBAR -->
     <aside class="w-64 bg-slate-900 text-white p-5">
-      <h1 class="text-2xl font-bold mb-8">SKYBAR</h1>
+
+      <h1 class="text-2xl font-bold mb-8">
+        SKYBAR
+      </h1>
+
+
       <nav class="space-y-3">
-        <a href="index.html" class="block px-4 py-3 rounded-xl hover:bg-slate-800">Dashboard</a>
-        <button class="w-full text-left px-4 py-3 rounded-xl bg-slate-800">Operating Review</button>
-        <button class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-800">Reports</button>
-        <button class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-800">Settings</button>
+
+        <a
+          href="index.html"
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
+        >
+          Dashboard
+        </a>
+
+
+        <a
+          href="generic.html"
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
+        >
+          Operating Review
+        </a>
+
+
+        <a
+          href="reports.html"
+          class="block px-4 py-3 rounded-xl bg-slate-800"
+        >
+          Reports
+        </a>
+
       </nav>
+
     </aside>
 
-    <!-- Main -->
+
+
+    <!-- MAIN -->
     <main class="flex-1 p-6">
-      <!-- Header -->
+
+
+      <!-- HEADER -->
       <div class="mb-6">
-        <h2 class="text-3xl font-bold">Monthly Business Review</h2>
-        <p class="text-slate-500">Management performance analysis and corrective actions</p>
+
+        <h2 class="text-3xl font-bold">
+          Financial Reports
+        </h2>
+
+        <p class="text-slate-500">
+          Management reporting and financial analysis
+        </p>
+
       </div>
 
-      <!-- Executive Summary -->
-      <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
-        <div class="bg-white rounded-2xl p-4 shadow">
-          <p class="text-sm text-slate-500">Revenue vs Budget</p>
-          <h3 class="text-2xl font-bold">0%</h3>
-        </div>
 
-        <div class="bg-white rounded-2xl p-4 shadow">
-          <p class="text-sm text-slate-500">GOP vs Target</p>
-          <h3 class="text-2xl font-bold">0%</h3>
-        </div>
 
-        <div class="bg-white rounded-2xl p-4 shadow">
-          <p class="text-sm text-slate-500">Food Cost Variance</p>
-          <h3 class="text-2xl font-bold">0%</h3>
-        </div>
+      <!-- FILTERS -->
+      <div class="bg-white rounded-2xl p-5 shadow mb-6 flex gap-4 flex-wrap">
 
-        <div class="bg-white rounded-2xl p-4 shadow">
-          <p class="text-sm text-slate-500">Beverage Cost Variance</p>
-          <h3 class="text-2xl font-bold">0%</h3>
-        </div>
+
+        <select
+          id="reportYearFilter"
+          class="border rounded-xl px-4 py-3"
+        ></select>
+
+
+        <select
+          id="reportMonthFilter"
+          class="border rounded-xl px-4 py-3"
+        ></select>
+
+
+        <select
+          id="reportTypeFilter"
+          class="border rounded-xl px-4 py-3"
+        >
+
+          <option>
+            Daily Report
+          </option>
+
+          <option>
+            MTD Report
+          </option>
+
+          <option>
+            Monthly Report
+          </option>
+
+          <option>
+            Yearly Report
+          </option>
+
+        </select>
+
+
+        <button
+          onclick="printReport()"
+          class="bg-slate-900 text-white px-5 rounded-xl"
+        >
+          Print
+        </button>
+
       </div>
 
-      <!-- Key Issues -->
-      <div class="bg-white rounded-2xl p-5 shadow mb-6">
-        <h3 class="text-xl font-bold mb-4">Key Business Issues</h3>
-        <ul class="space-y-3 text-slate-700">
-          <li>• Food cost above target</li>
-          <li>• Weekend covers below forecast</li>
-          <li>• Beverage attachment rate declined</li>
-        </ul>
-      </div>
 
-      <!-- Action Plan -->
-      <div class="bg-white rounded-2xl p-5 shadow mb-6">
-        <h3 class="text-xl font-bold mb-4">Corrective Action Plan</h3>
-        <div class="overflow-auto">
-          <table class="w-full text-left">
-            <thead>
-              <tr class="border-b">
-                <th class="py-3">Owner</th>
-                <th>Action</th>
-                <th>Deadline</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="py-4">GM</td>
-                <td>Review pricing strategy</td>
-                <td>Month End</td>
-                <td>In Progress</td>
-              </tr>
-            </tbody>
-          </table>
+
+      <!-- KPI -->
+      <div class="grid md:grid-cols-2 xl:grid-cols-5 gap-4 mb-6">
+
+
+        <div class="bg-white rounded-2xl p-4 shadow">
+
+          <p class="text-sm text-slate-500">
+            Total Revenue
+          </p>
+
+          <h3
+            id="reportTotalRevenue"
+            class="text-2xl font-bold"
+          >
+            RM0
+          </h3>
+
         </div>
+
+
+
+        <div class="bg-white rounded-2xl p-4 shadow">
+
+          <p class="text-sm text-slate-500">
+            Total Cost
+          </p>
+
+          <h3
+            id="reportTotalCost"
+            class="text-2xl font-bold"
+          >
+            RM0
+          </h3>
+
+        </div>
+
+
+
+        <div class="bg-white rounded-2xl p-4 shadow">
+
+          <p class="text-sm text-slate-500">
+            GOP
+          </p>
+
+          <h3
+            id="reportTotalGop"
+            class="text-2xl font-bold"
+          >
+            RM0
+          </h3>
+
+        </div>
+
+
+
+        <div class="bg-white rounded-2xl p-4 shadow">
+
+          <p class="text-sm text-slate-500">
+            GOP Margin
+          </p>
+
+          <h3
+            id="reportGopMargin"
+            class="text-2xl font-bold"
+          >
+            0%
+          </h3>
+
+        </div>
+
+
+
+        <div class="bg-white rounded-2xl p-4 shadow">
+
+          <p class="text-sm text-slate-500">
+            Budget Variance
+          </p>
+
+          <h3
+            id="reportBudgetVariance"
+            class="text-2xl font-bold"
+          >
+            RM0
+          </h3>
+
+        </div>
+
+
       </div>
 
-      <!-- Outlet Notes -->
+
+
+      <!-- TABLE -->
       <div class="bg-white rounded-2xl p-5 shadow">
-        <h3 class="text-xl font-bold mb-4">Outlet Notes</h3>
-        <textarea class="w-full border rounded-xl p-4 h-40" placeholder="Management notes, customer feedback, staffing issues..."></textarea>
+
+
+        <h3 class="text-xl font-bold mb-4">
+          Financial Detail
+        </h3>
+
+
+        <div class="overflow-auto">
+
+          <table class="w-full text-left">
+
+
+            <thead>
+
+              <tr class="border-b">
+
+                <th class="py-3">Date</th>
+
+                <th>Food</th>
+
+                <th>Beverage</th>
+
+                <th>Revenue</th>
+
+                <th>Cost</th>
+
+                <th>GOP</th>
+
+                <th>Budget</th>
+
+                <th>Variance</th>
+
+              </tr>
+
+            </thead>
+
+
+
+            <tbody
+              id="reportTableBody"
+            ></tbody>
+
+
+          </table>
+
+        </div>
+
       </div>
+
+
     </main>
+
   </div>
+
+
+
+  <!-- SCRIPTS -->
+
+  <script src="storage.js"></script>
+
+  <script src="calculations.js"></script>
+
+  <script src="reports.js"></script>
+
+
 </body>
+
 </html>
