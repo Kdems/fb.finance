@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SKYBAR Operating Review</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 font-sans">
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-slate-900 text-white p-5">
+      <h1 class="text-2xl font-bold mb-8">SKYBAR</h1>
+      <nav class="space-y-3">
+        <a href="index.html" class="block px-4 py-3 rounded-xl hover:bg-slate-800">Dashboard</a>
+        <button class="w-full text-left px-4 py-3 rounded-xl bg-slate-800">Operating Review</button>
+        <button class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-800">Reports</button>
+        <button class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-800">Settings</button>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1 p-6">
+      <!-- Header -->
+      <div class="mb-6">
+        <h2 class="text-3xl font-bold">Monthly Business Review</h2>
+        <p class="text-slate-500">Management performance analysis and corrective actions</p>
+      </div>
+
+      <!-- Executive Summary -->
+      <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+        <div class="bg-white rounded-2xl p-4 shadow">
+          <p class="text-sm text-slate-500">Revenue vs Budget</p>
+          <h3 class="text-2xl font-bold">0%</h3>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow">
+          <p class="text-sm text-slate-500">GOP vs Target</p>
+          <h3 class="text-2xl font-bold">0%</h3>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow">
+          <p class="text-sm text-slate-500">Food Cost Variance</p>
+          <h3 class="text-2xl font-bold">0%</h3>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow">
+          <p class="text-sm text-slate-500">Beverage Cost Variance</p>
+          <h3 class="text-2xl font-bold">0%</h3>
+        </div>
+      </div>
+
+      <!-- Key Issues -->
+      <div class="bg-white rounded-2xl p-5 shadow mb-6">
+        <h3 class="text-xl font-bold mb-4">Key Business Issues</h3>
+        <ul class="space-y-3 text-slate-700">
+          <li>• Food cost above target</li>
+          <li>• Weekend covers below forecast</li>
+          <li>• Beverage attachment rate declined</li>
+        </ul>
+      </div>
+
+      <!-- Action Plan -->
+      <div class="bg-white rounded-2xl p-5 shadow mb-6">
+        <h3 class="text-xl font-bold mb-4">Corrective Action Plan</h3>
+        <div class="overflow-auto">
+          <table class="w-full text-left">
+            <thead>
+              <tr class="border-b">
+                <th class="py-3">Owner</th>
+                <th>Action</th>
+                <th>Deadline</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="py-4">GM</td>
+                <td>Review pricing strategy</td>
+                <td>Month End</td>
+                <td>In Progress</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Outlet Notes -->
+      <div class="bg-white rounded-2xl p-5 shadow">
+        <h3 class="text-xl font-bold mb-4">Outlet Notes</h3>
+        <textarea class="w-full border rounded-xl p-4 h-40" placeholder="Management notes, customer feedback, staffing issues..."></textarea>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
