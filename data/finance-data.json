@@ -3,13 +3,21 @@
     "name": "SKYBAR Finance Dashboard",
     "restaurant": "SKYBAR",
     "currency": "RM",
-    "version": "1.0.0",
-    "storageKey": "skybar.finance.dashboard.entries.v1"
+    "version": "2.0.0",
+    "storageKey": "skybar.finance.dashboard.entries.v1",
+    "settingsKey": "skybar.finance.dashboard.settings.v1"
   },
 
   "settings": {
     "yearStart": 2025,
-    "yearEnd": 2040
+    "yearEnd": 2040,
+    "defaultYear": 2026,
+    "defaultMonth": 5
+  },
+
+  "sourceOfTruth": {
+    "type": "browser_local_storage",
+    "description": "All finance entries are saved locally in browser storage"
   },
 
   "entrySchema": {
@@ -21,38 +29,148 @@
       "beverageCostPercent",
       "fixedCostPercent",
       "dailyBudget"
-    ]
+    ],
+
+    "fieldTypes": {
+      "date": "string",
+      "foodRevenue": "number",
+      "beverageRevenue": "number",
+      "foodCostPercent": "number",
+      "beverageCostPercent": "number",
+      "fixedCostPercent": "number",
+      "dailyBudget": "number"
+    }
+  },
+
+  "targets": {
+
+    "annual": {
+
+      "revenueTarget": 3000000,
+
+      "gopTarget": 900000
+
+    },
+
+    "monthlyCostTargets": {
+
+      "foodCostPercent": 35,
+
+      "beverageCostPercent": 25,
+
+      "fixedCostPercent": 18
+
+    }
+
   },
 
   "calculationRules": {
-    "totalRevenue": "foodRevenue + beverageRevenue",
 
-    "foodCostAmount": "(foodRevenue * foodCostPercent) / 100",
-    "beverageCostAmount": "(beverageRevenue * beverageCostPercent) / 100",
-    "fixedCostAmount": "(totalRevenue * fixedCostPercent) / 100",
+    "totalRevenue":
+      "foodRevenue + beverageRevenue",
 
-    "totalCost": "foodCostAmount + beverageCostAmount + fixedCostAmount",
+    "foodCostAmount":
+      "(foodRevenue * foodCostPercent) / 100",
 
-    "gop": "totalRevenue - totalCost",
+    "beverageCostAmount":
+      "(beverageRevenue * beverageCostPercent) / 100",
 
-    "budgetVariance": "totalRevenue - dailyBudget",
+    "fixedCostAmount":
+      "((foodRevenue + beverageRevenue) * fixedCostPercent) / 100",
 
-    "gopMargin": "(gop / totalRevenue) * 100"
-  },
+    "totalCost":
+      "foodCostAmount + beverageCostAmount + fixedCostAmount",
 
-  "defaultTargets": {
-    "foodCostPercent": 35,
-    "beverageCostPercent": 25,
-    "fixedCostPercent": 18
+    "gop":
+      "totalRevenue - totalCost",
+
+    "budgetVariance":
+      "totalRevenue - dailyBudget",
+
+    "gopMargin":
+      "(gop / totalRevenue) * 100",
+
+
+    "annualRevenueAchievement":
+      "(currentYearRevenue / annualRevenueTarget) * 100",
+
+    "annualGopAchievement":
+      "(currentYearGop / annualGopTarget) * 100",
+
+
+    "foodCostVariance":
+      "actualFoodCostPercent - targetFoodCostPercent",
+
+    "beverageCostVariance":
+      "actualBeverageCostPercent - targetBeverageCostPercent",
+
+    "fixedCostVariance":
+      "actualFixedCostPercent - targetFixedCostPercent"
+
   },
 
   "dashboardModules": [
+
     "Daily Revenue",
+
     "MTD Revenue",
+
     "Food Cost %",
+
     "Beverage Cost %",
+
     "Fixed Cost %",
+
     "GOP",
-    "Budget Variance"
+
+    "Budget Variance",
+
+
+    "Annual Revenue Achievement",
+
+    "Annual GOP Achievement",
+
+
+    "Food Cost Variance",
+
+    "Beverage Cost Variance",
+
+    "Fixed Cost Variance"
+
+  ],
+
+  "analyticsModules": [
+
+    "Daily Revenue Trend",
+
+    "MTD Revenue Trend",
+
+    "Food vs Beverage Comparison",
+
+    "Cost Ratio Performance",
+
+    "Daily GOP Trend",
+
+    "Actual Revenue vs Budget",
+
+    "Management Snapshot",
+
+    "Annual Target Progress"
+
+  ],
+
+  "reportModules": [
+
+    "Daily Report",
+
+    "MTD Report",
+
+    "Monthly Report",
+
+    "Yearly Report",
+
+    "Target Achievement Report"
+
   ]
+
 }
