@@ -1,6 +1,11 @@
 let selectedYear = new Date().getFullYear();
 let selectedMonth = new Date().getMonth() + 1;
 
+
+// ======================
+// ELEMENTS
+// ======================
+
 const yearFilter =
   document.getElementById("yearFilter");
 
@@ -11,12 +16,14 @@ const entryForm =
   document.getElementById("entryForm");
 
 const tableBody =
-  document.getElementById("entriesTableBody");
+  document.getElementById(
+    "entriesTableBody"
+  );
 
 
-// ====================
+// ======================
 // INIT
-// ====================
+// ======================
 
 function initDashboard() {
 
@@ -31,13 +38,21 @@ function initDashboard() {
 }
 
 
-// ====================
+// ======================
 // FILTERS
-// ====================
+// ======================
 
 function populateYearFilter() {
 
-  for(let year = 2025; year <= 2040; year++) {
+  if(!yearFilter) return;
+
+  yearFilter.innerHTML = "";
+
+  for(
+    let year = 2025;
+    year <= 2040;
+    year++
+  ) {
 
     const option =
       document.createElement("option");
@@ -49,7 +64,9 @@ function populateYearFilter() {
       option.selected = true;
     }
 
-    yearFilter.appendChild(option);
+    yearFilter.appendChild(
+      option
+    );
 
   }
 
@@ -58,7 +75,15 @@ function populateYearFilter() {
 
 function populateMonthFilter() {
 
-  for(let month = 1; month <= 12; month++) {
+  if(!monthFilter) return;
+
+  monthFilter.innerHTML = "";
+
+  for(
+    let month = 1;
+    month <= 12;
+    month++
+  ) {
 
     const option =
       document.createElement("option");
@@ -70,33 +95,47 @@ function populateMonthFilter() {
       option.selected = true;
     }
 
-    monthFilter.appendChild(option);
+    monthFilter.appendChild(
+      option
+    );
 
   }
 
 }
 
 
-// ====================
+// ======================
 // EVENTS
-// ====================
+// ======================
 
 function bindEvents() {
 
-  yearFilter.addEventListener(
-    "change",
-    handleFilterChange
-  );
+  if(yearFilter) {
 
-  monthFilter.addEventListener(
-    "change",
-    handleFilterChange
-  );
+    yearFilter.addEventListener(
+      "change",
+      handleFilterChange
+    );
 
-  entryForm.addEventListener(
-    "submit",
-    handleSaveEntry
-  );
+  }
+
+  if(monthFilter) {
+
+    monthFilter.addEventListener(
+      "change",
+      handleFilterChange
+    );
+
+  }
+
+  if(entryForm) {
+
+    entryForm.addEventListener(
+      "submit",
+      handleSaveEntry
+    );
+
+  }
 
 }
 
@@ -104,19 +143,23 @@ function bindEvents() {
 function handleFilterChange() {
 
   selectedYear =
-    Number(yearFilter.value);
+    Number(
+      yearFilter.value
+    );
 
   selectedMonth =
-    Number(monthFilter.value);
+    Number(
+      monthFilter.value
+    );
 
   renderDashboard();
 
 }
 
 
-// ====================
+// ======================
 // SAVE ENTRY
-// ====================
+// ======================
 
 function handleSaveEntry(e) {
 
@@ -125,25 +168,51 @@ function handleSaveEntry(e) {
   const entry = {
 
     date:
-      document.getElementById("entryDate").value,
+      document.getElementById(
+        "entryDate"
+      ).value,
 
     foodRevenue:
-      Number(document.getElementById("foodRevenue").value),
+      Number(
+        document.getElementById(
+          "foodRevenue"
+        ).value || 0
+      ),
 
     beverageRevenue:
-      Number(document.getElementById("beverageRevenue").value),
+      Number(
+        document.getElementById(
+          "beverageRevenue"
+        ).value || 0
+      ),
 
     foodCostPercent:
-      Number(document.getElementById("foodCostPercent").value),
+      Number(
+        document.getElementById(
+          "foodCostPercent"
+        ).value || 0
+      ),
 
     beverageCostPercent:
-      Number(document.getElementById("beverageCostPercent").value),
+      Number(
+        document.getElementById(
+          "beverageCostPercent"
+        ).value || 0
+      ),
 
     fixedCostPercent:
-      Number(document.getElementById("fixedCostPercent").value),
+      Number(
+        document.getElementById(
+          "fixedCostPercent"
+        ).value || 0
+      ),
 
     dailyBudget:
-      Number(document.getElementById("dailyBudget").value)
+      Number(
+        document.getElementById(
+          "dailyBudget"
+        ).value || 0
+      )
 
   };
 
@@ -156,9 +225,9 @@ function handleSaveEntry(e) {
 }
 
 
-// ====================
-// RENDER
-// ====================
+// ======================
+// MAIN RENDER
+// ======================
 
 function renderDashboard() {
 
@@ -169,65 +238,104 @@ function renderDashboard() {
     );
 
   const summary =
-    calculatePeriodSummary(entries);
+    calculatePeriodSummary(
+      entries
+    );
 
   renderKPI(summary);
 
   renderTable(entries);
 
+  renderCharts(entries);
+
 }
 
 
-// ====================
+// ======================
 // KPI
-// ====================
+// ======================
 
 function renderKPI(summary) {
 
-  document.getElementById(
-    "kpiMtdRevenue"
-  ).textContent =
-    `RM${summary.totalRevenue.toFixed(2)}`;
+  updateKPI(
+    "kpiMtdRevenue",
+    summary.totalRevenue
+  );
 
+  updateKPI(
+    "kpiGop",
+    summary.totalGop
+  );
 
-  document.getElementById(
-    "kpiGop"
-  ).textContent =
-    `RM${summary.totalGop.toFixed(2)}`;
-
-
-  document.getElementById(
-    "kpiBudgetVariance"
-  ).textContent =
-    `RM${summary.budgetVariance.toFixed(2)}`;
+  updateKPI(
+    "kpiBudgetVariance",
+    summary.budgetVariance
+  );
 
 }
 
 
-// ====================
+function updateKPI(
+  elementId,
+  value
+) {
+
+  const element =
+    document.getElementById(
+      elementId
+    );
+
+  if(!element) return;
+
+  element.textContent =
+    `RM${value.toFixed(2)}`;
+
+}
+
+
+// ======================
 // TABLE
-// ====================
+// ======================
 
 function renderTable(entries) {
+
+  if(!tableBody) return;
 
   tableBody.innerHTML = "";
 
   entries.forEach(entry => {
 
     const calculated =
-      calculateEntryMetrics(entry);
+      calculateEntryMetrics(
+        entry
+      );
 
     const row =
-      document.createElement("tr");
+      document.createElement(
+        "tr"
+      );
 
     row.innerHTML = `
       <td>${entry.date}</td>
-      <td>RM${calculated.totalRevenue.toFixed(2)}</td>
-      <td>RM${calculated.totalCost.toFixed(2)}</td>
-      <td>RM${calculated.gop.toFixed(2)}</td>
+
       <td>
-        <button>Edit</button>
+        RM${calculated.totalRevenue.toFixed(2)}
       </td>
+
+      <td>
+        RM${calculated.totalCost.toFixed(2)}
+      </td>
+
+      <td>
+        RM${calculated.gop.toFixed(2)}
+      </td>
+
+      <td>
+        <button onclick="editEntry('${entry.id}')">
+          Edit
+        </button>
+      </td>
+
       <td>
         <button onclick="removeEntry('${entry.id}')">
           Delete
@@ -235,16 +343,18 @@ function renderTable(entries) {
       </td>
     `;
 
-    tableBody.appendChild(row);
+    tableBody.appendChild(
+      row
+    );
 
   });
 
 }
 
 
-// ====================
+// ======================
 // DELETE
-// ====================
+// ======================
 
 function removeEntry(id) {
 
@@ -255,9 +365,58 @@ function removeEntry(id) {
 }
 
 
-// ====================
+// ======================
+// EDIT
+// ======================
+
+function editEntry(id) {
+
+  const entry =
+    getEntryById(id);
+
+  if(!entry) return;
+
+  document.getElementById(
+    "entryDate"
+  ).value =
+    entry.date;
+
+  document.getElementById(
+    "foodRevenue"
+  ).value =
+    entry.foodRevenue;
+
+  document.getElementById(
+    "beverageRevenue"
+  ).value =
+    entry.beverageRevenue;
+
+  document.getElementById(
+    "foodCostPercent"
+  ).value =
+    entry.foodCostPercent;
+
+  document.getElementById(
+    "beverageCostPercent"
+  ).value =
+    entry.beverageCostPercent;
+
+  document.getElementById(
+    "fixedCostPercent"
+  ).value =
+    entry.fixedCostPercent;
+
+  document.getElementById(
+    "dailyBudget"
+  ).value =
+    entry.dailyBudget;
+
+}
+
+
+// ======================
 // START
-// ====================
+// ======================
 
 document.addEventListener(
   "DOMContentLoaded",
