@@ -3,78 +3,94 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Operating Review | SKYBAR Finance Dashboard</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/main.css" />
-  <link rel="stylesheet" href="assets/css/components.css" />
-  <link rel="stylesheet" href="assets/css/dashboard.css" />
+  <title>SKYBAR Operating Review</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body data-page="generic">
-  <div class="app-shell">
-    <aside class="sidebar" aria-label="Primary navigation">
-      <a class="brand" href="index.html"><span class="brand-mark">SB</span><span><strong>SKYBAR</strong><small>Finance Dashboard</small></span></a>
-      <nav class="nav-stack">
-        <a class="nav-link" href="index.html">Dashboard</a>
-        <a class="nav-link is-active" href="generic.html">Operating Review</a>
-        <a class="nav-link" href="elements.html">Component Library</a>
+<body class="bg-slate-100 font-sans">
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-slate-900 text-white p-5">
+      <h1 class="text-2xl font-bold mb-8">SKYBAR</h1>
+      <nav class="space-y-3">
+        <a href="index.html" class="block px-4 py-3 rounded-xl hover:bg-slate-800">Dashboard</a>
+        <button class="w-full text-left px-4 py-3 rounded-xl bg-slate-800">Operating Review</button>
+        <button class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-800">Reports</button>
+        <button class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-800">Settings</button>
       </nav>
     </aside>
 
-    <main class="main-content narrow">
-      <header class="topbar single-column">
-        <div>
-          <p class="eyebrow">Reusable layout</p>
-          <h1>Operating Review</h1>
-          <p class="page-summary">A structured page for monthly finance notes, owner updates, and management action logs.</p>
-        </div>
-      </header>
+    <!-- Main -->
+    <main class="flex-1 p-6">
+      <!-- Header -->
+      <div class="mb-6">
+        <h2 class="text-3xl font-bold">Monthly Business Review</h2>
+        <p class="text-slate-500">Management performance analysis and corrective actions</p>
+      </div>
 
-      <section class="panel review-panel">
-        <div class="panel-header">
-          <div>
-            <p class="eyebrow">Close narrative</p>
-            <h2>Management commentary</h2>
-          </div>
-          <span class="status-pill">Finance approved</span>
+      <!-- Executive Summary -->
+      <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+        <div class="bg-white rounded-2xl p-4 shadow">
+          <p class="text-sm text-slate-500">Revenue vs Budget</p>
+          <h3 class="text-2xl font-bold">0%</h3>
         </div>
-        <div class="content-grid two-column">
-          <article>
-            <h3>Revenue performance</h3>
-            <p>Dinner covers and late-night beverage sales carried the period, while private dining pacing requires tighter event conversion follow-up.</p>
-          </article>
-          <article>
-            <h3>Cost controls</h3>
-            <p>Menu engineering, batch prep discipline, and weekly labor scheduling reviews remain the highest-value operating levers.</p>
-          </article>
-        </div>
-      </section>
 
-      <section class="panel">
-        <div class="panel-header">
-          <div>
-            <p class="eyebrow">Action register</p>
-            <h2>Finance follow-ups</h2>
-          </div>
+        <div class="bg-white rounded-2xl p-4 shadow">
+          <p class="text-sm text-slate-500">GOP vs Target</p>
+          <h3 class="text-2xl font-bold">0%</h3>
         </div>
-        <div class="table-wrap">
-          <table class="data-table">
+
+        <div class="bg-white rounded-2xl p-4 shadow">
+          <p class="text-sm text-slate-500">Food Cost Variance</p>
+          <h3 class="text-2xl font-bold">0%</h3>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow">
+          <p class="text-sm text-slate-500">Beverage Cost Variance</p>
+          <h3 class="text-2xl font-bold">0%</h3>
+        </div>
+      </div>
+
+      <!-- Key Issues -->
+      <div class="bg-white rounded-2xl p-5 shadow mb-6">
+        <h3 class="text-xl font-bold mb-4">Key Business Issues</h3>
+        <ul class="space-y-3 text-slate-700">
+          <li>• Food cost above target</li>
+          <li>• Weekend covers below forecast</li>
+          <li>• Beverage attachment rate declined</li>
+        </ul>
+      </div>
+
+      <!-- Action Plan -->
+      <div class="bg-white rounded-2xl p-5 shadow mb-6">
+        <h3 class="text-xl font-bold mb-4">Corrective Action Plan</h3>
+        <div class="overflow-auto">
+          <table class="w-full text-left">
             <thead>
-              <tr><th>Owner</th><th>Action</th><th>Due</th><th>Status</th></tr>
+              <tr class="border-b">
+                <th class="py-3">Owner</th>
+                <th>Action</th>
+                <th>Deadline</th>
+                <th>Status</th>
+              </tr>
             </thead>
             <tbody>
-              <tr><td>General Manager</td><td>Reforecast private dining deposits</td><td>May close</td><td><span class="status-pill warning">In review</span></td></tr>
-              <tr><td>Chef</td><td>Reduce seafood waste variance</td><td>Weekly</td><td><span class="status-pill success">On track</span></td></tr>
-              <tr><td>Controller</td><td>Validate vendor rebate accruals</td><td>Month end</td><td><span class="status-pill">Scheduled</span></td></tr>
+              <tr>
+                <td class="py-4">GM</td>
+                <td>Review pricing strategy</td>
+                <td>Month End</td>
+                <td>In Progress</td>
+              </tr>
             </tbody>
           </table>
         </div>
-      </section>
+      </div>
+
+      <!-- Outlet Notes -->
+      <div class="bg-white rounded-2xl p-5 shadow">
+        <h3 class="text-xl font-bold mb-4">Outlet Notes</h3>
+        <textarea class="w-full border rounded-xl p-4 h-40" placeholder="Management notes, customer feedback, staffing issues..."></textarea>
+      </div>
     </main>
   </div>
-
-  <script src="assets/js/storage.js"></script>
-  <script src="assets/js/app.js"></script>
 </body>
 </html>
