@@ -57,6 +57,14 @@
           Reports
         </a>
 
+
+        <a
+          href="settings.html"
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
+        >
+          Settings
+        </a>
+
       </nav>
 
     </aside>
@@ -82,24 +90,29 @@
 
 
 
-      <!-- FILTERS + ACTIONS -->
+      <!-- FILTER + ACTIONS -->
       <div
         class="bg-white rounded-2xl p-5 shadow mb-6 flex gap-4 flex-wrap"
       >
 
 
+        <!-- YEAR -->
         <select
           id="reportYearFilter"
           class="border rounded-xl px-4 py-3"
         ></select>
 
 
+
+        <!-- MONTH -->
         <select
           id="reportMonthFilter"
           class="border rounded-xl px-4 py-3"
         ></select>
 
 
+
+        <!-- REPORT TYPE -->
         <select
           id="reportTypeFilter"
           class="border rounded-xl px-4 py-3"
@@ -270,9 +283,8 @@
 
 
 
-      <!-- FINANCIAL TABLE -->
+      <!-- TABLE -->
       <div class="bg-white rounded-2xl p-5 shadow">
-
 
         <h3 class="text-xl font-bold mb-4">
           Financial Detail
@@ -281,7 +293,6 @@
 
         <div class="overflow-auto">
 
-
           <table class="w-full text-left">
 
 
@@ -289,21 +300,37 @@
 
               <tr class="border-b">
 
-                <th class="py-3">Date</th>
+                <th class="py-3">
+                  Date
+                </th>
 
-                <th>Food</th>
+                <th>
+                  Food
+                </th>
 
-                <th>Beverage</th>
+                <th>
+                  Beverage
+                </th>
 
-                <th>Revenue</th>
+                <th>
+                  Revenue
+                </th>
 
-                <th>Cost</th>
+                <th>
+                  Cost
+                </th>
 
-                <th>GOP</th>
+                <th>
+                  GOP
+                </th>
 
-                <th>Budget</th>
+                <th>
+                  Budget
+                </th>
 
-                <th>Variance</th>
+                <th>
+                  Variance
+                </th>
 
               </tr>
 
@@ -318,15 +345,12 @@
 
           </table>
 
-
         </div>
-
 
       </div>
 
 
     </main>
-
 
   </div>
 
@@ -334,13 +358,13 @@
 
   <!-- SCRIPTS -->
 
-  <script src="storage.js"></script>
+  <script src="assets/js/storage.js"></script>
 
-  <script src="calculations.js"></script>
+  <script src="assets/js/calculations.js"></script>
 
-  <script src="backup.js"></script>
+  <script src="assets/js/backup.js"></script>
 
-  <script src="reports.js"></script>
+  <script src="assets/js/reports.js"></script>
 
 
 </body>
