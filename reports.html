@@ -75,15 +75,17 @@
         </h2>
 
         <p class="text-slate-500">
-          Management reporting and financial analysis
+          Management reporting, backup and recovery center
         </p>
 
       </div>
 
 
 
-      <!-- FILTERS -->
-      <div class="bg-white rounded-2xl p-5 shadow mb-6 flex gap-4 flex-wrap">
+      <!-- FILTERS + ACTIONS -->
+      <div
+        class="bg-white rounded-2xl p-5 shadow mb-6 flex gap-4 flex-wrap"
+      >
 
 
         <select
@@ -122,6 +124,8 @@
         </select>
 
 
+
+        <!-- PRINT -->
         <button
           onclick="printReport()"
           class="bg-slate-900 text-white px-5 rounded-xl"
@@ -129,12 +133,53 @@
           Print
         </button>
 
+
+
+        <!-- BACKUP -->
+        <button
+          onclick="exportBackup()"
+          class="bg-blue-600 text-white px-5 rounded-xl"
+        >
+          Backup
+        </button>
+
+
+
+        <!-- RESTORE -->
+        <label
+          class="bg-green-600 text-white px-5 rounded-xl cursor-pointer flex items-center"
+        >
+
+          Restore
+
+          <input
+            type="file"
+            accept=".json"
+            onchange="importBackup(event)"
+            hidden
+          />
+
+        </label>
+
+
+
+        <!-- RESET -->
+        <button
+          onclick="clearAllData()"
+          class="bg-red-600 text-white px-5 rounded-xl"
+        >
+          Reset
+        </button>
+
+
       </div>
 
 
 
       <!-- KPI -->
-      <div class="grid md:grid-cols-2 xl:grid-cols-5 gap-4 mb-6">
+      <div
+        class="grid md:grid-cols-2 xl:grid-cols-5 gap-4 mb-6"
+      >
 
 
         <div class="bg-white rounded-2xl p-4 shadow">
@@ -225,7 +270,7 @@
 
 
 
-      <!-- TABLE -->
+      <!-- FINANCIAL TABLE -->
       <div class="bg-white rounded-2xl p-5 shadow">
 
 
@@ -235,6 +280,7 @@
 
 
         <div class="overflow-auto">
+
 
           <table class="w-full text-left">
 
@@ -272,12 +318,15 @@
 
           </table>
 
+
         </div>
+
 
       </div>
 
 
     </main>
+
 
   </div>
 
@@ -288,6 +337,8 @@
   <script src="storage.js"></script>
 
   <script src="calculations.js"></script>
+
+  <script src="backup.js"></script>
 
   <script src="reports.js"></script>
 
