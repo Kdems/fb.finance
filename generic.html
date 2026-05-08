@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Operating Review | SKYBAR Finance Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/dashboard.css" />
+</head>
+<body data-page="generic">
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="index.html"><span class="brand-mark">SB</span><span><strong>SKYBAR</strong><small>Finance Dashboard</small></span></a>
+      <nav class="nav-stack">
+        <a class="nav-link" href="index.html">Dashboard</a>
+        <a class="nav-link is-active" href="generic.html">Operating Review</a>
+        <a class="nav-link" href="elements.html">Component Library</a>
+      </nav>
+    </aside>
+
+    <main class="main-content narrow">
+      <header class="topbar single-column">
+        <div>
+          <p class="eyebrow">Reusable layout</p>
+          <h1>Operating Review</h1>
+          <p class="page-summary">A structured page for monthly finance notes, owner updates, and management action logs.</p>
+        </div>
+      </header>
+
+      <section class="panel review-panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Close narrative</p>
+            <h2>Management commentary</h2>
+          </div>
+          <span class="status-pill">Finance approved</span>
+        </div>
+        <div class="content-grid two-column">
+          <article>
+            <h3>Revenue performance</h3>
+            <p>Dinner covers and late-night beverage sales carried the period, while private dining pacing requires tighter event conversion follow-up.</p>
+          </article>
+          <article>
+            <h3>Cost controls</h3>
+            <p>Menu engineering, batch prep discipline, and weekly labor scheduling reviews remain the highest-value operating levers.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Action register</p>
+            <h2>Finance follow-ups</h2>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>Owner</th><th>Action</th><th>Due</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>General Manager</td><td>Reforecast private dining deposits</td><td>May close</td><td><span class="status-pill warning">In review</span></td></tr>
+              <tr><td>Chef</td><td>Reduce seafood waste variance</td><td>Weekly</td><td><span class="status-pill success">On track</span></td></tr>
+              <tr><td>Controller</td><td>Validate vendor rebate accruals</td><td>Month end</td><td><span class="status-pill">Scheduled</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

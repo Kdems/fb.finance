@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SKYBAR Finance Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/dashboard.css" />
+</head>
+<body data-page="dashboard">
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="index.html" aria-label="SKYBAR Finance Dashboard home">
+        <span class="brand-mark">SB</span>
+        <span>
+          <strong>SKYBAR</strong>
+          <small>Finance Dashboard</small>
+        </span>
+      </a>
+      <nav class="nav-stack">
+        <a class="nav-link is-active" href="index.html">Daily Finance</a>
+        <a class="nav-link" href="generic.html">Operating Review</a>
+        <a class="nav-link" href="elements.html">Component Library</a>
+      </nav>
+      <section class="sidebar-card">
+        <span class="eyebrow">Local system</span>
+        <strong>Daily close controls</strong>
+        <p>Entries are saved in browser storage, filtered by period, and recalculated instantly.</p>
+      </section>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar dashboard-topbar">
+        <div>
+          <p class="eyebrow">Restaurant finance control</p>
+          <h1>SKYBAR Finance Dashboard</h1>
+          <p class="page-summary">Enter daily restaurant revenue, costs, and budget targets to monitor MTD performance, GOP, and cost ratios.</p>
+        </div>
+        <div class="toolbar" aria-label="Dashboard filters">
+          <label class="field compact">
+            <span>Year</span>
+            <select id="yearFilter" aria-label="Filter by year"></select>
+          </label>
+          <label class="field compact">
+            <span>Month</span>
+            <select id="monthFilter" aria-label="Filter by month"></select>
+          </label>
+        </div>
+      </header>
+
+      <section class="alert-strip" id="dashboardMessage" aria-live="polite"></section>
+
+      <section class="kpi-grid nine-up" id="kpiGrid" aria-label="Key financial indicators">
+        <article class="kpi-card"><span class="kpi-label">Daily Revenue</span><strong id="kpiDailyRevenue">$0</strong><small>Latest selected day</small></article>
+        <article class="kpi-card"><span class="kpi-label">MTD Revenue</span><strong id="kpiMtdRevenue">$0</strong><small>Selected period</small></article>
+        <article class="kpi-card"><span class="kpi-label">Food Revenue</span><strong id="kpiFoodRevenue">$0</strong><small>Selected period</small></article>
+        <article class="kpi-card"><span class="kpi-label">Beverage Revenue</span><strong id="kpiBeverageRevenue">$0</strong><small>Selected period</small></article>
+        <article class="kpi-card"><span class="kpi-label">Food Cost %</span><strong id="kpiFoodCostPercent">0.0%</strong><small>Food cost / food revenue</small></article>
+        <article class="kpi-card"><span class="kpi-label">Beverage Cost %</span><strong id="kpiBeverageCostPercent">0.0%</strong><small>Beverage cost / beverage revenue</small></article>
+        <article class="kpi-card"><span class="kpi-label">Fixed Cost %</span><strong id="kpiFixedCostPercent">0.0%</strong><small>Fixed cost / total revenue</small></article>
+        <article class="kpi-card"><span class="kpi-label">GOP</span><strong id="kpiGop">$0</strong><small>Total revenue less total cost</small></article>
+        <article class="kpi-card"><span class="kpi-label">Budget Variance</span><strong id="kpiBudgetVariance">$0</strong><small>Revenue vs daily budget</small></article>
+      </section>
+
+      <section class="dashboard-grid core-grid">
+        <article class="panel entry-panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Daily entry</p>
+              <h2 id="entryPanelTitle">New daily finance entry</h2>
+            </div>
+            <span class="status-pill" id="entryModePill">Create</span>
+          </div>
+
+          <form class="entry-form" id="entryForm" novalidate>
+            <input type="hidden" id="editingDate" />
+            <label class="field">
+              <span>Date</span>
+              <input id="entryDate" type="date" required />
+            </label>
+            <label class="field">
+              <span>Food Revenue</span>
+              <input id="foodRevenue" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" />
+            </label>
+            <label class="field">
+              <span>Beverage Revenue</span>
+              <input id="beverageRevenue" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" />
+            </label>
+            <label class="field">
+              <span>Food Cost</span>
+              <input id="foodCost" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" />
+            </label>
+            <label class="field">
+              <span>Beverage Cost</span>
+              <input id="beverageCost" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" />
+            </label>
+            <label class="field">
+              <span>Fixed Cost</span>
+              <input id="fixedCost" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" />
+            </label>
+            <label class="field">
+              <span>Daily Budget</span>
+              <input id="dailyBudget" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00" />
+            </label>
+            <div class="form-actions">
+              <button class="button button-primary" id="saveEntry" type="submit">Save Entry</button>
+              <button class="button" id="resetForm" type="button">Reset Form</button>
+            </div>
+          </form>
+        </article>
+
+        <article class="panel table-panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Daily close table</p>
+              <h2>Entries for selected period</h2>
+            </div>
+            <span class="status-pill" id="entryCount">0 entries</span>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table entry-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Total Revenue</th>
+                  <th>Total Cost</th>
+                  <th>GOP</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody id="entriesTableBody"></tbody>
+            </table>
+          </div>
+          <p class="empty-state" id="emptyState">No entries match the selected year and month.</p>
+        </article>
+      </section>
+
+      <section class="analytics-layout" aria-label="Executive analytics">
+        <article class="panel chart-panel wide">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Revenue analytics</p>
+              <h2>Daily Revenue Trend</h2>
+            </div>
+          </div>
+          <div class="chart-shell"><canvas id="dailyRevenueChart" aria-label="Daily revenue trend chart"></canvas></div>
+        </article>
+
+        <article class="panel chart-panel wide">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Revenue analytics</p>
+              <h2>MTD Revenue Trend</h2>
+            </div>
+          </div>
+          <div class="chart-shell"><canvas id="mtdRevenueChart" aria-label="Month-to-date revenue trend chart"></canvas></div>
+        </article>
+
+        <article class="panel chart-panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Revenue mix</p>
+              <h2>Food vs Beverage Revenue</h2>
+            </div>
+          </div>
+          <div class="chart-shell"><canvas id="revenueComparisonChart" aria-label="Food versus beverage revenue comparison chart"></canvas></div>
+        </article>
+
+        <article class="panel chart-panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Cost analytics</p>
+              <h2>Cost Ratio Performance</h2>
+            </div>
+          </div>
+          <div class="cost-analytics" id="costAnalytics"></div>
+        </article>
+
+        <article class="panel chart-panel wide">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">GOP analytics</p>
+              <h2>Daily GOP Trend</h2>
+            </div>
+            <span class="status-pill" id="gopMarginPill">GOP Margin 0.0%</span>
+          </div>
+          <div class="chart-shell"><canvas id="gopTrendChart" aria-label="Daily gross operating profit trend chart"></canvas></div>
+          <div class="metric-strip" id="gopAnalytics"></div>
+        </article>
+
+        <article class="panel chart-panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Budget analytics</p>
+              <h2>Actual Revenue vs Budget</h2>
+            </div>
+          </div>
+          <div class="budget-analytics" id="budgetAnalytics"></div>
+        </article>
+
+        <article class="panel chart-panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Dashboard summary</p>
+              <h2>Management Snapshot</h2>
+            </div>
+          </div>
+          <div class="summary-card-grid" id="summaryCards"></div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/js/calculations.js"></script>
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/filters.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

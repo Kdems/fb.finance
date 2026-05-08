@@ -1,0 +1,24 @@
+{
+  "restaurant": "SKYBAR",
+  "currency": "USD",
+  "storageKey": "skybar.finance.dashboard.entries.v1",
+  "sourceOfTruth": "Browser localStorage user entries only",
+  "entrySchema": [
+    "date",
+    "foodRevenue",
+    "beverageRevenue",
+    "foodCost",
+    "beverageCost",
+    "fixedCost",
+    "dailyBudget"
+  ],
+  "analytics": [
+    "Daily Revenue Trend",
+    "MTD Revenue Trend",
+    "Food vs Beverage Revenue Comparison",
+    "Cost Ratio Performance",
+    "Daily GOP Trend",
+    "Actual Revenue vs Budget",
+    "Management Snapshot"
+  ]
+}
