@@ -94,3 +94,7 @@
 @media (max-width: 860px) {
   .content-grid.two-column, .component-showcase { grid-template-columns: 1fr; }
 }
+
+.kpi-card.positive { border-color: rgba(116, 227, 154, 0.28); }
+.kpi-card.negative { border-color: rgba(255, 107, 107, 0.3); }
+.kpi-card.neutral { border-color: var(--line); }
