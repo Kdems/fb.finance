@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SKYBAR Finance Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/dashboard.css" />
+</head>
+<body data-page="dashboard">
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="index.html" aria-label="SKYBAR Finance Dashboard home">
+        <span class="brand-mark">SB</span>
+        <span>
+          <strong>SKYBAR</strong>
+          <small>Finance Dashboard</small>
+        </span>
+      </a>
+      <nav class="nav-stack">
+        <a class="nav-link is-active" href="index.html">Dashboard</a>
+        <a class="nav-link" href="generic.html">Operating Review</a>
+        <a class="nav-link" href="elements.html">Component Library</a>
+      </nav>
+      <section class="sidebar-card">
+        <span class="eyebrow">Current focus</span>
+        <strong>Prime cost discipline</strong>
+        <p>Track food, beverage, and labor cost movement against approved monthly plans.</p>
+      </section>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Executive finance console</p>
+          <h1>SKYBAR Finance Dashboard</h1>
+          <p class="page-summary">Restaurant revenue, cost controls, cash position, and profitability in one operating view.</p>
+        </div>
+        <div class="toolbar" aria-label="Dashboard filters">
+          <label class="field compact">
+            <span>Month</span>
+            <select id="monthFilter" aria-label="Filter by month"></select>
+          </label>
+          <label class="field compact">
+            <span>Year</span>
+            <select id="yearFilter" aria-label="Filter by year"></select>
+          </label>
+          <button class="button button-primary" id="resetFilters" type="button">Reset</button>
+        </div>
+      </header>
+
+      <section class="alert-strip" id="financeAlerts" aria-live="polite"></section>
+
+      <section class="kpi-grid" id="kpiGrid" aria-label="Key financial indicators"></section>
+
+      <section class="dashboard-grid">
+        <article class="panel panel-large">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Revenue mix</p>
+              <h2>Sales by service line</h2>
+            </div>
+            <span class="status-pill" id="selectedPeriodLabel">All periods</span>
+          </div>
+          <div class="bar-chart" id="revenueMixChart" aria-label="Revenue mix chart"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Margin</p>
+              <h2>Cost ratio</h2>
+            </div>
+          </div>
+          <div class="ratio-list" id="costRatioList"></div>
+        </article>
+
+        <article class="panel panel-large">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Monthly close</p>
+              <h2>Profit and loss</h2>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Period</th>
+                  <th>Revenue</th>
+                  <th>Prime Cost</th>
+                  <th>EBITDA</th>
+                  <th>Cash Reserve</th>
+                </tr>
+              </thead>
+              <tbody id="pnlTableBody"></tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Cash</p>
+              <h2>Liquidity runway</h2>
+            </div>
+          </div>
+          <div class="cash-card" id="cashRunwayCard"></div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/js/calculations.js"></script>
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/filters.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
