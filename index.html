@@ -3,123 +3,308 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>SKYBAR Finance Dashboard</title>
+
   <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
+
 <body class="bg-slate-100 font-sans">
+
   <div class="flex min-h-screen">
-    <!-- Sidebar -->
+
+    <!-- SIDEBAR -->
     <aside class="w-64 bg-slate-900 text-white p-5">
-      <h1 class="text-2xl font-bold mb-8">SKYBAR</h1>
+
+      <h1 class="text-2xl font-bold mb-8">
+        SKYBAR
+      </h1>
+
       <nav class="space-y-3">
-        <button class="w-full text-left px-4 py-3 rounded-xl bg-slate-800">Dashboard</button>
-        <button class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-800">Entry</button>
-        <button class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-800">Analytics</button>
-        <button class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-800">Reports</button>
-        <button class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-800">Settings</button>
+
+        <a
+          href="index.html"
+          class="block px-4 py-3 rounded-xl bg-slate-800"
+        >
+          Dashboard
+        </a>
+
+        <a
+          href="generic.html"
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
+        >
+          Operating Review
+        </a>
+
+        <a
+          href="reports.html"
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
+        >
+          Reports
+        </a>
+
       </nav>
+
     </aside>
 
-    <!-- Main -->
+
+
+    <!-- MAIN -->
     <main class="flex-1 p-6">
-      <!-- Header -->
+
+      <!-- HEADER -->
       <div class="flex justify-between items-center mb-6">
+
         <div>
-          <h2 class="text-3xl font-bold">Finance Dashboard</h2>
-          <p class="text-slate-500">Restaurant performance monitoring</p>
+
+          <h2 class="text-3xl font-bold">
+            Finance Dashboard
+          </h2>
+
+          <p class="text-slate-500">
+            Daily restaurant financial performance
+          </p>
+
         </div>
 
+
         <div class="flex gap-3">
-          <select class="border rounded-xl px-4 py-2">
-            <option>2026</option>
-          </select>
-          <select class="border rounded-xl px-4 py-2">
-            <option>May</option>
-          </select>
+
+          <select
+            id="yearFilter"
+            class="border rounded-xl px-4 py-2 bg-white"
+          ></select>
+
+
+          <select
+            id="monthFilter"
+            class="border rounded-xl px-4 py-2 bg-white"
+          ></select>
+
         </div>
+
       </div>
+
+
 
       <!-- KPI -->
       <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 gap-4 mb-6">
-        <div class="bg-white rounded-2xl p-4 shadow">
-          <p class="text-sm text-slate-500">Daily Revenue</p>
-          <h3 class="text-2xl font-bold">RM0</h3>
-        </div>
 
         <div class="bg-white rounded-2xl p-4 shadow">
           <p class="text-sm text-slate-500">MTD Revenue</p>
-          <h3 class="text-2xl font-bold">RM0</h3>
+          <h3
+            id="kpiMtdRevenue"
+            class="text-2xl font-bold"
+          >
+            RM0
+          </h3>
         </div>
 
-        <div class="bg-white rounded-2xl p-4 shadow">
-          <p class="text-sm text-slate-500">Food Cost %</p>
-          <h3 class="text-2xl font-bold">0%</h3>
-        </div>
-
-        <div class="bg-white rounded-2xl p-4 shadow">
-          <p class="text-sm text-slate-500">Beverage Cost %</p>
-          <h3 class="text-2xl font-bold">0%</h3>
-        </div>
 
         <div class="bg-white rounded-2xl p-4 shadow">
           <p class="text-sm text-slate-500">GOP</p>
-          <h3 class="text-2xl font-bold">RM0</h3>
+          <h3
+            id="kpiGop"
+            class="text-2xl font-bold"
+          >
+            RM0
+          </h3>
         </div>
+
 
         <div class="bg-white rounded-2xl p-4 shadow">
-          <p class="text-sm text-slate-500">Budget Variance</p>
-          <h3 class="text-2xl font-bold">RM0</h3>
+          <p class="text-sm text-slate-500">
+            Budget Variance
+          </p>
+
+          <h3
+            id="kpiBudgetVariance"
+            class="text-2xl font-bold"
+          >
+            RM0
+          </h3>
         </div>
+
       </div>
 
-      <!-- Entry + Table -->
-      <div class="grid lg:grid-cols-3 gap-6">
+
+
+      <!-- FORM + TABLE -->
+      <div class="grid lg:grid-cols-3 gap-6 mb-6">
+
+
+        <!-- ENTRY FORM -->
         <div class="bg-white rounded-2xl p-5 shadow">
-          <h3 class="font-bold text-xl mb-4">Daily Entry</h3>
 
-          <div class="space-y-3">
-            <input type="date" class="w-full border rounded-xl px-4 py-3">
-            <input placeholder="Food Revenue" class="w-full border rounded-xl px-4 py-3">
-            <input placeholder="Beverage Revenue" class="w-full border rounded-xl px-4 py-3">
-            <input placeholder="Food Cost" class="w-full border rounded-xl px-4 py-3">
-            <input placeholder="Beverage Cost" class="w-full border rounded-xl px-4 py-3">
-            <input placeholder="Fixed Cost" class="w-full border rounded-xl px-4 py-3">
-            <input placeholder="Daily Budget" class="w-full border rounded-xl px-4 py-3">
+          <h3 class="font-bold text-xl mb-4">
+            Daily Entry
+          </h3>
 
-            <button class="w-full bg-slate-900 text-white py-3 rounded-xl font-semibold">
+
+          <form
+            id="entryForm"
+            class="space-y-3"
+          >
+
+            <input
+              id="entryDate"
+              type="date"
+              class="w-full border rounded-xl px-4 py-3"
+            />
+
+
+            <input
+              id="foodRevenue"
+              type="number"
+              placeholder="Food Revenue"
+              class="w-full border rounded-xl px-4 py-3"
+            />
+
+
+            <input
+              id="beverageRevenue"
+              type="number"
+              placeholder="Beverage Revenue"
+              class="w-full border rounded-xl px-4 py-3"
+            />
+
+
+            <input
+              id="foodCostPercent"
+              type="number"
+              placeholder="Food Cost %"
+              class="w-full border rounded-xl px-4 py-3"
+            />
+
+
+            <input
+              id="beverageCostPercent"
+              type="number"
+              placeholder="Beverage Cost %"
+              class="w-full border rounded-xl px-4 py-3"
+            />
+
+
+            <input
+              id="fixedCostPercent"
+              type="number"
+              placeholder="Fixed Cost %"
+              class="w-full border rounded-xl px-4 py-3"
+            />
+
+
+            <input
+              id="dailyBudget"
+              type="number"
+              placeholder="Daily Budget"
+              class="w-full border rounded-xl px-4 py-3"
+            />
+
+
+            <button
+              type="submit"
+              class="w-full bg-slate-900 text-white py-3 rounded-xl"
+            >
               Save Entry
             </button>
-          </div>
+
+          </form>
+
         </div>
 
+
+
+        <!-- TABLE -->
         <div class="lg:col-span-2 bg-white rounded-2xl p-5 shadow">
-          <h3 class="font-bold text-xl mb-4">Daily Revenue List</h3>
+
+          <h3 class="font-bold text-xl mb-4">
+            Daily Revenue List
+          </h3>
+
 
           <div class="overflow-auto">
+
             <table class="w-full text-left">
+
               <thead>
+
                 <tr class="border-b">
+
                   <th class="py-3">Date</th>
-                  <th>Total Revenue</th>
-                  <th>Total Cost</th>
+                  <th>Revenue</th>
+                  <th>Cost</th>
                   <th>GOP</th>
-                  <th>Action</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+
                 </tr>
+
               </thead>
-              <tbody>
-                <tr>
-                  <td class="py-4">--</td>
-                  <td>RM0</td>
-                  <td>RM0</td>
-                  <td>RM0</td>
-                  <td>Edit / Delete</td>
-                </tr>
-              </tbody>
+
+
+              <tbody
+                id="entriesTableBody"
+              ></tbody>
+
             </table>
+
           </div>
+
         </div>
+
       </div>
+
+
+
+      <!-- CHARTS -->
+      <div class="grid lg:grid-cols-2 gap-6">
+
+        <div class="bg-white rounded-2xl p-5 shadow">
+
+          <h3 class="font-bold text-xl mb-4">
+            Daily Revenue Trend
+          </h3>
+
+          <canvas
+            id="dailyRevenueChart"
+          ></canvas>
+
+        </div>
+
+
+
+        <div class="bg-white rounded-2xl p-5 shadow">
+
+          <h3 class="font-bold text-xl mb-4">
+            Daily GOP Trend
+          </h3>
+
+          <canvas
+            id="gopTrendChart"
+          ></canvas>
+
+        </div>
+
+      </div>
+
     </main>
+
   </div>
+
+
+
+  <!-- SCRIPTS -->
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script src="storage.js"></script>
+
+  <script src="calculations.js"></script>
+
+  <script src="charts.js"></script>
+
+  <script src="dashboard.js"></script>
+
 </body>
 </html>
