@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>
+    SKYBAR Settings
+  </title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+
+<body class="bg-slate-100 font-sans">
+
+  <div class="flex min-h-screen">
+
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-slate-900 text-white p-5">
+
+      <h1 class="text-2xl font-bold mb-8">
+        SKYBAR
+      </h1>
+
+
+      <nav class="space-y-3">
+
+        <a
+          href="index.html"
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
+        >
+          Dashboard
+        </a>
+
+
+        <a
+          href="generic.html"
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
+        >
+          Operating Review
+        </a>
+
+
+        <a
+          href="reports.html"
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
+        >
+          Reports
+        </a>
+
+
+        <a
+          href="settings.html"
+          class="block px-4 py-3 rounded-xl bg-slate-800"
+        >
+          Settings
+        </a>
+
+      </nav>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+    <main class="flex-1 p-6">
+
+
+      <div class="mb-6">
+
+        <h2 class="text-3xl font-bold">
+          Finance Settings
+        </h2>
+
+        <p class="text-slate-500">
+          Manage annual targets and operating benchmarks
+        </p>
+
+      </div>
+
+
+
+      <div
+        class="bg-white rounded-2xl p-6 shadow"
+      >
+
+
+        <form
+          id="settingsForm"
+          class="grid md:grid-cols-2 gap-4"
+        >
+
+
+          <!-- OUTLET -->
+          <input
+            id="outletName"
+            type="text"
+            placeholder="Outlet Name"
+            class="border rounded-xl px-4 py-3"
+          />
+
+
+          <!-- CURRENCY -->
+          <select
+            id="currency"
+            class="border rounded-xl px-4 py-3"
+          >
+
+            <option value="RM">
+              RM
+            </option>
+
+            <option value="USD">
+              USD
+            </option>
+
+          </select>
+
+
+
+          <!-- ANNUAL TARGET -->
+          <input
+            id="annualRevenueTarget"
+            type="number"
+            placeholder="Annual Revenue Target"
+            class="border rounded-xl px-4 py-3"
+          />
+
+
+          <input
+            id="annualGopTarget"
+            type="number"
+            placeholder="Annual GOP Target"
+            class="border rounded-xl px-4 py-3"
+          />
+
+
+
+          <!-- COST TARGET -->
+          <input
+            id="foodCostTarget"
+            type="number"
+            placeholder="Food Cost Target %"
+            class="border rounded-xl px-4 py-3"
+          />
+
+
+          <input
+            id="beverageCostTarget"
+            type="number"
+            placeholder="Beverage Cost Target %"
+            class="border rounded-xl px-4 py-3"
+          />
+
+
+          <input
+            id="fixedCostTarget"
+            type="number"
+            placeholder="Fixed Cost Target %"
+            class="border rounded-xl px-4 py-3"
+          />
+
+
+
+          <!-- PIN -->
+          <input
+            id="pinCode"
+            type="password"
+            placeholder="PIN Security"
+            class="border rounded-xl px-4 py-3"
+          />
+
+
+
+          <!-- SAVE -->
+          <button
+            type="submit"
+            class="bg-slate-900 text-white py-3 rounded-xl md:col-span-2"
+          >
+            Save Settings
+          </button>
+
+
+        </form>
+
+
+      </div>
+
+
+    </main>
+
+  </div>
+
+
+
+  <script src="assets/js/settings.js"></script>
+
+</body>
+
+</html>
