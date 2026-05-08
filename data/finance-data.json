@@ -1,24 +1,58 @@
 {
-  "restaurant": "SKYBAR",
-  "currency": "USD",
-  "storageKey": "skybar.finance.dashboard.entries.v1",
-  "sourceOfTruth": "Browser localStorage user entries only",
-  "entrySchema": [
-    "date",
-    "foodRevenue",
-    "beverageRevenue",
-    "foodCost",
-    "beverageCost",
-    "fixedCost",
-    "dailyBudget"
-  ],
-  "analytics": [
-    "Daily Revenue Trend",
-    "MTD Revenue Trend",
-    "Food vs Beverage Revenue Comparison",
-    "Cost Ratio Performance",
-    "Daily GOP Trend",
-    "Actual Revenue vs Budget",
-    "Management Snapshot"
+  "app": {
+    "name": "SKYBAR Finance Dashboard",
+    "restaurant": "SKYBAR",
+    "currency": "RM",
+    "version": "1.0.0",
+    "storageKey": "skybar.finance.dashboard.entries.v1"
+  },
+
+  "settings": {
+    "yearStart": 2025,
+    "yearEnd": 2040
+  },
+
+  "entrySchema": {
+    "requiredFields": [
+      "date",
+      "foodRevenue",
+      "beverageRevenue",
+      "foodCostPercent",
+      "beverageCostPercent",
+      "fixedCostPercent",
+      "dailyBudget"
+    ]
+  },
+
+  "calculationRules": {
+    "totalRevenue": "foodRevenue + beverageRevenue",
+
+    "foodCostAmount": "(foodRevenue * foodCostPercent) / 100",
+    "beverageCostAmount": "(beverageRevenue * beverageCostPercent) / 100",
+    "fixedCostAmount": "(totalRevenue * fixedCostPercent) / 100",
+
+    "totalCost": "foodCostAmount + beverageCostAmount + fixedCostAmount",
+
+    "gop": "totalRevenue - totalCost",
+
+    "budgetVariance": "totalRevenue - dailyBudget",
+
+    "gopMargin": "(gop / totalRevenue) * 100"
+  },
+
+  "defaultTargets": {
+    "foodCostPercent": 35,
+    "beverageCostPercent": 25,
+    "fixedCostPercent": 18
+  },
+
+  "dashboardModules": [
+    "Daily Revenue",
+    "MTD Revenue",
+    "Food Cost %",
+    "Beverage Cost %",
+    "Fixed Cost %",
+    "GOP",
+    "Budget Variance"
   ]
 }
