@@ -187,7 +187,7 @@ function bindEvents() {
 
 
 // ======================
-// ENTRY
+// SAVE ENTRY
 // ======================
 
 function handleSaveEntry(
@@ -254,7 +254,7 @@ function handleSaveEntry(
 
 
 // ======================
-// DAILY BUDGET
+// AUTO DAILY BUDGET
 // ======================
 
 function updateAutoDailyBudget() {
@@ -326,7 +326,7 @@ function handleFilterChange() {
 
 
 // ======================
-// MAIN
+// DASHBOARD
 // ======================
 
 function renderDashboard() {
@@ -382,6 +382,7 @@ function renderDashboard() {
 
 
   renderSummary(
+    currentEntries,
     current
   );
 
@@ -389,7 +390,7 @@ function renderDashboard() {
 
 
 // ======================
-// YTD
+// KPI RENDERS
 // ======================
 
 function renderYtd(
@@ -438,10 +439,6 @@ function renderYtd(
 
 }
 
-
-// ======================
-// MTD
-// ======================
 
 function renderMtd(
   current,
@@ -559,10 +556,6 @@ function renderMtd(
 }
 
 
-// ======================
-// GOP
-// ======================
-
 function renderGop(
   current,
   ly
@@ -591,10 +584,6 @@ function renderGop(
 
 }
 
-
-// ======================
-// F&B
-// ======================
 
 function renderFoodBeverage(
   current,
@@ -648,17 +637,127 @@ function renderFoodBeverage(
 
 
 // ======================
-// SUMMARY
+// MONTHLY SUMMARY
 // ======================
 
 function renderSummary(
+  entries,
   current
 ) {
+
+  const settings =
+    getSettings();
+
+
+  let bestDay =
+    null;
+
+
+  let worstDay =
+    null;
+
+
+  entries.forEach(
+    entry => {
+
+      const revenue =
+        Number(
+          entry.foodRevenue || 0
+        ) +
+        Number(
+          entry.beverageRevenue || 0
+        );
+
+
+      if(
+        !bestDay ||
+        revenue >
+          bestDay.revenue
+      ) {
+
+        bestDay = {
+
+          date:
+            entry.date,
+
+          revenue
+
+        };
+
+      }
+
+
+      if(
+        !worstDay ||
+        revenue <
+          worstDay.revenue
+      ) {
+
+        worstDay = {
+
+          date:
+            entry.date,
+
+          revenue
+
+        };
+
+      }
+
+    }
+  );
+
+
+  const averageDailyRevenue =
+    current.totalRevenue /
+    Math.max(
+      entries.length,
+      1
+    );
+
+
+  const averageAchievement =
+    calculateAchievement(
+      current.totalRevenue,
+      settings.monthlyBudget
+    );
+
 
   setSmartCard(
     "summaryRevenueCard",
     formatMoney(
       current.totalRevenue
+    )
+  );
+
+
+  setSmartCard(
+    "summaryAchievementCard",
+    `${averageAchievement.toFixed(2)}%`,
+    averageAchievement
+  );
+
+
+  setSmartCard(
+    "bestDayCard",
+    bestDay
+      ? `${bestDay.date}<br>${formatMoney(bestDay.revenue)}`
+      : "-"
+  );
+
+
+  setSmartCard(
+    "worstDayCard",
+    worstDay
+      ? `${worstDay.date}<br>${formatMoney(worstDay.revenue)}`
+      : "-"
+  );
+
+
+  setSmartCard(
+    "summaryBudgetCard",
+    formatMoney(
+      averageDailyRevenue
     )
   );
 
