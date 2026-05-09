@@ -29,7 +29,6 @@
 
 
 
-  <!-- SIDEBAR -->
   <aside class="w-64 bg-slate-950 text-white p-6">
 
     <h1 class="text-4xl font-bold">
@@ -42,12 +41,11 @@
 
 
 
-  <!-- MAIN -->
   <main class="flex-1 p-8 space-y-6">
 
 
     <!-- HEADER -->
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between">
 
       <div>
 
@@ -66,12 +64,12 @@
 
         <select
           id="yearFilter"
-          class="bg-white rounded-xl shadow px-4 py-2">
+          class="bg-white shadow rounded-xl px-4 py-2">
         </select>
 
         <select
           id="monthFilter"
-          class="bg-white rounded-xl shadow px-4 py-2">
+          class="bg-white shadow rounded-xl px-4 py-2">
         </select>
 
       </div>
@@ -83,13 +81,89 @@
 
 
 
-    <!-- MTD INTELLIGENCE -->
+    <!-- YTD -->
+    <section class="bg-violet-200 rounded-3xl p-6 shadow">
+
+      <h3 class="font-bold text-xl mb-5">
+        Year-To-Date Intelligence
+      </h3>
+
+
+      <div class="grid grid-cols-4 gap-4">
+
+        <div class="bg-white/70 rounded-2xl p-4">
+          <small>Revenue</small>
+          <h4 id="ytdRevenueCard"></h4>
+        </div>
+
+        <div class="bg-white/70 rounded-2xl p-4">
+          <small>Budget</small>
+          <h4 id="ytdBudgetCard"></h4>
+        </div>
+
+        <div class="bg-white/70 rounded-2xl p-4">
+          <small>Variance</small>
+          <h4 id="ytdVarianceCard"></h4>
+        </div>
+
+        <div class="bg-white/70 rounded-2xl p-4">
+          <small>Remaining</small>
+          <h4 id="ytdBalanceCard"></h4>
+        </div>
+
+      </div>
+
+
+
+      <div class="grid grid-cols-4 gap-4 mt-4">
+
+        <div class="bg-white/70 rounded-2xl p-4">
+          <small>Achievement</small>
+          <h4 id="ytdAchievementCard"></h4>
+        </div>
+
+        <div class="bg-white/70 rounded-2xl p-4">
+          <small>LY Revenue</small>
+          <h4 id="lyRevenueCard"></h4>
+        </div>
+
+        <div class="bg-white/70 rounded-2xl p-4">
+          <small>Growth</small>
+          <h4 id="ytdGrowthCard"></h4>
+        </div>
+
+        <div class="bg-white/70 rounded-2xl p-4">
+          <small>Ach. Diff</small>
+          <h4 id="achievementDiffCard"></h4>
+        </div>
+
+      </div>
+
+
+
+      <div class="bg-white/30 h-2 rounded-full mt-5">
+
+        <div
+          id="ytdProgressBar"
+          class="bg-indigo-700 h-2 rounded-full"
+          style="width:0%">
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+
+
+
+    <!-- MTD -->
     <section class="bg-sky-200 rounded-3xl p-6 shadow">
 
       <h3 class="font-bold text-xl mb-5">
         Month-To-Date Intelligence
       </h3>
-
 
       <div class="grid grid-cols-6 gap-4">
 
@@ -125,18 +199,6 @@
 
       </div>
 
-
-
-      <div class="bg-white/30 rounded-full h-2 mt-5">
-
-        <div
-          id="mtdProgressBar"
-          class="bg-blue-700 rounded-full h-2"
-          style="width:0%">
-        </div>
-
-      </div>
-
     </section>
 
 
@@ -148,7 +210,7 @@
     <section class="bg-orange-200 rounded-3xl p-6 shadow">
 
       <h3 class="font-bold text-xl mb-5">
-        Food & Beverage Intelligence
+        Food & Beverage
       </h3>
 
       <div class="grid grid-cols-4 gap-4">
@@ -164,38 +226,13 @@
         </div>
 
         <div class="bg-white/70 rounded-2xl p-4">
-          <small>Food Cost %</small>
+          <small>Food Cost</small>
           <h4 id="foodCostCard"></h4>
         </div>
 
         <div class="bg-white/70 rounded-2xl p-4">
           <small>Food Growth</small>
           <h4 id="foodGrowthCard"></h4>
-        </div>
-
-      </div>
-
-
-      <div class="grid grid-cols-4 gap-4 mt-4">
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Beverage Revenue</small>
-          <h4 id="bevRevenueCard"></h4>
-        </div>
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Bev Mix</small>
-          <h4 id="bevMixCard"></h4>
-        </div>
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Bev Cost %</small>
-          <h4 id="bevCostCard"></h4>
-        </div>
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Bev Growth</small>
-          <h4 id="bevGrowthCard"></h4>
         </div>
 
       </div>
