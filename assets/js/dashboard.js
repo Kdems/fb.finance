@@ -370,7 +370,7 @@ function updateAutoDailyBudget() {
 
 
 // ======================
-// MAIN DASHBOARD
+// MAIN
 // ======================
 
 function renderDashboard() {
@@ -606,70 +606,15 @@ function renderMtd(
     );
 
 
-  updateCard(
-    "mtdRevenueCard",
-    formatMoney(
-      current.totalRevenue
-    )
-  );
-
-
-  updateCard(
-    "mtdBudgetCard",
-    formatMoney(
-      monthlyBudget
-    )
-  );
-
-
-  updateCard(
-    "mtdGopCard",
-    formatMoney(
-      current.totalGop
-    )
-  );
-
-
-  updateCard(
-    "mtdGrowthCard",
-    `${growth.toFixed(2)}%`
-  );
-
-
-  updateCard(
-    "mtdAchievementCard",
-    `${achievement.toFixed(2)}%`
-  );
-
-
-  updateCard(
-    "daysLeftCard",
-    `${daysLeft} Days`
-  );
-
-
-  updateCard(
-    "dailyPaceCard",
-    formatMoney(
-      dailyPace
-    )
-  );
-
-
-  updateCard(
-    "projectionCard",
-    formatMoney(
-      projection
-    )
-  );
-
-
-  updateCard(
-    "gapToTargetCard",
-    formatMoney(
-      gap
-    )
-  );
+  updateCard("mtdRevenueCard", formatMoney(current.totalRevenue));
+  updateCard("mtdBudgetCard", formatMoney(monthlyBudget));
+  updateCard("mtdGopCard", formatMoney(current.totalGop));
+  updateCard("mtdGrowthCard", `${growth.toFixed(2)}%`);
+  updateCard("mtdAchievementCard", `${achievement.toFixed(2)}%`);
+  updateCard("daysLeftCard", `${daysLeft} Days`);
+  updateCard("dailyPaceCard", formatMoney(dailyPace));
+  updateCard("projectionCard", formatMoney(projection));
+  updateCard("gapToTargetCard", formatMoney(gap));
 
 }
 
@@ -683,46 +628,40 @@ function renderGop(
   current
 ) {
 
-  updateCard(
-    "gopRevenueCard",
-    formatMoney(
-      current.totalRevenue
-    )
-  );
-
-
-  updateCard(
-    "gopCostCard",
-    formatMoney(
-      current.totalCost
-    )
-  );
-
-
-  updateCard(
-    "gopMainCard",
-    formatMoney(
-      current.totalGop
-    )
-  );
-
-
-  updateCard(
-    "gopMarginCard",
-    `${current.gopMargin.toFixed(2)}%`
-  );
+  updateCard("gopRevenueCard", formatMoney(current.totalRevenue));
+  updateCard("gopCostCard", formatMoney(current.totalCost));
+  updateCard("gopMainCard", formatMoney(current.totalGop));
+  updateCard("gopMarginCard", `${current.gopMargin.toFixed(2)}%`);
 
 }
 
 
 
 // ======================
-// F&B
+// FOOD & BEVERAGE
 // ======================
 
 function renderFoodBeverage(
   current
 ) {
+
+  const settings =
+    getSettings();
+
+
+  const foodGrowth =
+    calculateGrowth(
+      current.totalFoodRevenue,
+      settings.lyFoodRevenue
+    );
+
+
+  const beverageGrowth =
+    calculateGrowth(
+      current.totalBeverageRevenue,
+      settings.lyBeverageRevenue
+    );
+
 
   updateCard(
     "foodRevenueCard",
@@ -745,6 +684,18 @@ function renderFoodBeverage(
     formatMoney(
       current.totalCost
     )
+  );
+
+
+  updateSubCard(
+    "foodRevenueCard",
+    `LY ${foodGrowth.toFixed(2)}%`
+  );
+
+
+  updateSubCard(
+    "bevRevenueCard",
+    `LY ${beverageGrowth.toFixed(2)}%`
   );
 
 }
@@ -784,12 +735,8 @@ function renderSummary(
     );
 
 
-  let bestDay =
-    "-";
-
-
-  let worstDay =
-    "-";
+  let bestDay = "-";
+  let worstDay = "-";
 
 
   if(
@@ -798,35 +745,21 @@ function renderSummary(
 
     const ranked =
       entries.map(
-        entry => {
+        entry => ({
 
-          const revenue =
-            Number(
-              entry.foodRevenue || 0
-            ) +
-            Number(
-              entry.beverageRevenue || 0
-            );
+          date:
+            entry.date,
 
+          revenue:
+            Number(entry.foodRevenue || 0) +
+            Number(entry.beverageRevenue || 0)
 
-          return {
-
-            date:
-              entry.date,
-
-            revenue
-
-          };
-
-        }
+        })
       );
 
 
     ranked.sort(
-      (
-        a,
-        b
-      ) =>
+      (a, b) =>
         a.revenue -
         b.revenue
     );
@@ -844,38 +777,11 @@ function renderSummary(
   }
 
 
-  updateCard(
-    "summaryRevenueCard",
-    formatMoney(
-      current.totalRevenue
-    )
-  );
-
-
-  updateCard(
-    "summaryBudgetCard",
-    formatMoney(
-      avgDaily
-    )
-  );
-
-
-  updateCard(
-    "summaryAchievementCard",
-    `${achievement.toFixed(2)}%`
-  );
-
-
-  updateCard(
-    "bestDayCard",
-    bestDay
-  );
-
-
-  updateCard(
-    "worstDayCard",
-    worstDay
-  );
+  updateCard("summaryRevenueCard", formatMoney(current.totalRevenue));
+  updateCard("summaryBudgetCard", formatMoney(avgDaily));
+  updateCard("summaryAchievementCard", `${achievement.toFixed(2)}%`);
+  updateCard("bestDayCard", bestDay);
+  updateCard("worstDayCard", worstDay);
 
 }
 
@@ -891,18 +797,37 @@ function updateCard(
 ) {
 
   const el =
-    document.getElementById(
-      id
-    );
+    document.getElementById(id);
 
-
-  if(
-    !el
-  ) return;
-
+  if(!el) return;
 
   el.innerHTML =
     value;
+
+}
+
+
+function updateSubCard(
+  id,
+  value
+) {
+
+  const el =
+    document.getElementById(id);
+
+  if(!el) return;
+
+  const small =
+    el.parentElement.querySelector("small");
+
+  if(
+    small
+  ) {
+
+    small.innerHTML =
+      value;
+
+  }
 
 }
 
@@ -912,10 +837,7 @@ function calculateAchievement(
   target
 ) {
 
-  if(
-    !target
-  ) return 0;
-
+  if(!target) return 0;
 
   return (
     current / target
@@ -929,10 +851,7 @@ function calculateGrowth(
   ly
 ) {
 
-  if(
-    !ly
-  ) return 0;
-
+  if(!ly) return 0;
 
   return (
     (
@@ -950,11 +869,8 @@ function formatMoney(
   const settings =
     getSettings();
 
-
   const currency =
-    settings.currency ||
-    "RM";
-
+    settings.currency || "RM";
 
   return (
     currency +
@@ -963,11 +879,8 @@ function formatMoney(
     ).toLocaleString(
       undefined,
       {
-
         minimumFractionDigits: 2,
-
         maximumFractionDigits: 2
-
       }
     )
   );
