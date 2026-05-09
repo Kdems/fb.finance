@@ -10,11 +10,16 @@ let reportMonth =
 // INIT
 // ======================
 
+document.addEventListener(
+  "DOMContentLoaded",
+  initReportsPage
+);
+
+
+
 function initReportsPage() {
 
-  populateYearFilter();
-
-  populateMonthFilter();
+  populateFilters();
 
   bindFilters();
 
@@ -28,112 +33,86 @@ function initReportsPage() {
 // FILTERS
 // ======================
 
-function populateYearFilter() {
+function populateFilters() {
 
-  const select =
+  const yearFilter =
     document.getElementById(
       "reportYear"
     );
 
 
-  if(
-    !select
-  ) return;
-
-
-  select.innerHTML =
-    "";
-
-
-  for(
-    let year = 2025;
-    year <= 2040;
-    year++
-  ) {
-
-    const option =
-      document.createElement(
-        "option"
-      );
-
-
-    option.value =
-      year;
-
-
-    option.textContent =
-      year;
-
-
-    if(
-      year === reportYear
-    ) {
-
-      option.selected =
-        true;
-
-    }
-
-
-    select.appendChild(
-      option
-    );
-
-  }
-
-}
-
-
-function populateMonthFilter() {
-
-  const select =
+  const monthFilter =
     document.getElementById(
       "reportMonth"
     );
 
 
-  if(
-    !select
-  ) return;
 
-
-  select.innerHTML =
-    "";
-
-
-  for(
-    let month = 1;
-    month <= 12;
-    month++
+  if (
+    yearFilter
   ) {
 
-    const option =
-      document.createElement(
-        "option"
-      );
+    yearFilter.innerHTML =
+      "";
 
 
-    option.value =
-      month;
 
-
-    option.textContent =
-      month;
-
-
-    if(
-      month === reportMonth
+    for (
+      let year = 2025;
+      year <= 2040;
+      year++
     ) {
 
-      option.selected =
-        true;
+      yearFilter.innerHTML +=
+
+        `
+        <option
+          value="${year}"
+          ${
+            year === reportYear
+              ? "selected"
+              : ""
+          }>
+          ${year}
+        </option>
+        `;
 
     }
 
+  }
 
-    select.appendChild(
-      option
-    );
+
+
+  if (
+    monthFilter
+  ) {
+
+    monthFilter.innerHTML =
+      "";
+
+
+
+    for (
+      let month = 1;
+      month <= 12;
+      month++
+    ) {
+
+      monthFilter.innerHTML +=
+
+        `
+        <option
+          value="${month}"
+          ${
+            month === reportMonth
+              ? "selected"
+              : ""
+          }>
+          ${month}
+        </option>
+        `;
+
+    }
 
   }
 
@@ -147,23 +126,24 @@ function populateMonthFilter() {
 
 function bindFilters() {
 
-  const year =
+  const yearFilter =
     document.getElementById(
       "reportYear"
     );
 
 
-  const month =
+  const monthFilter =
     document.getElementById(
       "reportMonth"
     );
 
 
-  if(
-    year
+
+  if (
+    yearFilter
   ) {
 
-    year.addEventListener(
+    yearFilter.addEventListener(
       "change",
       function() {
 
@@ -181,11 +161,12 @@ function bindFilters() {
   }
 
 
-  if(
-    month
+
+  if (
+    monthFilter
   ) {
 
-    month.addEventListener(
+    monthFilter.addEventListener(
       "change",
       function() {
 
@@ -219,32 +200,37 @@ function renderReport() {
     );
 
 
+
   const summary =
     calculatePeriodSummary(
       entries
     );
 
 
-  const settings =
-    getSettings();
+
+  renderKpi(
+    summary
+  );
 
 
-  const monthlyBudget =
-    Number(
-      settings.monthlyBudget || 0
-    );
+
+  renderTable(
+    entries
+  );
+
+}
 
 
-  const achievement =
-    monthlyBudget > 0
-      ? (
-          summary.totalRevenue /
-          monthlyBudget
-        ) * 100
-      : 0;
 
+// ======================
+// KPI
+// ======================
 
-  updateText(
+function renderKpi(
+  summary
+) {
+
+  setText(
     "reportRevenue",
     formatMoney(
       summary.totalRevenue
@@ -252,21 +238,26 @@ function renderReport() {
   );
 
 
-  updateText(
+
+  setText(
     "reportBudget",
     formatMoney(
-      monthlyBudget
+      summary.totalBudget
     )
   );
 
 
-  updateText(
+
+  setText(
     "reportAchievement",
-    `${achievement.toFixed(2)}%`
+    formatPercent(
+      summary.achievement
+    )
   );
 
 
-  updateText(
+
+  setText(
     "reportGop",
     formatMoney(
       summary.totalGop
@@ -274,14 +265,12 @@ function renderReport() {
   );
 
 
-  updateText(
+
+  setText(
     "reportMargin",
-    `${summary.gopMargin.toFixed(2)}%`
-  );
-
-
-  renderReportTable(
-    entries
+    formatPercent(
+      summary.gopMargin
+    )
   );
 
 }
@@ -292,7 +281,7 @@ function renderReport() {
 // TABLE
 // ======================
 
-function renderReportTable(
+function renderTable(
   entries
 ) {
 
@@ -302,24 +291,28 @@ function renderReportTable(
     );
 
 
-  if(
+
+  if (
     !tbody
   ) return;
+
 
 
   tbody.innerHTML =
     "";
 
 
-  if(
+
+  if (
     entries.length === 0
   ) {
 
     tbody.innerHTML =
+
       `
       <tr>
-        <td colspan="6" class="py-4 text-center text-slate-400">
-          No data found
+        <td colspan="6" class="py-6 text-center text-slate-400">
+          No report data found
         </td>
       </tr>
       `;
@@ -329,19 +322,25 @@ function renderReportTable(
   }
 
 
+
   const sorted =
     [...entries].sort(
       (
         a,
         b
       ) =>
+
         new Date(
           a.date
-        ) -
+        )
+
+        -
+
         new Date(
           b.date
         )
     );
+
 
 
   sorted.forEach(
@@ -353,47 +352,48 @@ function renderReportTable(
         );
 
 
-      const row =
-        document.createElement(
-          "tr"
-        );
 
+      tbody.innerHTML +=
 
-      row.className =
-        "border-b";
-
-
-      row.innerHTML =
         `
-        <td class="py-3">
-          ${entry.date}
-        </td>
+        <tr class="border-b">
 
-        <td>
-          ${formatMoney(entry.foodRevenue)}
-        </td>
+          <td class="py-4">
+            ${entry.date}
+          </td>
 
-        <td>
-          ${formatMoney(entry.beverageRevenue)}
-        </td>
+          <td>
+            ${formatMoney(
+              entry.foodRevenue
+            )}
+          </td>
 
-        <td>
-          ${formatMoney(calc.totalRevenue)}
-        </td>
+          <td>
+            ${formatMoney(
+              entry.beverageRevenue
+            )}
+          </td>
 
-        <td>
-          ${formatMoney(calc.totalCost)}
-        </td>
+          <td>
+            ${formatMoney(
+              calc.totalRevenue
+            )}
+          </td>
 
-        <td>
-          ${formatMoney(calc.gop)}
-        </td>
+          <td>
+            ${formatMoney(
+              calc.totalCost
+            )}
+          </td>
+
+          <td>
+            ${formatMoney(
+              calc.gop
+            )}
+          </td>
+
+        </tr>
         `;
-
-
-      tbody.appendChild(
-        row
-      );
 
     }
   );
@@ -403,7 +403,7 @@ function renderReportTable(
 
 
 // ======================
-// CSV EXPORT
+// EXPORT CSV
 // ======================
 
 function exportReportCSV() {
@@ -415,7 +415,8 @@ function exportReportCSV() {
     );
 
 
-  if(
+
+  if (
     entries.length === 0
   ) {
 
@@ -428,8 +429,11 @@ function exportReportCSV() {
   }
 
 
+
   let csv =
+
     "Date,Food,Beverage,Revenue,Cost,GOP\n";
+
 
 
   entries.forEach(
@@ -441,16 +445,28 @@ function exportReportCSV() {
         );
 
 
+
       csv +=
-        `${entry.date},` +
 
-        `${entry.foodRevenue},` +
+        `${entry.date},`
 
-        `${entry.beverageRevenue},` +
+        +
 
-        `${calc.totalRevenue},` +
+        `${entry.foodRevenue},`
 
-        `${calc.totalCost},` +
+        +
+
+        `${entry.beverageRevenue},`
+
+        +
+
+        `${calc.totalRevenue},`
+
+        +
+
+        `${calc.totalCost},`
+
+        +
 
         `${calc.gop}\n`;
 
@@ -458,16 +474,16 @@ function exportReportCSV() {
   );
 
 
+
   const blob =
     new Blob(
       [csv],
       {
-
         type:
           "text/csv"
-
       }
     );
+
 
 
   const url =
@@ -476,31 +492,27 @@ function exportReportCSV() {
     );
 
 
+
   const link =
     document.createElement(
       "a"
     );
 
 
+
   link.href =
     url;
 
 
+
   link.download =
+
     `skybar-report-${reportYear}-${reportMonth}.csv`;
 
-
-  document.body.appendChild(
-    link
-  );
 
 
   link.click();
 
-
-  document.body.removeChild(
-    link
-  );
 
 
   URL.revokeObjectURL(
@@ -512,10 +524,10 @@ function exportReportCSV() {
 
 
 // ======================
-// HELPERS
+// HELPER
 // ======================
 
-function updateText(
+function setText(
   id,
   value
 ) {
@@ -526,23 +538,14 @@ function updateText(
     );
 
 
-  if(
+
+  if (
     !el
   ) return;
+
 
 
   el.innerHTML =
     value;
 
 }
-
-
-
-// ======================
-// START
-// ======================
-
-document.addEventListener(
-  "DOMContentLoaded",
-  initReportsPage
-);
