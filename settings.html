@@ -17,9 +17,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <link
-  rel="stylesheet"
-  href="assets/css/main.css"
-/>
+    rel="stylesheet"
+    href="assets/css/main.css"
+  />
 
 </head>
 
@@ -80,6 +80,7 @@
     <main class="flex-1 p-6">
 
 
+      <!-- HEADER -->
       <div class="mb-6">
 
         <h2 class="text-3xl font-bold">
@@ -94,105 +95,258 @@
 
 
 
+      <!-- SETTINGS PANEL -->
       <div
-        class="bg-white rounded-2xl p-6 shadow"
+        class="max-w-5xl bg-white rounded-2xl p-6 shadow"
       >
 
 
         <form
           id="settingsForm"
-          class="grid md:grid-cols-2 gap-4"
+          class="space-y-8"
         >
 
 
-          <!-- OUTLET -->
-          <input
-            id="outletName"
-            type="text"
-            placeholder="Outlet Name"
-            class="border rounded-xl px-4 py-3"
-          />
+          <!-- BUSINESS PROFILE -->
+          <section>
+
+            <h3
+              class="text-lg font-bold mb-4"
+            >
+              Business Profile
+            </h3>
 
 
-          <!-- CURRENCY -->
-          <select
-            id="currency"
-            class="border rounded-xl px-4 py-3"
+            <div
+              class="grid md:grid-cols-2 gap-4"
+            >
+
+
+              <div>
+
+                <label
+                  class="block text-sm font-medium mb-2"
+                >
+                  Outlet Name
+                </label>
+
+                <input
+                  id="outletName"
+                  type="text"
+                  class="w-full border rounded-xl px-4 py-3"
+                />
+
+              </div>
+
+
+
+              <div>
+
+                <label
+                  class="block text-sm font-medium mb-2"
+                >
+                  Currency
+                </label>
+
+                <select
+                  id="currency"
+                  class="w-full border rounded-xl px-4 py-3"
+                >
+
+                  <option value="RM">
+                    RM
+                  </option>
+
+                  <option value="USD">
+                    USD
+                  </option>
+
+                </select>
+
+              </div>
+
+
+            </div>
+
+          </section>
+
+
+
+          <!-- ANNUAL TARGETS -->
+          <section>
+
+            <h3
+              class="text-lg font-bold mb-4"
+            >
+              Annual Targets
+            </h3>
+
+
+            <div
+              class="grid md:grid-cols-2 gap-4"
+            >
+
+
+              <div>
+
+                <label
+                  class="block text-sm font-medium mb-2"
+                >
+                  Annual Revenue Target
+                </label>
+
+                <input
+                  id="annualRevenueTarget"
+                  type="number"
+                  class="w-full border rounded-xl px-4 py-3"
+                />
+
+              </div>
+
+
+
+              <div>
+
+                <label
+                  class="block text-sm font-medium mb-2"
+                >
+                  Annual GOP Target
+                </label>
+
+                <input
+                  id="annualGopTarget"
+                  type="number"
+                  class="w-full border rounded-xl px-4 py-3"
+                />
+
+              </div>
+
+
+            </div>
+
+          </section>
+
+
+
+          <!-- MONTHLY COST TARGETS -->
+          <section>
+
+            <h3
+              class="text-lg font-bold mb-4"
+            >
+              Monthly Cost Targets
+            </h3>
+
+
+            <div
+              class="grid md:grid-cols-3 gap-4"
+            >
+
+
+              <div>
+
+                <label
+                  class="block text-sm font-medium mb-2"
+                >
+                  Food Cost %
+                </label>
+
+                <input
+                  id="foodCostTarget"
+                  type="number"
+                  class="w-full border rounded-xl px-4 py-3"
+                />
+
+              </div>
+
+
+
+              <div>
+
+                <label
+                  class="block text-sm font-medium mb-2"
+                >
+                  Beverage Cost %
+                </label>
+
+                <input
+                  id="beverageCostTarget"
+                  type="number"
+                  class="w-full border rounded-xl px-4 py-3"
+                />
+
+              </div>
+
+
+
+              <div>
+
+                <label
+                  class="block text-sm font-medium mb-2"
+                >
+                  Fixed Cost %
+                </label>
+
+                <input
+                  id="fixedCostTarget"
+                  type="number"
+                  class="w-full border rounded-xl px-4 py-3"
+                />
+
+              </div>
+
+
+            </div>
+
+          </section>
+
+
+
+          <!-- SECURITY -->
+          <section>
+
+            <h3
+              class="text-lg font-bold mb-4"
+            >
+              Security
+            </h3>
+
+
+            <div
+              class="max-w-sm"
+            >
+
+              <label
+                class="block text-sm font-medium mb-2"
+              >
+                PIN Access
+              </label>
+
+              <input
+                id="pinCode"
+                type="password"
+                class="w-full border rounded-xl px-4 py-3"
+              />
+
+            </div>
+
+          </section>
+
+
+
+          <!-- ACTION -->
+          <div
+            class="flex justify-end"
           >
 
-            <option value="RM">
-              RM
-            </option>
+            <button
+              type="submit"
+              class="bg-slate-900 text-white px-8 py-3 rounded-xl"
+            >
+              Save Settings
+            </button>
 
-            <option value="USD">
-              USD
-            </option>
-
-          </select>
-
-
-
-          <!-- ANNUAL TARGET -->
-          <input
-            id="annualRevenueTarget"
-            type="number"
-            placeholder="Annual Revenue Target"
-            class="border rounded-xl px-4 py-3"
-          />
-
-
-          <input
-            id="annualGopTarget"
-            type="number"
-            placeholder="Annual GOP Target"
-            class="border rounded-xl px-4 py-3"
-          />
-
-
-
-          <!-- COST TARGET -->
-          <input
-            id="foodCostTarget"
-            type="number"
-            placeholder="Food Cost Target %"
-            class="border rounded-xl px-4 py-3"
-          />
-
-
-          <input
-            id="beverageCostTarget"
-            type="number"
-            placeholder="Beverage Cost Target %"
-            class="border rounded-xl px-4 py-3"
-          />
-
-
-          <input
-            id="fixedCostTarget"
-            type="number"
-            placeholder="Fixed Cost Target %"
-            class="border rounded-xl px-4 py-3"
-          />
-
-
-
-          <!-- PIN -->
-          <input
-            id="pinCode"
-            type="password"
-            placeholder="PIN Security"
-            class="border rounded-xl px-4 py-3"
-          />
-
-
-
-          <!-- SAVE -->
-          <button
-            type="submit"
-            class="bg-slate-900 text-white py-3 rounded-xl md:col-span-2"
-          >
-            Save Settings
-          </button>
+          </div>
 
 
         </form>
@@ -207,6 +361,7 @@
 
 
 
+  <!-- SCRIPT -->
   <script src="assets/js/settings.js"></script>
 
 </body>
