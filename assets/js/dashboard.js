@@ -446,8 +446,7 @@ function renderKPI(
 
   updateKPIPercent(
     "kpiAnnualGopTarget",
-    gopAchievement;
-
+    gopAchievement
   );
 
 }
