@@ -30,7 +30,7 @@
 
 
     <!-- SIDEBAR -->
-    <aside class="w-64 bg-slate-900 text-white p-5">
+    <aside class="w-64 bg-slate-950 text-white p-5">
 
       <h1 class="text-2xl font-bold mb-8">
         SKYBAR
@@ -81,18 +81,18 @@
 
 
     <!-- MAIN -->
-    <main class="flex-1 p-6">
+    <main class="flex-1 p-6 space-y-6">
 
 
       <!-- HEADER -->
-      <div class="mb-6">
+      <div>
 
         <h2 class="text-3xl font-bold">
           Finance Settings
         </h2>
 
         <p class="text-slate-500">
-          Manage finance targets, cost benchmarks and backup
+          Manage targets, costs, benchmark and data tools
         </p>
 
       </div>
@@ -100,14 +100,15 @@
 
 
       <!-- SETTINGS FORM -->
-      <div class="bg-white rounded-2xl shadow p-6">
-
+      <section class="bg-white rounded-2xl p-6 shadow">
 
         <form
           id="settingsForm"
-          class="grid md:grid-cols-2 gap-4"
+          class="grid xl:grid-cols-2 gap-4"
         >
 
+
+          <!-- BASIC -->
           <input
             id="outletName"
             type="text"
@@ -132,6 +133,8 @@
           </select>
 
 
+
+          <!-- TARGET -->
           <input
             id="annualRevenueTarget"
             type="number"
@@ -156,10 +159,12 @@
           />
 
 
+
+          <!-- COST -->
           <input
             id="foodCostPercent"
             type="number"
-            placeholder="Monthly Food Cost %"
+            placeholder="Food Cost %"
             class="border rounded-xl p-3"
           />
 
@@ -167,7 +172,7 @@
           <input
             id="beverageCostPercent"
             type="number"
-            placeholder="Monthly Beverage Cost %"
+            placeholder="Beverage Cost %"
             class="border rounded-xl p-3"
           />
 
@@ -175,45 +180,54 @@
           <input
             id="fixCostPercent"
             type="number"
-            placeholder="Monthly Fix Cost %"
+            placeholder="Fix Cost %"
+            class="border rounded-xl p-3"
+          />
+
+
+
+          <!-- LY BASELINE -->
+          <input
+            id="lyFoodRevenue"
+            type="number"
+            placeholder="LY Food Revenue"
             class="border rounded-xl p-3"
           />
 
 
           <input
-            id="systemPin"
-            type="password"
-            placeholder="System PIN"
+            id="lyBeverageRevenue"
+            type="number"
+            placeholder="LY Beverage Revenue"
             class="border rounded-xl p-3"
           />
 
-
-          <div></div>
 
 
           <!-- SAVE -->
           <button
             type="submit"
-            class="col-span-2 bg-slate-900 text-white rounded-xl p-4 font-semibold"
+            class="xl:col-span-2 bg-slate-900 text-white rounded-xl p-4 font-semibold"
           >
             Save Settings
           </button>
 
+
         </form>
 
-      </div>
+      </section>
 
 
 
-      <!-- BACKUP -->
-      <div class="bg-white rounded-2xl shadow p-6 mt-6">
+      <!-- DATA TOOLS -->
+      <section class="bg-white rounded-2xl p-6 shadow">
 
         <h3 class="text-xl font-bold mb-4">
-          Backup & Restore
+          Data Management
         </h3>
 
 
-        <div class="grid md:grid-cols-2 gap-4">
+        <div class="grid xl:grid-cols-3 gap-4">
 
 
           <button
@@ -224,6 +238,7 @@
           </button>
 
 
+
           <label
             class="bg-blue-600 text-white rounded-xl p-4 font-semibold text-center cursor-pointer"
           >
@@ -232,16 +247,26 @@
 
             <input
               type="file"
+              hidden
               accept=".json"
               onchange="handleBackupUpload(this)"
-              hidden
             />
 
           </label>
 
+
+
+          <button
+            onclick="resetAllData()"
+            class="bg-red-600 text-white rounded-xl p-4 font-semibold"
+          >
+            Reset Data
+          </button>
+
+
         </div>
 
-      </div>
+      </section>
 
 
     </main>
