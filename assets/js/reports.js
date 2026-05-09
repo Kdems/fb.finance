@@ -5,55 +5,43 @@ let reportMonth =
   new Date().getMonth() + 1;
 
 
-// ======================
-// ELEMENTS
-// ======================
-
-const reportYearFilter =
-  document.getElementById(
-    "reportYearFilter"
-  );
-
-const reportMonthFilter =
-  document.getElementById(
-    "reportMonthFilter"
-  );
-
-const reportTableBody =
-  document.getElementById(
-    "reportTableBody"
-  );
-
 
 // ======================
 // INIT
 // ======================
 
-function initReports() {
+function initReportsPage() {
 
-  populateReportYears();
+  populateYearFilter();
 
-  populateReportMonths();
+  populateMonthFilter();
 
-  bindReportEvents();
+  bindFilters();
 
-  renderReports();
+  renderReport();
 
 }
+
 
 
 // ======================
 // FILTERS
 // ======================
 
-function populateReportYears() {
+function populateYearFilter() {
+
+  const select =
+    document.getElementById(
+      "reportYear"
+    );
+
 
   if(
-    !reportYearFilter
+    !select
   ) return;
 
 
-  reportYearFilter.innerHTML =
+  select.innerHTML =
     "";
 
 
@@ -68,8 +56,10 @@ function populateReportYears() {
         "option"
       );
 
+
     option.value =
       year;
+
 
     option.textContent =
       year;
@@ -85,7 +75,7 @@ function populateReportYears() {
     }
 
 
-    reportYearFilter.appendChild(
+    select.appendChild(
       option
     );
 
@@ -94,14 +84,20 @@ function populateReportYears() {
 }
 
 
-function populateReportMonths() {
+function populateMonthFilter() {
+
+  const select =
+    document.getElementById(
+      "reportMonth"
+    );
+
 
   if(
-    !reportMonthFilter
+    !select
   ) return;
 
 
-  reportMonthFilter.innerHTML =
+  select.innerHTML =
     "";
 
 
@@ -116,8 +112,10 @@ function populateReportMonths() {
         "option"
       );
 
+
     option.value =
       month;
+
 
     option.textContent =
       month;
@@ -133,7 +131,7 @@ function populateReportMonths() {
     }
 
 
-    reportMonthFilter.appendChild(
+    select.appendChild(
       option
     );
 
@@ -142,31 +140,64 @@ function populateReportMonths() {
 }
 
 
+
 // ======================
 // EVENTS
 // ======================
 
-function bindReportEvents() {
+function bindFilters() {
+
+  const year =
+    document.getElementById(
+      "reportYear"
+    );
+
+
+  const month =
+    document.getElementById(
+      "reportMonth"
+    );
+
 
   if(
-    reportYearFilter
+    year
   ) {
 
-    reportYearFilter.addEventListener(
+    year.addEventListener(
       "change",
-      handleFilterChange
+      function() {
+
+        reportYear =
+          Number(
+            this.value
+          );
+
+
+        renderReport();
+
+      }
     );
 
   }
 
 
   if(
-    reportMonthFilter
+    month
   ) {
 
-    reportMonthFilter.addEventListener(
+    month.addEventListener(
       "change",
-      handleFilterChange
+      function() {
+
+        reportMonth =
+          Number(
+            this.value
+          );
+
+
+        renderReport();
+
+      }
     );
 
   }
@@ -174,30 +205,12 @@ function bindReportEvents() {
 }
 
 
-function handleFilterChange() {
-
-  reportYear =
-    Number(
-      reportYearFilter.value
-    );
-
-
-  reportMonth =
-    Number(
-      reportMonthFilter.value
-    );
-
-
-  renderReports();
-
-}
-
 
 // ======================
-// RENDER
+// MAIN
 // ======================
 
-function renderReports() {
+function renderReport() {
 
   const entries =
     filterEntries(
@@ -212,8 +225,58 @@ function renderReports() {
     );
 
 
-  renderReportKPI(
-    summary
+  const settings =
+    getSettings();
+
+
+  const monthlyBudget =
+    Number(
+      settings.monthlyBudget || 0
+    );
+
+
+  const achievement =
+    monthlyBudget > 0
+      ? (
+          summary.totalRevenue /
+          monthlyBudget
+        ) * 100
+      : 0;
+
+
+  updateText(
+    "reportRevenue",
+    formatMoney(
+      summary.totalRevenue
+    )
+  );
+
+
+  updateText(
+    "reportBudget",
+    formatMoney(
+      monthlyBudget
+    )
+  );
+
+
+  updateText(
+    "reportAchievement",
+    `${achievement.toFixed(2)}%`
+  );
+
+
+  updateText(
+    "reportGop",
+    formatMoney(
+      summary.totalGop
+    )
+  );
+
+
+  updateText(
+    "reportMargin",
+    `${summary.gopMargin.toFixed(2)}%`
   );
 
 
@@ -224,100 +287,6 @@ function renderReports() {
 }
 
 
-// ======================
-// KPI
-// ======================
-
-function renderReportKPI(
-  summary
-) {
-
-  const settings =
-    getSettings();
-
-  const currency =
-    settings.currency ||
-    "RM";
-
-
-  updateMoney(
-    "reportTotalRevenue",
-    summary.totalRevenue,
-    currency
-  );
-
-
-  updateMoney(
-    "reportTotalCost",
-    summary.totalCost,
-    currency
-  );
-
-
-  updateMoney(
-    "reportTotalGop",
-    summary.totalGop,
-    currency
-  );
-
-
-  updatePercent(
-    "reportGopMargin",
-    summary.gopMargin
-  );
-
-
-  updateMoney(
-    "reportBudgetVariance",
-    summary.budgetVariance,
-    currency
-  );
-
-}
-
-
-function updateMoney(
-  elementId,
-  value,
-  currency
-) {
-
-  const element =
-    document.getElementById(
-      elementId
-    );
-
-  if(
-    !element
-  ) return;
-
-
-  element.textContent =
-    `${currency}${value.toFixed(2)}`;
-
-}
-
-
-function updatePercent(
-  elementId,
-  value
-) {
-
-  const element =
-    document.getElementById(
-      elementId
-    );
-
-  if(
-    !element
-  ) return;
-
-
-  element.textContent =
-    `${value.toFixed(2)}%`;
-
-}
-
 
 // ======================
 // TABLE
@@ -327,27 +296,58 @@ function renderReportTable(
   entries
 ) {
 
+  const tbody =
+    document.getElementById(
+      "reportTableBody"
+    );
+
+
   if(
-    !reportTableBody
+    !tbody
   ) return;
 
 
-  reportTableBody.innerHTML =
+  tbody.innerHTML =
     "";
 
 
-  const settings =
-    getSettings();
+  if(
+    entries.length === 0
+  ) {
 
-  const currency =
-    settings.currency ||
-    "RM";
+    tbody.innerHTML =
+      `
+      <tr>
+        <td colspan="6" class="py-4 text-center text-slate-400">
+          No data found
+        </td>
+      </tr>
+      `;
+
+    return;
+
+  }
 
 
-  entries.forEach(
+  const sorted =
+    [...entries].sort(
+      (
+        a,
+        b
+      ) =>
+        new Date(
+          a.date
+        ) -
+        new Date(
+          b.date
+        )
+    );
+
+
+  sorted.forEach(
     entry => {
 
-      const calculated =
+      const calc =
         calculateEntryMetrics(
           entry
         );
@@ -359,42 +359,39 @@ function renderReportTable(
         );
 
 
-      row.innerHTML = `
-        <td class="py-4">
+      row.className =
+        "border-b";
+
+
+      row.innerHTML =
+        `
+        <td class="py-3">
           ${entry.date}
         </td>
 
         <td>
-          ${currency}${entry.foodRevenue.toFixed(2)}
+          ${formatMoney(entry.foodRevenue)}
         </td>
 
         <td>
-          ${currency}${entry.beverageRevenue.toFixed(2)}
+          ${formatMoney(entry.beverageRevenue)}
         </td>
 
         <td>
-          ${currency}${calculated.totalRevenue.toFixed(2)}
+          ${formatMoney(calc.totalRevenue)}
         </td>
 
         <td>
-          ${currency}${calculated.totalCost.toFixed(2)}
+          ${formatMoney(calc.totalCost)}
         </td>
 
         <td>
-          ${currency}${calculated.gop.toFixed(2)}
+          ${formatMoney(calc.gop)}
         </td>
-
-        <td>
-          ${currency}${entry.dailyBudget.toFixed(2)}
-        </td>
-
-        <td>
-          ${currency}${calculated.budgetVariance.toFixed(2)}
-        </td>
-      `;
+        `;
 
 
-      reportTableBody.appendChild(
+      tbody.appendChild(
         row
       );
 
@@ -404,15 +401,32 @@ function renderReportTable(
 }
 
 
+
 // ======================
-// PRINT
+// HELPERS
 // ======================
 
-function printReport() {
+function updateText(
+  id,
+  value
+) {
 
-  window.print();
+  const el =
+    document.getElementById(
+      id
+    );
+
+
+  if(
+    !el
+  ) return;
+
+
+  el.innerHTML =
+    value;
 
 }
+
 
 
 // ======================
@@ -421,5 +435,5 @@ function printReport() {
 
 document.addEventListener(
   "DOMContentLoaded",
-  initReports
+  initReportsPage
 );
