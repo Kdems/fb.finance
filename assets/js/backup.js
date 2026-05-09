@@ -1,98 +1,151 @@
-const BACKUP_FILENAME =
-  "skybar-finance-backup.json";
+const ENTRY_STORAGE_KEY =
+  "skybar_entries";
+
+const SETTINGS_STORAGE_KEY =
+  "skybar_settings";
 
 
 
 // ======================
-// EXPORT
+// DEFAULT SETTINGS
 // ======================
 
-function exportBackup() {
+const BACKUP_DEFAULT_SETTINGS = {
+
+  outletName:
+    "SKYBAR",
+
+
+  currency:
+    "RM",
+
+
+  annualRevenueTarget:
+    0,
+
+
+  annualGopTarget:
+    0,
+
+
+  monthlyBudget:
+    0,
+
+
+  foodCostPercent:
+    35,
+
+
+  beverageCostPercent:
+    25,
+
+
+  fixCostPercent:
+    18,
+
+
+  lyFoodRevenue:
+    0,
+
+
+  lyBeverageRevenue:
+    0
+
+};
+
+
+
+// ======================
+// SETTINGS MIGRATION
+// ======================
+
+function migrateSettingsSchema() {
 
   try {
 
-    const payload = {
-
-      exportedAt:
-        new Date().toISOString(),
-
-
-      version:
-        "1.0",
-
-
-      settings:
-        getSettings(),
-
-
-      entries:
-        getEntries(),
-
-
-      reviews:
-        getStoredReviews()
-
-    };
-
-
-    const blob =
-      new Blob(
-        [
-          JSON.stringify(
-            payload,
-            null,
-            2
-          )
-        ],
-        {
-
-          type:
-            "application/json"
-
-        }
+    const raw =
+      localStorage.getItem(
+        SETTINGS_STORAGE_KEY
       );
 
 
-    const url =
-      URL.createObjectURL(
-        blob
+    if(
+      !raw
+    ) {
+
+      localStorage.setItem(
+        SETTINGS_STORAGE_KEY,
+        JSON.stringify(
+          BACKUP_DEFAULT_SETTINGS
+        )
+      );
+
+      return;
+
+    }
+
+
+    const oldSettings =
+      JSON.parse(
+        raw
       );
 
 
-    const link =
-      document.createElement(
-        "a"
-      );
+    const repaired =
+      {
+
+        ...BACKUP_DEFAULT_SETTINGS,
+
+        ...oldSettings
+
+      };
 
 
-    link.href =
-      url;
+    // LEGACY KEY FIX
+    if(
+      oldSettings.foodLyRevenue !==
+      undefined
+    ) {
+
+      repaired.lyFoodRevenue =
+        Number(
+          oldSettings.foodLyRevenue || 0
+        );
+
+    }
 
 
-    link.download =
-      BACKUP_FILENAME;
+    if(
+      oldSettings.beverageLyRevenue !==
+      undefined
+    ) {
+
+      repaired.lyBeverageRevenue =
+        Number(
+          oldSettings.beverageLyRevenue || 0
+        );
+
+    }
 
 
-    document.body.appendChild(
-      link
-    );
+    if(
+      oldSettings.fixedCostPercent !==
+      undefined
+    ) {
+
+      repaired.fixCostPercent =
+        Number(
+          oldSettings.fixedCostPercent || 0
+        );
+
+    }
 
 
-    link.click();
-
-
-    document.body.removeChild(
-      link
-    );
-
-
-    URL.revokeObjectURL(
-      url
-    );
-
-
-    alert(
-      "Backup exported successfully."
+    localStorage.setItem(
+      SETTINGS_STORAGE_KEY,
+      JSON.stringify(
+        repaired
+      )
     );
 
   }
@@ -102,12 +155,16 @@ function exportBackup() {
   ) {
 
     console.error(
+      "Migration error:",
       error
     );
 
 
-    alert(
-      "Backup failed."
+    localStorage.setItem(
+      SETTINGS_STORAGE_KEY,
+      JSON.stringify(
+        BACKUP_DEFAULT_SETTINGS
+      )
     );
 
   }
@@ -117,22 +174,113 @@ function exportBackup() {
 
 
 // ======================
-// RESTORE
+// EXPORT
+// ======================
+
+function exportBackup() {
+
+  migrateSettingsSchema();
+
+
+  const entries =
+    JSON.parse(
+      localStorage.getItem(
+        ENTRY_STORAGE_KEY
+      ) || "[]"
+    );
+
+
+  const settings =
+    JSON.parse(
+      localStorage.getItem(
+        SETTINGS_STORAGE_KEY
+      ) || "{}"
+    );
+
+
+  const payload =
+    {
+
+      version:
+        "2.0",
+
+
+      exportedAt:
+        new Date().toISOString(),
+
+
+      entries:
+        entries,
+
+
+      settings:
+        settings
+
+    };
+
+
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          payload,
+          null,
+          2
+        )
+      ],
+      {
+        type:
+          "application/json"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+
+  a.href =
+    url;
+
+
+  a.download =
+    `skybar-backup-${Date.now()}.json`;
+
+
+  a.click();
+
+
+  URL.revokeObjectURL(
+    url
+  );
+
+}
+
+
+
+// ======================
+// IMPORT
 // ======================
 
 function handleBackupUpload(
   input
 ) {
 
-  if(
-    !input ||
-    !input.files ||
-    !input.files[0]
-  ) return;
-
-
   const file =
     input.files[0];
+
+
+  if(
+    !file
+  ) return;
 
 
   const reader =
@@ -141,57 +289,41 @@ function handleBackupUpload(
 
   reader.onload =
     function(
-      event
+      e
     ) {
 
       try {
 
         const data =
           JSON.parse(
-            event.target.result
+            e.target.result
           );
 
 
-        if(
-          data.entries
-        ) {
-
-          localStorage.setItem(
-            "skybar.finance.entries.v1",
-            JSON.stringify(
-              data.entries
-            )
-          );
-
-        }
+        localStorage.setItem(
+          ENTRY_STORAGE_KEY,
+          JSON.stringify(
+            data.entries || []
+          )
+        );
 
 
-        if(
-          data.reviews
-        ) {
+        const repairedSettings =
+          {
 
-          localStorage.setItem(
-            "skybar.operating.review.v1",
-            JSON.stringify(
-              data.reviews
-            )
-          );
+            ...BACKUP_DEFAULT_SETTINGS,
 
-        }
+            ...(data.settings || {})
+
+          };
 
 
-        if(
-          data.settings
-        ) {
-
-          localStorage.setItem(
-            "skybar.finance.settings.v1",
-            JSON.stringify(
-              data.settings
-            )
-          );
-
-        }
+        localStorage.setItem(
+          SETTINGS_STORAGE_KEY,
+          JSON.stringify(
+            repairedSettings
+          )
+        );
 
 
         alert(
@@ -206,11 +338,6 @@ function handleBackupUpload(
       catch(
         error
       ) {
-
-        console.error(
-          error
-        );
-
 
         alert(
           "Invalid backup file."
@@ -230,34 +357,37 @@ function handleBackupUpload(
 
 
 // ======================
-// RESET DATA
+// RESET
 // ======================
 
 function resetAllData() {
 
-  const confirmed =
+  const confirmReset =
     confirm(
-      "Delete all finance data?"
+      "Reset all finance data?"
     );
 
 
   if(
-    !confirmed
+    !confirmReset
   ) return;
 
 
   localStorage.removeItem(
-    "skybar.finance.entries.v1"
+    ENTRY_STORAGE_KEY
   );
 
 
-  localStorage.removeItem(
-    "skybar.operating.review.v1"
+  localStorage.setItem(
+    SETTINGS_STORAGE_KEY,
+    JSON.stringify(
+      BACKUP_DEFAULT_SETTINGS
+    )
   );
 
 
   alert(
-    "All operational data deleted. Settings kept."
+    "System reset completed."
   );
 
 
@@ -268,40 +398,14 @@ function resetAllData() {
 
 
 // ======================
-// REVIEW FALLBACK
+// AUTO FIX ON LOAD
 // ======================
 
-function getStoredReviews() {
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
 
-  try {
-
-    const saved =
-      localStorage.getItem(
-        "skybar.operating.review.v1"
-      );
-
-
-    if(
-      !saved
-    ) {
-
-      return [];
-
-    }
-
-
-    return JSON.parse(
-      saved
-    );
+    migrateSettingsSchema();
 
   }
-
-  catch(
-    error
-  ) {
-
-    return [];
-
-  }
-
-}
+);
