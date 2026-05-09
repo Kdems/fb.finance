@@ -4,7 +4,6 @@ let selectedYear =
 let selectedMonth =
   new Date().getMonth() + 1;
 
-
 let editingEntryId =
   null;
 
@@ -327,7 +326,7 @@ function handleFilterChange() {
 
 
 // ======================
-// DASHBOARD
+// MAIN
 // ======================
 
 function renderDashboard() {
@@ -390,7 +389,7 @@ function renderDashboard() {
 
 
 // ======================
-// KPI
+// YTD
 // ======================
 
 function renderYtd(
@@ -440,10 +439,70 @@ function renderYtd(
 }
 
 
+// ======================
+// MTD
+// ======================
+
 function renderMtd(
   current,
   ly
 ) {
+
+  const settings =
+    getSettings();
+
+
+  const today =
+    new Date();
+
+
+  const daysInMonth =
+    new Date(
+      selectedYear,
+      selectedMonth,
+      0
+    ).getDate();
+
+
+  let daysElapsed =
+    daysInMonth;
+
+
+  if(
+    selectedYear ===
+      today.getFullYear() &&
+    selectedMonth ===
+      today.getMonth() + 1
+  ) {
+
+    daysElapsed =
+      today.getDate();
+
+  }
+
+
+  const daysLeft =
+    daysInMonth -
+    daysElapsed;
+
+
+  const dailyPace =
+    current.totalRevenue /
+    Math.max(
+      daysElapsed,
+      1
+    );
+
+
+  const projection =
+    dailyPace *
+    daysInMonth;
+
+
+  const gap =
+    projection -
+    settings.monthlyBudget;
+
 
   const growth =
     calculateGrowth(
@@ -466,8 +525,43 @@ function renderMtd(
     growth
   );
 
+
+  setSmartCard(
+    "daysLeftCard",
+    `${daysLeft} Days`
+  );
+
+
+  setSmartCard(
+    "dailyPaceCard",
+    formatMoney(
+      dailyPace
+    )
+  );
+
+
+  setSmartCard(
+    "projectionCard",
+    formatMoney(
+      projection
+    )
+  );
+
+
+  setSmartCard(
+    "gapToTargetCard",
+    formatMoney(
+      gap
+    ),
+    gap
+  );
+
 }
 
+
+// ======================
+// GOP
+// ======================
 
 function renderGop(
   current,
@@ -497,6 +591,10 @@ function renderGop(
 
 }
 
+
+// ======================
+// F&B
+// ======================
 
 function renderFoodBeverage(
   current,
@@ -548,6 +646,10 @@ function renderFoodBeverage(
 
 }
 
+
+// ======================
+// SUMMARY
+// ======================
 
 function renderSummary(
   current
@@ -603,10 +705,6 @@ function calculateGrowth(
 }
 
 
-// ======================
-// FULL FINANCE FORMAT
-// ======================
-
 function formatMoney(
   amount
 ) {
@@ -616,7 +714,8 @@ function formatMoney(
 
 
   const currency =
-    settings.currency || "RM";
+    settings.currency ||
+    "RM";
 
 
   const negative =
@@ -629,7 +728,7 @@ function formatMoney(
     );
 
 
-  let formatted =
+  const formatted =
     amount.toLocaleString(
       undefined,
       {
@@ -656,10 +755,6 @@ function formatMoney(
 }
 
 
-// ======================
-// COLORS
-// ======================
-
 function getTheme(
   metric
 ) {
@@ -678,6 +773,15 @@ function getTheme(
   ) {
 
     return "bg-yellow-50 text-yellow-700";
+
+  }
+
+
+  if(
+    metric >= 0
+  ) {
+
+    return "bg-green-50 text-green-700";
 
   }
 
