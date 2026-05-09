@@ -1,5 +1,7 @@
 let selectedYear = new Date().getFullYear();
-let selectedMonth = new Date().getMonth() + 1;
+
+let selectedMonth =
+  new Date().getMonth() + 1;
 
 
 // ======================
@@ -7,13 +9,19 @@ let selectedMonth = new Date().getMonth() + 1;
 // ======================
 
 const yearFilter =
-  document.getElementById("yearFilter");
+  document.getElementById(
+    "yearFilter"
+  );
 
 const monthFilter =
-  document.getElementById("monthFilter");
+  document.getElementById(
+    "monthFilter"
+  );
 
 const entryForm =
-  document.getElementById("entryForm");
+  document.getElementById(
+    "entryForm"
+  );
 
 const tableBody =
   document.getElementById(
@@ -55,13 +63,24 @@ function populateYearFilter() {
   ) {
 
     const option =
-      document.createElement("option");
+      document.createElement(
+        "option"
+      );
 
-    option.value = year;
-    option.textContent = year;
+    option.value =
+      year;
 
-    if(year === selectedYear) {
-      option.selected = true;
+    option.textContent =
+      year;
+
+    if(
+      year ===
+      selectedYear
+    ) {
+
+      option.selected =
+        true;
+
     }
 
     yearFilter.appendChild(
@@ -86,13 +105,24 @@ function populateMonthFilter() {
   ) {
 
     const option =
-      document.createElement("option");
+      document.createElement(
+        "option"
+      );
 
-    option.value = month;
-    option.textContent = month;
+    option.value =
+      month;
 
-    if(month === selectedMonth) {
-      option.selected = true;
+    option.textContent =
+      month;
+
+    if(
+      month ===
+      selectedMonth
+    ) {
+
+      option.selected =
+        true;
+
     }
 
     monthFilter.appendChild(
@@ -161,7 +191,9 @@ function handleFilterChange() {
 // SAVE ENTRY
 // ======================
 
-function handleSaveEntry(e) {
+function handleSaveEntry(
+  e
+) {
 
   e.preventDefault();
 
@@ -216,7 +248,10 @@ function handleSaveEntry(e) {
 
   };
 
-  addEntry(entry);
+
+  addEntry(
+    entry
+  );
 
   entryForm.reset();
 
@@ -237,16 +272,26 @@ function renderDashboard() {
       selectedMonth
     );
 
+
   const summary =
     calculatePeriodSummary(
       entries
     );
 
-  renderKPI(summary);
 
-  renderTable(entries);
+  renderKPI(
+    summary
+  );
 
-  renderCharts(entries);
+
+  renderTable(
+    entries
+  );
+
+
+  renderCharts(
+    entries
+  );
 
 }
 
@@ -255,27 +300,111 @@ function renderDashboard() {
 // KPI
 // ======================
 
-function renderKPI(summary) {
+function renderKPI(
+  summary
+) {
 
-  updateKPI(
+  const settings =
+    getSettings();
+
+
+  const currency =
+    settings.currency ||
+    "RM";
+
+
+  updateKPIValue(
     "kpiMtdRevenue",
-    summary.totalRevenue
+    summary.totalRevenue,
+    currency
   );
 
-  updateKPI(
+
+  updateKPIValue(
     "kpiGop",
-    summary.totalGop
+    summary.totalGop,
+    currency
   );
 
-  updateKPI(
+
+  updateKPIValue(
     "kpiBudgetVariance",
-    summary.budgetVariance
+    summary.budgetVariance,
+    currency
+  );
+
+
+  // Annual Target Achievement
+
+  const revenueAchievement =
+    calculateAchievement(
+      summary.totalRevenue,
+      settings.annualRevenueTarget
+    );
+
+
+  const gopAchievement =
+    calculateAchievement(
+      summary.totalGop,
+      settings.annualGopTarget
+    );
+
+
+  updateKPIPercent(
+    "kpiAnnualRevenueTarget",
+    revenueAchievement
+  );
+
+
+  updateKPIPercent(
+    "kpiAnnualGopTarget",
+    gopAchievement
   );
 
 }
 
 
-function updateKPI(
+function calculateAchievement(
+  current,
+  target
+) {
+
+  if(
+    !target ||
+    target <= 0
+  ) {
+
+    return 0;
+
+  }
+
+  return (
+    current / target
+  ) * 100;
+
+}
+
+
+function updateKPIValue(
+  elementId,
+  value,
+  currency
+) {
+
+  const element =
+    document.getElementById(
+      elementId
+    );
+
+  if(!element) return;
+
+  element.textContent =
+    `${currency}${value.toFixed(2)}`;
+
+}
+
+
+function updateKPIPercent(
   elementId,
   value
 ) {
@@ -288,7 +417,7 @@ function updateKPI(
   if(!element) return;
 
   element.textContent =
-    `RM${value.toFixed(2)}`;
+    `${value.toFixed(2)}%`;
 
 }
 
@@ -297,57 +426,74 @@ function updateKPI(
 // TABLE
 // ======================
 
-function renderTable(entries) {
+function renderTable(
+  entries
+) {
 
   if(!tableBody) return;
 
-  tableBody.innerHTML = "";
+  tableBody.innerHTML =
+    "";
 
-  entries.forEach(entry => {
 
-    const calculated =
-      calculateEntryMetrics(
-        entry
+  const settings =
+    getSettings();
+
+  const currency =
+    settings.currency ||
+    "RM";
+
+
+  entries.forEach(
+    entry => {
+
+      const calculated =
+        calculateEntryMetrics(
+          entry
+        );
+
+
+      const row =
+        document.createElement(
+          "tr"
+        );
+
+
+      row.innerHTML = `
+        <td>${entry.date}</td>
+
+        <td>
+          ${currency}${calculated.totalRevenue.toFixed(2)}
+        </td>
+
+        <td>
+          ${currency}${calculated.totalCost.toFixed(2)}
+        </td>
+
+        <td>
+          ${currency}${calculated.gop.toFixed(2)}
+        </td>
+
+        <td>
+          <button onclick="editEntry('${entry.id}')">
+            Edit
+          </button>
+        </td>
+
+        <td>
+          <button onclick="removeEntry('${entry.id}')">
+            Delete
+          </button>
+        </td>
+      `;
+
+
+      tableBody.appendChild(
+        row
       );
 
-    const row =
-      document.createElement(
-        "tr"
-      );
-
-    row.innerHTML = `
-      <td>${entry.date}</td>
-
-      <td>
-        RM${calculated.totalRevenue.toFixed(2)}
-      </td>
-
-      <td>
-        RM${calculated.totalCost.toFixed(2)}
-      </td>
-
-      <td>
-        RM${calculated.gop.toFixed(2)}
-      </td>
-
-      <td>
-        <button onclick="editEntry('${entry.id}')">
-          Edit
-        </button>
-      </td>
-
-      <td>
-        <button onclick="removeEntry('${entry.id}')">
-          Delete
-        </button>
-      </td>
-    `;
-
-    tableBody.appendChild(
-      row
-    );
-
-  });
+    }
+  );
 
 }
 
@@ -356,9 +502,13 @@ function renderTable(entries) {
 // DELETE
 // ======================
 
-function removeEntry(id) {
+function removeEntry(
+  id
+) {
 
-  deleteEntry(id);
+  deleteEntry(
+    id
+  );
 
   renderDashboard();
 
@@ -369,42 +519,53 @@ function removeEntry(id) {
 // EDIT
 // ======================
 
-function editEntry(id) {
+function editEntry(
+  id
+) {
 
   const entry =
-    getEntryById(id);
+    getEntryById(
+      id
+    );
 
   if(!entry) return;
+
 
   document.getElementById(
     "entryDate"
   ).value =
     entry.date;
 
+
   document.getElementById(
     "foodRevenue"
   ).value =
     entry.foodRevenue;
+
 
   document.getElementById(
     "beverageRevenue"
   ).value =
     entry.beverageRevenue;
 
+
   document.getElementById(
     "foodCostPercent"
   ).value =
     entry.foodCostPercent;
+
 
   document.getElementById(
     "beverageCostPercent"
   ).value =
     entry.beverageCostPercent;
 
+
   document.getElementById(
     "fixedCostPercent"
   ).value =
     entry.fixedCostPercent;
+
 
   document.getElementById(
     "dailyBudget"
