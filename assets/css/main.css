@@ -1,64 +1,180 @@
-/* SKYBAR Global Theme */
+/* ======================
+BASE
+====================== */
 
 body {
+  margin: 0;
   background: #f1f5f9;
+  color: #0f172a;
 }
 
 
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
+/* ======================
+SIDEBAR
+====================== */
 
-::-webkit-scrollbar-thumb {
-  background: #94a3b8;
-  border-radius: 999px;
-}
-
-
-/* Sidebar */
 aside {
-  min-height: 100vh;
+  background: #020617;
 }
 
 
-/* Table */
-table th {
+aside a {
+  transition: all 0.2s ease;
+}
+
+
+aside a:hover {
+  transform: translateX(3px);
+}
+
+
+/* ======================
+KPI CARD
+====================== */
+
+.kpi-card {
+
+  background: #f8fafc;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 16px;
+
+  padding: 18px;
+
+  min-height: 100px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  transition: all 0.2s ease;
+
+}
+
+
+.kpi-card:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(
+      15,
+      23,
+      42,
+      0.06
+    );
+
+}
+
+
+.kpi-card p {
+
+  margin: 0;
+
+  font-size: 11px;
+
   font-weight: 600;
-  color: #334155;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.06em;
+
+  color: #64748b;
+
 }
+
+
+.kpi-card h4 {
+
+  margin-top: 10px;
+
+  margin-bottom: 0;
+
+  font-size: 28px;
+
+  font-weight: 700;
+
+  color: #0f172a;
+
+  line-height: 1.1;
+
+  word-break: break-word;
+
+}
+
+
+/* ======================
+SECTION
+====================== */
+
+section {
+
+  border-radius: 20px;
+
+}
+
+
+/* ======================
+TABLE
+====================== */
+
+table th {
+
+  color: #64748b;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+}
+
 
 table td {
-  color: #475569;
+
+  padding-top: 14px;
+
+  padding-bottom: 14px;
+
+  font-size: 14px;
+
 }
 
 
-/* Input */
+/* ======================
+INPUT
+====================== */
+
 input,
-select,
-textarea {
+select {
+
+  font-size: 14px;
+
   outline: none;
+
 }
+
 
 input:focus,
-select:focus,
-textarea:focus {
+select:focus {
+
   border-color: #0f172a;
+
 }
 
 
-/* Button hover */
-button {
-  transition: 0.2s ease;
-}
+/* ======================
+CHART
+====================== */
 
-button:hover {
-  opacity: 0.9;
-}
-
-
-/* Chart */
 canvas {
+
   width: 100% !important;
+
   height: 100% !important;
+
 }
