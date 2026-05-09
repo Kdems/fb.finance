@@ -8,6 +8,7 @@ let mixChart =
   null;
 
 
+
 // ======================
 // MAIN
 // ======================
@@ -16,25 +17,66 @@ function renderCharts(
   entries
 ) {
 
+  const sortedEntries =
+    [...entries].sort(
+      (
+        a,
+        b
+      ) =>
+        new Date(
+          a.date
+        ) -
+        new Date(
+          b.date
+        )
+    );
+
+
   renderRevenueChart(
-    entries
+    sortedEntries
   );
 
 
   renderGopChart(
-    entries
+    sortedEntries
   );
 
 
   renderMixChart(
-    entries
+    sortedEntries
   );
 
 }
 
 
+
 // ======================
-// REVENUE TREND
+// HELPERS
+// ======================
+
+function formatChartDate(
+  rawDate
+) {
+
+  const date =
+    new Date(
+      rawDate
+    );
+
+
+  return String(
+    date.getDate()
+  ).padStart(
+    2,
+    "0"
+  );
+
+}
+
+
+
+// ======================
+// REVENUE
 // ======================
 
 function renderRevenueChart(
@@ -45,6 +87,7 @@ function renderRevenueChart(
     document.getElementById(
       "revenueChart"
     );
+
 
   if(
     !canvas
@@ -63,7 +106,8 @@ function renderRevenueChart(
   const labels =
     [];
 
-  const data =
+
+  const values =
     [];
 
 
@@ -71,21 +115,22 @@ function renderRevenueChart(
     entry => {
 
       labels.push(
-        entry.date
+        formatChartDate(
+          entry.date
+        )
       );
 
 
-      const revenue =
+      values.push(
+
         Number(
           entry.foodRevenue || 0
         ) +
+
         Number(
           entry.beverageRevenue || 0
-        );
+        )
 
-
-      data.push(
-        revenue
       );
 
     }
@@ -105,6 +150,7 @@ function renderRevenueChart(
 
           labels,
 
+
           datasets: [
 
             {
@@ -112,10 +158,19 @@ function renderRevenueChart(
               label:
                 "Revenue",
 
-              data,
+
+              data:
+                values,
+
 
               tension:
-                0.3
+                0.35,
+
+              borderWidth:
+                2,
+
+              fill:
+                false
 
             }
 
@@ -129,8 +184,24 @@ function renderRevenueChart(
           responsive:
             true,
 
+
           maintainAspectRatio:
-            false
+            false,
+
+
+          plugins: {
+
+            legend: {
+
+              display:
+                true,
+
+              position:
+                "top"
+
+            }
+
+          }
 
         }
 
@@ -140,8 +211,9 @@ function renderRevenueChart(
 }
 
 
+
 // ======================
-// GOP TREND
+// GOP
 // ======================
 
 function renderGopChart(
@@ -152,6 +224,7 @@ function renderGopChart(
     document.getElementById(
       "gopChart"
     );
+
 
   if(
     !canvas
@@ -170,7 +243,8 @@ function renderGopChart(
   const labels =
     [];
 
-  const data =
+
+  const values =
     [];
 
 
@@ -178,18 +252,20 @@ function renderGopChart(
     entry => {
 
       labels.push(
-        entry.date
+        formatChartDate(
+          entry.date
+        )
       );
 
 
-      const calculated =
+      const calc =
         calculateEntryMetrics(
           entry
         );
 
 
-      data.push(
-        calculated.gop
+      values.push(
+        calc.gop
       );
 
     }
@@ -209,6 +285,7 @@ function renderGopChart(
 
           labels,
 
+
           datasets: [
 
             {
@@ -216,7 +293,9 @@ function renderGopChart(
               label:
                 "GOP",
 
-              data
+
+              data:
+                values
 
             }
 
@@ -230,8 +309,24 @@ function renderGopChart(
           responsive:
             true,
 
+
           maintainAspectRatio:
-            false
+            false,
+
+
+          plugins: {
+
+            legend: {
+
+              display:
+                true,
+
+              position:
+                "top"
+
+            }
+
+          }
 
         }
 
@@ -241,8 +336,9 @@ function renderGopChart(
 }
 
 
+
 // ======================
-// FOOD VS BEVERAGE
+// MIX
 // ======================
 
 function renderMixChart(
@@ -253,6 +349,7 @@ function renderMixChart(
     document.getElementById(
       "mixChart"
     );
+
 
   if(
     !canvas
@@ -338,8 +435,24 @@ function renderMixChart(
           responsive:
             true,
 
+
           maintainAspectRatio:
-            false
+            false,
+
+
+          plugins: {
+
+            legend: {
+
+              display:
+                true,
+
+              position:
+                "top"
+
+            }
+
+          }
 
         }
 
