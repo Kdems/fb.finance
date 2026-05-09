@@ -53,10 +53,7 @@ function initDashboard() {
 
 function populateYearFilter() {
 
-  if(
-    !yearFilter
-  ) return;
-
+  if(!yearFilter) return;
 
   yearFilter.innerHTML =
     "";
@@ -103,10 +100,7 @@ function populateYearFilter() {
 
 function populateMonthFilter() {
 
-  if(
-    !monthFilter
-  ) return;
-
+  if(!monthFilter) return;
 
   monthFilter.innerHTML =
     "";
@@ -198,7 +192,7 @@ function bindEvents() {
 
 
 // ======================
-// FILTER CHANGE
+// FILTER
 // ======================
 
 function handleFilterChange() {
@@ -352,13 +346,7 @@ function renderYtd(
 
 
   const lyRevenue =
-    Number(
-      settings.lyFoodRevenue || 0
-    ) +
-
-    Number(
-      settings.lyBeverageRevenue || 0
-    );
+    getLyTotalRevenue();
 
 
   const achievement =
@@ -387,7 +375,6 @@ function renderYtd(
     )
   );
 
-
   updateCard(
     "ytdBudgetCard",
     formatMoney(
@@ -395,18 +382,15 @@ function renderYtd(
     )
   );
 
-
   updateCard(
     "ytdAchievementCard",
     `${achievement.toFixed(2)}%`
   );
 
-
   updateCard(
     "ytdGrowthCard",
     `${growth.toFixed(2)}%`
   );
-
 
   updateCard(
     "lyRevenueCard",
@@ -414,7 +398,6 @@ function renderYtd(
       lyRevenue
     )
   );
-
 
   updateCard(
     "ytdVarianceCard",
@@ -445,70 +428,14 @@ function renderMtd(
     );
 
 
-  const lyRevenue =
-    Number(
-      settings.lyFoodRevenue || 0
-    ) +
-
-    Number(
-      settings.lyBeverageRevenue || 0
-    );
-
-
-  const today =
-    new Date();
-
-
-  const daysInMonth =
-    new Date(
-      selectedYear,
-      selectedMonth,
-      0
-    ).getDate();
-
-
-  let daysElapsed =
-    daysInMonth;
-
-
-  if(
-    selectedYear === today.getFullYear() &&
-    selectedMonth === today.getMonth() + 1
-  ) {
-
-    daysElapsed =
-      today.getDate();
-
-  }
-
-
-  const daysLeft =
-    daysInMonth -
-    daysElapsed;
-
-
-  const dailyPace =
-    current.totalRevenue /
-    Math.max(
-      daysElapsed,
-      1
-    );
-
-
-  const projection =
-    dailyPace *
-    daysInMonth;
-
-
-  const gap =
-    projection -
-    monthlyBudget;
+  const lyMonthlyRevenue =
+    getLyTotalRevenue() / 12;
 
 
   const growth =
     calculateGrowth(
       current.totalRevenue,
-      lyRevenue
+      lyMonthlyRevenue
     );
 
 
@@ -519,15 +446,36 @@ function renderMtd(
     );
 
 
-  updateCard("mtdRevenueCard", formatMoney(current.totalRevenue));
-  updateCard("mtdBudgetCard", formatMoney(monthlyBudget));
-  updateCard("mtdGopCard", formatMoney(current.totalGop));
-  updateCard("mtdGrowthCard", `${growth.toFixed(2)}%`);
-  updateCard("mtdAchievementCard", `${achievement.toFixed(2)}%`);
-  updateCard("daysLeftCard", `${daysLeft} Days`);
-  updateCard("dailyPaceCard", formatMoney(dailyPace));
-  updateCard("projectionCard", formatMoney(projection));
-  updateCard("gapToTargetCard", formatMoney(gap));
+  updateCard(
+    "mtdRevenueCard",
+    formatMoney(
+      current.totalRevenue
+    )
+  );
+
+  updateCard(
+    "mtdBudgetCard",
+    formatMoney(
+      monthlyBudget
+    )
+  );
+
+  updateCard(
+    "mtdGopCard",
+    formatMoney(
+      current.totalGop
+    )
+  );
+
+  updateCard(
+    "mtdGrowthCard",
+    `${growth.toFixed(2)}%`
+  );
+
+  updateCard(
+    "mtdAchievementCard",
+    `${achievement.toFixed(2)}%`
+  );
 
 }
 
@@ -541,17 +489,38 @@ function renderGop(
   current
 ) {
 
-  updateCard("gopRevenueCard", formatMoney(current.totalRevenue));
-  updateCard("gopCostCard", formatMoney(current.totalCost));
-  updateCard("gopMainCard", formatMoney(current.totalGop));
-  updateCard("gopMarginCard", `${current.gopMargin.toFixed(2)}%`);
+  updateCard(
+    "gopRevenueCard",
+    formatMoney(
+      current.totalRevenue
+    )
+  );
+
+  updateCard(
+    "gopCostCard",
+    formatMoney(
+      current.totalCost
+    )
+  );
+
+  updateCard(
+    "gopMainCard",
+    formatMoney(
+      current.totalGop
+    )
+  );
+
+  updateCard(
+    "gopMarginCard",
+    `${current.gopMargin.toFixed(2)}%`
+  );
 
 }
 
 
 
 // ======================
-// FOOD & BEVERAGE
+// F&B
 // ======================
 
 function renderFoodBeverage(
@@ -583,14 +552,12 @@ function renderFoodBeverage(
     )
   );
 
-
   updateCard(
     "bevRevenueCard",
     formatMoney(
       current.totalBeverageRevenue
     )
   );
-
 
   updateCard(
     "totalCostCard",
@@ -599,12 +566,10 @@ function renderFoodBeverage(
     )
   );
 
-
   updateSubCard(
     "foodRevenueCard",
     `LY ${foodGrowth.toFixed(2)}%`
   );
-
 
   updateSubCard(
     "bevRevenueCard",
@@ -690,11 +655,34 @@ function renderSummary(
   }
 
 
-  updateCard("summaryRevenueCard", formatMoney(current.totalRevenue));
-  updateCard("summaryBudgetCard", formatMoney(avgDaily));
-  updateCard("summaryAchievementCard", `${achievement.toFixed(2)}%`);
-  updateCard("bestDayCard", bestDay);
-  updateCard("worstDayCard", worstDay);
+  updateCard(
+    "summaryRevenueCard",
+    formatMoney(
+      current.totalRevenue
+    )
+  );
+
+  updateCard(
+    "summaryBudgetCard",
+    formatMoney(
+      avgDaily
+    )
+  );
+
+  updateCard(
+    "summaryAchievementCard",
+    `${achievement.toFixed(2)}%`
+  );
+
+  updateCard(
+    "bestDayCard",
+    bestDay
+  );
+
+  updateCard(
+    "worstDayCard",
+    worstDay
+  );
 
 }
 
@@ -703,6 +691,25 @@ function renderSummary(
 // ======================
 // HELPERS
 // ======================
+
+function getLyTotalRevenue() {
+
+  const settings =
+    getSettings();
+
+
+  return (
+    Number(
+      settings.lyFoodRevenue || 0
+    ) +
+
+    Number(
+      settings.lyBeverageRevenue || 0
+    )
+  );
+
+}
+
 
 function updateCard(
   id,
@@ -714,11 +721,7 @@ function updateCard(
       id
     );
 
-
-  if(
-    !el
-  ) return;
-
+  if(!el) return;
 
   el.innerHTML =
     value;
@@ -736,17 +739,12 @@ function updateSubCard(
       id
     );
 
-
-  if(
-    !el
-  ) return;
-
+  if(!el) return;
 
   const small =
     el.parentElement.querySelector(
       "small"
     );
-
 
   if(
     small
@@ -765,10 +763,7 @@ function calculateAchievement(
   target
 ) {
 
-  if(
-    !target
-  ) return 0;
-
+  if(!target) return 0;
 
   return (
     current / target
@@ -782,10 +777,7 @@ function calculateGrowth(
   ly
 ) {
 
-  if(
-    !ly
-  ) return 0;
-
+  if(!ly) return 0;
 
   return (
     (
@@ -803,11 +795,8 @@ function formatMoney(
   const settings =
     getSettings();
 
-
   const currency =
-    settings.currency ||
-    "RM";
-
+    settings.currency || "RM";
 
   return (
     currency +
@@ -816,11 +805,8 @@ function formatMoney(
     ).toLocaleString(
       undefined,
       {
-
         minimumFractionDigits: 2,
-
         maximumFractionDigits: 2
-
       }
     )
   );
