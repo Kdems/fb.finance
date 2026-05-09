@@ -19,11 +19,6 @@ const reportMonthFilter =
     "reportMonthFilter"
   );
 
-const reportTypeFilter =
-  document.getElementById(
-    "reportTypeFilter"
-  );
-
 const reportTableBody =
   document.getElementById(
     "reportTableBody"
@@ -53,7 +48,14 @@ function initReports() {
 
 function populateReportYears() {
 
-  if(!reportYearFilter) return;
+  if(
+    !reportYearFilter
+  ) return;
+
+
+  reportYearFilter.innerHTML =
+    "";
+
 
   for(
     let year = 2025;
@@ -66,12 +68,22 @@ function populateReportYears() {
         "option"
       );
 
-    option.value = year;
-    option.textContent = year;
+    option.value =
+      year;
 
-    if(year === reportYear) {
-      option.selected = true;
+    option.textContent =
+      year;
+
+
+    if(
+      year === reportYear
+    ) {
+
+      option.selected =
+        true;
+
     }
+
 
     reportYearFilter.appendChild(
       option
@@ -84,7 +96,14 @@ function populateReportYears() {
 
 function populateReportMonths() {
 
-  if(!reportMonthFilter) return;
+  if(
+    !reportMonthFilter
+  ) return;
+
+
+  reportMonthFilter.innerHTML =
+    "";
+
 
   for(
     let month = 1;
@@ -97,12 +116,22 @@ function populateReportMonths() {
         "option"
       );
 
-    option.value = month;
-    option.textContent = month;
+    option.value =
+      month;
 
-    if(month === reportMonth) {
-      option.selected = true;
+    option.textContent =
+      month;
+
+
+    if(
+      month === reportMonth
+    ) {
+
+      option.selected =
+        true;
+
     }
+
 
     reportMonthFilter.appendChild(
       option
@@ -119,20 +148,25 @@ function populateReportMonths() {
 
 function bindReportEvents() {
 
-  if(reportYearFilter) {
+  if(
+    reportYearFilter
+  ) {
 
     reportYearFilter.addEventListener(
       "change",
-      handleReportFilterChange
+      handleFilterChange
     );
 
   }
 
-  if(reportMonthFilter) {
+
+  if(
+    reportMonthFilter
+  ) {
 
     reportMonthFilter.addEventListener(
       "change",
-      handleReportFilterChange
+      handleFilterChange
     );
 
   }
@@ -140,17 +174,19 @@ function bindReportEvents() {
 }
 
 
-function handleReportFilterChange() {
+function handleFilterChange() {
 
   reportYear =
     Number(
       reportYearFilter.value
     );
 
+
   reportMonth =
     Number(
       reportMonthFilter.value
     );
+
 
   renderReports();
 
@@ -158,7 +194,7 @@ function handleReportFilterChange() {
 
 
 // ======================
-// MAIN RENDER
+// RENDER
 // ======================
 
 function renderReports() {
@@ -169,14 +205,17 @@ function renderReports() {
       reportMonth
     );
 
+
   const summary =
     calculatePeriodSummary(
       entries
     );
 
-  renderReportKPIs(
+
+  renderReportKPI(
     summary
   );
+
 
   renderReportTable(
     entries
@@ -189,41 +228,58 @@ function renderReports() {
 // KPI
 // ======================
 
-function renderReportKPIs(
+function renderReportKPI(
   summary
 ) {
 
-  updateReportValue(
+  const settings =
+    getSettings();
+
+  const currency =
+    settings.currency ||
+    "RM";
+
+
+  updateMoney(
     "reportTotalRevenue",
-    summary.totalRevenue
+    summary.totalRevenue,
+    currency
   );
 
-  updateReportValue(
+
+  updateMoney(
     "reportTotalCost",
-    summary.totalCost
+    summary.totalCost,
+    currency
   );
 
-  updateReportValue(
+
+  updateMoney(
     "reportTotalGop",
-    summary.totalGop
+    summary.totalGop,
+    currency
   );
 
-  updateReportPercent(
+
+  updatePercent(
     "reportGopMargin",
     summary.gopMargin
   );
 
-  updateReportValue(
+
+  updateMoney(
     "reportBudgetVariance",
-    summary.budgetVariance
+    summary.budgetVariance,
+    currency
   );
 
 }
 
 
-function updateReportValue(
+function updateMoney(
   elementId,
-  value
+  value,
+  currency
 ) {
 
   const element =
@@ -231,15 +287,18 @@ function updateReportValue(
       elementId
     );
 
-  if(!element) return;
+  if(
+    !element
+  ) return;
+
 
   element.textContent =
-    `RM${value.toFixed(2)}`;
+    `${currency}${value.toFixed(2)}`;
 
 }
 
 
-function updateReportPercent(
+function updatePercent(
   elementId,
   value
 ) {
@@ -249,7 +308,10 @@ function updateReportPercent(
       elementId
     );
 
-  if(!element) return;
+  if(
+    !element
+  ) return;
+
 
   element.textContent =
     `${value.toFixed(2)}%`;
@@ -265,59 +327,79 @@ function renderReportTable(
   entries
 ) {
 
-  if(!reportTableBody) return;
+  if(
+    !reportTableBody
+  ) return;
 
-  reportTableBody.innerHTML = "";
 
-  entries.forEach(entry => {
+  reportTableBody.innerHTML =
+    "";
 
-    const calculated =
-      calculateEntryMetrics(
-        entry
+
+  const settings =
+    getSettings();
+
+  const currency =
+    settings.currency ||
+    "RM";
+
+
+  entries.forEach(
+    entry => {
+
+      const calculated =
+        calculateEntryMetrics(
+          entry
+        );
+
+
+      const row =
+        document.createElement(
+          "tr"
+        );
+
+
+      row.innerHTML = `
+        <td class="py-4">
+          ${entry.date}
+        </td>
+
+        <td>
+          ${currency}${entry.foodRevenue.toFixed(2)}
+        </td>
+
+        <td>
+          ${currency}${entry.beverageRevenue.toFixed(2)}
+        </td>
+
+        <td>
+          ${currency}${calculated.totalRevenue.toFixed(2)}
+        </td>
+
+        <td>
+          ${currency}${calculated.totalCost.toFixed(2)}
+        </td>
+
+        <td>
+          ${currency}${calculated.gop.toFixed(2)}
+        </td>
+
+        <td>
+          ${currency}${entry.dailyBudget.toFixed(2)}
+        </td>
+
+        <td>
+          ${currency}${calculated.budgetVariance.toFixed(2)}
+        </td>
+      `;
+
+
+      reportTableBody.appendChild(
+        row
       );
 
-    const row =
-      document.createElement(
-        "tr"
-      );
-
-    row.innerHTML = `
-      <td>${entry.date}</td>
-
-      <td>
-        RM${entry.foodRevenue.toFixed(2)}
-      </td>
-
-      <td>
-        RM${entry.beverageRevenue.toFixed(2)}
-      </td>
-
-      <td>
-        RM${calculated.totalRevenue.toFixed(2)}
-      </td>
-
-      <td>
-        RM${calculated.totalCost.toFixed(2)}
-      </td>
-
-      <td>
-        RM${calculated.gop.toFixed(2)}
-      </td>
-
-      <td>
-        RM${entry.dailyBudget.toFixed(2)}
-      </td>
-
-      <td>
-        RM${calculated.budgetVariance.toFixed(2)}
-      </td>
-    `;
-
-    reportTableBody.appendChild(
-      row
-    );
-
-  });
+    }
+  );
 
 }
 
