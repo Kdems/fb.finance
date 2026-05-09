@@ -3,279 +3,259 @@
 
 <head>
 
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
 
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
-  />
+  >
 
   <title>
-    SKYBAR Daily Entry
+    SKYBAR Finance Entry
   </title>
 
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <link
-    rel="stylesheet"
-    href="assets/css/main.css"
-  />
-
 </head>
 
 
-<body class="bg-slate-100 font-sans">
 
-  <div class="flex min-h-screen">
+<body class="bg-slate-100">
+
+<div class="min-h-screen flex">
 
 
-    <!-- SIDEBAR -->
-    <aside class="w-64 bg-slate-950 text-white p-5">
+  <!-- NAVIGATION -->
+  <aside class="w-64 bg-slate-950 text-white p-6">
 
-      <h1 class="text-2xl font-bold mb-8">
-        SKYBAR
+    <h2 class="text-xl font-bold mb-8">
+      SKYBAR
+    </h2>
+
+    <nav class="space-y-3">
+
+      <a
+        href="index.html"
+        class="block"
+      >
+        Dashboard
+      </a>
+
+      <a
+        href="entry.html"
+        class="block text-cyan-400"
+      >
+        Entry
+      </a>
+
+      <a
+        href="reports.html"
+        class="block"
+      >
+        Reports
+      </a>
+
+      <a
+        href="review.html"
+        class="block"
+      >
+        Review
+      </a>
+
+      <a
+        href="settings.html"
+        class="block"
+      >
+        Settings
+      </a>
+
+    </nav>
+
+  </aside>
+
+
+
+  <!-- MAIN -->
+  <main class="flex-1 p-8">
+
+
+    <!-- HEADER -->
+    <div class="mb-8">
+
+      <h1 class="text-3xl font-bold">
+        Daily Finance Entry
       </h1>
 
+      <p class="text-slate-500 mt-2">
+        Input daily restaurant revenue
+      </p>
 
-      <nav class="space-y-3">
-
-        <a
-          href="index.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
-        >
-          Dashboard
-        </a>
-
-        <a
-          href="entry.html"
-          class="block px-4 py-3 rounded-xl bg-slate-800"
-        >
-          Daily Entry
-        </a>
-
-        <a
-          href="generic.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
-        >
-          Operating Review
-        </a>
-
-        <a
-          href="reports.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
-        >
-          Reports
-        </a>
-
-        <a
-          href="settings.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
-        >
-          Settings
-        </a>
-
-      </nav>
-
-    </aside>
+    </div>
 
 
 
-    <!-- MAIN -->
-    <main class="flex-1 p-6 space-y-6">
+    <!-- FORM -->
+    <form
+      id="entryForm"
+      class="bg-white rounded-2xl p-6 shadow mb-8"
+    >
+
+      <div class="grid md:grid-cols-2 gap-6">
 
 
-      <!-- HEADER -->
-      <div>
+        <div>
 
-        <h2 class="text-3xl font-bold">
-          Daily Revenue Entry
-        </h2>
+          <label class="block mb-2 font-semibold">
+            Date
+          </label>
 
-        <p class="text-slate-500">
-          Record daily outlet performance
-        </p>
+          <input
+            id="entryDate"
+            type="date"
+            class="w-full border rounded-xl px-4 py-3"
+          >
+
+        </div>
+
+
+
+        <div>
+
+          <label class="block mb-2 font-semibold">
+            Daily Budget
+          </label>
+
+          <input
+            id="dailyBudgetDisplay"
+            readonly
+            class="w-full border rounded-xl px-4 py-3 bg-slate-50"
+          >
+
+        </div>
+
+
+
+        <div>
+
+          <label class="block mb-2 font-semibold">
+            Food Revenue
+          </label>
+
+          <input
+            id="foodRevenue"
+            type="number"
+            class="w-full border rounded-xl px-4 py-3"
+          >
+
+        </div>
+
+
+
+        <div>
+
+          <label class="block mb-2 font-semibold">
+            Beverage Revenue
+          </label>
+
+          <input
+            id="beverageRevenue"
+            type="number"
+            class="w-full border rounded-xl px-4 py-3"
+          >
+
+        </div>
+
+
 
       </div>
 
 
+      <button
+        type="submit"
+        class="mt-6 bg-slate-950 text-white px-6 py-3 rounded-xl"
+      >
+        Save Entry
+      </button>
 
-      <!-- ENTRY FORM -->
-      <section class="bg-white rounded-2xl p-5 shadow">
+    </form>
 
-        <form
-          id="entryForm"
-          class="grid xl:grid-cols-5 gap-4"
-        >
 
 
-          <div>
+    <!-- TABLE -->
+    <div class="bg-white rounded-2xl p-6 shadow">
 
-            <label class="block mb-2 text-sm font-medium">
-              Date
-            </label>
+      <h2 class="text-xl font-bold mb-6">
+        Recent Entries
+      </h2>
 
-            <input
-              id="entryDate"
-              type="date"
-              required
-              class="w-full border rounded-xl p-3"
-            />
 
-          </div>
+      <div class="overflow-x-auto">
 
+        <table class="w-full">
 
+          <thead>
 
-          <div>
+            <tr class="border-b">
 
-            <label class="block mb-2 text-sm font-medium">
-              Food Revenue
-            </label>
+              <th class="text-left py-3">
+                Date
+              </th>
 
-            <input
-              id="foodRevenue"
-              type="number"
-              required
-              class="w-full border rounded-xl p-3"
-            />
+              <th class="text-left">
+                Food
+              </th>
 
-          </div>
+              <th class="text-left">
+                Beverage
+              </th>
 
+              <th class="text-left">
+                Revenue
+              </th>
 
+              <th class="text-left">
+                Cost
+              </th>
 
-          <div>
+              <th class="text-left">
+                GOP
+              </th>
 
-            <label class="block mb-2 text-sm font-medium">
-              Beverage Revenue
-            </label>
+              <th class="text-left">
+                Edit
+              </th>
 
-            <input
-              id="beverageRevenue"
-              type="number"
-              required
-              class="w-full border rounded-xl p-3"
-            />
+              <th class="text-left">
+                Delete
+              </th>
 
-          </div>
+            </tr>
 
+          </thead>
 
 
-          <div>
+          <tbody
+            id="recentEntriesBody"
+          ></tbody>
 
-            <label class="block mb-2 text-sm font-medium">
-              Daily Budget
-            </label>
+        </table>
 
-            <input
-              id="dailyBudgetDisplay"
-              readonly
-              class="w-full bg-slate-100 border rounded-xl p-3"
-            />
+      </div>
 
-          </div>
+    </div>
 
 
+  </main>
 
-          <div class="flex items-end">
+</div>
 
-            <button
-              type="submit"
-              class="w-full bg-slate-900 text-white rounded-xl p-3 font-semibold"
-            >
-              Save Entry
-            </button>
 
-          </div>
 
-
-        </form>
-
-      </section>
-
-
-
-      <!-- RECENT ENTRIES -->
-      <section class="bg-white rounded-2xl p-5 shadow">
-
-        <h3 class="text-xl font-bold mb-4">
-          Recent Entries
-        </h3>
-
-
-        <div class="overflow-x-auto">
-
-          <table class="w-full text-sm">
-
-            <thead>
-
-              <tr class="border-b text-left">
-
-                <th class="py-3">
-                  Date
-                </th>
-
-                <th>
-                  Food
-                </th>
-
-                <th>
-                  Beverage
-                </th>
-
-                <th>
-                  Revenue
-                </th>
-
-                <th>
-                  Cost
-                </th>
-
-                <th>
-                  GOP
-                </th>
-
-                <th>
-                  Edit
-                </th>
-
-                <th>
-                  Delete
-                </th>
-
-              </tr>
-
-            </thead>
-
-
-            <tbody
-              id="recentEntriesBody"
-            ></tbody>
-
-          </table>
-
-        </div>
-
-      </section>
-
-
-    </main>
-
-  </div>
-
-
-
-  <!-- SCRIPTS -->
-
-  <script src="assets/js/storage.js"></script>
-
-  <script src="assets/js/settings.js"></script>
-
-  <script src="assets/js/calculations.js"></script>
-
-  <script src="assets/js/dashboard.js"></script>
-
-  <script src="assets/js/entry.js"></script>
+<script src="storage.js"></script>
+<script src="settings.js"></script>
+<script src="calculations.js"></script>
+<script src="entry.js"></script>
 
 
 </body>
-
 </html>
