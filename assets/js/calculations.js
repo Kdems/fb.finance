@@ -1,73 +1,196 @@
-function calculateEntryMetrics(
-  entry
+const ENTRY_STORAGE_KEY =
+  "skybar_entries";
+
+
+
+// ======================
+// GET ENTRIES
+// ======================
+
+function getAllEntries() {
+
+  try {
+
+    const raw =
+      localStorage.getItem(
+        ENTRY_STORAGE_KEY
+      );
+
+
+    if(
+      !raw
+    ) {
+
+      return [];
+
+    }
+
+
+    const parsed =
+      JSON.parse(
+        raw
+      );
+
+
+    if(
+      !Array.isArray(
+        parsed
+      )
+    ) {
+
+      return [];
+
+    }
+
+
+    return parsed;
+
+  }
+
+  catch(
+    error
+  ) {
+
+    console.error(
+      "Entry load error:",
+      error
+    );
+
+
+    return [];
+
+  }
+
+}
+
+
+
+// ======================
+// FILTER ENTRIES
+// ======================
+
+function filterEntries(
+  year,
+  month
+) {
+
+  const entries =
+    getAllEntries();
+
+
+  return entries.filter(
+    entry => {
+
+      if(
+        !entry.date
+      ) return false;
+
+
+      const date =
+        new Date(
+          entry.date
+        );
+
+
+      const entryYear =
+        date.getFullYear();
+
+
+      const entryMonth =
+        date.getMonth() + 1;
+
+
+      return (
+
+        entryYear === year &&
+
+        entryMonth === month
+
+      );
+
+    }
+  );
+
+}
+
+
+
+// ======================
+// MAIN CALCULATION
+// ======================
+
+function calculatePeriodSummary(
+  entries
 ) {
 
   const settings =
     getSettings();
 
 
-  const foodRevenue =
-    Number(
-      entry.foodRevenue || 0
-    );
+  let totalFoodRevenue = 0;
+
+  let totalBeverageRevenue = 0;
 
 
-  const beverageRevenue =
-    Number(
-      entry.beverageRevenue || 0
-    );
+  entries.forEach(
+    entry => {
+
+      totalFoodRevenue +=
+        Number(
+          entry.foodRevenue || 0
+        );
+
+
+      totalBeverageRevenue +=
+        Number(
+          entry.beverageRevenue || 0
+        );
+
+    }
+  );
 
 
   const totalRevenue =
-    foodRevenue +
-    beverageRevenue;
+    totalFoodRevenue +
+    totalBeverageRevenue;
 
 
-  // ======================
+
   // COST %
-  // ======================
-
   const foodCostPercent =
     Number(
       settings.foodCostPercent || 0
-    );
+    ) / 100;
 
 
   const beverageCostPercent =
     Number(
       settings.beverageCostPercent || 0
-    );
+    ) / 100;
 
 
   const fixCostPercent =
     Number(
       settings.fixCostPercent || 0
-    );
-
-
-  // ======================
-  // COST VALUE
-  // ======================
-
-  const foodCost =
-    (
-      foodRevenue *
-      foodCostPercent
     ) / 100;
+
+
+
+  // COST VALUE
+  const foodCost =
+    totalFoodRevenue *
+    foodCostPercent;
 
 
   const beverageCost =
-    (
-      beverageRevenue *
-      beverageCostPercent
-    ) / 100;
+    totalBeverageRevenue *
+    beverageCostPercent;
 
 
   const fixCost =
-    (
-      totalRevenue *
-      fixCostPercent
-    ) / 100;
+    totalRevenue *
+    fixCostPercent;
+
 
 
   const totalCost =
@@ -76,162 +199,66 @@ function calculateEntryMetrics(
     fixCost;
 
 
-  const gop =
+
+  const totalGop =
     totalRevenue -
     totalCost;
 
 
-  const gopMargin =
+
+  let gopMargin = 0;
+
+
+  if(
     totalRevenue > 0
-      ? (
-          gop /
-          totalRevenue
-        ) * 100
-      : 0;
+  ) {
+
+    gopMargin =
+      (
+        totalGop /
+        totalRevenue
+      ) * 100;
+
+  }
+
 
 
   return {
 
-    foodRevenue,
+    totalFoodRevenue:
+      totalFoodRevenue,
 
-    beverageRevenue,
 
-    totalRevenue,
+    totalBeverageRevenue:
+      totalBeverageRevenue,
 
 
-    foodCost,
+    totalRevenue:
+      totalRevenue,
 
-    beverageCost,
 
-    fixCost,
+    foodCost:
+      foodCost,
 
-    totalCost,
 
+    beverageCost:
+      beverageCost,
 
-    gop,
 
-    gopMargin
+    fixCost:
+      fixCost,
 
-  };
 
-}
+    totalCost:
+      totalCost,
 
 
+    totalGop:
+      totalGop,
 
-// ======================
-// PERIOD SUMMARY
-// ======================
 
-function calculatePeriodSummary(
-  entries
-) {
-
-  let totalFoodRevenue =
-    0;
-
-
-  let totalBeverageRevenue =
-    0;
-
-
-  let totalRevenue =
-    0;
-
-
-  let totalFoodCost =
-    0;
-
-
-  let totalBeverageCost =
-    0;
-
-
-  let totalFixCost =
-    0;
-
-
-  let totalCost =
-    0;
-
-
-  let totalGop =
-    0;
-
-
-  entries.forEach(
-    entry => {
-
-      const calc =
-        calculateEntryMetrics(
-          entry
-        );
-
-
-      totalFoodRevenue +=
-        calc.foodRevenue;
-
-
-      totalBeverageRevenue +=
-        calc.beverageRevenue;
-
-
-      totalRevenue +=
-        calc.totalRevenue;
-
-
-      totalFoodCost +=
-        calc.foodCost;
-
-
-      totalBeverageCost +=
-        calc.beverageCost;
-
-
-      totalFixCost +=
-        calc.fixCost;
-
-
-      totalCost +=
-        calc.totalCost;
-
-
-      totalGop +=
-        calc.gop;
-
-    }
-  );
-
-
-  const gopMargin =
-    totalRevenue > 0
-      ? (
-          totalGop /
-          totalRevenue
-        ) * 100
-      : 0;
-
-
-  return {
-
-    totalFoodRevenue,
-
-    totalBeverageRevenue,
-
-    totalRevenue,
-
-
-    totalFoodCost,
-
-    totalBeverageCost,
-
-    totalFixCost,
-
-    totalCost,
-
-
-    totalGop,
-
-    gopMargin
+    gopMargin:
+      gopMargin
 
   };
 
