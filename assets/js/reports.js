@@ -403,6 +403,115 @@ function renderReportTable(
 
 
 // ======================
+// CSV EXPORT
+// ======================
+
+function exportReportCSV() {
+
+  const entries =
+    filterEntries(
+      reportYear,
+      reportMonth
+    );
+
+
+  if(
+    entries.length === 0
+  ) {
+
+    alert(
+      "No data to export."
+    );
+
+    return;
+
+  }
+
+
+  let csv =
+    "Date,Food,Beverage,Revenue,Cost,GOP\n";
+
+
+  entries.forEach(
+    entry => {
+
+      const calc =
+        calculateEntryMetrics(
+          entry
+        );
+
+
+      csv +=
+        `${entry.date},` +
+
+        `${entry.foodRevenue},` +
+
+        `${entry.beverageRevenue},` +
+
+        `${calc.totalRevenue},` +
+
+        `${calc.totalCost},` +
+
+        `${calc.gop}\n`;
+
+    }
+  );
+
+
+  const blob =
+    new Blob(
+      [csv],
+      {
+
+        type:
+          "text/csv"
+
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const link =
+    document.createElement(
+      "a"
+    );
+
+
+  link.href =
+    url;
+
+
+  link.download =
+    `skybar-report-${reportYear}-${reportMonth}.csv`;
+
+
+  document.body.appendChild(
+    link
+  );
+
+
+  link.click();
+
+
+  document.body.removeChild(
+    link
+  );
+
+
+  URL.revokeObjectURL(
+    url
+  );
+
+}
+
+
+
+// ======================
 // HELPERS
 // ======================
 
