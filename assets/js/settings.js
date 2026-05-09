@@ -38,7 +38,15 @@ const DEFAULT_SETTINGS = {
 
 
   fixCostPercent:
-    18
+    18,
+
+
+  lyFoodRevenue:
+    0,
+
+
+  lyBeverageRevenue:
+    0
 
 };
 
@@ -201,6 +209,18 @@ function loadSettingsForm() {
     settings.fixCostPercent
   );
 
+
+  setValue(
+    "lyFoodRevenue",
+    settings.lyFoodRevenue
+  );
+
+
+  setValue(
+    "lyBeverageRevenue",
+    settings.lyBeverageRevenue
+  );
+
 }
 
 
@@ -289,6 +309,22 @@ function bindSettingsForm() {
           Number(
             getValue(
               "fixCostPercent"
+            ) || 0
+          ),
+
+
+        lyFoodRevenue:
+          Number(
+            getValue(
+              "lyFoodRevenue"
+            ) || 0
+          ),
+
+
+        lyBeverageRevenue:
+          Number(
+            getValue(
+              "lyBeverageRevenue"
             ) || 0
           )
 
