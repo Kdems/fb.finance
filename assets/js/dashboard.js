@@ -4,9 +4,6 @@ let selectedYear =
 let selectedMonth =
   new Date().getMonth() + 1;
 
-let editingEntryId =
-  null;
-
 
 
 // ======================
@@ -21,11 +18,6 @@ const yearFilter =
 const monthFilter =
   document.getElementById(
     "monthFilter"
-  );
-
-const entryForm =
-  document.getElementById(
-    "entryForm"
   );
 
 const entryDateField =
@@ -61,9 +53,14 @@ function initDashboard() {
 
 function populateYearFilter() {
 
-  if(!yearFilter) return;
+  if(
+    !yearFilter
+  ) return;
 
-  yearFilter.innerHTML = "";
+
+  yearFilter.innerHTML =
+    "";
+
 
   for(
     let year = 2025;
@@ -76,14 +73,24 @@ function populateYearFilter() {
         "option"
       );
 
-    option.value = year;
-    option.textContent = year;
+
+    option.value =
+      year;
+
+
+    option.textContent =
+      year;
+
 
     if(
       year === selectedYear
     ) {
-      option.selected = true;
+
+      option.selected =
+        true;
+
     }
+
 
     yearFilter.appendChild(
       option
@@ -96,9 +103,14 @@ function populateYearFilter() {
 
 function populateMonthFilter() {
 
-  if(!monthFilter) return;
+  if(
+    !monthFilter
+  ) return;
 
-  monthFilter.innerHTML = "";
+
+  monthFilter.innerHTML =
+    "";
+
 
   for(
     let month = 1;
@@ -111,14 +123,24 @@ function populateMonthFilter() {
         "option"
       );
 
-    option.value = month;
-    option.textContent = month;
+
+    option.value =
+      month;
+
+
+    option.textContent =
+      month;
+
 
     if(
       month === selectedMonth
     ) {
-      option.selected = true;
+
+      option.selected =
+        true;
+
     }
+
 
     monthFilter.appendChild(
       option
@@ -136,7 +158,9 @@ function populateMonthFilter() {
 
 function bindEvents() {
 
-  if(yearFilter) {
+  if(
+    yearFilter
+  ) {
 
     yearFilter.addEventListener(
       "change",
@@ -146,7 +170,9 @@ function bindEvents() {
   }
 
 
-  if(monthFilter) {
+  if(
+    monthFilter
+  ) {
 
     monthFilter.addEventListener(
       "change",
@@ -156,7 +182,9 @@ function bindEvents() {
   }
 
 
-  if(entryDateField) {
+  if(
+    entryDateField
+  ) {
 
     entryDateField.addEventListener(
       "change",
@@ -170,7 +198,7 @@ function bindEvents() {
 
 
 // ======================
-// FILTER
+// FILTER CHANGE
 // ======================
 
 function handleFilterChange() {
@@ -180,10 +208,12 @@ function handleFilterChange() {
       yearFilter.value
     );
 
+
   selectedMonth =
     Number(
       monthFilter.value
     );
+
 
   renderDashboard();
 
@@ -202,6 +232,7 @@ function updateAutoDailyBudget() {
       "dailyBudgetDisplay"
     );
 
+
   if(
     !budgetField ||
     !entryDateField ||
@@ -212,10 +243,12 @@ function updateAutoDailyBudget() {
   const settings =
     getSettings();
 
+
   const date =
     new Date(
       entryDateField.value
     );
+
 
   const days =
     new Date(
@@ -354,6 +387,7 @@ function renderYtd(
     )
   );
 
+
   updateCard(
     "ytdBudgetCard",
     formatMoney(
@@ -361,15 +395,26 @@ function renderYtd(
     )
   );
 
+
   updateCard(
     "ytdAchievementCard",
     `${achievement.toFixed(2)}%`
   );
 
+
   updateCard(
     "ytdGrowthCard",
     `${growth.toFixed(2)}%`
   );
+
+
+  updateCard(
+    "lyRevenueCard",
+    formatMoney(
+      lyRevenue
+    )
+  );
+
 
   updateCard(
     "ytdVarianceCard",
@@ -506,7 +551,7 @@ function renderGop(
 
 
 // ======================
-// F&B
+// FOOD & BEVERAGE
 // ======================
 
 function renderFoodBeverage(
@@ -591,7 +636,8 @@ function renderSummary(
 
   const avgDaily =
     entries.length > 0
-      ? current.totalRevenue / entries.length
+      ? current.totalRevenue /
+        entries.length
       : 0;
 
 
@@ -635,6 +681,7 @@ function renderSummary(
     worstDay =
       ranked[0].date;
 
+
     bestDay =
       ranked[
         ranked.length - 1
@@ -663,9 +710,15 @@ function updateCard(
 ) {
 
   const el =
-    document.getElementById(id);
+    document.getElementById(
+      id
+    );
 
-  if(!el) return;
+
+  if(
+    !el
+  ) return;
+
 
   el.innerHTML =
     value;
@@ -679,12 +732,21 @@ function updateSubCard(
 ) {
 
   const el =
-    document.getElementById(id);
+    document.getElementById(
+      id
+    );
 
-  if(!el) return;
+
+  if(
+    !el
+  ) return;
+
 
   const small =
-    el.parentElement.querySelector("small");
+    el.parentElement.querySelector(
+      "small"
+    );
+
 
   if(
     small
@@ -703,7 +765,10 @@ function calculateAchievement(
   target
 ) {
 
-  if(!target) return 0;
+  if(
+    !target
+  ) return 0;
+
 
   return (
     current / target
@@ -717,7 +782,10 @@ function calculateGrowth(
   ly
 ) {
 
-  if(!ly) return 0;
+  if(
+    !ly
+  ) return 0;
+
 
   return (
     (
@@ -735,8 +803,11 @@ function formatMoney(
   const settings =
     getSettings();
 
+
   const currency =
-    settings.currency || "RM";
+    settings.currency ||
+    "RM";
+
 
   return (
     currency +
@@ -745,8 +816,11 @@ function formatMoney(
     ).toLocaleString(
       undefined,
       {
+
         minimumFractionDigits: 2,
+
         maximumFractionDigits: 2
+
       }
     )
   );
