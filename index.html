@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -18,7 +17,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 </head>
 
 
@@ -30,11 +28,12 @@
 
 
   <!-- SIDEBAR -->
-  <aside class="w-64 bg-slate-950 text-white p-6">
+  <aside class="w-64 bg-slate-950 text-white p-6 min-h-screen">
 
     <h1 class="text-4xl font-bold mb-10">
       SKYBAR
     </h1>
+
 
 
     <nav class="space-y-3">
@@ -45,17 +44,31 @@
         Dashboard
       </a>
 
+
+
       <a
         href="entry.html"
         class="block hover:bg-slate-800 rounded-xl px-4 py-3">
         Daily Entry
       </a>
 
+
+
+      <a
+        href="review.html"
+        class="block hover:bg-slate-800 rounded-xl px-4 py-3">
+        Operating Review
+      </a>
+
+
+
       <a
         href="reports.html"
         class="block hover:bg-slate-800 rounded-xl px-4 py-3">
         Reports
       </a>
+
+
 
       <a
         href="settings.html"
@@ -72,8 +85,10 @@
 
 
 
+
   <!-- MAIN -->
   <main class="flex-1 p-8 space-y-6">
+
 
 
     <!-- HEADER -->
@@ -81,27 +96,30 @@
 
       <div>
 
-        <h2 class="text-4xl font-bold">
-          GM Dashboard
+        <h2 class="text-4xl font-bold text-slate-900">
+          Executive Dashboard
         </h2>
 
         <p class="text-slate-500">
-          SKYBAR Business Intelligence
+          SKYBAR Financial Intelligence
         </p>
 
       </div>
+
 
 
       <div class="flex gap-3">
 
         <select
           id="yearFilter"
-          class="bg-white shadow rounded-xl px-4 py-2">
+          class="bg-white rounded-xl shadow px-4 py-2 border">
         </select>
+
+
 
         <select
           id="monthFilter"
-          class="bg-white shadow rounded-xl px-4 py-2">
+          class="bg-white rounded-xl shadow px-4 py-2 border">
         </select>
 
       </div>
@@ -114,17 +132,18 @@
 
 
 
-    <!-- ALERTS -->
+    <!-- EXECUTIVE ALERT -->
     <section class="bg-slate-900 text-white rounded-3xl p-6 shadow">
 
       <h3 class="font-bold text-xl mb-4">
         Executive Alerts
       </h3>
 
+
       <div class="grid grid-cols-4 gap-4">
 
         <div class="bg-slate-800 rounded-2xl p-4">
-          <small>Revenue</small>
+          <small>Revenue Status</small>
           <h4 id="revenueAlertCard"></h4>
         </div>
 
@@ -153,12 +172,14 @@
 
 
 
+
     <!-- YTD -->
     <section class="bg-violet-200 rounded-3xl p-6 shadow">
 
       <h3 class="font-bold text-xl mb-4">
-        YTD Intelligence
+        Year-To-Date
       </h3>
+
 
       <div class="grid grid-cols-4 gap-4">
 
@@ -192,12 +213,14 @@
 
 
 
+
     <!-- MTD -->
     <section class="bg-sky-200 rounded-3xl p-6 shadow">
 
       <h3 class="font-bold text-xl mb-4">
-        MTD Forecast
+        Month-To-Date
       </h3>
+
 
       <div class="grid grid-cols-5 gap-4">
 
@@ -236,12 +259,14 @@
 
 
 
+
     <!-- GOP -->
     <section class="bg-emerald-200 rounded-3xl p-6 shadow">
 
       <h3 class="font-bold text-xl mb-4">
-        GOP Profitability
+        Gross Operating Profit
       </h3>
+
 
       <div class="grid grid-cols-4 gap-4">
 
@@ -275,12 +300,14 @@
 
 
 
-    <!-- F&B -->
+
+    <!-- FOOD & BEVERAGE -->
     <section class="bg-orange-200 rounded-3xl p-6 shadow">
 
       <h3 class="font-bold text-xl mb-4">
         Food & Beverage
       </h3>
+
 
       <div class="grid grid-cols-4 gap-4">
 
@@ -295,12 +322,12 @@
         </div>
 
         <div class="bg-white/70 rounded-2xl p-4">
-          <small>Bev Revenue</small>
+          <small>Beverage Revenue</small>
           <h4 id="bevRevenueCard"></h4>
         </div>
 
         <div class="bg-white/70 rounded-2xl p-4">
-          <small>Bev Mix</small>
+          <small>Beverage Mix</small>
           <h4 id="bevMixCard"></h4>
         </div>
 
@@ -314,12 +341,14 @@
 
 
 
+
     <!-- SUMMARY -->
     <section class="bg-pink-200 rounded-3xl p-6 shadow">
 
       <h3 class="font-bold text-xl mb-4">
         Monthly Summary
       </h3>
+
 
       <div class="grid grid-cols-4 gap-4">
 
@@ -353,6 +382,7 @@
 
 
 
+
     <!-- CHART -->
     <section class="grid grid-cols-3 gap-5">
 
@@ -376,6 +406,7 @@
 
 
 
+
     <!-- RECENT -->
     <section class="bg-white rounded-3xl p-6 shadow">
 
@@ -386,6 +417,7 @@
       <div id="recentEntriesList"></div>
 
     </section>
+
 
 
   </main>
