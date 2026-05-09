@@ -1,60 +1,133 @@
-const SETTINGS_STORAGE_KEY = "skybar_settings";
+const SETTINGS_STORAGE_KEY =
+  "skybar_settings";
+
+
+
+// ======================
+// DEFAULT SETTINGS
+// ======================
 
 const defaultSettings = {
-  outletName: "SKYBAR",
-  currency: "RM",
-  annualRevenueTarget: 0,
-  monthlyBudget: 0,
-  foodCostPercent: 35,
-  beverageCostPercent: 25,
-  fixCostPercent: 18,
-  lyFoodRevenue: 0,
-  lyBeverageRevenue: 0
+
+  outletName:
+    "SKYBAR",
+
+  currency:
+    "RM",
+
+  annualRevenueTarget:
+    0,
+
+  monthlyBudget:
+    0,
+
+  foodCostPercent:
+    35,
+
+  beverageCostPercent:
+    25,
+
+  fixCostPercent:
+    18,
+
+  lyFoodRevenue:
+    0,
+
+  lyBeverageRevenue:
+    0
+
 };
 
-function getSettings() {
-  try {
-    const raw = localStorage.getItem(
-      SETTINGS_STORAGE_KEY
-    );
 
-    if (!raw) {
+
+// ======================
+// GET SETTINGS
+// ======================
+
+function getSettings() {
+
+  try {
+
+    const raw =
+      localStorage.getItem(
+        SETTINGS_STORAGE_KEY
+      );
+
+
+    if(
+      !raw
+    ) {
+
       return {
         ...defaultSettings
       };
+
     }
 
-    const parsed = JSON.parse(raw);
+
+    const parsed =
+      JSON.parse(
+        raw
+      );
+
 
     return {
+
       ...defaultSettings,
+
       ...parsed
+
     };
 
-  } catch (error) {
+  }
 
-    console.error(error);
+  catch(
+    error
+  ) {
+
+    console.error(
+      error
+    );
+
 
     return {
       ...defaultSettings
     };
 
   }
+
 }
 
-function saveSettings(settings) {
+
+
+// ======================
+// SAVE SETTINGS
+// ======================
+
+function saveSettings(
+  settings
+) {
 
   localStorage.setItem(
     SETTINGS_STORAGE_KEY,
-    JSON.stringify(settings)
+    JSON.stringify(
+      settings
+    )
   );
 
 }
+
+
+
+// ======================
+// LOAD FORM
+// ======================
 
 function loadSettingsForm() {
 
   const settings =
     getSettings();
+
 
   setValue(
     "outletName",
@@ -103,6 +176,12 @@ function loadSettingsForm() {
 
 }
 
+
+
+// ======================
+// FORM SUBMIT
+// ======================
+
 function bindSettingsForm() {
 
   const form =
@@ -110,7 +189,11 @@ function bindSettingsForm() {
       "settingsForm"
     );
 
-  if (!form) return;
+
+  if(
+    !form
+  ) return;
+
 
   form.addEventListener(
     "submit",
@@ -118,13 +201,18 @@ function bindSettingsForm() {
 
       event.preventDefault();
 
+
       const payload = {
 
         outletName:
-          getValue("outletName"),
+          getValue(
+            "outletName"
+          ),
 
         currency:
-          getValue("currency"),
+          getValue(
+            "currency"
+          ),
 
         annualRevenueTarget:
           Number(
@@ -177,9 +265,11 @@ function bindSettingsForm() {
 
       };
 
+
       saveSettings(
         payload
       );
+
 
       alert(
         "Settings saved."
@@ -187,7 +277,14 @@ function bindSettingsForm() {
 
     }
   );
+
 }
+
+
+
+// ======================
+// EXPORT
+// ======================
 
 function exportBackup() {
 
@@ -200,6 +297,7 @@ function exportBackup() {
       getAllEntries()
 
   };
+
 
   const blob =
     new Blob(
@@ -216,29 +314,43 @@ function exportBackup() {
       }
     );
 
+
   const url =
     URL.createObjectURL(
       blob
     );
+
 
   const a =
     document.createElement(
       "a"
     );
 
-  a.href = url;
+
+  a.href =
+    url;
 
   a.download =
     "skybar-backup.json";
+
 
   a.click();
 
 }
 
-function importBackup(file) {
+
+
+// ======================
+// IMPORT
+// ======================
+
+function importBackup(
+  file
+) {
 
   const reader =
     new FileReader();
+
 
   reader.onload =
     function(event) {
@@ -248,7 +360,10 @@ function importBackup(file) {
           event.target.result
         );
 
-      if (data.settings) {
+
+      if(
+        data.settings
+      ) {
 
         saveSettings(
           data.settings
@@ -256,7 +371,10 @@ function importBackup(file) {
 
       }
 
-      if (data.entries) {
+
+      if(
+        data.entries
+      ) {
 
         localStorage.setItem(
           "skybar_entries",
@@ -267,17 +385,28 @@ function importBackup(file) {
 
       }
 
+
       alert(
         "Backup restored."
       );
+
 
       location.reload();
 
     };
 
-  reader.readAsText(file);
+
+  reader.readAsText(
+    file
+  );
 
 }
+
+
+
+// ======================
+// RESET
+// ======================
 
 function resetAllData() {
 
@@ -290,6 +419,12 @@ function resetAllData() {
   location.reload();
 
 }
+
+
+
+// ======================
+// EVENTS
+// ======================
 
 function bindButtons() {
 
@@ -313,12 +448,20 @@ function bindButtons() {
       "resetDataBtn"
     );
 
-  if (exportBtn) {
+
+  if(
+    exportBtn
+  ) {
+
     exportBtn.onclick =
       exportBackup;
+
   }
 
-  if (importBtn) {
+
+  if(
+    importBtn
+  ) {
 
     importBtn.onclick =
       function() {
@@ -329,12 +472,15 @@ function bindButtons() {
 
   }
 
-  if (importFile) {
+
+  if(
+    importFile
+  ) {
 
     importFile.onchange =
       function() {
 
-        if (
+        if(
           this.files.length
         ) {
 
@@ -348,7 +494,10 @@ function bindButtons() {
 
   }
 
-  if (resetBtn) {
+
+  if(
+    resetBtn
+  ) {
 
     resetBtn.onclick =
       resetAllData;
@@ -356,6 +505,12 @@ function bindButtons() {
   }
 
 }
+
+
+
+// ======================
+// HELPERS
+// ======================
 
 function setValue(
   id,
@@ -367,7 +522,9 @@ function setValue(
       id
     );
 
-  if (el) {
+  if(
+    el
+  ) {
 
     el.value =
       value;
@@ -376,18 +533,30 @@ function setValue(
 
 }
 
-function getValue(id) {
+
+function getValue(
+  id
+) {
 
   const el =
     document.getElementById(
       id
     );
 
-  if (!el) return "";
+  if(
+    !el
+  ) return "";
+
 
   return el.value;
 
 }
+
+
+
+// ======================
+// START
+// ======================
 
 document.addEventListener(
   "DOMContentLoaded",
