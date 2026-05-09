@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    SKYBAR Operating Review
+  </title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+
+
+<body class="bg-slate-100">
+
+<div class="min-h-screen flex">
+
+
+  <!-- NAVIGATION -->
+  <aside class="w-64 bg-slate-950 text-white p-6">
+
+    <h2 class="text-xl font-bold mb-8">
+      SKYBAR
+    </h2>
+
+    <nav class="space-y-3">
+
+      <a
+        href="index.html"
+        class="block"
+      >
+        Dashboard
+      </a>
+
+      <a
+        href="entry.html"
+        class="block"
+      >
+        Entry
+      </a>
+
+      <a
+        href="reports.html"
+        class="block"
+      >
+        Reports
+      </a>
+
+      <a
+        href="review.html"
+        class="block text-cyan-400"
+      >
+        Review
+      </a>
+
+      <a
+        href="settings.html"
+        class="block"
+      >
+        Settings
+      </a>
+
+    </nav>
+
+  </aside>
+
+
+
+  <!-- MAIN -->
+  <main class="flex-1 p-8">
+
+
+    <!-- KPI -->
+    <div class="grid md:grid-cols-4 gap-6 mb-8">
+
+
+      <div class="bg-white rounded-2xl p-6 shadow">
+
+        <p class="text-slate-500 text-sm">
+          Revenue Achievement
+        </p>
+
+        <h3
+          id="reviewRevenueAchievement"
+          class="text-2xl font-bold mt-2"
+        >
+          0%
+        </h3>
+
+      </div>
+
+
+
+      <div class="bg-white rounded-2xl p-6 shadow">
+
+        <p class="text-slate-500 text-sm">
+          GOP Achievement
+        </p>
+
+        <h3
+          id="reviewGopAchievement"
+          class="text-2xl font-bold mt-2"
+        >
+          0%
+        </h3>
+
+      </div>
+
+
+
+      <div class="bg-white rounded-2xl p-6 shadow">
+
+        <p class="text-slate-500 text-sm">
+          Food Cost Variance
+        </p>
+
+        <h3
+          id="reviewFoodVariance"
+          class="text-2xl font-bold mt-2"
+        >
+          0%
+        </h3>
+
+      </div>
+
+
+
+      <div class="bg-white rounded-2xl p-6 shadow">
+
+        <p class="text-slate-500 text-sm">
+          Beverage Cost Variance
+        </p>
+
+        <h3
+          id="reviewBeverageVariance"
+          class="text-2xl font-bold mt-2"
+        >
+          0%
+        </h3>
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- INSIGHT -->
+    <div class="bg-white rounded-2xl p-6 shadow mb-8">
+
+      <h2 class="text-xl font-bold mb-4">
+        Management Insight
+      </h2>
+
+
+      <div
+        id="businessInsight"
+        class="text-slate-600 leading-8"
+      >
+        -
+      </div>
+
+    </div>
+
+
+
+    <!-- NOTES -->
+    <div class="bg-white rounded-2xl p-6 shadow">
+
+      <h2 class="text-xl font-bold mb-4">
+        Management Notes
+      </h2>
+
+
+      <textarea
+        id="managementNotes"
+        rows="8"
+        class="w-full border rounded-2xl p-4"
+      ></textarea>
+
+    </div>
+
+
+  </main>
+
+</div>
+
+
+
+<script src="storage.js"></script>
+<script src="settings.js"></script>
+<script src="calculations.js"></script>
+<script src="review.js"></script>
+
+
+</body>
+</html>
