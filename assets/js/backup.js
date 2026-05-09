@@ -8,149 +8,200 @@ const BACKUP_FILENAME =
 
 function exportBackup() {
 
-  const entries =
-    getEntries();
+  try {
 
-  const backupData = {
+    const payload = {
 
-    app: "SKYBAR",
+      exportedAt:
+        new Date().toISOString(),
 
-    version: "1.0.0",
 
-    exportDate:
-      new Date().toISOString(),
+      version:
+        "1.0",
 
-    totalEntries:
-      entries.length,
 
-    data:
-      entries
+      settings:
+        getSettings(),
 
-  };
 
-  const jsonString =
-    JSON.stringify(
-      backupData,
-      null,
-      2
+      entries:
+        getEntries()
+
+    };
+
+
+    const blob =
+      new Blob(
+        [
+          JSON.stringify(
+            payload,
+            null,
+            2
+          )
+        ],
+        {
+
+          type:
+            "application/json"
+
+        }
+      );
+
+
+    const url =
+      URL.createObjectURL(
+        blob
+      );
+
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+
+    link.href =
+      url;
+
+
+    link.download =
+      BACKUP_FILENAME;
+
+
+    document.body.appendChild(
+      link
     );
 
-  const blob =
-    new Blob(
-      [jsonString],
-      {
-        type:
-          "application/json"
-      }
+
+    link.click();
+
+
+    document.body.removeChild(
+      link
     );
 
-  const url =
-    URL.createObjectURL(
-      blob
+
+    URL.revokeObjectURL(
+      url
     );
 
-  const link =
-    document.createElement(
-      "a"
+
+    alert(
+      "Backup exported successfully."
     );
 
-  link.href = url;
+  }
 
-  link.download =
-    BACKUP_FILENAME;
+  catch(
+    error
+  ) {
 
-  document.body.appendChild(
-    link
-  );
+    console.error(
+      error
+    );
 
-  link.click();
 
-  document.body.removeChild(
-    link
-  );
+    alert(
+      "Backup export failed."
+    );
 
-  URL.revokeObjectURL(
-    url
-  );
+  }
 
 }
 
 
 // ======================
-// IMPORT BACKUP
+// RESTORE BACKUP
 // ======================
 
-function importBackup(
-  event
+function restoreBackup(
+  file
 ) {
 
-  const file =
-    event.target.files[0];
+  if(
+    !file
+  ) {
 
-  if(!file) return;
+    alert(
+      "No backup file selected."
+    );
+
+    return;
+
+  }
+
 
   const reader =
     new FileReader();
 
+
   reader.onload =
-    function(e) {
+    function(
+      event
+    ) {
 
       try {
 
-        const importedData =
+        const parsed =
           JSON.parse(
-            e.target.result
+            event.target.result
           );
+
 
         if(
-          !importedData.data
+          !parsed.entries ||
+          !parsed.settings
         ) {
 
-          alert(
-            "Invalid backup file"
+          throw new Error(
+            "Invalid backup file."
           );
-
-          return;
 
         }
 
-        saveEntries(
-          importedData.data
+
+        localStorage.setItem(
+          "skybar.finance.entries.v1",
+          JSON.stringify(
+            parsed.entries
+          )
         );
+
+
+        localStorage.setItem(
+          "skybar.finance.settings.v1",
+          JSON.stringify(
+            parsed.settings
+          )
+        );
+
 
         alert(
-          "Backup restored successfully"
+          "Backup restored successfully."
         );
 
-        if(
-          typeof renderDashboard ===
-          "function"
-        ) {
 
-          renderDashboard();
-
-        }
-
-        if(
-          typeof renderReports ===
-          "function"
-        ) {
-
-          renderReports();
-
-        }
+        location.reload();
 
       }
 
-      catch(error) {
+      catch(
+        error
+      ) {
+
+        console.error(
+          error
+        );
+
 
         alert(
-          "Backup file corrupted"
+          "Invalid backup file."
         );
 
       }
 
     };
+
 
   reader.readAsText(
     file
@@ -160,44 +211,26 @@ function importBackup(
 
 
 // ======================
-// RESET ALL DATA
+// INPUT HANDLER
 // ======================
 
-function clearAllData() {
-
-  const confirmDelete =
-    confirm(
-      "Delete all SKYBAR finance data?"
-    );
+function handleBackupUpload(
+  input
+) {
 
   if(
-    !confirmDelete
-  ) return;
-
-  localStorage.removeItem(
-    STORAGE_KEY
-  );
-
-  alert(
-    "All data removed"
-  );
-
-  if(
-    typeof renderDashboard ===
-    "function"
+    !input ||
+    !input.files ||
+    !input.files[0]
   ) {
 
-    renderDashboard();
+    return;
 
   }
 
-  if(
-    typeof renderReports ===
-    "function"
-  ) {
 
-    renderReports();
-
-  }
+  restoreBackup(
+    input.files[0]
+  );
 
 }
