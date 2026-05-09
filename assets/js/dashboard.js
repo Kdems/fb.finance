@@ -264,21 +264,13 @@ function renderDashboard() {
     );
 
 
-  renderYtd(
-    current
-  );
+  renderYtd(current);
 
-  renderMtd(
-    current
-  );
+  renderMtd(current);
 
-  renderGop(
-    current
-  );
+  renderGop(current);
 
-  renderFoodBeverage(
-    current
-  );
+  renderFoodBeverage(current);
 
   renderSummary(
     entries,
@@ -342,12 +334,35 @@ function renderYtd(
     budget;
 
 
-  updateCard("ytdRevenueCard", formatMoney(current.totalRevenue));
-  updateCard("ytdBudgetCard", formatMoney(budget));
-  updateCard("ytdAchievementCard", `${achievement.toFixed(2)}%`);
-  updateCard("ytdGrowthCard", `${growth.toFixed(2)}%`);
-  updateCard("lyRevenueCard", formatMoney(lyRevenue));
-  updateCard("ytdVarianceCard", formatMoney(variance));
+  updateCard(
+    "ytdRevenueCard",
+    formatMoney(current.totalRevenue)
+  );
+
+  updateCard(
+    "ytdBudgetCard",
+    formatMoney(budget)
+  );
+
+  updateCard(
+    "ytdAchievementCard",
+    `${achievement.toFixed(2)}%`
+  );
+
+  updateCard(
+    "ytdGrowthCard",
+    `${growth.toFixed(2)}%`
+  );
+
+  updateCard(
+    "lyRevenueCard",
+    formatMoney(lyRevenue)
+  );
+
+  updateCard(
+    "ytdVarianceCard",
+    formatMoney(variance)
+  );
 
 }
 
@@ -389,11 +404,35 @@ function renderMtd(
     );
 
 
-  updateCard("mtdRevenueCard", formatMoney(current.totalRevenue));
-  updateCard("mtdBudgetCard", formatMoney(monthlyBudget));
-  updateCard("mtdGopCard", formatMoney(current.totalGop));
-  updateCard("mtdGrowthCard", `${growth.toFixed(2)}%`);
-  updateCard("mtdAchievementCard", `${achievement.toFixed(2)}%`);
+  updateCard(
+    "mtdRevenueCard",
+    formatMoney(current.totalRevenue)
+  );
+
+  updateCard(
+    "mtdBudgetCard",
+    formatMoney(monthlyBudget)
+  );
+
+  updateCard(
+    "mtdGopCard",
+    formatMoney(current.totalGop)
+  );
+
+  updateCard(
+    "mtdGrowthCard",
+    `${growth.toFixed(2)}%`
+  );
+
+  updateCard(
+    "mtdLyRevenueCard",
+    formatMoney(lyMonthlyRevenue)
+  );
+
+  updateCard(
+    "mtdAchievementCard",
+    `${achievement.toFixed(2)}%`
+  );
 
 }
 
@@ -417,7 +456,7 @@ function renderGop(
 
 
 // ======================
-// F&B ANALYSIS
+// F&B
 // ======================
 
 function renderFoodBeverage(
@@ -665,7 +704,9 @@ function updateSubCard(
   if(!el) return;
 
   const small =
-    el.parentElement.querySelector("small");
+    el.parentElement.querySelector(
+      "small"
+    );
 
   if(
     small
