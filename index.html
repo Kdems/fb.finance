@@ -2,77 +2,70 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8">
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0">
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>
-    SKYBAR GM Dashboard
+    SKYBAR Dashboard
   </title>
-
-  <link rel="icon" href="data:,">
 
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 
 
-<body class="bg-slate-100 font-sans">
+<body class="bg-slate-100">
 
-<div class="flex min-h-screen">
+<div class="min-h-screen flex">
 
 
+  <!-- NAVIGATION -->
+  <aside class="w-64 bg-slate-950 text-white p-6">
 
-  <!-- SIDEBAR -->
-  <aside class="w-64 bg-slate-950 text-white p-6 min-h-screen">
-
-    <h1 class="text-4xl font-bold mb-10">
+    <h2 class="text-xl font-bold mb-8">
       SKYBAR
-    </h1>
-
-
+    </h2>
 
     <nav class="space-y-3">
 
       <a
         href="index.html"
-        class="block bg-slate-800 rounded-xl px-4 py-3">
+        class="block text-cyan-400"
+      >
         Dashboard
       </a>
 
-
-
       <a
         href="entry.html"
-        class="block hover:bg-slate-800 rounded-xl px-4 py-3">
-        Daily Entry
+        class="block"
+      >
+        Entry
       </a>
-
-
-
-      <a
-        href="review.html"
-        class="block hover:bg-slate-800 rounded-xl px-4 py-3">
-        Operating Review
-      </a>
-
-
 
       <a
         href="reports.html"
-        class="block hover:bg-slate-800 rounded-xl px-4 py-3">
+        class="block"
+      >
         Reports
       </a>
 
-
+      <a
+        href="review.html"
+        class="block"
+      >
+        Review
+      </a>
 
       <a
         href="settings.html"
-        class="block hover:bg-slate-800 rounded-xl px-4 py-3">
+        class="block"
+      >
         Settings
       </a>
 
@@ -82,342 +75,157 @@
 
 
 
-
-
-
-
   <!-- MAIN -->
-  <main class="flex-1 p-8 space-y-6">
-
+  <main class="flex-1 p-8">
 
 
     <!-- HEADER -->
-    <div class="flex justify-between items-center">
+    <div class="mb-8 flex gap-4">
 
-      <div>
-
-        <h2 class="text-4xl font-bold text-slate-900">
-          Executive Dashboard
-        </h2>
-
-        <p class="text-slate-500">
-          SKYBAR Financial Intelligence
-        </p>
-
-      </div>
+      <select
+        id="yearFilter"
+        class="border rounded-xl px-4 py-3"
+      ></select>
 
 
-
-      <div class="flex gap-3">
-
-        <select
-          id="yearFilter"
-          class="bg-white rounded-xl shadow px-4 py-2 border">
-        </select>
-
-
-
-        <select
-          id="monthFilter"
-          class="bg-white rounded-xl shadow px-4 py-2 border">
-        </select>
-
-      </div>
+      <select
+        id="monthFilter"
+        class="border rounded-xl px-4 py-3"
+      ></select>
 
     </div>
 
 
 
+    <!-- KPI -->
+    <div class="grid md:grid-cols-4 gap-6 mb-8">
 
 
+      <div class="bg-white rounded-2xl p-6 shadow">
 
+        <p class="text-slate-500 text-sm">
+          Total Revenue
+        </p>
 
-    <!-- EXECUTIVE ALERT -->
-    <section class="bg-slate-900 text-white rounded-3xl p-6 shadow">
-
-      <h3 class="font-bold text-xl mb-4">
-        Executive Alerts
-      </h3>
-
-
-      <div class="grid grid-cols-4 gap-4">
-
-        <div class="bg-slate-800 rounded-2xl p-4">
-          <small>Revenue Status</small>
-          <h4 id="revenueAlertCard"></h4>
-        </div>
-
-        <div class="bg-slate-800 rounded-2xl p-4">
-          <small>Projection</small>
-          <h4 id="projectionAlertCard"></h4>
-        </div>
-
-        <div class="bg-slate-800 rounded-2xl p-4">
-          <small>Food Cost</small>
-          <h4 id="foodAlertCard"></h4>
-        </div>
-
-        <div class="bg-slate-800 rounded-2xl p-4">
-          <small>Margin</small>
-          <h4 id="marginAlertCard"></h4>
-        </div>
+        <h3
+          id="ytdRevenueCard"
+          class="text-2xl font-bold mt-2"
+        >
+          RM0
+        </h3>
 
       </div>
 
-    </section>
 
 
+      <div class="bg-white rounded-2xl p-6 shadow">
 
+        <p class="text-slate-500 text-sm">
+          Total Budget
+        </p>
 
-
-
-
-
-    <!-- YTD -->
-    <section class="bg-violet-200 rounded-3xl p-6 shadow">
-
-      <h3 class="font-bold text-xl mb-4">
-        Year-To-Date
-      </h3>
-
-
-      <div class="grid grid-cols-4 gap-4">
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Revenue</small>
-          <h4 id="ytdRevenueCard"></h4>
-        </div>
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Budget</small>
-          <h4 id="ytdBudgetCard"></h4>
-        </div>
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Achievement</small>
-          <h4 id="ytdAchievementCard"></h4>
-        </div>
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Variance</small>
-          <h4 id="ytdVarianceCard"></h4>
-        </div>
+        <h3
+          id="ytdBudgetCard"
+          class="text-2xl font-bold mt-2"
+        >
+          RM0
+        </h3>
 
       </div>
 
-    </section>
 
 
+      <div class="bg-white rounded-2xl p-6 shadow">
 
+        <p class="text-slate-500 text-sm">
+          Achievement
+        </p>
 
-
-
-
-
-    <!-- MTD -->
-    <section class="bg-sky-200 rounded-3xl p-6 shadow">
-
-      <h3 class="font-bold text-xl mb-4">
-        Month-To-Date
-      </h3>
-
-
-      <div class="grid grid-cols-5 gap-4">
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Revenue</small>
-          <h4 id="mtdRevenueCard"></h4>
-        </div>
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Daily Pace</small>
-          <h4 id="dailyPaceCard"></h4>
-        </div>
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Projection</small>
-          <h4 id="projectionCard"></h4>
-        </div>
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Gap</small>
-          <h4 id="projectionGapCard"></h4>
-        </div>
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Days Left</small>
-          <h4 id="daysLeftCard"></h4>
-        </div>
+        <h3
+          id="ytdAchievementCard"
+          class="text-2xl font-bold mt-2"
+        >
+          0%
+        </h3>
 
       </div>
 
-    </section>
 
 
+      <div class="bg-white rounded-2xl p-6 shadow">
 
+        <p class="text-slate-500 text-sm">
+          GOP Margin
+        </p>
 
-
-
-
-
-    <!-- GOP -->
-    <section class="bg-emerald-200 rounded-3xl p-6 shadow">
-
-      <h3 class="font-bold text-xl mb-4">
-        Gross Operating Profit
-      </h3>
-
-
-      <div class="grid grid-cols-4 gap-4">
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Revenue</small>
-          <h4 id="gopRevenueCard"></h4>
-        </div>
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Total Cost</small>
-          <h4 id="gopCostCard"></h4>
-        </div>
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>GOP</small>
-          <h4 id="gopMainCard"></h4>
-        </div>
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Margin</small>
-          <h4 id="gopMarginCard"></h4>
-        </div>
+        <h3
+          id="gopMarginCard"
+          class="text-2xl font-bold mt-2"
+        >
+          0%
+        </h3>
 
       </div>
 
-    </section>
+
+    </div>
 
 
 
+    <!-- F&B -->
+    <div class="grid md:grid-cols-2 gap-6 mb-8">
 
 
+      <div class="bg-white rounded-2xl p-6 shadow">
 
+        <p class="text-slate-500 text-sm">
+          Food Revenue
+        </p>
 
-
-    <!-- FOOD & BEVERAGE -->
-    <section class="bg-orange-200 rounded-3xl p-6 shadow">
-
-      <h3 class="font-bold text-xl mb-4">
-        Food & Beverage
-      </h3>
-
-
-      <div class="grid grid-cols-4 gap-4">
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Food Revenue</small>
-          <h4 id="foodRevenueCard"></h4>
-        </div>
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Food Mix</small>
-          <h4 id="foodMixCard"></h4>
-        </div>
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Beverage Revenue</small>
-          <h4 id="bevRevenueCard"></h4>
-        </div>
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Beverage Mix</small>
-          <h4 id="bevMixCard"></h4>
-        </div>
+        <h3
+          id="foodRevenueCard"
+          class="text-2xl font-bold mt-2"
+        >
+          RM0
+        </h3>
 
       </div>
 
-    </section>
 
 
+      <div class="bg-white rounded-2xl p-6 shadow">
 
+        <p class="text-slate-500 text-sm">
+          Beverage Revenue
+        </p>
 
-
-
-
-
-    <!-- SUMMARY -->
-    <section class="bg-pink-200 rounded-3xl p-6 shadow">
-
-      <h3 class="font-bold text-xl mb-4">
-        Monthly Summary
-      </h3>
-
-
-      <div class="grid grid-cols-4 gap-4">
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Revenue</small>
-          <h4 id="summaryRevenueCard"></h4>
-        </div>
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Budget</small>
-          <h4 id="summaryBudgetCard"></h4>
-        </div>
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Best Day</small>
-          <h4 id="bestDayCard"></h4>
-        </div>
-
-        <div class="bg-white/70 rounded-2xl p-4">
-          <small>Worst Day</small>
-          <h4 id="worstDayCard"></h4>
-        </div>
+        <h3
+          id="bevRevenueCard"
+          class="text-2xl font-bold mt-2"
+        >
+          RM0
+        </h3>
 
       </div>
 
-    </section>
 
-
-
-
-
-
-
-
-    <!-- CHART -->
-    <section class="grid grid-cols-3 gap-5">
-
-      <div class="bg-white rounded-2xl p-5 shadow">
-        <canvas id="revenueChart"></canvas>
-      </div>
-
-      <div class="bg-white rounded-2xl p-5 shadow">
-        <canvas id="gopChart"></canvas>
-      </div>
-
-      <div class="bg-white rounded-2xl p-5 shadow">
-        <canvas id="mixChart"></canvas>
-      </div>
-
-    </section>
-
-
-
-
-
+    </div>
 
 
 
     <!-- RECENT -->
-    <section class="bg-white rounded-3xl p-6 shadow">
+    <div class="bg-white rounded-2xl p-6 shadow">
 
-      <h3 class="font-bold text-xl mb-4">
+      <h2 class="text-xl font-bold mb-6">
         Recent Entries
-      </h3>
+      </h2>
 
-      <div id="recentEntriesList"></div>
 
-    </section>
+      <div
+        id="recentEntriesList"
+      ></div>
 
+    </div>
 
 
   </main>
@@ -426,12 +234,11 @@
 
 
 
-<script src="assets/js/storage.js"></script>
-<script src="assets/js/settings.js"></script>
-<script src="assets/js/calculations.js"></script>
-<script src="assets/js/charts.js"></script>
-<script src="assets/js/seed.js"></script>
-<script src="assets/js/dashboard.js"></script>
+<script src="storage.js"></script>
+<script src="settings.js"></script>
+<script src="calculations.js"></script>
+<script src="dashboard.js"></script>
+
 
 </body>
 </html>
