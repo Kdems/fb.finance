@@ -1,114 +1,254 @@
-// Safe percentage calculation
-function calculatePercent(value, base) {
-  if (!base || base <= 0) return 0;
-  return (value / base) * 100;
+function safePercent(
+  value,
+  base
+) {
+
+  if(
+    !base ||
+    base <= 0
+  ) {
+
+    return 0;
+
+  }
+
+  return (
+    value / base
+  ) * 100;
+
 }
 
-// Calculate one entry
-function calculateEntryMetrics(entry) {
-  const foodRevenue = Number(entry.foodRevenue || 0);
-  const beverageRevenue = Number(entry.beverageRevenue || 0);
 
-  const foodCostPercent = Number(entry.foodCostPercent || 0);
-  const beverageCostPercent = Number(entry.beverageCostPercent || 0);
-  const fixedCostPercent = Number(entry.fixedCostPercent || 0);
+// ======================
+// SINGLE ENTRY
+// ======================
 
-  const dailyBudget = Number(entry.dailyBudget || 0);
+function calculateEntryMetrics(
+  entry
+) {
 
-  // Revenue
+  const settings =
+    getSettings();
+
+
+  const foodRevenue =
+    Number(
+      entry.foodRevenue || 0
+    );
+
+
+  const beverageRevenue =
+    Number(
+      entry.beverageRevenue || 0
+    );
+
+
   const totalRevenue =
-    foodRevenue + beverageRevenue;
+    foodRevenue +
+    beverageRevenue;
 
-  // Cost amounts (based on %)
+
+  // COST %
+
+  const foodCostPercent =
+    Number(
+      entry.foodCostPercent || 0
+    );
+
+
+  const beverageCostPercent =
+    Number(
+      entry.beverageCostPercent || 0
+    );
+
+
+  const fixedCostPercent =
+    Number(
+      entry.fixedCostPercent || 0
+    );
+
+
+  // COST AMOUNT
+
   const foodCostAmount =
-    (foodRevenue * foodCostPercent) / 100;
+    (
+      foodRevenue *
+      foodCostPercent
+    ) / 100;
+
 
   const beverageCostAmount =
-    (beverageRevenue * beverageCostPercent) / 100;
+    (
+      beverageRevenue *
+      beverageCostPercent
+    ) / 100;
+
 
   const fixedCostAmount =
-    (totalRevenue * fixedCostPercent) / 100;
+    (
+      totalRevenue *
+      fixedCostPercent
+    ) / 100;
 
-  // Total cost
+
+  // TOTAL COST
+
   const totalCost =
     foodCostAmount +
     beverageCostAmount +
     fixedCostAmount;
 
+
   // GOP
+
   const gop =
-    totalRevenue - totalCost;
+    totalRevenue -
+    totalCost;
 
-  // Variance
-  const budgetVariance =
-    totalRevenue - dailyBudget;
 
-  // Margin
+  // MARGIN
+
   const gopMargin =
-    calculatePercent(gop, totalRevenue);
+    safePercent(
+      gop,
+      totalRevenue
+    );
+
+
+  // BUDGET
+
+  const budgetVariance =
+    totalRevenue -
+    Number(
+      entry.dailyBudget || 0
+    );
+
+
+  // TARGET VARIANCE
+
+  const foodCostVariance =
+    foodCostPercent -
+    settings.foodCostTarget;
+
+
+  const beverageCostVariance =
+    beverageCostPercent -
+    settings.beverageCostTarget;
+
+
+  const fixedCostVariance =
+    fixedCostPercent -
+    settings.fixedCostTarget;
+
 
   return {
+
     ...entry,
 
     totalRevenue,
 
     foodCostAmount,
+
     beverageCostAmount,
+
     fixedCostAmount,
 
     totalCost,
 
     gop,
 
+    gopMargin,
+
     budgetVariance,
 
-    gopMargin
+
+    foodCostVariance,
+
+    beverageCostVariance,
+
+    fixedCostVariance
+
   };
+
 }
 
-// Calculate MTD summary
-function calculatePeriodSummary(entries) {
 
-  let totalFoodRevenue = 0;
-  let totalBeverageRevenue = 0;
-  let totalRevenue = 0;
-  let totalCost = 0;
-  let totalGop = 0;
-  let totalBudget = 0;
+// ======================
+// PERIOD SUMMARY
+// ======================
 
-  entries.forEach(entry => {
+function calculatePeriodSummary(
+  entries
+) {
 
-    const calculated =
-      calculateEntryMetrics(entry);
+  let totalFoodRevenue =
+    0;
 
-    totalFoodRevenue +=
-      calculated.foodRevenue;
+  let totalBeverageRevenue =
+    0;
 
-    totalBeverageRevenue +=
-      calculated.beverageRevenue;
+  let totalRevenue =
+    0;
 
-    totalRevenue +=
-      calculated.totalRevenue;
+  let totalCost =
+    0;
 
-    totalCost +=
-      calculated.totalCost;
+  let totalGop =
+    0;
 
-    totalGop +=
-      calculated.gop;
+  let totalBudget =
+    0;
 
-    totalBudget +=
-      Number(entry.dailyBudget || 0);
 
-  });
+  entries.forEach(
+    entry => {
+
+      const calculated =
+        calculateEntryMetrics(
+          entry
+        );
+
+
+      totalFoodRevenue +=
+        calculated.foodRevenue;
+
+
+      totalBeverageRevenue +=
+        calculated.beverageRevenue;
+
+
+      totalRevenue +=
+        calculated.totalRevenue;
+
+
+      totalCost +=
+        calculated.totalCost;
+
+
+      totalGop +=
+        calculated.gop;
+
+
+      totalBudget +=
+        Number(
+          entry.dailyBudget || 0
+        );
+
+    }
+  );
+
 
   const budgetVariance =
-    totalRevenue - totalBudget;
+    totalRevenue -
+    totalBudget;
+
 
   const gopMargin =
-    calculatePercent(
+    safePercent(
       totalGop,
       totalRevenue
     );
+
 
   return {
 
@@ -128,7 +268,9 @@ function calculatePeriodSummary(entries) {
 
     gopMargin,
 
-    totalEntries: entries.length
+    totalEntries:
+      entries.length
 
   };
+
 }
