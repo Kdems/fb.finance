@@ -1,3 +1,10 @@
+//
+// SKYBAR FINANCE ENGINE
+// FULL MASTER VERSION
+//
+
+
+
 // ======================
 // FILTER ENTRIES
 // ======================
@@ -14,9 +21,13 @@ function filterEntries(
   return entries.filter(
     entry => {
 
-      if(
+      if (
         !entry.date
-      ) return false;
+      ) {
+
+        return false;
+
+      }
 
 
       const date =
@@ -35,9 +46,13 @@ function filterEntries(
 
       return (
 
-        entryYear === year &&
+        entryYear ===
+          Number(year)
 
-        entryMonth === month
+        &&
+
+        entryMonth ===
+          Number(month)
 
       );
 
@@ -49,35 +64,219 @@ function filterEntries(
 
 
 // ======================
-// MAIN CALCULATION
+// CALCULATE SINGLE ENTRY
+// ======================
+
+function calculateEntryMetrics(
+  entry
+) {
+
+  const foodRevenue =
+    Number(
+      entry.foodRevenue || 0
+    );
+
+
+  const beverageRevenue =
+    Number(
+      entry.beverageRevenue || 0
+    );
+
+
+  const totalRevenue =
+    foodRevenue +
+    beverageRevenue;
+
+
+
+  const foodCostPercent =
+    Number(
+      entry.foodCostPercent || 0
+    );
+
+
+  const beverageCostPercent =
+    Number(
+      entry.beverageCostPercent || 0
+    );
+
+
+  const fixedCostPercent =
+    Number(
+      entry.fixedCostPercent || 0
+    );
+
+
+
+  const foodCost =
+
+    (
+      foodRevenue *
+      foodCostPercent
+    ) / 100;
+
+
+
+  const beverageCost =
+
+    (
+      beverageRevenue *
+      beverageCostPercent
+    ) / 100;
+
+
+
+  const fixedCost =
+
+    (
+      totalRevenue *
+      fixedCostPercent
+    ) / 100;
+
+
+
+  const totalCost =
+
+    foodCost +
+    beverageCost +
+    fixedCost;
+
+
+
+  const gop =
+
+    totalRevenue -
+    totalCost;
+
+
+
+  const budget =
+    Number(
+      entry.dailyBudget || 0
+    );
+
+
+  const variance =
+
+    totalRevenue -
+    budget;
+
+
+
+  const achievement =
+
+    budget > 0
+
+      ?
+
+      (
+        totalRevenue /
+        budget
+      ) * 100
+
+      :
+
+      0;
+
+
+
+  const gopMargin =
+
+    totalRevenue > 0
+
+      ?
+
+      (
+        gop /
+        totalRevenue
+      ) * 100
+
+      :
+
+      0;
+
+
+
+  return {
+
+    foodRevenue,
+    beverageRevenue,
+
+    totalRevenue,
+
+    foodCost,
+    beverageCost,
+    fixedCost,
+
+    totalCost,
+
+    gop,
+
+    variance,
+
+    achievement,
+
+    gopMargin
+
+  };
+
+}
+
+
+
+// ======================
+// PERIOD SUMMARY
 // ======================
 
 function calculatePeriodSummary(
   entries
 ) {
 
-  const settings =
-    getSettings();
+  let totalFoodRevenue =
+    0;
 
+  let totalBeverageRevenue =
+    0;
 
-  let totalFoodRevenue = 0;
+  let totalCost =
+    0;
 
-  let totalBeverageRevenue = 0;
+  let totalGop =
+    0;
+
+  let totalBudget =
+    0;
 
 
 
   entries.forEach(
     entry => {
 
-      totalFoodRevenue +=
-        Number(
-          entry.foodRevenue || 0
+      const calc =
+        calculateEntryMetrics(
+          entry
         );
 
 
+      totalFoodRevenue +=
+        calc.foodRevenue;
+
+
       totalBeverageRevenue +=
+        calc.beverageRevenue;
+
+
+      totalCost +=
+        calc.totalCost;
+
+
+      totalGop +=
+        calc.gop;
+
+
+      totalBudget +=
         Number(
-          entry.beverageRevenue || 0
+          entry.dailyBudget || 0
         );
 
     }
@@ -86,115 +285,259 @@ function calculatePeriodSummary(
 
 
   const totalRevenue =
+
     totalFoodRevenue +
     totalBeverageRevenue;
 
 
 
-  // COST %
-  const foodCostPercent =
-    Number(
-      settings.foodCostPercent || 0
-    ) / 100;
+  const achievement =
 
+    totalBudget > 0
 
-  const beverageCostPercent =
-    Number(
-      settings.beverageCostPercent || 0
-    ) / 100;
+      ?
 
+      (
+        totalRevenue /
+        totalBudget
+      ) * 100
 
-  const fixCostPercent =
-    Number(
-      settings.fixCostPercent || 0
-    ) / 100;
+      :
+
+      0;
 
 
 
-  // COST VALUE
-  const foodCost =
-    totalFoodRevenue *
-    foodCostPercent;
+  const variance =
 
-
-  const beverageCost =
-    totalBeverageRevenue *
-    beverageCostPercent;
-
-
-  const fixCost =
-    totalRevenue *
-    fixCostPercent;
-
-
-
-  const totalCost =
-    foodCost +
-    beverageCost +
-    fixCost;
-
-
-
-  const totalGop =
     totalRevenue -
-    totalCost;
+    totalBudget;
 
 
 
-  let gopMargin = 0;
+  const gopMargin =
 
-
-  if(
     totalRevenue > 0
-  ) {
 
-    gopMargin =
+      ?
+
       (
         totalGop /
         totalRevenue
-      ) * 100;
+      ) * 100
 
-  }
+      :
+
+      0;
 
 
 
   return {
 
-    totalFoodRevenue:
-      totalFoodRevenue,
+    totalFoodRevenue,
 
+    totalBeverageRevenue,
 
-    totalBeverageRevenue:
-      totalBeverageRevenue,
+    totalRevenue,
 
+    totalCost,
 
-    totalRevenue:
-      totalRevenue,
+    totalGop,
 
+    totalBudget,
 
-    foodCost:
-      foodCost,
+    variance,
 
+    achievement,
 
-    beverageCost:
-      beverageCost,
-
-
-    fixCost:
-      fixCost,
-
-
-    totalCost:
-      totalCost,
-
-
-    totalGop:
-      totalGop,
-
-
-    gopMargin:
-      gopMargin
+    gopMargin
 
   };
+
+}
+
+
+
+// ======================
+// HELPERS
+// ======================
+
+function formatMoney(
+  value
+) {
+
+  const settings =
+    getSettings();
+
+
+  return (
+
+    settings.currency +
+
+    Number(
+      value || 0
+    ).toLocaleString()
+
+  );
+
+}
+
+
+
+function formatPercent(
+  value
+) {
+
+  return (
+
+    Number(
+      value || 0
+    ).toFixed(1)
+
+    +
+
+    "%"
+
+  );
+
+}
+
+
+
+function getBestEntry(
+  entries
+) {
+
+  if (
+    !entries.length
+  ) {
+
+    return null;
+
+  }
+
+
+  return entries.reduce(
+
+    (
+      best,
+      current
+    ) => {
+
+      const bestRevenue =
+
+        Number(
+          best.foodRevenue || 0
+        )
+
+        +
+
+        Number(
+          best.beverageRevenue || 0
+        );
+
+
+
+      const currentRevenue =
+
+        Number(
+          current.foodRevenue || 0
+        )
+
+        +
+
+        Number(
+          current.beverageRevenue || 0
+        );
+
+
+
+      return
+
+        currentRevenue >
+
+        bestRevenue
+
+          ?
+
+          current
+
+          :
+
+          best;
+
+    }
+
+  );
+
+}
+
+
+
+function getWorstEntry(
+  entries
+) {
+
+  if (
+    !entries.length
+  ) {
+
+    return null;
+
+  }
+
+
+  return entries.reduce(
+
+    (
+      worst,
+      current
+    ) => {
+
+      const worstRevenue =
+
+        Number(
+          worst.foodRevenue || 0
+        )
+
+        +
+
+        Number(
+          worst.beverageRevenue || 0
+        );
+
+
+
+      const currentRevenue =
+
+        Number(
+          current.foodRevenue || 0
+        )
+
+        +
+
+        Number(
+          current.beverageRevenue || 0
+        );
+
+
+
+      return
+
+        currentRevenue <
+
+        worstRevenue
+
+          ?
+
+          current
+
+          :
+
+          worst;
+
+    }
+
+  );
 
 }
