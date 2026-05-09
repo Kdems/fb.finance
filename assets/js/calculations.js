@@ -1,28 +1,3 @@
-function safePercent(
-  value,
-  base
-) {
-
-  if(
-    !base ||
-    base <= 0
-  ) {
-
-    return 0;
-
-  }
-
-  return (
-    value / base
-  ) * 100;
-
-}
-
-
-// ======================
-// SINGLE ENTRY
-// ======================
-
 function calculateEntryMetrics(
   entry
 ) {
@@ -48,129 +23,99 @@ function calculateEntryMetrics(
     beverageRevenue;
 
 
+  // ======================
   // COST %
+  // ======================
 
   const foodCostPercent =
     Number(
-      entry.foodCostPercent || 0
+      settings.foodCostPercent || 0
     );
 
 
   const beverageCostPercent =
     Number(
-      entry.beverageCostPercent || 0
+      settings.beverageCostPercent || 0
     );
 
 
-  const fixedCostPercent =
+  const fixCostPercent =
     Number(
-      entry.fixedCostPercent || 0
+      settings.fixCostPercent || 0
     );
 
 
-  // COST AMOUNT
+  // ======================
+  // COST VALUE
+  // ======================
 
-  const foodCostAmount =
+  const foodCost =
     (
       foodRevenue *
       foodCostPercent
     ) / 100;
 
 
-  const beverageCostAmount =
+  const beverageCost =
     (
       beverageRevenue *
       beverageCostPercent
     ) / 100;
 
 
-  const fixedCostAmount =
+  const fixCost =
     (
       totalRevenue *
-      fixedCostPercent
+      fixCostPercent
     ) / 100;
 
 
-  // TOTAL COST
-
   const totalCost =
-    foodCostAmount +
-    beverageCostAmount +
-    fixedCostAmount;
+    foodCost +
+    beverageCost +
+    fixCost;
 
-
-  // GOP
 
   const gop =
     totalRevenue -
     totalCost;
 
 
-  // MARGIN
-
   const gopMargin =
-    safePercent(
-      gop,
-      totalRevenue
-    );
-
-
-  // BUDGET
-
-  const budgetVariance =
-    totalRevenue -
-    Number(
-      entry.dailyBudget || 0
-    );
-
-
-  // TARGET VARIANCE
-
-  const foodCostVariance =
-    foodCostPercent -
-    settings.foodCostTarget;
-
-
-  const beverageCostVariance =
-    beverageCostPercent -
-    settings.beverageCostTarget;
-
-
-  const fixedCostVariance =
-    fixedCostPercent -
-    settings.fixedCostTarget;
+    totalRevenue > 0
+      ? (
+          gop /
+          totalRevenue
+        ) * 100
+      : 0;
 
 
   return {
 
-    ...entry,
+    foodRevenue,
+
+    beverageRevenue,
 
     totalRevenue,
 
-    foodCostAmount,
 
-    beverageCostAmount,
+    foodCost,
 
-    fixedCostAmount,
+    beverageCost,
+
+    fixCost,
 
     totalCost,
 
+
     gop,
 
-    gopMargin,
-
-    budgetVariance,
-
-
-    foodCostVariance,
-
-    beverageCostVariance,
-
-    fixedCostVariance
+    gopMargin
 
   };
 
 }
+
 
 
 // ======================
@@ -184,70 +129,86 @@ function calculatePeriodSummary(
   let totalFoodRevenue =
     0;
 
+
   let totalBeverageRevenue =
     0;
+
 
   let totalRevenue =
     0;
 
+
+  let totalFoodCost =
+    0;
+
+
+  let totalBeverageCost =
+    0;
+
+
+  let totalFixCost =
+    0;
+
+
   let totalCost =
     0;
 
-  let totalGop =
-    0;
 
-  let totalBudget =
+  let totalGop =
     0;
 
 
   entries.forEach(
     entry => {
 
-      const calculated =
+      const calc =
         calculateEntryMetrics(
           entry
         );
 
 
       totalFoodRevenue +=
-        calculated.foodRevenue;
+        calc.foodRevenue;
 
 
       totalBeverageRevenue +=
-        calculated.beverageRevenue;
+        calc.beverageRevenue;
 
 
       totalRevenue +=
-        calculated.totalRevenue;
+        calc.totalRevenue;
+
+
+      totalFoodCost +=
+        calc.foodCost;
+
+
+      totalBeverageCost +=
+        calc.beverageCost;
+
+
+      totalFixCost +=
+        calc.fixCost;
 
 
       totalCost +=
-        calculated.totalCost;
+        calc.totalCost;
 
 
       totalGop +=
-        calculated.gop;
-
-
-      totalBudget +=
-        Number(
-          entry.dailyBudget || 0
-        );
+        calc.gop;
 
     }
   );
 
 
-  const budgetVariance =
-    totalRevenue -
-    totalBudget;
-
-
   const gopMargin =
-    safePercent(
-      totalGop,
-      totalRevenue
-    );
+    totalRevenue > 0
+      ? (
+          totalGop /
+          totalRevenue
+        ) * 100
+      : 0;
 
 
   return {
@@ -258,18 +219,19 @@ function calculatePeriodSummary(
 
     totalRevenue,
 
+
+    totalFoodCost,
+
+    totalBeverageCost,
+
+    totalFixCost,
+
     totalCost,
+
 
     totalGop,
 
-    totalBudget,
-
-    budgetVariance,
-
-    gopMargin,
-
-    totalEntries:
-      entries.length
+    gopMargin
 
   };
 
