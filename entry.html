@@ -105,12 +105,12 @@
 
       <!-- ENTRY FORM -->
       <div
-        class="bg-white rounded-2xl p-6 shadow mb-6 max-w-4xl"
+        class="bg-white rounded-2xl p-6 shadow mb-6 max-w-5xl"
       >
 
         <form
           id="entryForm"
-          class="grid md:grid-cols-3 gap-4"
+          class="grid md:grid-cols-2 xl:grid-cols-4 gap-4"
         >
 
 
@@ -171,9 +171,29 @@
 
 
 
+          <!-- DAILY BUDGET AUTO -->
+          <div>
+
+            <label
+              class="block mb-2 text-sm font-medium"
+            >
+              Daily Budget (Auto)
+            </label>
+
+            <input
+              id="dailyBudgetDisplay"
+              type="text"
+              readonly
+              class="w-full bg-slate-100 border rounded-xl px-4 py-3"
+            />
+
+          </div>
+
+
+
           <!-- BUTTON -->
           <div
-            class="md:col-span-3 flex justify-end mt-2"
+            class="md:col-span-2 xl:col-span-4 flex justify-end mt-2"
           >
 
             <button
