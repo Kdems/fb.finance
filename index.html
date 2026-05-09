@@ -3,24 +3,19 @@
 
 <head>
 
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
+    content="width=device-width, initial-scale=1.0">
 
-  <title>SKYBAR Finance Dashboard</title>
+  <title>
+    SKYBAR Dashboard
+  </title>
 
-  <!-- Fix favicon 404 -->
   <link rel="icon" href="data:,">
 
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <link
-    rel="stylesheet"
-    href="assets/css/main.css"
-  />
 
 </head>
 
@@ -41,32 +36,27 @@
 
       <nav class="space-y-3">
 
-        <a
-          href="index.html"
+        <a href="index.html"
           class="block px-4 py-3 rounded-xl bg-slate-800">
           Dashboard
         </a>
 
-        <a
-          href="entry.html"
+        <a href="entry.html"
           class="block px-4 py-3 rounded-xl hover:bg-slate-800">
           Daily Entry
         </a>
 
-        <a
-          href="generic.html"
+        <a href="generic.html"
           class="block px-4 py-3 rounded-xl hover:bg-slate-800">
           Operating Review
         </a>
 
-        <a
-          href="reports.html"
+        <a href="reports.html"
           class="block px-4 py-3 rounded-xl hover:bg-slate-800">
           Reports
         </a>
 
-        <a
-          href="settings.html"
+        <a href="settings.html"
           class="block px-4 py-3 rounded-xl hover:bg-slate-800">
           Settings
         </a>
@@ -83,21 +73,12 @@
     <main class="flex-1 p-6 space-y-6">
 
 
-
       <!-- HEADER -->
       <div class="flex justify-between items-center">
 
-        <div>
-
-          <h2 class="text-3xl font-bold">
-            Management Dashboard
-          </h2>
-
-          <p class="text-slate-500">
-            SKYBAR Performance Cockpit
-          </p>
-
-        </div>
+        <h2 class="text-3xl font-bold">
+          Management Dashboard
+        </h2>
 
 
         <div class="flex gap-3">
@@ -119,243 +100,85 @@
 
 
 
-      <!-- YTD -->
-      <section class="bg-white rounded-2xl p-5 shadow">
-
-        <h3 class="font-bold mb-4">
-          Year-To-Date
-        </h3>
-
-        <div class="grid grid-cols-6 gap-4">
-
-          <div class="kpi-card">
-            <small>YTD Revenue</small>
-            <h4 id="ytdRevenueCard">-</h4>
-          </div>
-
-          <div class="kpi-card">
-            <small>YTD Budget</small>
-            <h4 id="ytdBudgetCard">-</h4>
-          </div>
-
-          <div class="kpi-card">
-            <small>Achievement</small>
-            <h4 id="ytdAchievementCard">-</h4>
-          </div>
-
-          <div class="kpi-card">
-            <small>Growth</small>
-            <h4 id="ytdGrowthCard">-</h4>
-          </div>
-
-          <div class="kpi-card">
-            <small>LY Revenue</small>
-            <h4 id="lyRevenueCard">-</h4>
-          </div>
-
-          <div class="kpi-card">
-            <small>Variance</small>
-            <h4 id="ytdVarianceCard">-</h4>
-          </div>
-
-        </div>
-
-      </section>
-
-
-
 
       <!-- MTD -->
-      <section class="bg-white rounded-2xl p-5 shadow">
+      <section class="bg-white rounded-2xl p-6 shadow">
 
         <h3 class="font-bold mb-4">
           Month-To-Date
         </h3>
 
+
         <div class="grid grid-cols-6 gap-4">
+
 
           <div class="kpi-card">
             <small>Revenue</small>
             <h4 id="mtdRevenueCard">-</h4>
           </div>
 
+
           <div class="kpi-card">
             <small>Budget</small>
             <h4 id="mtdBudgetCard">-</h4>
           </div>
+
 
           <div class="kpi-card">
             <small>GOP</small>
             <h4 id="mtdGopCard">-</h4>
           </div>
 
+
           <div class="kpi-card">
             <small>Growth</small>
             <h4 id="mtdGrowthCard">-</h4>
           </div>
 
+
           <div class="kpi-card">
-            <small>LY MTD</small>
+            <small>LY Revenue</small>
             <h4 id="mtdLyRevenueCard">-</h4>
           </div>
 
+
+
+          <!-- MTD PROGRESS -->
           <div class="kpi-card">
-            <small>Achievement</small>
-            <h4 id="mtdAchievementCard">-</h4>
+
+            <small>
+              Achievement
+            </small>
+
+            <h4 id="mtdAchievementCard">
+              -
+            </h4>
+
+
+            <div
+              class="w-full bg-slate-200 rounded-full h-2 mt-3">
+
+              <div
+                id="mtdProgressBar"
+                class="h-2 rounded-full"
+                style="width:0%">
+              </div>
+
+            </div>
+
           </div>
+
 
         </div>
 
       </section>
 
-
-
-
-      <!-- GOP -->
-      <section class="bg-white rounded-2xl p-5 shadow">
-
-        <h3 class="font-bold mb-4">
-          Gross Operating Profit
-        </h3>
-
-        <div class="grid grid-cols-4 gap-4">
-
-          <div class="kpi-card">
-            <small>Revenue</small>
-            <h4 id="gopRevenueCard">-</h4>
-          </div>
-
-          <div class="kpi-card">
-            <small>Cost</small>
-            <h4 id="gopCostCard">-</h4>
-          </div>
-
-          <div class="kpi-card">
-            <small>GOP</small>
-            <h4 id="gopMainCard">-</h4>
-          </div>
-
-          <div class="kpi-card">
-            <small>Margin</small>
-            <h4 id="gopMarginCard">-</h4>
-          </div>
-
-        </div>
-
-      </section>
-
-
-
-
-      <!-- FOOD & BEVERAGE -->
-      <section class="bg-white rounded-2xl p-5 shadow">
-
-        <h3 class="font-bold mb-4">
-          Food & Beverage Analysis
-        </h3>
-
-        <div class="grid grid-cols-5 gap-4">
-
-          <div class="kpi-card">
-            <small>Food Revenue</small>
-            <h4 id="foodRevenueCard">-</h4>
-            <small>LY Comparison</small>
-          </div>
-
-          <div class="kpi-card">
-            <small>Beverage Revenue</small>
-            <h4 id="bevRevenueCard">-</h4>
-            <small>LY Comparison</small>
-          </div>
-
-          <div class="kpi-card">
-            <small>Food Cost</small>
-            <h4 id="foodCostCard">-</h4>
-            <small id="foodCostPercentText">-</small>
-          </div>
-
-          <div class="kpi-card">
-            <small>Beverage Cost</small>
-            <h4 id="bevCostCard">-</h4>
-            <small id="bevCostPercentText">-</small>
-          </div>
-
-          <div class="kpi-card">
-            <small>Fixed Cost</small>
-            <h4 id="fixCostCard">-</h4>
-            <small id="fixCostPercentText">-</small>
-          </div>
-
-        </div>
-
-      </section>
 
 
 
 
       <!-- SUMMARY -->
-      <section class="bg-white rounded-2xl p-5 shadow">
-
-        <h3 class="font-bold mb-4">
-          Monthly Summary
-        </h3>
-
-        <div class="grid grid-cols-5 gap-4">
-
-          <div class="kpi-card">
-            <small>Revenue</small>
-            <h4 id="summaryRevenueCard">-</h4>
-          </div>
-
-          <div class="kpi-card">
-            <small>Avg Daily</small>
-            <h4 id="summaryBudgetCard">-</h4>
-          </div>
-
-          <div class="kpi-card">
-            <small>Achievement</small>
-            <h4 id="summaryAchievementCard">-</h4>
-          </div>
-
-          <div class="kpi-card">
-            <small>Best Day</small>
-            <h4 id="bestDayCard">-</h4>
-          </div>
-
-          <div class="kpi-card">
-            <small>Worst Day</small>
-            <h4 id="worstDayCard">-</h4>
-          </div>
-
-        </div>
-
-      </section>
-
-
-
-
-      <!-- CHARTS -->
-      <section class="grid grid-cols-3 gap-6">
-
-        <div class="bg-white rounded-2xl p-5 shadow">
-          <canvas id="revenueChart"></canvas>
-        </div>
-
-        <div class="bg-white rounded-2xl p-5 shadow">
-          <canvas id="gopChart"></canvas>
-        </div>
-
-        <div class="bg-white rounded-2xl p-5 shadow">
-          <canvas id="mixChart"></canvas>
-        </div>
-
-      </section>
-
-
-
-
-      <!-- RECENT ENTRIES -->
-      <section class="bg-white rounded-2xl p-5 shadow">
+      <section class="bg-white rounded-2xl p-6 shadow">
 
         <h3 class="font-bold mb-4">
           Recent Entries
@@ -364,10 +187,6 @@
         <div
           id="recentEntriesList"
           class="space-y-3">
-
-          <div class="text-slate-400">
-            No entries yet
-          </div>
 
         </div>
 
@@ -382,17 +201,12 @@
 
 
 
-  <!-- SCRIPTS -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script src="assets/js/storage.js"></script>
-<script src="assets/js/settings.js"></script>
-<script src="assets/js/calculations.js"></script>
-<script src="assets/js/charts.js"></script>
-<script src="assets/js/seed.js"></script>
-<script src="assets/js/dashboard.js"></script>
-
-
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/settings.js"></script>
+  <script src="assets/js/calculations.js"></script>
+  <script src="assets/js/charts.js"></script>
+  <script src="assets/js/seed.js"></script>
+  <script src="assets/js/dashboard.js"></script>
 
 </body>
 </html>
