@@ -2,17 +2,13 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8" />
-
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
   />
 
-  <title>
-    SKYBAR Finance Dashboard
-  </title>
+  <title>SKYBAR Finance Dashboard</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -20,7 +16,6 @@
     rel="stylesheet"
     href="assets/css/main.css"
   />
-
 </head>
 
 
@@ -36,30 +31,34 @@
         SKYBAR
       </h1>
 
-
       <nav class="space-y-3">
 
-        <a href="index.html"
+        <a
+          href="index.html"
           class="block px-4 py-3 rounded-xl bg-slate-800">
           Dashboard
         </a>
 
-        <a href="entry.html"
+        <a
+          href="entry.html"
           class="block px-4 py-3 rounded-xl hover:bg-slate-800">
           Daily Entry
         </a>
 
-        <a href="generic.html"
+        <a
+          href="generic.html"
           class="block px-4 py-3 rounded-xl hover:bg-slate-800">
           Operating Review
         </a>
 
-        <a href="reports.html"
+        <a
+          href="reports.html"
           class="block px-4 py-3 rounded-xl hover:bg-slate-800">
           Reports
         </a>
 
-        <a href="settings.html"
+        <a
+          href="settings.html"
           class="block px-4 py-3 rounded-xl hover:bg-slate-800">
           Settings
         </a>
@@ -67,6 +66,7 @@
       </nav>
 
     </aside>
+
 
 
 
@@ -94,17 +94,18 @@
 
           <select
             id="yearFilter"
-            class="border rounded-xl px-4 py-2"
-          ></select>
+            class="border rounded-xl px-4 py-2">
+          </select>
 
           <select
             id="monthFilter"
-            class="border rounded-xl px-4 py-2"
-          ></select>
+            class="border rounded-xl px-4 py-2">
+          </select>
 
         </div>
 
       </div>
+
 
 
 
@@ -118,37 +119,54 @@
         <div class="grid xl:grid-cols-6 gap-4">
 
           <div class="kpi-card">
-            <span class="kpi-label">YTD Revenue</span>
+            <span class="kpi-label">
+              YTD Revenue
+            </span>
             <h4 id="ytdRevenueCard">-</h4>
             <small>Total Sales</small>
           </div>
 
+
           <div class="kpi-card">
-            <span class="kpi-label">YTD Budget</span>
+            <span class="kpi-label">
+              YTD Budget
+            </span>
             <h4 id="ytdBudgetCard">-</h4>
             <small>Annual Target</small>
           </div>
 
+
           <div class="kpi-card">
-            <span class="kpi-label">Achievement</span>
+            <span class="kpi-label">
+              Achievement
+            </span>
             <h4 id="ytdAchievementCard">-</h4>
             <small>vs Budget</small>
           </div>
 
+
           <div class="kpi-card">
-            <span class="kpi-label">Growth</span>
+            <span class="kpi-label">
+              Growth
+            </span>
             <h4 id="ytdGrowthCard">-</h4>
             <small>vs LY</small>
           </div>
 
-          <div class="kpi-card">
-            <span class="kpi-label">LY Revenue</span>
-            <h4 id="lyRevenueCard">-</h4>
-            <small>Baseline</small>
-          </div>
 
           <div class="kpi-card">
-            <span class="kpi-label">Variance</span>
+            <span class="kpi-label">
+              LY Revenue
+            </span>
+            <h4 id="lyRevenueCard">-</h4>
+            <small>Annual Baseline</small>
+          </div>
+
+
+          <div class="kpi-card">
+            <span class="kpi-label">
+              Variance
+            </span>
             <h4 id="ytdVarianceCard">-</h4>
             <small>Budget Gap</small>
           </div>
@@ -159,6 +177,7 @@
 
 
 
+
       <!-- MTD -->
       <section class="bg-white rounded-2xl p-5 shadow">
 
@@ -166,36 +185,65 @@
           Month-To-Date
         </h3>
 
-        <div class="grid xl:grid-cols-5 gap-4">
+        <div class="grid xl:grid-cols-6 gap-4">
 
           <div class="kpi-card">
-            <span class="kpi-label">Revenue</span>
+            <span class="kpi-label">
+              Revenue
+            </span>
             <h4 id="mtdRevenueCard">-</h4>
+            <small>Current Month</small>
           </div>
 
+
           <div class="kpi-card">
-            <span class="kpi-label">Budget</span>
+            <span class="kpi-label">
+              Budget
+            </span>
             <h4 id="mtdBudgetCard">-</h4>
+            <small>Monthly Budget</small>
           </div>
 
+
           <div class="kpi-card">
-            <span class="kpi-label">GOP</span>
+            <span class="kpi-label">
+              GOP
+            </span>
             <h4 id="mtdGopCard">-</h4>
+            <small>Current Profit</small>
           </div>
 
+
           <div class="kpi-card">
-            <span class="kpi-label">Growth</span>
+            <span class="kpi-label">
+              Growth
+            </span>
             <h4 id="mtdGrowthCard">-</h4>
+            <small>vs LY</small>
           </div>
 
+
           <div class="kpi-card">
-            <span class="kpi-label">Achievement</span>
+            <span class="kpi-label">
+              LY MTD
+            </span>
+            <h4 id="mtdLyRevenueCard">-</h4>
+            <small>LY Baseline</small>
+          </div>
+
+
+          <div class="kpi-card">
+            <span class="kpi-label">
+              Achievement
+            </span>
             <h4 id="mtdAchievementCard">-</h4>
+            <small>vs Budget</small>
           </div>
 
         </div>
 
       </section>
+
 
 
 
@@ -209,22 +257,33 @@
         <div class="grid xl:grid-cols-4 gap-4">
 
           <div class="kpi-card">
-            <span class="kpi-label">Revenue</span>
+            <span class="kpi-label">
+              Revenue
+            </span>
             <h4 id="gopRevenueCard">-</h4>
           </div>
 
+
           <div class="kpi-card">
-            <span class="kpi-label">Cost</span>
+            <span class="kpi-label">
+              Cost
+            </span>
             <h4 id="gopCostCard">-</h4>
           </div>
 
+
           <div class="kpi-card">
-            <span class="kpi-label">GOP</span>
+            <span class="kpi-label">
+              GOP
+            </span>
             <h4 id="gopMainCard">-</h4>
           </div>
 
+
           <div class="kpi-card">
-            <span class="kpi-label">Margin</span>
+            <span class="kpi-label">
+              Margin
+            </span>
             <h4 id="gopMarginCard">-</h4>
           </div>
 
@@ -234,7 +293,8 @@
 
 
 
-      <!-- F&B ANALYSIS -->
+
+      <!-- FOOD & BEVERAGE -->
       <section class="bg-white rounded-2xl p-5 shadow">
 
         <h3 class="section-title">
@@ -244,31 +304,45 @@
         <div class="grid xl:grid-cols-5 gap-4">
 
           <div class="kpi-card">
-            <span class="kpi-label">Food Revenue</span>
+            <span class="kpi-label">
+              Food Revenue
+            </span>
             <h4 id="foodRevenueCard">-</h4>
             <small>LY Comparison</small>
           </div>
 
+
           <div class="kpi-card">
-            <span class="kpi-label">Beverage Revenue</span>
+            <span class="kpi-label">
+              Beverage Revenue
+            </span>
             <h4 id="bevRevenueCard">-</h4>
             <small>LY Comparison</small>
           </div>
 
+
           <div class="kpi-card">
-            <span class="kpi-label">Food Cost</span>
+            <span class="kpi-label">
+              Food Cost
+            </span>
             <h4 id="foodCostCard">-</h4>
             <small id="foodCostPercentText">-</small>
           </div>
 
+
           <div class="kpi-card">
-            <span class="kpi-label">Beverage Cost</span>
+            <span class="kpi-label">
+              Beverage Cost
+            </span>
             <h4 id="bevCostCard">-</h4>
             <small id="bevCostPercentText">-</small>
           </div>
 
+
           <div class="kpi-card">
-            <span class="kpi-label">Fixed Cost</span>
+            <span class="kpi-label">
+              Fixed Cost
+            </span>
             <h4 id="fixCostCard">-</h4>
             <small id="fixCostPercentText">-</small>
           </div>
@@ -276,6 +350,7 @@
         </div>
 
       </section>
+
 
 
 
@@ -289,27 +364,41 @@
         <div class="grid xl:grid-cols-5 gap-4">
 
           <div class="kpi-card">
-            <span class="kpi-label">Revenue</span>
+            <span class="kpi-label">
+              Revenue
+            </span>
             <h4 id="summaryRevenueCard">-</h4>
           </div>
 
+
           <div class="kpi-card">
-            <span class="kpi-label">Avg Daily</span>
+            <span class="kpi-label">
+              Avg Daily
+            </span>
             <h4 id="summaryBudgetCard">-</h4>
           </div>
 
+
           <div class="kpi-card">
-            <span class="kpi-label">Achievement</span>
+            <span class="kpi-label">
+              Achievement
+            </span>
             <h4 id="summaryAchievementCard">-</h4>
           </div>
 
+
           <div class="kpi-card">
-            <span class="kpi-label">Best Day</span>
+            <span class="kpi-label">
+              Best Day
+            </span>
             <h4 id="bestDayCard">-</h4>
           </div>
 
+
           <div class="kpi-card">
-            <span class="kpi-label">Worst Day</span>
+            <span class="kpi-label">
+              Worst Day
+            </span>
             <h4 id="worstDayCard">-</h4>
           </div>
 
@@ -319,28 +408,46 @@
 
 
 
+
       <!-- CHART -->
       <section class="grid xl:grid-cols-3 gap-6">
 
         <div class="bg-white rounded-2xl p-5 shadow">
-          <h3 class="section-title">Revenue Trend</h3>
+
+          <h3 class="section-title">
+            Revenue Trend
+          </h3>
+
           <div class="h-80">
             <canvas id="revenueChart"></canvas>
           </div>
+
         </div>
 
+
         <div class="bg-white rounded-2xl p-5 shadow">
-          <h3 class="section-title">GOP Trend</h3>
+
+          <h3 class="section-title">
+            GOP Trend
+          </h3>
+
           <div class="h-80">
             <canvas id="gopChart"></canvas>
           </div>
+
         </div>
 
+
         <div class="bg-white rounded-2xl p-5 shadow">
-          <h3 class="section-title">Food vs Beverage</h3>
+
+          <h3 class="section-title">
+            Food vs Beverage
+          </h3>
+
           <div class="h-80">
             <canvas id="mixChart"></canvas>
           </div>
+
         </div>
 
       </section>
@@ -352,12 +459,20 @@
 
 
 
+
+  <!-- SCRIPTS -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <script src="assets/js/storage.js"></script>
+
   <script src="assets/js/settings.js"></script>
+
   <script src="assets/js/calculations.js"></script>
+
   <script src="assets/js/charts.js"></script>
+
   <script src="assets/js/dashboard.js"></script>
+
 
 </body>
 
