@@ -7,7 +7,7 @@ let selectedMonth =
 
 
 // ======================
-// ELEMENTS
+// DOM
 // ======================
 
 const yearFilter =
@@ -139,7 +139,7 @@ function bindEvents() {
 
     yearFilter.addEventListener(
       "change",
-      handleFilterChange
+      onFilterChange
     );
 
   }
@@ -148,7 +148,7 @@ function bindEvents() {
 
     monthFilter.addEventListener(
       "change",
-      handleFilterChange
+      onFilterChange
     );
 
   }
@@ -156,7 +156,7 @@ function bindEvents() {
 }
 
 
-function handleFilterChange() {
+function onFilterChange() {
 
   selectedYear =
     Number(
@@ -232,14 +232,385 @@ function renderDashboard() {
 
 
 // ======================
-// KPI BLOCKS
+// YTD
 // ======================
 
-function renderYtd(current) {}
-function renderMtd(current) {}
-function renderGop(current) {}
-function renderFoodBeverage(current) {}
-function renderSummary(entries, current) {}
+function renderYtd(
+  current
+) {
+
+  const settings =
+    getSettings();
+
+  const budget =
+    Number(
+      settings.annualRevenueTarget || 0
+    );
+
+  const lyRevenue =
+    getLyTotalRevenue();
+
+  const growth =
+    calculateGrowth(
+      current.totalRevenue,
+      lyRevenue
+    );
+
+  const achievement =
+    calculateAchievement(
+      current.totalRevenue,
+      budget
+    );
+
+  const variance =
+    current.totalRevenue -
+    budget;
+
+
+  updateCard(
+    "ytdRevenueCard",
+    formatMoney(
+      current.totalRevenue
+    )
+  );
+
+  updateCard(
+    "ytdBudgetCard",
+    formatMoney(
+      budget
+    )
+  );
+
+  updateCard(
+    "ytdAchievementCard",
+    `${achievement.toFixed(0)}%`
+  );
+
+  updateCard(
+    "ytdGrowthCard",
+    `${growth.toFixed(0)}%`
+  );
+
+  updateCard(
+    "lyRevenueCard",
+    formatMoney(
+      lyRevenue
+    )
+  );
+
+  updateCard(
+    "ytdVarianceCard",
+    formatVariance(
+      variance
+    )
+  );
+
+}
+
+
+
+// ======================
+// MTD
+// ======================
+
+function renderMtd(
+  current
+) {
+
+  const settings =
+    getSettings();
+
+  const monthlyBudget =
+    Number(
+      settings.monthlyBudget || 0
+    );
+
+  const lyMonthlyRevenue =
+    getLyTotalRevenue() / 12;
+
+  const growth =
+    calculateGrowth(
+      current.totalRevenue,
+      lyMonthlyRevenue
+    );
+
+  const achievement =
+    calculateAchievement(
+      current.totalRevenue,
+      monthlyBudget
+    );
+
+
+  updateCard(
+    "mtdRevenueCard",
+    formatMoney(
+      current.totalRevenue
+    )
+  );
+
+  updateCard(
+    "mtdBudgetCard",
+    formatMoney(
+      monthlyBudget
+    )
+  );
+
+  updateCard(
+    "mtdGopCard",
+    formatMoney(
+      current.totalGop
+    )
+  );
+
+  updateCard(
+    "mtdGrowthCard",
+    `${growth.toFixed(0)}%`
+  );
+
+  updateCard(
+    "mtdLyRevenueCard",
+    formatMoney(
+      lyMonthlyRevenue
+    )
+  );
+
+  updateCard(
+    "mtdAchievementCard",
+    `${achievement.toFixed(0)}%`
+  );
+
+}
+
+
+
+// ======================
+// GOP
+// ======================
+
+function renderGop(
+  current
+) {
+
+  updateCard(
+    "gopRevenueCard",
+    formatMoney(
+      current.totalRevenue
+    )
+  );
+
+  updateCard(
+    "gopCostCard",
+    formatMoney(
+      current.totalCost
+    )
+  );
+
+  updateCard(
+    "gopMainCard",
+    formatMoney(
+      current.totalGop
+    )
+  );
+
+  updateCard(
+    "gopMarginCard",
+    `${current.gopMargin.toFixed(0)}%`
+  );
+
+}
+
+
+
+// ======================
+// F&B
+// ======================
+
+function renderFoodBeverage(
+  current
+) {
+
+  updateCard(
+    "foodRevenueCard",
+    formatMoney(
+      current.totalFoodRevenue
+    )
+  );
+
+  updateCard(
+    "bevRevenueCard",
+    formatMoney(
+      current.totalBeverageRevenue
+    )
+  );
+
+  updateCard(
+    "foodCostCard",
+    formatMoney(
+      current.foodCost
+    )
+  );
+
+  updateCard(
+    "bevCostCard",
+    formatMoney(
+      current.beverageCost
+    )
+  );
+
+  updateCard(
+    "fixCostCard",
+    formatMoney(
+      current.fixCost
+    )
+  );
+
+}
+
+
+
+// ======================
+// SUMMARY
+// ======================
+
+function renderSummary(
+  entries,
+  current
+) {
+
+  const settings =
+    getSettings();
+
+  const monthlyBudget =
+    Number(
+      settings.monthlyBudget || 0
+    );
+
+  const avgDaily =
+    entries.length > 0
+      ? current.totalRevenue /
+        entries.length
+      : 0;
+
+  const achievement =
+    calculateAchievement(
+      current.totalRevenue,
+      monthlyBudget
+    );
+
+
+  let best =
+    null;
+
+  let worst =
+    null;
+
+
+  if (
+    entries.length > 0
+  ) {
+
+    const ranked =
+      entries.map(
+        entry => {
+
+          const revenue =
+
+            Number(
+              entry.foodRevenue || 0
+            ) +
+
+            Number(
+              entry.beverageRevenue || 0
+            );
+
+          return {
+
+            date:
+              entry.date,
+
+            revenue:
+              revenue
+
+          };
+
+        }
+      );
+
+
+    ranked.sort(
+      (a, b) =>
+        a.revenue -
+        b.revenue
+    );
+
+
+    worst =
+      ranked[0];
+
+    best =
+      ranked[
+        ranked.length - 1
+      ];
+
+  }
+
+
+  updateCard(
+    "summaryRevenueCard",
+    formatMoney(
+      current.totalRevenue
+    )
+  );
+
+  updateCard(
+    "summaryBudgetCard",
+    formatMoney(
+      avgDaily
+    )
+  );
+
+  updateCard(
+    "summaryAchievementCard",
+    `${achievement.toFixed(0)}%`
+  );
+
+
+  if (best) {
+
+    updateCard(
+      "bestDayCard",
+
+      `🏆 ${formatDate(
+        best.date
+      )}<br>
+      <small>
+        ${formatMoney(
+          best.revenue
+        )}
+      </small>`
+    );
+
+  }
+
+
+  if (worst) {
+
+    updateCard(
+      "worstDayCard",
+
+      `⚠ ${formatDate(
+        worst.date
+      )}<br>
+      <small>
+        ${formatMoney(
+          worst.revenue
+        )}
+      </small>`
+    );
+
+  }
+
+}
 
 
 
@@ -278,21 +649,17 @@ function renderRecentEntries(
   const settings =
     getSettings();
 
-  const monthlyBudget =
+  const dailyBudget =
+
     Number(
       settings.monthlyBudget || 0
-    );
+    ) /
 
-  const daysInMonth =
     new Date(
       selectedYear,
       selectedMonth,
       0
     ).getDate();
-
-  const dailyBudget =
-    monthlyBudget /
-    daysInMonth;
 
 
 
@@ -339,20 +706,21 @@ function renderRecentEntries(
           );
 
 
-        const status =
+        const icon =
           achievement >= 100
             ? "🟢"
             : "🔴";
 
 
         return `
-
         <div class="border rounded-xl p-4 flex justify-between">
 
           <div>
 
             <div class="font-medium">
-              ${new Date(entry.date).toLocaleDateString("en-GB")}
+              ${formatDate(
+                entry.date
+              )}
             </div>
 
             <div class="text-sm text-slate-500">
@@ -373,14 +741,13 @@ function renderRecentEntries(
             </div>
 
             <div class="text-sm mt-1">
-              ${status}
+              ${icon}
               ${achievement.toFixed(0)}%
             </div>
 
           </div>
 
         </div>
-
         `;
 
       }
@@ -394,6 +761,44 @@ function renderRecentEntries(
 // HELPERS
 // ======================
 
+function updateCard(
+  id,
+  value
+) {
+
+  const el =
+    document.getElementById(
+      id
+    );
+
+  if (!el) return;
+
+  el.innerHTML =
+    value;
+
+}
+
+
+function getLyTotalRevenue() {
+
+  const settings =
+    getSettings();
+
+  return (
+
+    Number(
+      settings.lyFoodRevenue || 0
+    ) +
+
+    Number(
+      settings.lyBeverageRevenue || 0
+    )
+
+  );
+
+}
+
+
 function calculateAchievement(
   current,
   target
@@ -404,6 +809,55 @@ function calculateAchievement(
   return (
     current / target
   ) * 100;
+
+}
+
+
+function calculateGrowth(
+  current,
+  ly
+) {
+
+  if (!ly) return 0;
+
+  return (
+    (
+      current - ly
+    ) / ly
+  ) * 100;
+
+}
+
+
+function formatVariance(
+  value
+) {
+
+  if (
+    value >= 0
+  ) {
+
+    return (
+      "🟢 +" +
+      formatMoney(
+        value
+      )
+    );
+
+  }
+
+
+  return (
+
+    "🔴 -" +
+
+    formatMoney(
+      Math.abs(
+        value
+      )
+    )
+
+  );
 
 }
 
@@ -431,6 +885,19 @@ function formatMoney(
       }
     )
 
+  );
+
+}
+
+
+function formatDate(
+  value
+) {
+
+  return new Date(
+    value
+  ).toLocaleDateString(
+    "en-GB"
   );
 
 }
