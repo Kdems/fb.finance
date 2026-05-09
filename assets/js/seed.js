@@ -1,4 +1,20 @@
-function injectDummyData() {
+(function() {
+
+  const existingEntries =
+    localStorage.getItem(
+      "skybar_entries"
+    );
+
+
+  if(
+    existingEntries
+  ) {
+
+    return;
+
+  }
+
+
 
   const dummyEntries = [
 
@@ -68,6 +84,7 @@ function injectDummyData() {
   ];
 
 
+
   const dummySettings = {
 
     outletName:
@@ -78,9 +95,6 @@ function injectDummyData() {
 
     annualRevenueTarget:
       7500000,
-
-    annualGopTarget:
-      3000000,
 
     monthlyBudget:
       575649,
@@ -103,6 +117,7 @@ function injectDummyData() {
   };
 
 
+
   localStorage.setItem(
     "skybar_entries",
     JSON.stringify(
@@ -119,11 +134,8 @@ function injectDummyData() {
   );
 
 
-  alert(
-    "Dummy data injected successfully."
+  console.log(
+    "Dummy data injected."
   );
 
-
-  location.reload();
-
-}
+})();
