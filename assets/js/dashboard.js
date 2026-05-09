@@ -78,8 +78,10 @@ function populateYearFilter() {
     if(
       year === selectedYear
     ) {
+
       option.selected =
         true;
+
     }
 
     yearFilter.appendChild(
@@ -118,8 +120,10 @@ function populateMonthFilter() {
     if(
       month === selectedMonth
     ) {
+
       option.selected =
         true;
+
     }
 
     monthFilter.appendChild(
@@ -169,11 +173,6 @@ function bindEvents() {
 
 }
 
-
-
-// ======================
-// FILTER
-// ======================
 
 function handleFilterChange() {
 
@@ -277,6 +276,10 @@ function renderDashboard() {
     current
   );
 
+  renderRecentEntries(
+    entries
+  );
+
 
   if(
     typeof renderCharts ===
@@ -294,366 +297,126 @@ function renderDashboard() {
 
 
 // ======================
-// YTD
+// RECENT ENTRIES
 // ======================
 
-function renderYtd(
-  current
+function renderRecentEntries(
+  entries
 ) {
 
-  const settings =
-    getSettings();
-
-
-  const budget =
-    Number(
-      settings.annualRevenueTarget || 0
+  const container =
+    document.getElementById(
+      "recentEntriesList"
     );
-
-
-  const lyRevenue =
-    getLyTotalRevenue();
-
-
-  const achievement =
-    calculateAchievement(
-      current.totalRevenue,
-      budget
-    );
-
-
-  const growth =
-    calculateGrowth(
-      current.totalRevenue,
-      lyRevenue
-    );
-
-
-  const variance =
-    current.totalRevenue -
-    budget;
-
-
-  updateCard(
-    "ytdRevenueCard",
-    formatMoney(current.totalRevenue)
-  );
-
-  updateCard(
-    "ytdBudgetCard",
-    formatMoney(budget)
-  );
-
-  updateCard(
-    "ytdAchievementCard",
-    `${achievement.toFixed(2)}%`
-  );
-
-  updateCard(
-    "ytdGrowthCard",
-    `${growth.toFixed(2)}%`
-  );
-
-  updateCard(
-    "lyRevenueCard",
-    formatMoney(lyRevenue)
-  );
-
-  updateCard(
-    "ytdVarianceCard",
-    formatMoney(variance)
-  );
-
-}
-
-
-
-// ======================
-// MTD
-// ======================
-
-function renderMtd(
-  current
-) {
-
-  const settings =
-    getSettings();
-
-
-  const monthlyBudget =
-    Number(
-      settings.monthlyBudget || 0
-    );
-
-
-  const lyMonthlyRevenue =
-    getLyTotalRevenue() / 12;
-
-
-  const growth =
-    calculateGrowth(
-      current.totalRevenue,
-      lyMonthlyRevenue
-    );
-
-
-  const achievement =
-    calculateAchievement(
-      current.totalRevenue,
-      monthlyBudget
-    );
-
-
-  updateCard(
-    "mtdRevenueCard",
-    formatMoney(current.totalRevenue)
-  );
-
-  updateCard(
-    "mtdBudgetCard",
-    formatMoney(monthlyBudget)
-  );
-
-  updateCard(
-    "mtdGopCard",
-    formatMoney(current.totalGop)
-  );
-
-  updateCard(
-    "mtdGrowthCard",
-    `${growth.toFixed(2)}%`
-  );
-
-  updateCard(
-    "mtdLyRevenueCard",
-    formatMoney(lyMonthlyRevenue)
-  );
-
-  updateCard(
-    "mtdAchievementCard",
-    `${achievement.toFixed(2)}%`
-  );
-
-}
-
-
-
-// ======================
-// GOP
-// ======================
-
-function renderGop(
-  current
-) {
-
-  updateCard("gopRevenueCard", formatMoney(current.totalRevenue));
-  updateCard("gopCostCard", formatMoney(current.totalCost));
-  updateCard("gopMainCard", formatMoney(current.totalGop));
-  updateCard("gopMarginCard", `${current.gopMargin.toFixed(2)}%`);
-
-}
-
-
-
-// ======================
-// F&B
-// ======================
-
-function renderFoodBeverage(
-  current
-) {
-
-  const settings =
-    getSettings();
-
-
-  const foodCostPercent =
-    Number(
-      settings.foodCostPercent || 0
-    );
-
-
-  const bevCostPercent =
-    Number(
-      settings.beverageCostPercent || 0
-    );
-
-
-  const fixCostPercent =
-    Number(
-      settings.fixCostPercent || 0
-    );
-
-
-  const foodCost =
-    current.totalFoodRevenue *
-    (
-      foodCostPercent / 100
-    );
-
-
-  const bevCost =
-    current.totalBeverageRevenue *
-    (
-      bevCostPercent / 100
-    );
-
-
-  const fixCost =
-    current.totalRevenue *
-    (
-      fixCostPercent / 100
-    );
-
-
-  const foodGrowth =
-    calculateGrowth(
-      current.totalFoodRevenue,
-      settings.lyFoodRevenue
-    );
-
-
-  const bevGrowth =
-    calculateGrowth(
-      current.totalBeverageRevenue,
-      settings.lyBeverageRevenue
-    );
-
-
-  updateCard(
-    "foodRevenueCard",
-    formatMoney(current.totalFoodRevenue)
-  );
-
-  updateCard(
-    "bevRevenueCard",
-    formatMoney(current.totalBeverageRevenue)
-  );
-
-  updateCard(
-    "foodCostCard",
-    formatMoney(foodCost)
-  );
-
-  updateCard(
-    "bevCostCard",
-    formatMoney(bevCost)
-  );
-
-  updateCard(
-    "fixCostCard",
-    formatMoney(fixCost)
-  );
-
-
-  updateSubCard(
-    "foodRevenueCard",
-    `LY ${foodGrowth.toFixed(2)}%`
-  );
-
-  updateSubCard(
-    "bevRevenueCard",
-    `LY ${bevGrowth.toFixed(2)}%`
-  );
-
-
-  updateText(
-    "foodCostPercentText",
-    `${foodCostPercent.toFixed(2)}%`
-  );
-
-  updateText(
-    "bevCostPercentText",
-    `${bevCostPercent.toFixed(2)}%`
-  );
-
-  updateText(
-    "fixCostPercentText",
-    `${fixCostPercent.toFixed(2)}%`
-  );
-
-}
-
-
-
-// ======================
-// SUMMARY
-// ======================
-
-function renderSummary(
-  entries,
-  current
-) {
-
-  const settings =
-    getSettings();
-
-
-  const monthlyBudget =
-    Number(
-      settings.monthlyBudget || 0
-    );
-
-
-  const avgDaily =
-    entries.length > 0
-      ? current.totalRevenue / entries.length
-      : 0;
-
-
-  const achievement =
-    calculateAchievement(
-      current.totalRevenue,
-      monthlyBudget
-    );
-
-
-  let bestDay = "-";
-  let worstDay = "-";
 
 
   if(
-    entries.length > 0
+    !container
+  ) return;
+
+
+  if(
+    entries.length === 0
   ) {
 
-    const ranked =
-      entries.map(
-        entry => ({
+    container.innerHTML =
+      `
+        <div class="text-slate-400">
+          No entries found
+        </div>
+      `;
 
-          date:
-            entry.date,
-
-          revenue:
-            Number(entry.foodRevenue || 0) +
-            Number(entry.beverageRevenue || 0)
-
-        })
-      );
-
-
-    ranked.sort(
-      (a, b) =>
-        a.revenue -
-        b.revenue
-    );
-
-
-    worstDay =
-      ranked[0].date;
-
-    bestDay =
-      ranked[
-        ranked.length - 1
-      ].date;
+    return;
 
   }
 
 
-  updateCard("summaryRevenueCard", formatMoney(current.totalRevenue));
-  updateCard("summaryBudgetCard", formatMoney(avgDaily));
-  updateCard("summaryAchievementCard", `${achievement.toFixed(2)}%`);
-  updateCard("bestDayCard", bestDay);
-  updateCard("worstDayCard", worstDay);
+  const latest =
+    [...entries]
+    .sort(
+      (
+        a,
+        b
+      ) =>
+
+        new Date(
+          b.date
+        ) -
+
+        new Date(
+          a.date
+        )
+    )
+    .slice(
+      0,
+      10
+    );
+
+
+  container.innerHTML =
+    latest.map(
+      entry => {
+
+        const date =
+          new Date(
+            entry.date
+          );
+
+
+        const day =
+          date
+          .toLocaleDateString(
+            "en-GB"
+          );
+
+
+        const food =
+          Number(
+            entry.foodRevenue || 0
+          );
+
+
+        const bev =
+          Number(
+            entry.beverageRevenue || 0
+          );
+
+
+        const total =
+          food + bev;
+
+
+        return `
+
+          <div class="border rounded-xl p-4 flex justify-between">
+
+            <div>
+              <div class="font-medium">
+                ${day}
+              </div>
+
+              <div class="text-sm text-slate-500">
+                Food ${formatMoney(food)}
+              </div>
+
+              <div class="text-sm text-slate-500">
+                Beverage ${formatMoney(bev)}
+              </div>
+            </div>
+
+
+            <div class="font-bold">
+              ${formatMoney(total)}
+            </div>
+
+          </div>
+
+        `;
+
+      }
+    ).join(
+      ""
+    );
 
 }
 
@@ -670,8 +433,15 @@ function getLyTotalRevenue() {
 
 
   return (
-    Number(settings.lyFoodRevenue || 0) +
-    Number(settings.lyBeverageRevenue || 0)
+
+    Number(
+      settings.lyFoodRevenue || 0
+    ) +
+
+    Number(
+      settings.lyBeverageRevenue || 0
+    )
+
   );
 
 }
@@ -683,9 +453,15 @@ function updateCard(
 ) {
 
   const el =
-    document.getElementById(id);
+    document.getElementById(
+      id
+    );
 
-  if(!el) return;
+
+  if(
+    !el
+  ) return;
+
 
   el.innerHTML =
     value;
@@ -699,14 +475,21 @@ function updateSubCard(
 ) {
 
   const el =
-    document.getElementById(id);
+    document.getElementById(
+      id
+    );
 
-  if(!el) return;
+
+  if(
+    !el
+  ) return;
+
 
   const small =
     el.parentElement.querySelector(
       "small"
     );
+
 
   if(
     small
@@ -726,9 +509,15 @@ function updateText(
 ) {
 
   const el =
-    document.getElementById(id);
+    document.getElementById(
+      id
+    );
 
-  if(!el) return;
+
+  if(
+    !el
+  ) return;
+
 
   el.innerHTML =
     value;
@@ -741,7 +530,10 @@ function calculateAchievement(
   target
 ) {
 
-  if(!target) return 0;
+  if(
+    !target
+  ) return 0;
+
 
   return (
     current / target
@@ -755,7 +547,10 @@ function calculateGrowth(
   ly
 ) {
 
-  if(!ly) return 0;
+  if(
+    !ly
+  ) return 0;
+
 
   return (
     (
@@ -777,14 +572,19 @@ function formatMoney(
     settings.currency || "RM";
 
   return (
+
     currency +
-    Number(amount || 0).toLocaleString(
+
+    Number(
+      amount || 0
+    ).toLocaleString(
       undefined,
       {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }
     )
+
   );
 
 }
