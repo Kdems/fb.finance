@@ -76,14 +76,13 @@ function renderRevenueChart(
             entry.date
           );
 
-
         return date.getDate();
 
       }
     );
 
 
-  const data =
+  const revenueData =
     entries.map(
       entry => {
 
@@ -101,6 +100,7 @@ function renderRevenueChart(
 
       }
     );
+
 
 
   revenueChartInstance =
@@ -129,11 +129,12 @@ function renderRevenueChart(
 
 
                   data:
-                    data,
+                    revenueData,
 
 
                   tension:
                     0.3,
+
 
                   borderWidth:
                     2
@@ -210,6 +211,7 @@ function renderGopChart(
     [];
 
 
+
   entries.forEach(
     entry => {
 
@@ -236,7 +238,7 @@ function renderGopChart(
         );
 
 
-      const revenue =
+      const totalRevenue =
         foodRevenue +
         beverageRevenue;
 
@@ -259,8 +261,8 @@ function renderGopChart(
         );
 
 
-      const fixCost =
-        revenue *
+      const fixedCost =
+        totalRevenue *
         (
           Number(
             settings.fixCostPercent || 0
@@ -271,11 +273,11 @@ function renderGopChart(
       const totalCost =
         foodCost +
         beverageCost +
-        fixCost;
+        fixedCost;
 
 
       const gop =
-        revenue -
+        totalRevenue -
         totalCost;
 
 
@@ -283,7 +285,9 @@ function renderGopChart(
         gop
       );
 
-    );
+    }
+  );
+
 
 
   gopChartInstance =
@@ -313,6 +317,7 @@ function renderGopChart(
 
                   data:
                     gopValues,
+
 
                   borderWidth:
                     1
@@ -344,7 +349,7 @@ function renderGopChart(
 
 
 // ======================
-// SALES MIX
+// FOOD vs BEVERAGE
 // ======================
 
 function renderMixChart(
@@ -380,8 +385,10 @@ function renderMixChart(
   let totalFood =
     0;
 
+
   let totalBeverage =
     0;
+
 
 
   entries.forEach(
@@ -400,6 +407,7 @@ function renderMixChart(
 
     }
   );
+
 
 
   mixChartInstance =
