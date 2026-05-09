@@ -46,14 +46,12 @@
           Dashboard
         </a>
 
-
         <a
           href="entry.html"
           class="block px-4 py-3 rounded-xl hover:bg-slate-800"
         >
           Daily Entry
         </a>
-
 
         <a
           href="generic.html"
@@ -62,14 +60,12 @@
           Operating Review
         </a>
 
-
         <a
           href="reports.html"
           class="block px-4 py-3 rounded-xl hover:bg-slate-800"
         >
           Reports
         </a>
-
 
         <a
           href="settings.html"
@@ -85,20 +81,20 @@
 
 
     <!-- MAIN -->
-    <main class="flex-1 p-6">
+    <main class="flex-1 p-6 space-y-6">
 
 
       <!-- HEADER -->
-      <div class="flex justify-between items-center mb-6">
+      <div class="flex justify-between items-center">
 
         <div>
 
           <h2 class="text-3xl font-bold">
-            Finance Dashboard
+            Management Dashboard
           </h2>
 
           <p class="text-slate-500">
-            Financial performance and business intelligence
+            SKYBAR Performance Cockpit
           </p>
 
         </div>
@@ -108,13 +104,12 @@
 
           <select
             id="yearFilter"
-            class="border rounded-xl px-4 py-2 bg-white"
+            class="border rounded-xl px-4 py-2"
           ></select>
-
 
           <select
             id="monthFilter"
-            class="border rounded-xl px-4 py-2 bg-white"
+            class="border rounded-xl px-4 py-2"
           ></select>
 
         </div>
@@ -123,239 +118,192 @@
 
 
 
-      <!-- KPI -->
-      <div
-        class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4 mb-6"
-      >
+      <!-- 1. YTD -->
+      <section class="bg-white rounded-2xl p-5 shadow">
 
-
-        <div
-          class="bg-white rounded-2xl p-4 shadow"
-        >
-
-          <p class="text-sm text-slate-500">
-            MTD Revenue
-          </p>
-
-          <h3
-            id="kpiMtdRevenue"
-            class="text-2xl font-bold"
-          >
-            RM0
-          </h3>
-
-        </div>
-
-
-
-        <div
-          class="bg-white rounded-2xl p-4 shadow"
-        >
-
-          <p class="text-sm text-slate-500">
-            GOP
-          </p>
-
-          <h3
-            id="kpiGop"
-            class="text-2xl font-bold"
-          >
-            RM0
-          </h3>
-
-        </div>
-
-
-
-        <div
-          class="bg-white rounded-2xl p-4 shadow"
-        >
-
-          <p class="text-sm text-slate-500">
-            Budget Variance
-          </p>
-
-          <h3
-            id="kpiBudgetVariance"
-            class="text-2xl font-bold"
-          >
-            RM0
-          </h3>
-
-        </div>
-
-
-
-        <div
-          class="bg-white rounded-2xl p-4 shadow"
-        >
-
-          <p class="text-sm text-slate-500">
-            Annual Revenue Achievement
-          </p>
-
-          <h3
-            id="kpiAnnualRevenueTarget"
-            class="text-2xl font-bold"
-          >
-            0%
-          </h3>
-
-        </div>
-
-
-
-        <div
-          class="bg-white rounded-2xl p-4 shadow"
-        >
-
-          <p class="text-sm text-slate-500">
-            Annual GOP Achievement
-          </p>
-
-          <h3
-            id="kpiAnnualGopTarget"
-            class="text-2xl font-bold"
-          >
-            0%
-          </h3>
-
-        </div>
-
-
-      </div>
-
-
-
-      <!-- DAILY LIST -->
-      <div
-        class="bg-white rounded-2xl p-5 shadow mb-6"
-      >
-
-        <h3
-          class="font-bold text-xl mb-4"
-        >
-          Daily Revenue List
+        <h3 class="font-bold text-xl mb-4">
+          Year-To-Date
         </h3>
 
 
-        <div
-          class="overflow-auto"
-        >
+        <div class="grid xl:grid-cols-5 gap-4 mb-6">
 
-          <table
-            class="w-full text-left"
-          >
+          <div id="ytdRevenueCard">YTD Revenue</div>
 
-            <thead>
+          <div id="ytdBudgetCard">YTD Budget</div>
 
-              <tr
-                class="border-b"
-              >
+          <div id="ytdAchievementCard">Achievement</div>
 
-                <th class="py-3">
-                  Date
-                </th>
+          <div id="ytdVarianceCard">Variance</div>
 
-                <th>
-                  Revenue
-                </th>
-
-                <th>
-                  Cost
-                </th>
-
-                <th>
-                  GOP
-                </th>
-
-                <th>
-                  Edit
-                </th>
-
-                <th>
-                  Delete
-                </th>
-
-              </tr>
-
-            </thead>
-
-
-
-            <tbody
-              id="entriesTableBody"
-            ></tbody>
-
-
-          </table>
-
-        </div>
-
-      </div>
-
-
-
-      <!-- CHART -->
-      <div
-        class="grid lg:grid-cols-3 gap-6"
-      >
-
-
-        <div
-          class="bg-white rounded-2xl p-5 shadow h-80"
-        >
-
-          <h3
-            class="font-bold text-lg mb-4"
-          >
-            Revenue Trend
-          </h3>
-
-          <canvas
-            id="dailyRevenueChart"
-          ></canvas>
+          <div id="ytdBalanceCard">Balance</div>
 
         </div>
 
 
+        <div class="grid xl:grid-cols-4 gap-4">
 
-        <div
-          class="bg-white rounded-2xl p-5 shadow h-80"
-        >
+          <div id="lyYtdRevenueCard">LY Revenue</div>
 
-          <h3
-            class="font-bold text-lg mb-4"
-          >
-            GOP Trend
-          </h3>
+          <div id="lyYtdAchievementCard">LY Achievement</div>
 
-          <canvas
-            id="gopTrendChart"
-          ></canvas>
+          <div id="ytdGrowthCard">Growth</div>
+
+          <div id="ytdDiffCard">Diff</div>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- 2. MTD -->
+      <section class="bg-white rounded-2xl p-5 shadow">
+
+        <h3 class="font-bold text-xl mb-4">
+          Month-To-Date
+        </h3>
+
+
+        <div class="grid xl:grid-cols-5 gap-4 mb-6">
+
+          <div id="mtdRevenueCard">MTD Revenue</div>
+
+          <div id="mtdBudgetCard">MTD Budget</div>
+
+          <div id="mtdGopCard">MTD GOP</div>
+
+          <div id="mtdAchievementCard">Achievement</div>
+
+          <div id="mtdVarianceCard">Variance</div>
 
         </div>
 
 
+        <div class="grid xl:grid-cols-4 gap-4 mb-6">
 
-        <div
-          class="bg-white rounded-2xl p-5 shadow h-80"
-        >
+          <div id="daysLeftCard">Days Left</div>
 
-          <h3
-            class="font-bold text-lg mb-4"
-          >
-            Food vs Beverage
-          </h3>
+          <div id="dailyPaceCard">Daily Pace</div>
 
-          <canvas
-            id="revenueMixChart"
-          ></canvas>
+          <div id="projectionCard">Projection</div>
+
+          <div id="gapToTargetCard">Gap</div>
 
         </div>
 
 
-      </div>
+        <div class="grid xl:grid-cols-4 gap-4">
+
+          <div id="lyMtdRevenueCard">LY Revenue</div>
+
+          <div id="lyMtdAchievementCard">LY Achievement</div>
+
+          <div id="mtdGrowthCard">Growth</div>
+
+          <div id="mtdDiffCard">Diff</div>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- 3. GOP -->
+      <section class="bg-white rounded-2xl p-5 shadow">
+
+        <h3 class="font-bold text-xl mb-4">
+          Gross Operating Profit
+        </h3>
+
+
+        <div class="grid xl:grid-cols-4 gap-4 mb-6">
+
+          <div id="gopRevenueCard">Revenue</div>
+
+          <div id="gopCostCard">Cost</div>
+
+          <div id="gopMainCard">GOP</div>
+
+          <div id="gopMarginCard">Margin</div>
+
+        </div>
+
+
+        <div class="grid xl:grid-cols-4 gap-4">
+
+          <div id="lyGopCard">LY GOP</div>
+
+          <div id="gopGrowthCard">Growth</div>
+
+          <div id="lyMarginCard">LY Margin</div>
+
+          <div id="marginGapCard">Gap</div>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- 4. FOOD & BEVERAGE -->
+      <section class="bg-white rounded-2xl p-5 shadow">
+
+        <h3 class="font-bold text-xl mb-4">
+          Food & Beverage
+        </h3>
+
+
+        <div class="grid xl:grid-cols-3 gap-4 mb-6">
+
+          <div id="foodRevenueCard">Food Revenue</div>
+
+          <div id="bevRevenueCard">Beverage Revenue</div>
+
+          <div id="totalCostCard">Total Cost</div>
+
+        </div>
+
+
+        <div class="grid xl:grid-cols-4 gap-4">
+
+          <div id="lyFoodCard">LY Food</div>
+
+          <div id="foodGrowthCard">Food Growth</div>
+
+          <div id="lyBevCard">LY Beverage</div>
+
+          <div id="bevGrowthCard">Beverage Growth</div>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- 5. SUMMARY -->
+      <section class="bg-white rounded-2xl p-5 shadow">
+
+        <h3 class="font-bold text-xl mb-4">
+          Monthly Summary
+        </h3>
+
+
+        <div class="grid xl:grid-cols-5 gap-4">
+
+          <div id="summaryRevenueCard">Revenue</div>
+
+          <div id="summaryBudgetCard">Budget</div>
+
+          <div id="summaryAchievementCard">Avg Achievement</div>
+
+          <div id="bestDayCard">Best Day</div>
+
+          <div id="worstDayCard">Worst Day</div>
+
+        </div>
+
+      </section>
 
 
     </main>
