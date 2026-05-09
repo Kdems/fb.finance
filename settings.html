@@ -46,14 +46,12 @@
           Dashboard
         </a>
 
-
         <a
           href="entry.html"
           class="block px-4 py-3 rounded-xl hover:bg-slate-800"
         >
           Daily Entry
         </a>
-
 
         <a
           href="generic.html"
@@ -62,14 +60,12 @@
           Operating Review
         </a>
 
-
         <a
           href="reports.html"
           class="block px-4 py-3 rounded-xl hover:bg-slate-800"
         >
           Reports
         </a>
-
 
         <a
           href="settings.html"
@@ -88,6 +84,7 @@
     <main class="flex-1 p-6">
 
 
+      <!-- HEADER -->
       <div class="mb-6">
 
         <h2 class="text-3xl font-bold">
@@ -95,268 +92,154 @@
         </h2>
 
         <p class="text-slate-500">
-          Monthly financial planning and annual targets
+          Manage finance targets, cost benchmarks and backup
         </p>
 
       </div>
 
 
 
-      <div
-        class="max-w-5xl bg-white rounded-2xl p-6 shadow"
-      >
+      <!-- SETTINGS FORM -->
+      <div class="bg-white rounded-2xl shadow p-6">
 
 
         <form
           id="settingsForm"
-          class="space-y-8"
+          class="grid md:grid-cols-2 gap-4"
         >
 
-
-          <!-- PROFILE -->
-          <section>
-
-            <h3
-              class="text-lg font-bold mb-4"
-            >
-              Business Profile
-            </h3>
-
-
-            <div
-              class="grid md:grid-cols-2 gap-4"
-            >
-
-
-              <div>
-
-                <label class="block mb-2 text-sm font-medium">
-                  Outlet Name
-                </label>
-
-                <input
-                  id="outletName"
-                  type="text"
-                  class="w-full border rounded-xl px-4 py-3"
-                />
-
-              </div>
-
-
-
-              <div>
-
-                <label class="block mb-2 text-sm font-medium">
-                  Currency
-                </label>
-
-                <select
-                  id="currency"
-                  class="w-full border rounded-xl px-4 py-3"
-                >
-
-                  <option value="RM">
-                    RM
-                  </option>
-
-                  <option value="USD">
-                    USD
-                  </option>
-
-                </select>
-
-              </div>
-
-
-            </div>
-
-          </section>
-
-
-
-          <!-- ANNUAL TARGET -->
-          <section>
-
-            <h3
-              class="text-lg font-bold mb-4"
-            >
-              Annual Targets
-            </h3>
-
-
-            <div
-              class="grid md:grid-cols-2 gap-4"
-            >
-
-
-              <div>
-
-                <label class="block mb-2 text-sm font-medium">
-                  Annual Revenue Target
-                </label>
-
-                <input
-                  id="annualRevenueTarget"
-                  type="number"
-                  class="w-full border rounded-xl px-4 py-3"
-                />
-
-              </div>
-
-
-
-              <div>
-
-                <label class="block mb-2 text-sm font-medium">
-                  Annual GOP Target
-                </label>
-
-                <input
-                  id="annualGopTarget"
-                  type="number"
-                  class="w-full border rounded-xl px-4 py-3"
-                />
-
-              </div>
-
-
-            </div>
-
-          </section>
-
-
-
-          <!-- MONTHLY FINANCE -->
-          <section>
-
-            <h3
-              class="text-lg font-bold mb-4"
-            >
-              Monthly Finance Inputs
-            </h3>
-
-
-            <div
-              class="grid md:grid-cols-2 xl:grid-cols-4 gap-4"
-            >
-
-
-              <div>
-
-                <label class="block mb-2 text-sm font-medium">
-                  Monthly Food Cost
-                </label>
-
-                <input
-                  id="monthlyFoodCost"
-                  type="number"
-                  class="w-full border rounded-xl px-4 py-3"
-                />
-
-              </div>
-
-
-
-              <div>
-
-                <label class="block mb-2 text-sm font-medium">
-                  Monthly Beverage Cost
-                </label>
-
-                <input
-                  id="monthlyBeverageCost"
-                  type="number"
-                  class="w-full border rounded-xl px-4 py-3"
-                />
-
-              </div>
-
-
-
-              <div>
-
-                <label class="block mb-2 text-sm font-medium">
-                  Monthly Fixed Cost
-                </label>
-
-                <input
-                  id="monthlyFixedCost"
-                  type="number"
-                  class="w-full border rounded-xl px-4 py-3"
-                />
-
-              </div>
-
-
-
-              <div>
-
-                <label class="block mb-2 text-sm font-medium">
-                  Monthly Budget
-                </label>
-
-                <input
-                  id="monthlyBudget"
-                  type="number"
-                  class="w-full border rounded-xl px-4 py-3"
-                />
-
-              </div>
-
-
-            </div>
-
-          </section>
-
-
-
-          <!-- SECURITY -->
-          <section>
-
-            <h3
-              class="text-lg font-bold mb-4"
-            >
-              Security
-            </h3>
-
-
-            <div
-              class="max-w-sm"
-            >
-
-              <label class="block mb-2 text-sm font-medium">
-                PIN Access
-              </label>
-
-              <input
-                id="pinCode"
-                type="password"
-                class="w-full border rounded-xl px-4 py-3"
-              />
-
-            </div>
-
-          </section>
-
-
-
-          <!-- BUTTON -->
-          <div
-            class="flex justify-end"
+          <input
+            id="outletName"
+            type="text"
+            placeholder="Outlet Name"
+            class="border rounded-xl p-3"
+          />
+
+
+          <select
+            id="currency"
+            class="border rounded-xl p-3"
           >
 
-            <button
-              type="submit"
-              class="bg-slate-900 text-white px-8 py-3 rounded-xl"
-            >
-              Save Settings
-            </button>
+            <option value="RM">
+              RM
+            </option>
 
-          </div>
+            <option value="$">
+              $
+            </option>
 
+          </select>
+
+
+          <input
+            id="annualRevenueTarget"
+            type="number"
+            placeholder="Annual Revenue Target"
+            class="border rounded-xl p-3"
+          />
+
+
+          <input
+            id="annualGopTarget"
+            type="number"
+            placeholder="Annual GOP Target"
+            class="border rounded-xl p-3"
+          />
+
+
+          <input
+            id="monthlyBudget"
+            type="number"
+            placeholder="Monthly Budget"
+            class="border rounded-xl p-3"
+          />
+
+
+          <input
+            id="foodCostPercent"
+            type="number"
+            placeholder="Monthly Food Cost %"
+            class="border rounded-xl p-3"
+          />
+
+
+          <input
+            id="beverageCostPercent"
+            type="number"
+            placeholder="Monthly Beverage Cost %"
+            class="border rounded-xl p-3"
+          />
+
+
+          <input
+            id="fixCostPercent"
+            type="number"
+            placeholder="Monthly Fix Cost %"
+            class="border rounded-xl p-3"
+          />
+
+
+          <input
+            id="systemPin"
+            type="password"
+            placeholder="System PIN"
+            class="border rounded-xl p-3"
+          />
+
+
+          <div></div>
+
+
+          <!-- SAVE -->
+          <button
+            type="submit"
+            class="col-span-2 bg-slate-900 text-white rounded-xl p-4 font-semibold"
+          >
+            Save Settings
+          </button>
 
         </form>
 
+      </div>
+
+
+
+      <!-- BACKUP -->
+      <div class="bg-white rounded-2xl shadow p-6 mt-6">
+
+        <h3 class="text-xl font-bold mb-4">
+          Backup & Restore
+        </h3>
+
+
+        <div class="grid md:grid-cols-2 gap-4">
+
+
+          <button
+            onclick="exportBackup()"
+            class="bg-green-600 text-white rounded-xl p-4 font-semibold"
+          >
+            Export Backup
+          </button>
+
+
+          <label
+            class="bg-blue-600 text-white rounded-xl p-4 font-semibold text-center cursor-pointer"
+          >
+
+            Restore Backup
+
+            <input
+              type="file"
+              accept=".json"
+              onchange="handleBackupUpload(this)"
+              hidden
+            />
+
+          </label>
+
+        </div>
 
       </div>
 
@@ -367,7 +250,14 @@
 
 
 
+  <!-- SCRIPTS -->
+
+  <script src="assets/js/storage.js"></script>
+
   <script src="assets/js/settings.js"></script>
+
+  <script src="assets/js/backup.js"></script>
+
 
 </body>
 
