@@ -9,6 +9,8 @@ let mixChart =
 
 
 
+
+
 function renderCharts(
   entries
 ) {
@@ -31,9 +33,9 @@ function renderCharts(
 
 
 
-// ====================
+// ======================
 // REVENUE
-// ====================
+// ======================
 
 function renderRevenueChart(
   entries
@@ -48,6 +50,10 @@ function renderRevenueChart(
     return;
 
 
+  canvas.height =
+    280;
+
+
   if (
     revenueChart
   ) {
@@ -60,13 +66,13 @@ function renderRevenueChart(
   const labels =
     entries.map(
       x =>
-        new Date(
+        formatShortDate(
           x.date
-        ).getDate()
+        )
     );
 
 
-  const data =
+  const values =
     entries.map(
       x =>
 
@@ -81,6 +87,7 @@ function renderRevenueChart(
     );
 
 
+
   revenueChart =
     new Chart(
       canvas,
@@ -91,27 +98,23 @@ function renderRevenueChart(
 
         data: {
 
-          labels:
-            labels,
+          labels,
 
           datasets: [
 
             {
 
               label:
-                "Daily Revenue",
+                "Revenue",
 
               data:
-                data,
+                values,
 
               borderWidth:
                 3,
 
               tension:
-                0.35,
-
-              fill:
-                false
+                0.35
 
             }
 
@@ -124,16 +127,8 @@ function renderRevenueChart(
           responsive:
             true,
 
-          plugins: {
-
-            legend: {
-
-              display:
-                true
-
-            }
-
-          }
+          maintainAspectRatio:
+            false
 
         }
 
@@ -146,9 +141,9 @@ function renderRevenueChart(
 
 
 
-// ====================
+// ======================
 // GOP
-// ====================
+// ======================
 
 function renderGopChart(
   entries
@@ -163,6 +158,10 @@ function renderGopChart(
     return;
 
 
+  canvas.height =
+    280;
+
+
   if (
     gopChart
   ) {
@@ -175,9 +174,9 @@ function renderGopChart(
   const labels =
     entries.map(
       x =>
-        new Date(
+        formatShortDate(
           x.date
-        ).getDate()
+        )
     );
 
 
@@ -185,49 +184,40 @@ function renderGopChart(
     entries.map(
       x => {
 
-        const food =
+        const revenue =
+
           Number(
             x.foodRevenue || 0
-          );
+          ) +
 
-        const bev =
           Number(
             x.beverageRevenue || 0
           );
 
-        const total =
-          food + bev;
 
-        const foodCost =
+        const cost =
+
           Number(
             x.foodCost || 0
-          );
+          ) +
 
-        const bevCost =
           Number(
             x.beverageCost || 0
-          );
+          ) +
 
-        const fixCost =
           Number(
             x.fixCost || 0
           );
 
 
         return (
-
-          total -
-
-          foodCost -
-
-          bevCost -
-
-          fixCost
-
+          revenue -
+          cost
         );
 
       }
     );
+
 
 
   gopChart =
@@ -240,21 +230,17 @@ function renderGopChart(
 
         data: {
 
-          labels:
-            labels,
+          labels,
 
           datasets: [
 
             {
 
               label:
-                "Daily GOP",
+                "GOP",
 
               data:
-                values,
-
-              borderWidth:
-                1
+                values
 
             }
 
@@ -265,7 +251,10 @@ function renderGopChart(
         options: {
 
           responsive:
-            true
+            true,
+
+          maintainAspectRatio:
+            false
 
         }
 
@@ -278,9 +267,9 @@ function renderGopChart(
 
 
 
-// ====================
+// ======================
 // MIX
-// ====================
+// ======================
 
 function renderMixChart(
   entries
@@ -293,6 +282,10 @@ function renderMixChart(
 
   if (!canvas)
     return;
+
+
+  canvas.height =
+    280;
 
 
   if (
@@ -326,6 +319,7 @@ function renderMixChart(
 
     }
   );
+
 
 
   mixChart =
@@ -369,20 +363,30 @@ function renderMixChart(
           responsive:
             true,
 
-          plugins: {
-
-            legend: {
-
-              position:
-                "bottom"
-
-            }
-
-          }
+          maintainAspectRatio:
+            false
 
         }
 
       }
     );
+
+}
+
+
+
+
+
+function formatShortDate(
+  value
+) {
+
+  const date =
+    new Date(
+      value
+    );
+
+
+  return date.getDate();
 
 }
