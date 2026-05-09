@@ -1,17 +1,13 @@
-let revenueChartInstance =
+let revenueChart =
   null;
 
-let gopChartInstance =
+let gopChart =
   null;
 
-let mixChartInstance =
+let mixChart =
   null;
 
 
-
-// ======================
-// MAIN
-// ======================
 
 function renderCharts(
   entries
@@ -33,9 +29,11 @@ function renderCharts(
 
 
 
-// ======================
-// REVENUE TREND
-// ======================
+
+
+// ====================
+// REVENUE
+// ====================
 
 function renderRevenueChart(
   entries
@@ -46,117 +44,98 @@ function renderRevenueChart(
       "revenueChart"
     );
 
-
-  if(
-    !canvas
-  ) return;
+  if (!canvas)
+    return;
 
 
-  const ctx =
-    canvas.getContext(
-      "2d"
-    );
-
-
-  if(
-    revenueChartInstance
+  if (
+    revenueChart
   ) {
 
-    revenueChartInstance.destroy();
+    revenueChart.destroy();
 
   }
 
 
   const labels =
     entries.map(
-      entry => {
-
-        const date =
-          new Date(
-            entry.date
-          );
-
-        return date.getDate();
-
-      }
+      x =>
+        new Date(
+          x.date
+        ).getDate()
     );
 
 
-  const revenueData =
+  const data =
     entries.map(
-      entry => {
+      x =>
 
-        return (
+        Number(
+          x.foodRevenue || 0
+        ) +
 
-          Number(
-            entry.foodRevenue || 0
-          ) +
+        Number(
+          x.beverageRevenue || 0
+        )
 
-          Number(
-            entry.beverageRevenue || 0
-          )
-
-        );
-
-      }
     );
 
 
-
-  revenueChartInstance =
+  revenueChart =
     new Chart(
-      ctx,
+      canvas,
       {
 
         type:
           "line",
 
+        data: {
 
-        data:
-          {
+          labels:
+            labels,
 
-            labels:
-              labels,
+          datasets: [
 
+            {
 
-            datasets:
-              [
+              label:
+                "Daily Revenue",
 
-                {
+              data:
+                data,
 
-                  label:
-                    "Revenue",
+              borderWidth:
+                3,
 
+              tension:
+                0.35,
 
-                  data:
-                    revenueData,
+              fill:
+                false
 
+            }
 
-                  tension:
-                    0.3,
+          ]
 
+        },
 
-                  borderWidth:
-                    2
+        options: {
 
-                }
+          responsive:
+            true,
 
-              ]
+          plugins: {
 
-          },
+            legend: {
 
+              display:
+                true
 
-        options:
-          {
-
-            responsive:
-              true,
-
-
-            maintainAspectRatio:
-              false
+            }
 
           }
+
+        }
 
       }
     );
@@ -165,9 +144,11 @@ function renderRevenueChart(
 
 
 
-// ======================
-// GOP TREND
-// ======================
+
+
+// ====================
+// GOP
+// ====================
 
 function renderGopChart(
   entries
@@ -178,168 +159,115 @@ function renderGopChart(
       "gopChart"
     );
 
-
-  if(
-    !canvas
-  ) return;
+  if (!canvas)
+    return;
 
 
-  const ctx =
-    canvas.getContext(
-      "2d"
-    );
-
-
-  if(
-    gopChartInstance
+  if (
+    gopChart
   ) {
 
-    gopChartInstance.destroy();
+    gopChart.destroy();
 
   }
 
 
-  const settings =
-    getSettings();
-
-
   const labels =
-    [];
-
-
-  const gopValues =
-    [];
-
-
-
-  entries.forEach(
-    entry => {
-
-      const date =
+    entries.map(
+      x =>
         new Date(
-          entry.date
-        );
+          x.date
+        ).getDate()
+    );
 
 
-      labels.push(
-        date.getDate()
-      );
+  const values =
+    entries.map(
+      x => {
 
-
-      const foodRevenue =
-        Number(
-          entry.foodRevenue || 0
-        );
-
-
-      const beverageRevenue =
-        Number(
-          entry.beverageRevenue || 0
-        );
-
-
-      const totalRevenue =
-        foodRevenue +
-        beverageRevenue;
-
-
-      const foodCost =
-        foodRevenue *
-        (
+        const food =
           Number(
-            settings.foodCostPercent || 0
-          ) / 100
-        );
+            x.foodRevenue || 0
+          );
 
-
-      const beverageCost =
-        beverageRevenue *
-        (
+        const bev =
           Number(
-            settings.beverageCostPercent || 0
-          ) / 100
-        );
+            x.beverageRevenue || 0
+          );
 
+        const total =
+          food + bev;
 
-      const fixedCost =
-        totalRevenue *
-        (
+        const foodCost =
           Number(
-            settings.fixCostPercent || 0
-          ) / 100
+            x.foodCost || 0
+          );
+
+        const bevCost =
+          Number(
+            x.beverageCost || 0
+          );
+
+        const fixCost =
+          Number(
+            x.fixCost || 0
+          );
+
+
+        return (
+
+          total -
+
+          foodCost -
+
+          bevCost -
+
+          fixCost
+
         );
 
-
-      const totalCost =
-        foodCost +
-        beverageCost +
-        fixedCost;
+      }
+    );
 
 
-      const gop =
-        totalRevenue -
-        totalCost;
-
-
-      gopValues.push(
-        gop
-      );
-
-    }
-  );
-
-
-
-  gopChartInstance =
+  gopChart =
     new Chart(
-      ctx,
+      canvas,
       {
 
         type:
           "bar",
 
+        data: {
 
-        data:
-          {
+          labels:
+            labels,
 
-            labels:
-              labels,
+          datasets: [
 
+            {
 
-            datasets:
-              [
+              label:
+                "Daily GOP",
 
-                {
+              data:
+                values,
 
-                  label:
-                    "GOP",
+              borderWidth:
+                1
 
+            }
 
-                  data:
-                    gopValues,
+          ]
 
+        },
 
-                  borderWidth:
-                    1
+        options: {
 
-                }
+          responsive:
+            true
 
-              ]
-
-          },
-
-
-        options:
-          {
-
-            responsive:
-              true,
-
-
-            maintainAspectRatio:
-              false
-
-          }
+        }
 
       }
     );
@@ -348,9 +276,11 @@ function renderGopChart(
 
 
 
-// ======================
-// FOOD vs BEVERAGE
-// ======================
+
+
+// ====================
+// MIX
+// ====================
 
 function renderMixChart(
   entries
@@ -361,109 +291,96 @@ function renderMixChart(
       "mixChart"
     );
 
-
-  if(
-    !canvas
-  ) return;
+  if (!canvas)
+    return;
 
 
-  const ctx =
-    canvas.getContext(
-      "2d"
-    );
-
-
-  if(
-    mixChartInstance
+  if (
+    mixChart
   ) {
 
-    mixChartInstance.destroy();
+    mixChart.destroy();
 
   }
 
 
-  let totalFood =
+  let food =
     0;
 
-
-  let totalBeverage =
+  let bev =
     0;
-
 
 
   entries.forEach(
-    entry => {
+    x => {
 
-      totalFood +=
+      food +=
         Number(
-          entry.foodRevenue || 0
+          x.foodRevenue || 0
         );
 
-
-      totalBeverage +=
+      bev +=
         Number(
-          entry.beverageRevenue || 0
+          x.beverageRevenue || 0
         );
 
     }
   );
 
 
-
-  mixChartInstance =
+  mixChart =
     new Chart(
-      ctx,
+      canvas,
       {
 
         type:
           "doughnut",
 
+        data: {
 
-        data:
-          {
+          labels: [
 
-            labels:
-              [
+            "Food",
 
-                "Food",
+            "Beverage"
 
-                "Beverage"
+          ],
 
-              ],
+          datasets: [
 
+            {
 
-            datasets:
-              [
+              data: [
 
-                {
+                food,
 
-                  data:
-                    [
-
-                      totalFood,
-
-                      totalBeverage
-
-                    ]
-
-                }
+                bev
 
               ]
 
-          },
+            }
 
+          ]
 
-        options:
-          {
+        },
 
-            responsive:
-              true,
+        options: {
 
+          responsive:
+            true,
 
-            maintainAspectRatio:
-              false
+          plugins: {
+
+            legend: {
+
+              position:
+                "bottom"
+
+            }
 
           }
+
+        }
 
       }
     );
