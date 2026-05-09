@@ -5,6 +5,10 @@ let selectedMonth =
   new Date().getMonth() + 1;
 
 
+let editingEntryId =
+  null;
+
+
 // ======================
 // ELEMENTS
 // ======================
@@ -293,7 +297,7 @@ function handleFilterChange() {
 
 
 // ======================
-// SAVE ENTRY
+// SAVE / UPDATE ENTRY
 // ======================
 
 function handleSaveEntry(
@@ -303,7 +307,7 @@ function handleSaveEntry(
   e.preventDefault();
 
 
-  const entry = {
+  const entryData = {
 
     date:
       document.getElementById(
@@ -329,14 +333,96 @@ function handleSaveEntry(
   };
 
 
-  addEntry(
-    entry
-  );
+  if(
+    editingEntryId
+  ) {
+
+    updateEntry(
+      editingEntryId,
+      entryData
+    );
+
+
+    editingEntryId =
+      null;
+
+  }
+
+  else {
+
+    addEntry(
+      entryData
+    );
+
+  }
 
 
   entryForm.reset();
 
   updateAutoDailyBudget();
+
+  renderDashboard();
+
+}
+
+
+// ======================
+// EDIT
+// ======================
+
+function editEntry(
+  entryId
+) {
+
+  const entry =
+    getEntryById(
+      entryId
+    );
+
+  if(
+    !entry
+  ) return;
+
+
+  editingEntryId =
+    entryId;
+
+
+  document.getElementById(
+    "entryDate"
+  ).value =
+    entry.date;
+
+
+  document.getElementById(
+    "foodRevenue"
+  ).value =
+    entry.foodRevenue;
+
+
+  document.getElementById(
+    "beverageRevenue"
+  ).value =
+    entry.beverageRevenue;
+
+
+  updateAutoDailyBudget();
+
+}
+
+
+// ======================
+// DELETE
+// ======================
+
+function removeEntry(
+  entryId
+) {
+
+  deleteEntry(
+    entryId
+  );
+
 
   renderDashboard();
 
@@ -424,29 +510,21 @@ function renderKPI(
   );
 
 
-  const revenueAchievement =
+  updateKPIPercent(
+    "kpiAnnualRevenueTarget",
     calculateAchievement(
       summary.totalRevenue,
       settings.annualRevenueTarget
-    );
-
-
-  const gopAchievement =
-    calculateAchievement(
-      summary.totalGop,
-      settings.annualGopTarget
-    );
-
-
-  updateKPIPercent(
-    "kpiAnnualRevenueTarget",
-    revenueAchievement
+    )
   );
 
 
   updateKPIPercent(
     "kpiAnnualGopTarget",
-    gopAchievement
+    calculateAchievement(
+      summary.totalGop,
+      settings.annualGopTarget
+    )
   );
 
 }
@@ -462,13 +540,9 @@ function calculateAchievement(
 ) {
 
   if(
-    !target ||
-    target <= 0
-  ) {
+    !target
+  ) return 0;
 
-    return 0;
-
-  }
 
   return (
     current / target
@@ -478,17 +552,20 @@ function calculateAchievement(
 
 
 function updateKPIValue(
-  elementId,
+  id,
   value,
   currency
 ) {
 
   const element =
     document.getElementById(
-      elementId
+      id
     );
 
-  if(!element) return;
+  if(
+    !element
+  ) return;
+
 
   element.textContent =
     `${currency}${value.toFixed(2)}`;
@@ -497,16 +574,19 @@ function updateKPIValue(
 
 
 function updateKPIPercent(
-  elementId,
+  id,
   value
 ) {
 
   const element =
     document.getElementById(
-      elementId
+      id
     );
 
-  if(!element) return;
+  if(
+    !element
+  ) return;
+
 
   element.textContent =
     `${value.toFixed(2)}%`;
@@ -557,11 +637,28 @@ function renderTable(
 
       row.innerHTML = `
         <td>${entry.date}</td>
+
         <td>${currency}${data.totalRevenue.toFixed(2)}</td>
+
         <td>${currency}${data.totalCost.toFixed(2)}</td>
+
         <td>${currency}${data.gop.toFixed(2)}</td>
-        <td><button>Edit</button></td>
-        <td><button>Delete</button></td>
+
+        <td>
+          <button
+            onclick="editEntry('${entry.id}')"
+          >
+            Edit
+          </button>
+        </td>
+
+        <td>
+          <button
+            onclick="removeEntry('${entry.id}')"
+          >
+            Delete
+          </button>
+        </td>
       `;
 
 
