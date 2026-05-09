@@ -134,6 +134,10 @@ function renderDashboard() {
     );
 
 
+  renderYtd(
+    data
+  );
+
   renderMtd(
     data,
     entries
@@ -158,6 +162,147 @@ function renderDashboard() {
     );
 
   }
+
+}
+
+
+
+
+
+// ====================
+// YTD
+// ====================
+
+function renderYtd(
+  data
+) {
+
+  const settings =
+    getSettings();
+
+
+  const budget =
+    Number(
+      settings.annualRevenueTarget || 0
+    );
+
+
+  const lyRevenue =
+
+    Number(
+      settings.lyFoodRevenue || 0
+    ) +
+
+    Number(
+      settings.lyBeverageRevenue || 0
+    );
+
+
+  const achievement =
+    percentage(
+      data.totalRevenue,
+      budget
+    );
+
+
+  const lyAchievement =
+    percentage(
+      lyRevenue,
+      budget
+    );
+
+
+  const variance =
+    data.totalRevenue -
+    budget;
+
+
+  const remaining =
+    budget -
+    data.totalRevenue;
+
+
+  const growth =
+    percentageChange(
+      data.totalRevenue,
+      lyRevenue
+    );
+
+
+  const diff =
+    achievement -
+    lyAchievement;
+
+
+
+  setText(
+    "ytdRevenueCard",
+    money(
+      data.totalRevenue
+    )
+  );
+
+
+  setText(
+    "ytdBudgetCard",
+    money(
+      budget
+    )
+  );
+
+
+  setText(
+    "ytdVarianceCard",
+    money(
+      variance
+    )
+  );
+
+
+  setText(
+    "ytdBalanceCard",
+    money(
+      remaining
+    )
+  );
+
+
+  setText(
+    "ytdAchievementCard",
+    percent(
+      achievement
+    )
+  );
+
+
+  setText(
+    "lyRevenueCard",
+    money(
+      lyRevenue
+    )
+  );
+
+
+  setText(
+    "ytdGrowthCard",
+    percent(
+      growth
+    )
+  );
+
+
+  setText(
+    "achievementDiffCard",
+    percent(
+      diff
+    )
+  );
+
+
+  setBar(
+    "ytdProgressBar",
+    achievement
+  );
 
 }
 
@@ -216,13 +361,6 @@ function renderMtd(
     budget;
 
 
-  const achievement =
-    percentage(
-      data.totalRevenue,
-      budget
-    );
-
-
 
   setText(
     "mtdRevenueCard",
@@ -269,12 +407,6 @@ function renderMtd(
     daysLeft
   );
 
-
-  setBar(
-    "mtdProgressBar",
-    achievement
-  );
-
 }
 
 
@@ -303,26 +435,12 @@ function renderFoodBeverage(
     );
 
 
-  const lyBev =
-    Number(
-      settings.lyBeverageRevenue || 0
-    );
-
-
 
   const foodMix =
     percentage(
       data.totalFoodRevenue,
       totalRevenue
     );
-
-
-  const bevMix =
-    percentage(
-      data.totalBeverageRevenue,
-      totalRevenue
-    );
-
 
 
   const foodCost =
@@ -332,25 +450,10 @@ function renderFoodBeverage(
     );
 
 
-  const bevCost =
-    percentage(
-      data.beverageCost,
-      data.totalBeverageRevenue
-    );
-
-
-
   const foodGrowth =
     percentageChange(
       data.totalFoodRevenue,
       lyFood
-    );
-
-
-  const bevGrowth =
-    percentageChange(
-      data.totalBeverageRevenue,
-      lyBev
     );
 
 
@@ -362,12 +465,14 @@ function renderFoodBeverage(
     )
   );
 
+
   setText(
     "foodMixCard",
     percent(
       foodMix
     )
   );
+
 
   setText(
     "foodCostCard",
@@ -376,40 +481,11 @@ function renderFoodBeverage(
     )
   );
 
+
   setText(
     "foodGrowthCard",
     percent(
       foodGrowth
-    )
-  );
-
-
-
-  setText(
-    "bevRevenueCard",
-    money(
-      data.totalBeverageRevenue
-    )
-  );
-
-  setText(
-    "bevMixCard",
-    percent(
-      bevMix
-    )
-  );
-
-  setText(
-    "bevCostCard",
-    percent(
-      bevCost
-    )
-  );
-
-  setText(
-    "bevGrowthCard",
-    percent(
-      bevGrowth
     )
   );
 
