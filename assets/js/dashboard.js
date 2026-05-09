@@ -26,7 +26,7 @@ function initDashboard() {
 
 
 // ====================
-// FILTER
+// FILTERS
 // ====================
 
 function setupFilters() {
@@ -87,7 +87,7 @@ function setupFilters() {
 
 
   yearFilter.onchange =
-    function () {
+    function() {
 
       selectedYear =
         Number(
@@ -100,7 +100,7 @@ function setupFilters() {
 
 
   monthFilter.onchange =
-    function () {
+    function() {
 
       selectedMonth =
         Number(
@@ -129,43 +129,20 @@ function renderDashboard() {
       selectedMonth
     );
 
+
   const data =
     calculatePeriodSummary(
       entries
     );
 
-  const settings =
-    getSettings();
-
-
-  renderYtd(
-    data,
-    settings
-  );
-
-  renderMtd(
-    data,
-    settings,
-    entries
-  );
-
-  renderGop(
-    data
-  );
 
   renderFoodBeverage(
     data
   );
 
-  renderSummary(
-    entries,
-    data,
-    settings
-  );
 
   renderRecentEntries(
-    entries,
-    settings
+    entries
   );
 
 
@@ -187,252 +164,76 @@ function renderDashboard() {
 
 
 // ====================
-// YTD
-// ====================
-
-function renderYtd(
-  data,
-  settings
-) {
-
-  const budget =
-    Number(
-      settings.annualRevenueTarget || 0
-    );
-
-  const ly =
-    getLyRevenue();
-
-  const ach =
-    percentage(
-      data.totalRevenue,
-      budget
-    );
-
-  const lyAch =
-    percentage(
-      ly,
-      budget
-    );
-
-
-  setText(
-    "ytdRevenueCard",
-    money(
-      data.totalRevenue
-    )
-  );
-
-  setText(
-    "ytdBudgetCard",
-    money(
-      budget
-    )
-  );
-
-  setText(
-    "ytdAchievementCard",
-    percent(
-      ach
-    )
-  );
-
-  setText(
-    "ytdVarianceCard",
-    money(
-      data.totalRevenue -
-      budget
-    )
-  );
-
-  setText(
-    "ytdBalanceCard",
-    money(
-      budget -
-      data.totalRevenue
-    )
-  );
-
-  setText(
-    "lyRevenueCard",
-    money(
-      ly
-    )
-  );
-
-  setText(
-    "lyAchievementCard",
-    percent(
-      lyAch
-    )
-  );
-
-  setText(
-    "ytdGrowthCard",
-    percent(
-      percentageChange(
-        data.totalRevenue,
-        ly
-      )
-    )
-  );
-
-  setText(
-    "achievementDiffCard",
-    percent(
-      ach -
-      lyAch
-    )
-  );
-
-
-  setBar(
-    "ytdProgressBar",
-    ach
-  );
-
-}
-
-
-
-
-
-// ====================
-// MTD
-// ====================
-
-function renderMtd(
-  data,
-  settings,
-  entries
-) {
-
-  const budget =
-    Number(
-      settings.monthlyBudget || 0
-    );
-
-  const ach =
-    percentage(
-      data.totalRevenue,
-      budget
-    );
-
-  const daysInMonth =
-    new Date(
-      selectedYear,
-      selectedMonth,
-      0
-    ).getDate();
-
-  const avg =
-    entries.length
-      ? data.totalRevenue /
-        entries.length
-      : 0;
-
-  const projection =
-    avg *
-    daysInMonth;
-
-
-  setText(
-    "mtdRevenueCard",
-    money(
-      data.totalRevenue
-    )
-  );
-
-  setText(
-    "mtdBudgetCard",
-    money(
-      budget
-    )
-  );
-
-  setText(
-    "projectionCard",
-    money(
-      projection
-    )
-  );
-
-  setText(
-    "projectionGapCard",
-    money(
-      projection -
-      budget
-    )
-  );
-
-  setText(
-    "mtdAchievementCard",
-    percent(
-      ach
-    )
-  );
-
-
-  setBar(
-    "mtdProgressBar",
-    ach
-  );
-
-}
-
-
-
-
-
-// ====================
-// GOP
-// ====================
-
-function renderGop(
-  data
-) {
-
-  setText(
-    "gopRevenueCard",
-    money(
-      data.totalRevenue
-    )
-  );
-
-  setText(
-    "gopCostCard",
-    money(
-      data.totalCost
-    )
-  );
-
-  setText(
-    "gopMainCard",
-    money(
-      data.totalGop
-    )
-  );
-
-  setText(
-    "gopMarginCard",
-    percent(
-      data.gopMargin
-    )
-  );
-
-}
-
-
-
-
-
-// ====================
-// F&B
+// FOOD & BEVERAGE
 // ====================
 
 function renderFoodBeverage(
   data
 ) {
+
+  const totalRevenue =
+    data.totalRevenue || 0;
+
+
+  const lyFood =
+    Number(
+      getSettings()
+        .lyFoodRevenue || 0
+    );
+
+
+  const lyBev =
+    Number(
+      getSettings()
+        .lyBeverageRevenue || 0
+    );
+
+
+
+  const foodMix =
+    percentage(
+      data.totalFoodRevenue,
+      totalRevenue
+    );
+
+
+  const bevMix =
+    percentage(
+      data.totalBeverageRevenue,
+      totalRevenue
+    );
+
+
+
+  const foodCostPercent =
+    percentage(
+      data.foodCost,
+      data.totalFoodRevenue
+    );
+
+
+  const bevCostPercent =
+    percentage(
+      data.beverageCost,
+      data.totalBeverageRevenue
+    );
+
+
+
+  const foodGrowth =
+    percentageChange(
+      data.totalFoodRevenue,
+      lyFood
+    );
+
+
+  const bevGrowth =
+    percentageChange(
+      data.totalBeverageRevenue,
+      lyBev
+    );
+
+
 
   setText(
     "foodRevenueCard",
@@ -441,12 +242,33 @@ function renderFoodBeverage(
     )
   );
 
+
   setText(
-    "foodCostCard",
-    money(
-      data.foodCost
+    "foodMixCard",
+    percent(
+      foodMix
     )
   );
+
+
+  setText(
+    "foodCostCard",
+    percent(
+      foodCostPercent
+    )
+  );
+
+
+  setText(
+    "foodGrowthCard",
+    percent(
+      foodGrowth
+    )
+  );
+
+
+
+
 
   setText(
     "bevRevenueCard",
@@ -455,12 +277,33 @@ function renderFoodBeverage(
     )
   );
 
+
   setText(
-    "bevCostCard",
-    money(
-      data.beverageCost
+    "bevMixCard",
+    percent(
+      bevMix
     )
   );
+
+
+  setText(
+    "bevCostCard",
+    percent(
+      bevCostPercent
+    )
+  );
+
+
+  setText(
+    "bevGrowthCard",
+    percent(
+      bevGrowth
+    )
+  );
+
+
+
+
 
   setText(
     "fixCostCard",
@@ -476,87 +319,24 @@ function renderFoodBeverage(
 
 
 // ====================
-// SUMMARY
-// ====================
-
-function renderSummary(
-  entries,
-  data,
-  settings
-) {
-
-  setText(
-    "summaryRevenueCard",
-    money(
-      data.totalRevenue
-    )
-  );
-
-  setText(
-    "summaryBudgetCard",
-    money(
-      settings.monthlyBudget
-    )
-  );
-
-  setText(
-    "summaryAchievementCard",
-    percent(
-      percentage(
-        data.totalRevenue,
-        settings.monthlyBudget
-      )
-    )
-  );
-
-}
-
-
-
-
-
-// ====================
-// RECENT TABLE
+// RECENT
 // ====================
 
 function renderRecentEntries(
-  entries,
-  settings
+  entries
 ) {
 
-  const container =
+  const el =
     document.getElementById(
       "recentEntriesList"
     );
 
-  if (!container)
+
+  if (!el)
     return;
 
 
-  const dailyBudget =
-    Number(
-      settings.monthlyBudget || 0
-    ) / 31;
-
-
-  container.innerHTML =
-
-    `
-    <div class="grid grid-cols-9 font-bold border-b pb-3 mb-3 text-sm">
-
-      <div>Date</div>
-      <div>Food</div>
-      <div>Bev</div>
-      <div>Total</div>
-      <div>Budget</div>
-      <div>Variance</div>
-      <div>Ach.</div>
-      <div>Status</div>
-      <div>Action</div>
-
-    </div>
-    ` +
-
+  el.innerHTML =
     entries
       .slice()
       .reverse()
@@ -576,29 +356,9 @@ function renderRecentEntries(
           const total =
             food + bev;
 
-          const variance =
-            total -
-            dailyBudget;
-
-          const ach =
-            percentage(
-              total,
-              dailyBudget
-            );
-
-
-          const status =
-
-            ach >= 100
-
-              ? `<span class="text-green-600 font-bold">GOOD</span>`
-
-              : `<span class="text-red-600 font-bold">LOW</span>`;
-
 
           return `
-
-            <div class="grid grid-cols-9 border-b py-3 text-sm">
+            <div class="grid grid-cols-4 border-b py-3">
 
               <div>
                 ${formatDate(
@@ -624,34 +384,7 @@ function renderRecentEntries(
                 )}
               </div>
 
-              <div>
-                ${money(
-                  dailyBudget
-                )}
-              </div>
-
-              <div>
-                ${money(
-                  variance
-                )}
-              </div>
-
-              <div>
-                ${percent(
-                  ach
-                )}
-              </div>
-
-              <div>
-                ${status}
-              </div>
-
-              <div>
-                ✏️ 🗑️
-              </div>
-
             </div>
-
           `;
 
         }
@@ -678,33 +411,12 @@ function setText(
       id
     );
 
-  if (el) {
+  if (
+    el
+  ) {
 
     el.innerHTML =
       value;
-
-  }
-
-}
-
-
-function setBar(
-  id,
-  value
-) {
-
-  const el =
-    document.getElementById(
-      id
-    );
-
-  if (el) {
-
-    el.style.width =
-      Math.min(
-        value,
-        100
-      ) + "%";
 
   }
 
@@ -763,6 +475,7 @@ function money(
 ) {
 
   return (
+
     getSettings()
       .currency +
 
@@ -773,26 +486,6 @@ function money(
       {
         maximumFractionDigits: 0
       }
-    )
-
-  );
-
-}
-
-
-function getLyRevenue() {
-
-  const s =
-    getSettings();
-
-  return (
-
-    Number(
-      s.lyFoodRevenue || 0
-    ) +
-
-    Number(
-      s.lyBeverageRevenue || 0
     )
 
   );
