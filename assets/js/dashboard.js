@@ -211,11 +211,11 @@ function updateAutoDailyBudget() {
   ) return;
 
 
-  const selectedDate =
+  const dateValue =
     entryDateField.value;
 
   if(
-    !selectedDate
+    !dateValue
   ) {
 
     budgetField.value =
@@ -230,51 +230,33 @@ function updateAutoDailyBudget() {
     getSettings();
 
 
-  const monthlyBudget =
-    Number(
-      settings.monthlyBudget || 0
-    );
-
-
   const date =
     new Date(
-      selectedDate
+      dateValue
     );
-
-
-  const year =
-    date.getFullYear();
-
-  const month =
-    date.getMonth();
 
 
   const daysInMonth =
     new Date(
-      year,
-      month + 1,
+      date.getFullYear(),
+      date.getMonth() + 1,
       0
     ).getDate();
 
 
   const dailyBudget =
-    monthlyBudget /
+    settings.monthlyBudget /
     daysInMonth;
 
 
-  const currency =
-    settings.currency ||
-    "RM";
-
-
   budgetField.value =
-    `${currency}${dailyBudget.toFixed(2)}`;
+    `${settings.currency}${dailyBudget.toFixed(2)}`;
 
 }
 
 
 // ======================
-// FILTER CHANGE
+// FILTER
 // ======================
 
 function handleFilterChange() {
@@ -297,7 +279,7 @@ function handleFilterChange() {
 
 
 // ======================
-// SAVE / UPDATE ENTRY
+// SAVE ENTRY
 // ======================
 
 function handleSaveEntry(
@@ -342,7 +324,6 @@ function handleSaveEntry(
       entryData
     );
 
-
     editingEntryId =
       null;
 
@@ -362,6 +343,329 @@ function handleSaveEntry(
   updateAutoDailyBudget();
 
   renderDashboard();
+
+}
+
+
+// ======================
+// MAIN RENDER
+// ======================
+
+function renderDashboard() {
+
+  const monthlyEntries =
+    filterEntries(
+      selectedYear,
+      selectedMonth
+    );
+
+
+  const yearlyEntries =
+    getEntries().filter(
+      entry => {
+
+        const date =
+          new Date(
+            entry.date
+          );
+
+        return (
+          date.getFullYear() ===
+          selectedYear
+        );
+
+      }
+    );
+
+
+  const mtd =
+    calculatePeriodSummary(
+      monthlyEntries
+    );
+
+
+  const ytd =
+    calculatePeriodSummary(
+      yearlyEntries
+    );
+
+
+  renderYtd(
+    ytd
+  );
+
+
+  renderMtd(
+    mtd
+  );
+
+
+  renderGop(
+    mtd
+  );
+
+
+  renderFoodBeverage(
+    mtd
+  );
+
+
+  renderSummary(
+    monthlyEntries,
+    mtd
+  );
+
+
+  renderTable(
+    monthlyEntries
+  );
+
+}
+
+
+// ======================
+// YTD
+// ======================
+
+function renderYtd(
+  data
+) {
+
+  const settings =
+    getSettings();
+
+
+  setCard(
+    "ytdRevenueCard",
+    `${settings.currency}${data.totalRevenue.toFixed(0)}`
+  );
+
+
+  setCard(
+    "ytdBudgetCard",
+    `${settings.currency}${(settings.monthlyBudget * 12).toFixed(0)}`
+  );
+
+
+  setCard(
+    "ytdAchievementCard",
+    `${calculateAchievement(
+      data.totalRevenue,
+      settings.annualRevenueTarget
+    ).toFixed(1)}%`
+  );
+
+}
+
+
+// ======================
+// MTD
+// ======================
+
+function renderMtd(
+  data
+) {
+
+  const settings =
+    getSettings();
+
+
+  setCard(
+    "mtdRevenueCard",
+    `${settings.currency}${data.totalRevenue.toFixed(0)}`
+  );
+
+
+  setCard(
+    "mtdBudgetCard",
+    `${settings.currency}${settings.monthlyBudget.toFixed(0)}`
+  );
+
+
+  setCard(
+    "mtdGopCard",
+    `${settings.currency}${data.totalGop.toFixed(0)}`
+  );
+
+
+  setCard(
+    "mtdAchievementCard",
+    `${calculateAchievement(
+      data.totalRevenue,
+      settings.monthlyBudget
+    ).toFixed(1)}%`
+  );
+
+}
+
+
+// ======================
+// GOP
+// ======================
+
+function renderGop(
+  data
+) {
+
+  const settings =
+    getSettings();
+
+
+  setCard(
+    "gopRevenueCard",
+    `${settings.currency}${data.totalRevenue.toFixed(0)}`
+  );
+
+
+  setCard(
+    "gopCostCard",
+    `${settings.currency}${data.totalCost.toFixed(0)}`
+  );
+
+
+  setCard(
+    "gopMainCard",
+    `${settings.currency}${data.totalGop.toFixed(0)}`
+  );
+
+
+  setCard(
+    "gopMarginCard",
+    `${data.gopMargin.toFixed(1)}%`
+  );
+
+}
+
+
+// ======================
+// FOOD & BEVERAGE
+// ======================
+
+function renderFoodBeverage(
+  data
+) {
+
+  const settings =
+    getSettings();
+
+
+  setCard(
+    "foodRevenueCard",
+    `${settings.currency}${data.totalFoodRevenue.toFixed(0)}`
+  );
+
+
+  setCard(
+    "bevRevenueCard",
+    `${settings.currency}${data.totalBeverageRevenue.toFixed(0)}`
+  );
+
+
+  setCard(
+    "totalCostCard",
+    `${settings.currency}${data.totalCost.toFixed(0)}`
+  );
+
+}
+
+
+// ======================
+// SUMMARY
+// ======================
+
+function renderSummary(
+  entries,
+  data
+) {
+
+  const settings =
+    getSettings();
+
+
+  setCard(
+    "summaryRevenueCard",
+    `${settings.currency}${data.totalRevenue.toFixed(0)}`
+  );
+
+
+  setCard(
+    "summaryBudgetCard",
+    `${settings.currency}${settings.monthlyBudget.toFixed(0)}`
+  );
+
+
+  setCard(
+    "summaryAchievementCard",
+    `${calculateAchievement(
+      data.totalRevenue,
+      settings.monthlyBudget
+    ).toFixed(1)}%`
+  );
+
+}
+
+
+// ======================
+// HELPERS
+// ======================
+
+function setCard(
+  id,
+  value
+) {
+
+  const element =
+    document.getElementById(
+      id
+    );
+
+  if(
+    !element
+  ) return;
+
+
+  element.innerHTML =
+    `
+      <div class="bg-slate-50 rounded-xl p-4 text-center font-bold text-xl">
+        ${value}
+      </div>
+    `;
+
+}
+
+
+function calculateAchievement(
+  current,
+  target
+) {
+
+  if(
+    !target
+  ) return 0;
+
+
+  return (
+    current / target
+  ) * 100;
+
+}
+
+
+// ======================
+// TABLE
+// ======================
+
+function renderTable(
+  entries
+) {
+
+  if(
+    !tableBody
+  ) return;
+
+
+  tableBody.innerHTML =
+    "";
 
 }
 
@@ -405,9 +709,6 @@ function editEntry(
   ).value =
     entry.beverageRevenue;
 
-
-  updateAutoDailyBudget();
-
 }
 
 
@@ -425,249 +726,6 @@ function removeEntry(
 
 
   renderDashboard();
-
-}
-
-
-// ======================
-// MAIN RENDER
-// ======================
-
-function renderDashboard() {
-
-  const entries =
-    filterEntries(
-      selectedYear,
-      selectedMonth
-    );
-
-
-  const summary =
-    calculatePeriodSummary(
-      entries
-    );
-
-
-  renderKPI(
-    summary
-  );
-
-
-  renderTable(
-    entries
-  );
-
-
-  if(
-    typeof renderCharts ===
-    "function"
-  ) {
-
-    renderCharts(
-      entries
-    );
-
-  }
-
-}
-
-
-// ======================
-// KPI
-// ======================
-
-function renderKPI(
-  summary
-) {
-
-  const settings =
-    getSettings();
-
-
-  const currency =
-    settings.currency ||
-    "RM";
-
-
-  updateKPIValue(
-    "kpiMtdRevenue",
-    summary.totalRevenue,
-    currency
-  );
-
-
-  updateKPIValue(
-    "kpiGop",
-    summary.totalGop,
-    currency
-  );
-
-
-  updateKPIValue(
-    "kpiBudgetVariance",
-    summary.budgetVariance,
-    currency
-  );
-
-
-  updateKPIPercent(
-    "kpiAnnualRevenueTarget",
-    calculateAchievement(
-      summary.totalRevenue,
-      settings.annualRevenueTarget
-    )
-  );
-
-
-  updateKPIPercent(
-    "kpiAnnualGopTarget",
-    calculateAchievement(
-      summary.totalGop,
-      settings.annualGopTarget
-    )
-  );
-
-}
-
-
-// ======================
-// HELPERS
-// ======================
-
-function calculateAchievement(
-  current,
-  target
-) {
-
-  if(
-    !target
-  ) return 0;
-
-
-  return (
-    current / target
-  ) * 100;
-
-}
-
-
-function updateKPIValue(
-  id,
-  value,
-  currency
-) {
-
-  const element =
-    document.getElementById(
-      id
-    );
-
-  if(
-    !element
-  ) return;
-
-
-  element.textContent =
-    `${currency}${value.toFixed(2)}`;
-
-}
-
-
-function updateKPIPercent(
-  id,
-  value
-) {
-
-  const element =
-    document.getElementById(
-      id
-    );
-
-  if(
-    !element
-  ) return;
-
-
-  element.textContent =
-    `${value.toFixed(2)}%`;
-
-}
-
-
-// ======================
-// TABLE
-// ======================
-
-function renderTable(
-  entries
-) {
-
-  if(
-    !tableBody
-  ) return;
-
-
-  tableBody.innerHTML =
-    "";
-
-
-  const settings =
-    getSettings();
-
-
-  const currency =
-    settings.currency ||
-    "RM";
-
-
-  entries.forEach(
-    entry => {
-
-      const data =
-        calculateEntryMetrics(
-          entry
-        );
-
-
-      const row =
-        document.createElement(
-          "tr"
-        );
-
-
-      row.innerHTML = `
-        <td>${entry.date}</td>
-
-        <td>${currency}${data.totalRevenue.toFixed(2)}</td>
-
-        <td>${currency}${data.totalCost.toFixed(2)}</td>
-
-        <td>${currency}${data.gop.toFixed(2)}</td>
-
-        <td>
-          <button
-            onclick="editEntry('${entry.id}')"
-          >
-            Edit
-          </button>
-        </td>
-
-        <td>
-          <button
-            onclick="removeEntry('${entry.id}')"
-          >
-            Delete
-          </button>
-        </td>
-      `;
-
-
-      tableBody.appendChild(
-        row
-      );
-
-    }
-  );
 
 }
 
