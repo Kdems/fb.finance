@@ -1,70 +1,3 @@
-const ENTRY_STORAGE_KEY =
-  "skybar_entries";
-
-
-
-// ======================
-// GET ENTRIES
-// ======================
-
-function getAllEntries() {
-
-  try {
-
-    const raw =
-      localStorage.getItem(
-        ENTRY_STORAGE_KEY
-      );
-
-
-    if(
-      !raw
-    ) {
-
-      return [];
-
-    }
-
-
-    const parsed =
-      JSON.parse(
-        raw
-      );
-
-
-    if(
-      !Array.isArray(
-        parsed
-      )
-    ) {
-
-      return [];
-
-    }
-
-
-    return parsed;
-
-  }
-
-  catch(
-    error
-  ) {
-
-    console.error(
-      "Entry load error:",
-      error
-    );
-
-
-    return [];
-
-  }
-
-}
-
-
-
 // ======================
 // FILTER ENTRIES
 // ======================
@@ -132,6 +65,7 @@ function calculatePeriodSummary(
   let totalBeverageRevenue = 0;
 
 
+
   entries.forEach(
     entry => {
 
@@ -148,6 +82,7 @@ function calculatePeriodSummary(
 
     }
   );
+
 
 
   const totalRevenue =
