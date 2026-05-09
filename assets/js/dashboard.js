@@ -58,7 +58,6 @@ function populateYearFilter() {
   yearFilter.innerHTML =
     "";
 
-
   for(
     let year = 2025;
     year <= 2040;
@@ -70,24 +69,18 @@ function populateYearFilter() {
         "option"
       );
 
-
     option.value =
       year;
-
 
     option.textContent =
       year;
 
-
     if(
       year === selectedYear
     ) {
-
       option.selected =
         true;
-
     }
-
 
     yearFilter.appendChild(
       option
@@ -105,7 +98,6 @@ function populateMonthFilter() {
   monthFilter.innerHTML =
     "";
 
-
   for(
     let month = 1;
     month <= 12;
@@ -117,24 +109,18 @@ function populateMonthFilter() {
         "option"
       );
 
-
     option.value =
       month;
-
 
     option.textContent =
       month;
 
-
     if(
       month === selectedMonth
     ) {
-
       option.selected =
         true;
-
     }
-
 
     monthFilter.appendChild(
       option
@@ -202,12 +188,10 @@ function handleFilterChange() {
       yearFilter.value
     );
 
-
   selectedMonth =
     Number(
       monthFilter.value
     );
-
 
   renderDashboard();
 
@@ -290,21 +274,17 @@ function renderDashboard() {
     current
   );
 
-
   renderMtd(
     current
   );
-
 
   renderGop(
     current
   );
 
-
   renderFoodBeverage(
     current
   );
-
 
   renderSummary(
     entries,
@@ -370,16 +350,12 @@ function renderYtd(
 
   updateCard(
     "ytdRevenueCard",
-    formatMoney(
-      current.totalRevenue
-    )
+    formatMoney(current.totalRevenue)
   );
 
   updateCard(
     "ytdBudgetCard",
-    formatMoney(
-      budget
-    )
+    formatMoney(budget)
   );
 
   updateCard(
@@ -394,16 +370,12 @@ function renderYtd(
 
   updateCard(
     "lyRevenueCard",
-    formatMoney(
-      lyRevenue
-    )
+    formatMoney(lyRevenue)
   );
 
   updateCard(
     "ytdVarianceCard",
-    formatMoney(
-      variance
-    )
+    formatMoney(variance)
   );
 
 }
@@ -448,23 +420,17 @@ function renderMtd(
 
   updateCard(
     "mtdRevenueCard",
-    formatMoney(
-      current.totalRevenue
-    )
+    formatMoney(current.totalRevenue)
   );
 
   updateCard(
     "mtdBudgetCard",
-    formatMoney(
-      monthlyBudget
-    )
+    formatMoney(monthlyBudget)
   );
 
   updateCard(
     "mtdGopCard",
-    formatMoney(
-      current.totalGop
-    )
+    formatMoney(current.totalGop)
   );
 
   updateCard(
@@ -491,23 +457,17 @@ function renderGop(
 
   updateCard(
     "gopRevenueCard",
-    formatMoney(
-      current.totalRevenue
-    )
+    formatMoney(current.totalRevenue)
   );
 
   updateCard(
     "gopCostCard",
-    formatMoney(
-      current.totalCost
-    )
+    formatMoney(current.totalCost)
   );
 
   updateCard(
     "gopMainCard",
-    formatMoney(
-      current.totalGop
-    )
+    formatMoney(current.totalGop)
   );
 
   updateCard(
@@ -520,7 +480,7 @@ function renderGop(
 
 
 // ======================
-// F&B
+// F&B ANALYSIS
 // ======================
 
 function renderFoodBeverage(
@@ -529,6 +489,33 @@ function renderFoodBeverage(
 
   const settings =
     getSettings();
+
+
+  const foodCost =
+    current.totalFoodRevenue *
+    (
+      Number(
+        settings.foodCostPercent || 0
+      ) / 100
+    );
+
+
+  const bevCost =
+    current.totalBeverageRevenue *
+    (
+      Number(
+        settings.beverageCostPercent || 0
+      ) / 100
+    );
+
+
+  const fixCost =
+    current.totalRevenue *
+    (
+      Number(
+        settings.fixCostPercent || 0
+      ) / 100
+    );
 
 
   const foodGrowth =
@@ -547,24 +534,29 @@ function renderFoodBeverage(
 
   updateCard(
     "foodRevenueCard",
-    formatMoney(
-      current.totalFoodRevenue
-    )
+    formatMoney(current.totalFoodRevenue)
   );
 
   updateCard(
     "bevRevenueCard",
-    formatMoney(
-      current.totalBeverageRevenue
-    )
+    formatMoney(current.totalBeverageRevenue)
   );
 
   updateCard(
-    "totalCostCard",
-    formatMoney(
-      current.totalCost
-    )
+    "foodCostCard",
+    formatMoney(foodCost)
   );
+
+  updateCard(
+    "bevCostCard",
+    formatMoney(bevCost)
+  );
+
+  updateCard(
+    "fixCostCard",
+    formatMoney(fixCost)
+  );
+
 
   updateSubCard(
     "foodRevenueCard",
@@ -601,8 +593,7 @@ function renderSummary(
 
   const avgDaily =
     entries.length > 0
-      ? current.totalRevenue /
-        entries.length
+      ? current.totalRevenue / entries.length
       : 0;
 
 
@@ -646,7 +637,6 @@ function renderSummary(
     worstDay =
       ranked[0].date;
 
-
     bestDay =
       ranked[
         ranked.length - 1
@@ -657,16 +647,12 @@ function renderSummary(
 
   updateCard(
     "summaryRevenueCard",
-    formatMoney(
-      current.totalRevenue
-    )
+    formatMoney(current.totalRevenue)
   );
 
   updateCard(
     "summaryBudgetCard",
-    formatMoney(
-      avgDaily
-    )
+    formatMoney(avgDaily)
   );
 
   updateCard(
@@ -717,9 +703,7 @@ function updateCard(
 ) {
 
   const el =
-    document.getElementById(
-      id
-    );
+    document.getElementById(id);
 
   if(!el) return;
 
@@ -735,9 +719,7 @@ function updateSubCard(
 ) {
 
   const el =
-    document.getElementById(
-      id
-    );
+    document.getElementById(id);
 
   if(!el) return;
 
