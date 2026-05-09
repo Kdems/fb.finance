@@ -61,14 +61,9 @@ function initDashboard() {
 
 function populateYearFilter() {
 
-  if(
-    !yearFilter
-  ) return;
+  if(!yearFilter) return;
 
-
-  yearFilter.innerHTML =
-    "";
-
+  yearFilter.innerHTML = "";
 
   for(
     let year = 2025;
@@ -81,24 +76,14 @@ function populateYearFilter() {
         "option"
       );
 
-
-    option.value =
-      year;
-
-
-    option.textContent =
-      year;
-
+    option.value = year;
+    option.textContent = year;
 
     if(
       year === selectedYear
     ) {
-
-      option.selected =
-        true;
-
+      option.selected = true;
     }
-
 
     yearFilter.appendChild(
       option
@@ -111,14 +96,9 @@ function populateYearFilter() {
 
 function populateMonthFilter() {
 
-  if(
-    !monthFilter
-  ) return;
+  if(!monthFilter) return;
 
-
-  monthFilter.innerHTML =
-    "";
-
+  monthFilter.innerHTML = "";
 
   for(
     let month = 1;
@@ -131,24 +111,14 @@ function populateMonthFilter() {
         "option"
       );
 
-
-    option.value =
-      month;
-
-
-    option.textContent =
-      month;
-
+    option.value = month;
+    option.textContent = month;
 
     if(
       month === selectedMonth
     ) {
-
-      option.selected =
-        true;
-
+      option.selected = true;
     }
-
 
     monthFilter.appendChild(
       option
@@ -166,9 +136,7 @@ function populateMonthFilter() {
 
 function bindEvents() {
 
-  if(
-    yearFilter
-  ) {
+  if(yearFilter) {
 
     yearFilter.addEventListener(
       "change",
@@ -178,9 +146,7 @@ function bindEvents() {
   }
 
 
-  if(
-    monthFilter
-  ) {
+  if(monthFilter) {
 
     monthFilter.addEventListener(
       "change",
@@ -190,21 +156,7 @@ function bindEvents() {
   }
 
 
-  if(
-    entryForm
-  ) {
-
-    entryForm.addEventListener(
-      "submit",
-      handleSaveEntry
-    );
-
-  }
-
-
-  if(
-    entryDateField
-  ) {
+  if(entryDateField) {
 
     entryDateField.addEventListener(
       "change",
@@ -218,83 +170,7 @@ function bindEvents() {
 
 
 // ======================
-// SAVE ENTRY
-// ======================
-
-function handleSaveEntry(
-  e
-) {
-
-  e.preventDefault();
-
-
-  const data = {
-
-    date:
-      document.getElementById(
-        "entryDate"
-      ).value,
-
-
-    foodRevenue:
-      Number(
-        document.getElementById(
-          "foodRevenue"
-        ).value || 0
-      ),
-
-
-    beverageRevenue:
-      Number(
-        document.getElementById(
-          "beverageRevenue"
-        ).value || 0
-      )
-
-  };
-
-
-  if(
-    editingEntryId !== null
-  ) {
-
-    updateEntry(
-      editingEntryId,
-      data
-    );
-
-
-    editingEntryId =
-      null;
-
-  }
-
-  else {
-
-    addEntry(
-      data
-    );
-
-  }
-
-
-  if(
-    entryForm
-  ) {
-
-    entryForm.reset();
-
-  }
-
-
-  renderDashboard();
-
-}
-
-
-
-// ======================
-// FILTER CHANGE
+// FILTER
 // ======================
 
 function handleFilterChange() {
@@ -304,12 +180,10 @@ function handleFilterChange() {
       yearFilter.value
     );
 
-
   selectedMonth =
     Number(
       monthFilter.value
     );
-
 
   renderDashboard();
 
@@ -328,7 +202,6 @@ function updateAutoDailyBudget() {
       "dailyBudgetDisplay"
     );
 
-
   if(
     !budgetField ||
     !entryDateField ||
@@ -339,12 +212,10 @@ function updateAutoDailyBudget() {
   const settings =
     getSettings();
 
-
   const date =
     new Date(
       entryDateField.value
     );
-
 
   const days =
     new Date(
@@ -382,34 +253,19 @@ function renderDashboard() {
     );
 
 
-  const lyEntries =
-    filterEntries(
-      selectedYear - 1,
-      selectedMonth
-    );
-
-
   const current =
     calculatePeriodSummary(
       entries
     );
 
 
-  const ly =
-    calculatePeriodSummary(
-      lyEntries
-    );
-
-
   renderYtd(
-    current,
-    ly
+    current
   );
 
 
   renderMtd(
-    current,
-    ly
+    current
   );
 
 
@@ -449,8 +305,7 @@ function renderDashboard() {
 // ======================
 
 function renderYtd(
-  current,
-  ly
+  current
 ) {
 
   const settings =
@@ -460,6 +315,16 @@ function renderYtd(
   const budget =
     Number(
       settings.annualRevenueTarget || 0
+    );
+
+
+  const lyRevenue =
+    Number(
+      settings.lyFoodRevenue || 0
+    ) +
+
+    Number(
+      settings.lyBeverageRevenue || 0
     );
 
 
@@ -473,7 +338,7 @@ function renderYtd(
   const growth =
     calculateGrowth(
       current.totalRevenue,
-      ly.totalRevenue
+      lyRevenue
     );
 
 
@@ -489,7 +354,6 @@ function renderYtd(
     )
   );
 
-
   updateCard(
     "ytdBudgetCard",
     formatMoney(
@@ -497,18 +361,15 @@ function renderYtd(
     )
   );
 
-
   updateCard(
     "ytdAchievementCard",
     `${achievement.toFixed(2)}%`
   );
 
-
   updateCard(
     "ytdGrowthCard",
     `${growth.toFixed(2)}%`
   );
-
 
   updateCard(
     "ytdVarianceCard",
@@ -526,8 +387,7 @@ function renderYtd(
 // ======================
 
 function renderMtd(
-  current,
-  ly
+  current
 ) {
 
   const settings =
@@ -537,6 +397,16 @@ function renderMtd(
   const monthlyBudget =
     Number(
       settings.monthlyBudget || 0
+    );
+
+
+  const lyRevenue =
+    Number(
+      settings.lyFoodRevenue || 0
+    ) +
+
+    Number(
+      settings.lyBeverageRevenue || 0
     );
 
 
@@ -557,10 +427,8 @@ function renderMtd(
 
 
   if(
-    selectedYear ===
-      today.getFullYear() &&
-    selectedMonth ===
-      today.getMonth() + 1
+    selectedYear === today.getFullYear() &&
+    selectedMonth === today.getMonth() + 1
   ) {
 
     daysElapsed =
@@ -595,7 +463,7 @@ function renderMtd(
   const growth =
     calculateGrowth(
       current.totalRevenue,
-      ly.totalRevenue
+      lyRevenue
     );
 
 
@@ -638,7 +506,7 @@ function renderGop(
 
 
 // ======================
-// FOOD & BEVERAGE
+// F&B
 // ======================
 
 function renderFoodBeverage(
@@ -723,8 +591,7 @@ function renderSummary(
 
   const avgDaily =
     entries.length > 0
-      ? current.totalRevenue /
-        entries.length
+      ? current.totalRevenue / entries.length
       : 0;
 
 
@@ -767,7 +634,6 @@ function renderSummary(
 
     worstDay =
       ranked[0].date;
-
 
     bestDay =
       ranked[
