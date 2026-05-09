@@ -1,238 +1,107 @@
-const SETTINGS_STORAGE_KEY =
-  "skybar_settings";
+const SETTINGS_STORAGE_KEY = "skybar_settings";
 
-
-
-// ======================
-// DEFAULT SETTINGS
-// ======================
-
-const DEFAULT_SETTINGS = {
-
-  outletName:
-    "SKYBAR",
-
-
-  currency:
-    "RM",
-
-
-  annualRevenueTarget:
-    0,
-
-
-  annualGopTarget:
-    0,
-
-
-  monthlyBudget:
-    0,
-
-
-  // COST %
-  foodCostPercent:
-    35,
-
-
-  beverageCostPercent:
-    25,
-
-
-  fixCostPercent:
-    18,
-
-
-  // LY BASELINE
-  lyFoodRevenue:
-    0,
-
-
-  lyBeverageRevenue:
-    0
-
+const defaultSettings = {
+  outletName: "SKYBAR",
+  currency: "RM",
+  annualRevenueTarget: 0,
+  monthlyBudget: 0,
+  foodCostPercent: 35,
+  beverageCostPercent: 25,
+  fixCostPercent: 18,
+  lyFoodRevenue: 0,
+  lyBeverageRevenue: 0
 };
 
-
-
-// ======================
-// GET SETTINGS
-// ======================
-
 function getSettings() {
-
   try {
-
-    const raw =
-      localStorage.getItem(
-        SETTINGS_STORAGE_KEY
-      );
-
-
-    if(
-      !raw
-    ) {
-
-      return {
-        ...DEFAULT_SETTINGS
-      };
-
-    }
-
-
-    const saved =
-      JSON.parse(
-        raw
-      );
-
-
-    return {
-
-      ...DEFAULT_SETTINGS,
-
-      ...saved
-
-    };
-
-  }
-
-  catch(
-    error
-  ) {
-
-    console.error(
-      "Settings load error:",
-      error
+    const raw = localStorage.getItem(
+      SETTINGS_STORAGE_KEY
     );
 
+    if (!raw) {
+      return {
+        ...defaultSettings
+      };
+    }
+
+    const parsed = JSON.parse(raw);
 
     return {
-      ...DEFAULT_SETTINGS
+      ...defaultSettings,
+      ...parsed
+    };
+
+  } catch (error) {
+
+    console.error(error);
+
+    return {
+      ...defaultSettings
     };
 
   }
-
 }
 
-
-
-// ======================
-// SAVE SETTINGS
-// ======================
-
-function saveSettings(
-  payload
-) {
-
-  const current =
-    getSettings();
-
-
-  const merged =
-    {
-
-      ...current,
-
-      ...payload
-
-    };
-
+function saveSettings(settings) {
 
   localStorage.setItem(
     SETTINGS_STORAGE_KEY,
-    JSON.stringify(
-      merged
-    )
+    JSON.stringify(settings)
   );
-
-
-  return merged;
 
 }
 
-
-
-// ======================
-// UI LOAD
-// ======================
-
-function loadSettingsPage() {
-
-  const form =
-    document.getElementById(
-      "settingsForm"
-    );
-
-
-  if(
-    !form
-  ) return;
-
+function loadSettingsForm() {
 
   const settings =
     getSettings();
 
-
-  setField(
+  setValue(
     "outletName",
     settings.outletName
   );
 
-  setField(
+  setValue(
     "currency",
     settings.currency
   );
 
-  setField(
+  setValue(
     "annualRevenueTarget",
     settings.annualRevenueTarget
   );
 
-  setField(
-    "annualGopTarget",
-    settings.annualGopTarget
-  );
-
-  setField(
+  setValue(
     "monthlyBudget",
     settings.monthlyBudget
   );
 
-
-  // COST %
-  setField(
+  setValue(
     "foodCostPercent",
     settings.foodCostPercent
   );
 
-  setField(
+  setValue(
     "beverageCostPercent",
     settings.beverageCostPercent
   );
 
-  setField(
+  setValue(
     "fixCostPercent",
     settings.fixCostPercent
   );
 
-
-  // LY
-  setField(
+  setValue(
     "lyFoodRevenue",
     settings.lyFoodRevenue
   );
 
-  setField(
+  setValue(
     "lyBeverageRevenue",
     settings.lyBeverageRevenue
   );
 
 }
-
-
-
-// ======================
-// FORM SAVE
-// ======================
 
 function bindSettingsForm() {
 
@@ -241,119 +110,254 @@ function bindSettingsForm() {
       "settingsForm"
     );
 
-
-  if(
-    !form
-  ) return;
-
+  if (!form) return;
 
   form.addEventListener(
     "submit",
-    function(
-      e
-    ) {
+    function(event) {
 
-      e.preventDefault();
+      event.preventDefault();
 
-
-      saveSettings({
+      const payload = {
 
         outletName:
-          getField(
-            "outletName"
-          ),
-
+          getValue("outletName"),
 
         currency:
-          getField(
-            "currency"
-          ),
-
+          getValue("currency"),
 
         annualRevenueTarget:
           Number(
-            getField(
+            getValue(
               "annualRevenueTarget"
-            ) || 0
+            )
           ),
-
-
-        annualGopTarget:
-          Number(
-            getField(
-              "annualGopTarget"
-            ) || 0
-          ),
-
 
         monthlyBudget:
           Number(
-            getField(
+            getValue(
               "monthlyBudget"
-            ) || 0
+            )
           ),
 
-
-        // COST %
         foodCostPercent:
           Number(
-            getField(
+            getValue(
               "foodCostPercent"
-            ) || 0
+            )
           ),
-
 
         beverageCostPercent:
           Number(
-            getField(
+            getValue(
               "beverageCostPercent"
-            ) || 0
+            )
           ),
-
 
         fixCostPercent:
           Number(
-            getField(
+            getValue(
               "fixCostPercent"
-            ) || 0
+            )
           ),
 
-
-        // LY
         lyFoodRevenue:
           Number(
-            getField(
+            getValue(
               "lyFoodRevenue"
-            ) || 0
+            )
           ),
-
 
         lyBeverageRevenue:
           Number(
-            getField(
+            getValue(
               "lyBeverageRevenue"
-            ) || 0
+            )
           )
 
-      });
+      };
 
+      saveSettings(
+        payload
+      );
 
       alert(
-        "Settings saved successfully."
+        "Settings saved."
       );
 
     }
   );
+}
+
+function exportBackup() {
+
+  const backup = {
+
+    settings:
+      getSettings(),
+
+    entries:
+      getAllEntries()
+
+  };
+
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          backup,
+          null,
+          2
+        )
+      ],
+      {
+        type:
+          "application/json"
+      }
+    );
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+  a.href = url;
+
+  a.download =
+    "skybar-backup.json";
+
+  a.click();
 
 }
 
+function importBackup(file) {
 
+  const reader =
+    new FileReader();
 
-// ======================
-// HELPERS
-// ======================
+  reader.onload =
+    function(event) {
 
-function setField(
+      const data =
+        JSON.parse(
+          event.target.result
+        );
+
+      if (data.settings) {
+
+        saveSettings(
+          data.settings
+        );
+
+      }
+
+      if (data.entries) {
+
+        localStorage.setItem(
+          "skybar_entries",
+          JSON.stringify(
+            data.entries
+          )
+        );
+
+      }
+
+      alert(
+        "Backup restored."
+      );
+
+      location.reload();
+
+    };
+
+  reader.readAsText(file);
+
+}
+
+function resetAllData() {
+
+  localStorage.clear();
+
+  alert(
+    "All data deleted."
+  );
+
+  location.reload();
+
+}
+
+function bindButtons() {
+
+  const exportBtn =
+    document.getElementById(
+      "exportBackupBtn"
+    );
+
+  const importBtn =
+    document.getElementById(
+      "importBackupBtn"
+    );
+
+  const importFile =
+    document.getElementById(
+      "importBackupFile"
+    );
+
+  const resetBtn =
+    document.getElementById(
+      "resetDataBtn"
+    );
+
+  if (exportBtn) {
+    exportBtn.onclick =
+      exportBackup;
+  }
+
+  if (importBtn) {
+
+    importBtn.onclick =
+      function() {
+
+        importFile.click();
+
+      };
+
+  }
+
+  if (importFile) {
+
+    importFile.onchange =
+      function() {
+
+        if (
+          this.files.length
+        ) {
+
+          importBackup(
+            this.files[0]
+          );
+
+        }
+
+      };
+
+  }
+
+  if (resetBtn) {
+
+    resetBtn.onclick =
+      resetAllData;
+
+  }
+
+}
+
+function setValue(
   id,
   value
 ) {
@@ -363,50 +367,37 @@ function setField(
       id
     );
 
+  if (el) {
 
-  if(
-    !el
-  ) return;
+    el.value =
+      value;
 
-
-  el.value =
-    value;
+  }
 
 }
 
-
-function getField(
-  id
-) {
+function getValue(id) {
 
   const el =
     document.getElementById(
       id
     );
 
-
-  if(
-    !el
-  ) return "";
-
+  if (!el) return "";
 
   return el.value;
 
 }
 
-
-
-// ======================
-// START
-// ======================
-
 document.addEventListener(
   "DOMContentLoaded",
   function() {
 
-    loadSettingsPage();
+    loadSettingsForm();
 
     bindSettingsForm();
+
+    bindButtons();
 
   }
 );
