@@ -1,4 +1,4 @@
-let editingEntryIndex =
+let editingEntryId =
   null;
 
 
@@ -7,15 +7,22 @@ let editingEntryIndex =
 // INIT
 // ======================
 
+document.addEventListener(
+  "DOMContentLoaded",
+  initEntryPage
+);
+
+
+
 function initEntryPage() {
 
   bindEntryForm();
 
-  renderRecentEntries();
-
   setDefaultDate();
 
   updateDailyBudget();
+
+  renderRecentEntries();
 
 }
 
@@ -33,12 +40,12 @@ function setDefaultDate() {
     );
 
 
-  if(
+  if (
     !dateField
   ) return;
 
 
-  if(
+  if (
     !dateField.value
   ) {
 
@@ -47,6 +54,7 @@ function setDefaultDate() {
 
 
     dateField.value =
+
       today
         .toISOString()
         .split(
@@ -60,7 +68,7 @@ function setDefaultDate() {
 
 
 // ======================
-// FORM
+// BIND FORM
 // ======================
 
 function bindEntryForm() {
@@ -71,7 +79,7 @@ function bindEntryForm() {
     );
 
 
-  if(
+  if (
     !form
   ) return;
 
@@ -82,13 +90,14 @@ function bindEntryForm() {
   );
 
 
+
   const dateField =
     document.getElementById(
       "entryDate"
     );
 
 
-  if(
+  if (
     dateField
   ) {
 
@@ -114,12 +123,19 @@ function handleSaveEntry(
   e.preventDefault();
 
 
-  const data = {
+
+  const settings =
+    getSettings();
+
+
+
+  const payload = {
 
     date:
       document.getElementById(
         "entryDate"
       ).value,
+
 
 
     foodRevenue:
@@ -130,28 +146,50 @@ function handleSaveEntry(
       ),
 
 
+
     beverageRevenue:
       Number(
         document.getElementById(
           "beverageRevenue"
         ).value || 0
-      )
+      ),
+
+
+
+    foodCostPercent:
+      settings.foodCostPercent,
+
+
+
+    beverageCostPercent:
+      settings.beverageCostPercent,
+
+
+
+    fixedCostPercent:
+      settings.fixedCostPercent,
+
+
+
+    dailyBudget:
+      getDailyBudget()
 
   };
 
 
-  if(
-    editingEntryIndex !==
+
+  if (
+    editingEntryId !==
     null
   ) {
 
     updateEntry(
-      editingEntryIndex,
-      data
+      editingEntryId,
+      payload
     );
 
 
-    editingEntryIndex =
+    editingEntryId =
       null;
 
   }
@@ -159,10 +197,11 @@ function handleSaveEntry(
   else {
 
     addEntry(
-      data
+      payload
     );
 
   }
+
 
 
   document.getElementById(
@@ -170,11 +209,100 @@ function handleSaveEntry(
   ).reset();
 
 
+
   setDefaultDate();
 
   updateDailyBudget();
 
   renderRecentEntries();
+
+}
+
+
+
+// ======================
+// DAILY BUDGET
+// ======================
+
+function getDailyBudget() {
+
+  const settings =
+    getSettings();
+
+
+  const dateField =
+    document.getElementById(
+      "entryDate"
+    );
+
+
+  if (
+    !dateField ||
+    !dateField.value
+  ) {
+
+    return 0;
+
+  }
+
+
+
+  const date =
+    new Date(
+      dateField.value
+    );
+
+
+
+  const daysInMonth =
+
+    new Date(
+
+      date.getFullYear(),
+
+      date.getMonth() + 1,
+
+      0
+
+    ).getDate();
+
+
+
+  return (
+
+    Number(
+      settings.monthlyBudget || 0
+    )
+
+    /
+
+    daysInMonth
+
+  );
+
+}
+
+
+
+function updateDailyBudget() {
+
+  const field =
+    document.getElementById(
+      "dailyBudgetDisplay"
+    );
+
+
+  if (
+    !field
+  ) return;
+
+
+
+  field.value =
+
+    formatMoney(
+      getDailyBudget()
+    );
 
 }
 
@@ -192,28 +320,32 @@ function renderRecentEntries() {
     );
 
 
-  if(
+  if (
     !tbody
   ) return;
 
 
+
   const entries =
-    getEntries();
+    getAllEntries();
+
 
 
   tbody.innerHTML =
     "";
 
 
-  if(
+
+  if (
     entries.length === 0
   ) {
 
     tbody.innerHTML =
+
       `
       <tr>
-        <td colspan="8" class="py-4 text-center text-slate-400">
-          No entries yet
+        <td colspan="8" class="py-6 text-center text-slate-400">
+          No entries found
         </td>
       </tr>
       `;
@@ -223,26 +355,20 @@ function renderRecentEntries() {
   }
 
 
+
   const reversed =
     [...entries].reverse();
 
 
+
   reversed.forEach(
-    (
-      entry,
-      reverseIndex
-    ) => {
-
-      const realIndex =
-        entries.length -
-        1 -
-        reverseIndex;
-
+    entry => {
 
       const calc =
         calculateEntryMetrics(
           entry
         );
+
 
 
       const row =
@@ -251,27 +377,52 @@ function renderRecentEntries() {
         );
 
 
+
       row.className =
         "border-b";
 
 
+
       row.innerHTML =
+
         `
-        <td class="py-3">${entry.date}</td>
+        <td class="py-4">
+          ${entry.date}
+        </td>
 
-        <td>${formatMoney(entry.foodRevenue)}</td>
+        <td>
+          ${formatMoney(
+            entry.foodRevenue
+          )}
+        </td>
 
-        <td>${formatMoney(entry.beverageRevenue)}</td>
+        <td>
+          ${formatMoney(
+            entry.beverageRevenue
+          )}
+        </td>
 
-        <td>${formatMoney(calc.totalRevenue)}</td>
+        <td>
+          ${formatMoney(
+            calc.totalRevenue
+          )}
+        </td>
 
-        <td>${formatMoney(calc.totalCost)}</td>
+        <td>
+          ${formatMoney(
+            calc.totalCost
+          )}
+        </td>
 
-        <td>${formatMoney(calc.gop)}</td>
+        <td>
+          ${formatMoney(
+            calc.gop
+          )}
+        </td>
 
         <td>
           <button
-            onclick="editEntry(${realIndex})"
+            onclick="editEntry(${entry.id})"
             class="font-semibold"
           >
             Edit
@@ -280,13 +431,14 @@ function renderRecentEntries() {
 
         <td>
           <button
-            onclick="deleteEntry(${realIndex})"
-            class="font-semibold"
+            onclick="removeEntry(${entry.id})"
+            class="text-red-600 font-semibold"
           >
             Delete
           </button>
         </td>
         `;
+
 
 
       tbody.appendChild(
@@ -305,21 +457,24 @@ function renderRecentEntries() {
 // ======================
 
 function editEntry(
-  index
+  entryId
 ) {
 
-  const entries =
-    getEntries();
-
-
   const entry =
-    entries[
-      index
-    ];
+    getEntryById(
+      entryId
+    );
 
 
-  editingEntryIndex =
-    index;
+  if (
+    !entry
+  ) return;
+
+
+
+  editingEntryId =
+    entryId;
+
 
 
   document.getElementById(
@@ -328,10 +483,12 @@ function editEntry(
     entry.date;
 
 
+
   document.getElementById(
     "foodRevenue"
   ).value =
     entry.foodRevenue;
+
 
 
   document.getElementById(
@@ -347,97 +504,28 @@ function editEntry(
 // DELETE
 // ======================
 
-function deleteEntry(
-  index
+function removeEntry(
+  entryId
 ) {
 
-  const entries =
-    getEntries();
+  const confirmed =
+    confirm(
+      "Delete this entry?"
+    );
 
 
-  entries.splice(
-    index,
-    1
+  if (
+    !confirmed
+  ) return;
+
+
+
+  deleteEntry(
+    entryId
   );
 
-
-  localStorage.setItem(
-    "skybar.finance.entries.v1",
-    JSON.stringify(
-      entries
-    )
-  );
 
 
   renderRecentEntries();
 
 }
-
-
-
-// ======================
-// DAILY BUDGET
-// ======================
-
-function updateDailyBudget() {
-
-  const display =
-    document.getElementById(
-      "dailyBudgetDisplay"
-    );
-
-
-  const dateField =
-    document.getElementById(
-      "entryDate"
-    );
-
-
-  if(
-    !display ||
-    !dateField ||
-    !dateField.value
-  ) return;
-
-
-  const settings =
-    getSettings();
-
-
-  const date =
-    new Date(
-      dateField.value
-    );
-
-
-  const daysInMonth =
-    new Date(
-      date.getFullYear(),
-      date.getMonth() + 1,
-      0
-    ).getDate();
-
-
-  const budget =
-    Number(
-      settings.monthlyBudget || 0
-    ) / daysInMonth;
-
-
-  display.value =
-    formatMoney(
-      budget
-    );
-
-}
-
-
-
-// ======================
-// START
-// ======================
-
-document.addEventListener(
-  "DOMContentLoaded",
-  initEntryPage
-);
