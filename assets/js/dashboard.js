@@ -1,4 +1,5 @@
-let selectedYear = new Date().getFullYear();
+let selectedYear =
+  new Date().getFullYear();
 
 let selectedMonth =
   new Date().getMonth() + 1;
@@ -28,6 +29,11 @@ const tableBody =
     "entriesTableBody"
   );
 
+const entryDateField =
+  document.getElementById(
+    "entryDate"
+  );
+
 
 // ======================
 // INIT
@@ -43,6 +49,8 @@ function initDashboard() {
 
   renderDashboard();
 
+  updateAutoDailyBudget();
+
 }
 
 
@@ -54,7 +62,8 @@ function populateYearFilter() {
 
   if(!yearFilter) return;
 
-  yearFilter.innerHTML = "";
+  yearFilter.innerHTML =
+    "";
 
   for(
     let year = 2025;
@@ -74,8 +83,7 @@ function populateYearFilter() {
       year;
 
     if(
-      year ===
-      selectedYear
+      year === selectedYear
     ) {
 
       option.selected =
@@ -96,7 +104,8 @@ function populateMonthFilter() {
 
   if(!monthFilter) return;
 
-  monthFilter.innerHTML = "";
+  monthFilter.innerHTML =
+    "";
 
   for(
     let month = 1;
@@ -116,8 +125,7 @@ function populateMonthFilter() {
       month;
 
     if(
-      month ===
-      selectedMonth
+      month === selectedMonth
     ) {
 
       option.selected =
@@ -149,6 +157,7 @@ function bindEvents() {
 
   }
 
+
   if(monthFilter) {
 
     monthFilter.addEventListener(
@@ -157,6 +166,7 @@ function bindEvents() {
     );
 
   }
+
 
   if(entryForm) {
 
@@ -167,8 +177,101 @@ function bindEvents() {
 
   }
 
+
+  if(entryDateField) {
+
+    entryDateField.addEventListener(
+      "change",
+      updateAutoDailyBudget
+    );
+
+  }
+
 }
 
+
+// ======================
+// AUTO DAILY BUDGET
+// ======================
+
+function updateAutoDailyBudget() {
+
+  const budgetField =
+    document.getElementById(
+      "dailyBudgetDisplay"
+    );
+
+  if(
+    !budgetField ||
+    !entryDateField
+  ) return;
+
+
+  const selectedDate =
+    entryDateField.value;
+
+  if(
+    !selectedDate
+  ) {
+
+    budgetField.value =
+      "";
+
+    return;
+
+  }
+
+
+  const settings =
+    getSettings();
+
+
+  const monthlyBudget =
+    Number(
+      settings.monthlyBudget || 0
+    );
+
+
+  const date =
+    new Date(
+      selectedDate
+    );
+
+
+  const year =
+    date.getFullYear();
+
+  const month =
+    date.getMonth();
+
+
+  const daysInMonth =
+    new Date(
+      year,
+      month + 1,
+      0
+    ).getDate();
+
+
+  const dailyBudget =
+    monthlyBudget /
+    daysInMonth;
+
+
+  const currency =
+    settings.currency ||
+    "RM";
+
+
+  budgetField.value =
+    `${currency}${dailyBudget.toFixed(2)}`;
+
+}
+
+
+// ======================
+// FILTER CHANGE
+// ======================
 
 function handleFilterChange() {
 
@@ -177,10 +280,12 @@ function handleFilterChange() {
       yearFilter.value
     );
 
+
   selectedMonth =
     Number(
       monthFilter.value
     );
+
 
   renderDashboard();
 
@@ -197,12 +302,14 @@ function handleSaveEntry(
 
   e.preventDefault();
 
+
   const entry = {
 
     date:
       document.getElementById(
         "entryDate"
       ).value,
+
 
     foodRevenue:
       Number(
@@ -211,38 +318,11 @@ function handleSaveEntry(
         ).value || 0
       ),
 
+
     beverageRevenue:
       Number(
         document.getElementById(
           "beverageRevenue"
-        ).value || 0
-      ),
-
-    foodCostPercent:
-      Number(
-        document.getElementById(
-          "foodCostPercent"
-        ).value || 0
-      ),
-
-    beverageCostPercent:
-      Number(
-        document.getElementById(
-          "beverageCostPercent"
-        ).value || 0
-      ),
-
-    fixedCostPercent:
-      Number(
-        document.getElementById(
-          "fixedCostPercent"
-        ).value || 0
-      ),
-
-    dailyBudget:
-      Number(
-        document.getElementById(
-          "dailyBudget"
         ).value || 0
       )
 
@@ -253,7 +333,10 @@ function handleSaveEntry(
     entry
   );
 
+
   entryForm.reset();
+
+  updateAutoDailyBudget();
 
   renderDashboard();
 
@@ -289,9 +372,16 @@ function renderDashboard() {
   );
 
 
-  renderCharts(
-    entries
-  );
+  if(
+    typeof renderCharts ===
+    "function"
+  ) {
+
+    renderCharts(
+      entries
+    );
+
+  }
 
 }
 
@@ -334,8 +424,6 @@ function renderKPI(
   );
 
 
-  // Annual Target Achievement
-
   const revenueAchievement =
     calculateAchievement(
       summary.totalRevenue,
@@ -358,11 +446,16 @@ function renderKPI(
 
   updateKPIPercent(
     "kpiAnnualGopTarget",
-    gopAchievement
+    gopAchievement;
+
   );
 
 }
 
+
+// ======================
+// HELPERS
+// ======================
 
 function calculateAchievement(
   current,
@@ -430,7 +523,10 @@ function renderTable(
   entries
 ) {
 
-  if(!tableBody) return;
+  if(
+    !tableBody
+  ) return;
+
 
   tableBody.innerHTML =
     "";
@@ -438,6 +534,7 @@ function renderTable(
 
   const settings =
     getSettings();
+
 
   const currency =
     settings.currency ||
@@ -447,7 +544,7 @@ function renderTable(
   entries.forEach(
     entry => {
 
-      const calculated =
+      const data =
         calculateEntryMetrics(
           entry
         );
@@ -461,30 +558,11 @@ function renderTable(
 
       row.innerHTML = `
         <td>${entry.date}</td>
-
-        <td>
-          ${currency}${calculated.totalRevenue.toFixed(2)}
-        </td>
-
-        <td>
-          ${currency}${calculated.totalCost.toFixed(2)}
-        </td>
-
-        <td>
-          ${currency}${calculated.gop.toFixed(2)}
-        </td>
-
-        <td>
-          <button onclick="editEntry('${entry.id}')">
-            Edit
-          </button>
-        </td>
-
-        <td>
-          <button onclick="removeEntry('${entry.id}')">
-            Delete
-          </button>
-        </td>
+        <td>${currency}${data.totalRevenue.toFixed(2)}</td>
+        <td>${currency}${data.totalCost.toFixed(2)}</td>
+        <td>${currency}${data.gop.toFixed(2)}</td>
+        <td><button>Edit</button></td>
+        <td><button>Delete</button></td>
       `;
 
 
@@ -494,83 +572,6 @@ function renderTable(
 
     }
   );
-
-}
-
-
-// ======================
-// DELETE
-// ======================
-
-function removeEntry(
-  id
-) {
-
-  deleteEntry(
-    id
-  );
-
-  renderDashboard();
-
-}
-
-
-// ======================
-// EDIT
-// ======================
-
-function editEntry(
-  id
-) {
-
-  const entry =
-    getEntryById(
-      id
-    );
-
-  if(!entry) return;
-
-
-  document.getElementById(
-    "entryDate"
-  ).value =
-    entry.date;
-
-
-  document.getElementById(
-    "foodRevenue"
-  ).value =
-    entry.foodRevenue;
-
-
-  document.getElementById(
-    "beverageRevenue"
-  ).value =
-    entry.beverageRevenue;
-
-
-  document.getElementById(
-    "foodCostPercent"
-  ).value =
-    entry.foodCostPercent;
-
-
-  document.getElementById(
-    "beverageCostPercent"
-  ).value =
-    entry.beverageCostPercent;
-
-
-  document.getElementById(
-    "fixedCostPercent"
-  ).value =
-    entry.fixedCostPercent;
-
-
-  document.getElementById(
-    "dailyBudget"
-  ).value =
-    entry.dailyBudget;
 
 }
 
