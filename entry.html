@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>
+    SKYBAR Daily Entry
+  </title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link
+    rel="stylesheet"
+    href="assets/css/main.css"
+  />
+
+</head>
+
+
+<body class="bg-slate-100 font-sans">
+
+  <div class="flex min-h-screen">
+
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-slate-900 text-white p-5">
+
+      <h1 class="text-2xl font-bold mb-8">
+        SKYBAR
+      </h1>
+
+
+      <nav class="space-y-3">
+
+        <a
+          href="index.html"
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
+        >
+          Dashboard
+        </a>
+
+
+        <a
+          href="entry.html"
+          class="block px-4 py-3 rounded-xl bg-slate-800"
+        >
+          Daily Entry
+        </a>
+
+
+        <a
+          href="generic.html"
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
+        >
+          Operating Review
+        </a>
+
+
+        <a
+          href="reports.html"
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
+        >
+          Reports
+        </a>
+
+
+        <a
+          href="settings.html"
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
+        >
+          Settings
+        </a>
+
+      </nav>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+    <main class="flex-1 p-6">
+
+
+      <!-- HEADER -->
+      <div class="mb-6">
+
+        <h2 class="text-3xl font-bold">
+          Daily Sales Entry
+        </h2>
+
+        <p class="text-slate-500">
+          Input daily outlet revenue
+        </p>
+
+      </div>
+
+
+
+      <!-- ENTRY FORM -->
+      <div
+        class="bg-white rounded-2xl p-6 shadow mb-6 max-w-4xl"
+      >
+
+        <form
+          id="entryForm"
+          class="grid md:grid-cols-3 gap-4"
+        >
+
+
+          <!-- DATE -->
+          <div>
+
+            <label
+              class="block mb-2 text-sm font-medium"
+            >
+              Date
+            </label>
+
+            <input
+              id="entryDate"
+              type="date"
+              class="w-full border rounded-xl px-4 py-3"
+            />
+
+          </div>
+
+
+
+          <!-- FOOD -->
+          <div>
+
+            <label
+              class="block mb-2 text-sm font-medium"
+            >
+              Food Revenue
+            </label>
+
+            <input
+              id="foodRevenue"
+              type="number"
+              class="w-full border rounded-xl px-4 py-3"
+            />
+
+          </div>
+
+
+
+          <!-- BEVERAGE -->
+          <div>
+
+            <label
+              class="block mb-2 text-sm font-medium"
+            >
+              Beverage Revenue
+            </label>
+
+            <input
+              id="beverageRevenue"
+              type="number"
+              class="w-full border rounded-xl px-4 py-3"
+            />
+
+          </div>
+
+
+
+          <!-- BUTTON -->
+          <div
+            class="md:col-span-3 flex justify-end mt-2"
+          >
+
+            <button
+              type="submit"
+              class="bg-slate-900 text-white px-8 py-3 rounded-xl"
+            >
+              Save Entry
+            </button>
+
+          </div>
+
+
+        </form>
+
+      </div>
+
+
+
+      <!-- RECENT ENTRIES -->
+      <div
+        class="bg-white rounded-2xl p-5 shadow"
+      >
+
+        <h3
+          class="font-bold text-xl mb-4"
+        >
+          Recent Entries
+        </h3>
+
+
+        <div
+          class="overflow-auto"
+        >
+
+          <table
+            class="w-full text-left"
+          >
+
+            <thead>
+
+              <tr
+                class="border-b"
+              >
+
+                <th class="py-3">
+                  Date
+                </th>
+
+                <th>
+                  Revenue
+                </th>
+
+                <th>
+                  Cost
+                </th>
+
+                <th>
+                  GOP
+                </th>
+
+                <th>
+                  Edit
+                </th>
+
+                <th>
+                  Delete
+                </th>
+
+              </tr>
+
+            </thead>
+
+
+
+            <tbody
+              id="entriesTableBody"
+            ></tbody>
+
+
+          </table>
+
+        </div>
+
+      </div>
+
+
+    </main>
+
+  </div>
+
+
+
+  <!-- SCRIPTS -->
+
+  <script src="assets/js/storage.js"></script>
+
+  <script src="assets/js/settings.js"></script>
+
+  <script src="assets/js/calculations.js"></script>
+
+  <script src="assets/js/dashboard.js"></script>
+
+
+</body>
+
+</html>
