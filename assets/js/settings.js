@@ -1,5 +1,5 @@
-const SETTINGS_KEY =
-  "skybar.finance.settings.v1";
+const SETTINGS_STORAGE_KEY =
+  "skybar_settings";
 
 
 
@@ -18,17 +18,18 @@ const DEFAULT_SETTINGS = {
 
 
   annualRevenueTarget:
-    7472762,
+    0,
 
 
   annualGopTarget:
-    900000,
+    0,
 
 
   monthlyBudget:
-    575649,
+    0,
 
 
+  // COST %
   foodCostPercent:
     35,
 
@@ -41,6 +42,7 @@ const DEFAULT_SETTINGS = {
     18,
 
 
+  // LY BASELINE
   lyFoodRevenue:
     0,
 
@@ -58,26 +60,28 @@ const DEFAULT_SETTINGS = {
 
 function getSettings() {
 
-  const saved =
-    localStorage.getItem(
-      SETTINGS_KEY
-    );
-
-
-  if(
-    !saved
-  ) {
-
-    return DEFAULT_SETTINGS;
-
-  }
-
-
   try {
 
-    const parsed =
+    const raw =
+      localStorage.getItem(
+        SETTINGS_STORAGE_KEY
+      );
+
+
+    if(
+      !raw
+    ) {
+
+      return {
+        ...DEFAULT_SETTINGS
+      };
+
+    }
+
+
+    const saved =
       JSON.parse(
-        saved
+        raw
       );
 
 
@@ -85,7 +89,7 @@ function getSettings() {
 
       ...DEFAULT_SETTINGS,
 
-      ...parsed
+      ...saved
 
     };
 
@@ -101,7 +105,9 @@ function getSettings() {
     );
 
 
-    return DEFAULT_SETTINGS;
+    return {
+      ...DEFAULT_SETTINGS
+    };
 
   }
 
@@ -114,21 +120,25 @@ function getSettings() {
 // ======================
 
 function saveSettings(
-  newSettings
+  payload
 ) {
+
+  const current =
+    getSettings();
+
 
   const merged =
     {
 
-      ...getSettings(),
+      ...current,
 
-      ...newSettings
+      ...payload
 
     };
 
 
   localStorage.setItem(
-    SETTINGS_KEY,
+    SETTINGS_STORAGE_KEY,
     JSON.stringify(
       merged
     )
@@ -142,10 +152,10 @@ function saveSettings(
 
 
 // ======================
-// FORM INIT
+// UI LOAD
 // ======================
 
-function loadSettingsForm() {
+function loadSettingsPage() {
 
   const form =
     document.getElementById(
@@ -162,61 +172,56 @@ function loadSettingsForm() {
     getSettings();
 
 
-  setValue(
+  setField(
     "outletName",
     settings.outletName
   );
 
-
-  setValue(
+  setField(
     "currency",
     settings.currency
   );
 
-
-  setValue(
+  setField(
     "annualRevenueTarget",
     settings.annualRevenueTarget
   );
 
-
-  setValue(
+  setField(
     "annualGopTarget",
     settings.annualGopTarget
   );
 
-
-  setValue(
+  setField(
     "monthlyBudget",
     settings.monthlyBudget
   );
 
 
-  setValue(
+  // COST %
+  setField(
     "foodCostPercent",
     settings.foodCostPercent
   );
 
-
-  setValue(
+  setField(
     "beverageCostPercent",
     settings.beverageCostPercent
   );
 
-
-  setValue(
+  setField(
     "fixCostPercent",
     settings.fixCostPercent
   );
 
 
-  setValue(
+  // LY
+  setField(
     "lyFoodRevenue",
     settings.lyFoodRevenue
   );
 
-
-  setValue(
+  setField(
     "lyBeverageRevenue",
     settings.lyBeverageRevenue
   );
@@ -254,20 +259,20 @@ function bindSettingsForm() {
       saveSettings({
 
         outletName:
-          getValue(
+          getField(
             "outletName"
           ),
 
 
         currency:
-          getValue(
+          getField(
             "currency"
           ),
 
 
         annualRevenueTarget:
           Number(
-            getValue(
+            getField(
               "annualRevenueTarget"
             ) || 0
           ),
@@ -275,7 +280,7 @@ function bindSettingsForm() {
 
         annualGopTarget:
           Number(
-            getValue(
+            getField(
               "annualGopTarget"
             ) || 0
           ),
@@ -283,15 +288,16 @@ function bindSettingsForm() {
 
         monthlyBudget:
           Number(
-            getValue(
+            getField(
               "monthlyBudget"
             ) || 0
           ),
 
 
+        // COST %
         foodCostPercent:
           Number(
-            getValue(
+            getField(
               "foodCostPercent"
             ) || 0
           ),
@@ -299,7 +305,7 @@ function bindSettingsForm() {
 
         beverageCostPercent:
           Number(
-            getValue(
+            getField(
               "beverageCostPercent"
             ) || 0
           ),
@@ -307,15 +313,16 @@ function bindSettingsForm() {
 
         fixCostPercent:
           Number(
-            getValue(
+            getField(
               "fixCostPercent"
             ) || 0
           ),
 
 
+        // LY
         lyFoodRevenue:
           Number(
-            getValue(
+            getField(
               "lyFoodRevenue"
             ) || 0
           ),
@@ -323,7 +330,7 @@ function bindSettingsForm() {
 
         lyBeverageRevenue:
           Number(
-            getValue(
+            getField(
               "lyBeverageRevenue"
             ) || 0
           )
@@ -346,7 +353,7 @@ function bindSettingsForm() {
 // HELPERS
 // ======================
 
-function setValue(
+function setField(
   id,
   value
 ) {
@@ -368,7 +375,7 @@ function setValue(
 }
 
 
-function getValue(
+function getField(
   id
 ) {
 
@@ -390,14 +397,14 @@ function getValue(
 
 
 // ======================
-// INIT
+// START
 // ======================
 
 document.addEventListener(
   "DOMContentLoaded",
   function() {
 
-    loadSettingsForm();
+    loadSettingsPage();
 
     bindSettingsForm();
 
