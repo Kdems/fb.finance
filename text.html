@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>
+    SKYBAR System Test
+  </title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+
+<body class="bg-slate-100 p-8">
+
+
+  <h1 class="text-3xl font-bold mb-8">
+    SKYBAR System Audit
+  </h1>
+
+
+
+  <div class="grid grid-cols-2 gap-4">
+
+
+    <button
+      onclick="injectDummyData()"
+      class="bg-blue-600 text-white rounded-xl p-4">
+
+      Inject Dummy Data
+
+    </button>
+
+
+
+    <button
+      onclick="clearAllEntries()"
+      class="bg-red-600 text-white rounded-xl p-4">
+
+      Clear All Entries
+
+    </button>
+
+
+
+    <button
+      onclick="runAudit()"
+      class="bg-green-600 text-white rounded-xl p-4">
+
+      Run Audit
+
+    </button>
+
+
+  </div>
+
+
+
+  <div
+    id="auditResult"
+    class="mt-8 bg-white rounded-xl p-6 shadow">
+
+    Waiting...
+
+  </div>
+
+
+
+  <script src="assets/js/storage.js"></script>
+
+  <script src="assets/js/settings.js"></script>
+
+  <script src="assets/js/calculations.js"></script>
+
+  <script src="assets/js/seed.js"></script>
+
+
+
+  <script>
+
+    function runAudit() {
+
+      const entries =
+        getAllEntries();
+
+
+      const result =
+        calculatePeriodSummary(
+          entries
+        );
+
+
+      document.getElementById(
+        "auditResult"
+      ).innerHTML = `
+
+        <div>Total Entries: ${entries.length}</div>
+
+        <div>Total Revenue: ${result.totalRevenue}</div>
+
+        <div>Total Cost: ${result.totalCost}</div>
+
+        <div>Total GOP: ${result.totalGop}</div>
+
+        <div>Margin: ${result.gopMargin.toFixed(2)}%</div>
+
+      `;
+
+    }
+
+  </script>
+
+
+</body>
+
+</html>
