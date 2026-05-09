@@ -1,47 +1,51 @@
 const SETTINGS_STORAGE_KEY =
-  "skybar_settings";
+  "skybar.finance.dashboard.settings.v1";
 
 
 
 // ======================
-// DEFAULT
+// DEFAULT SETTINGS
 // ======================
 
-const defaultSettings = {
+const DEFAULT_SETTINGS = {
 
   outletName:
     "SKYBAR",
 
+
   currency:
     "RM",
 
+
   annualRevenueTarget:
-    0,
+    3000000,
+
+
+  annualGopTarget:
+    900000,
+
 
   monthlyBudget:
-    0,
+    575649,
+
 
   foodCostPercent:
     35,
 
+
   beverageCostPercent:
     25,
 
-  fixCostPercent:
-    18,
 
-  lyFoodRevenue:
-    0,
-
-  lyBeverageRevenue:
-    0
+  fixedCostPercent:
+    18
 
 };
 
 
 
 // ======================
-// GET
+// GET SETTINGS
 // ======================
 
 function getSettings() {
@@ -54,11 +58,15 @@ function getSettings() {
       );
 
 
-    if (!raw) {
+    if (
+      !raw
+    ) {
 
-      return {
-        ...defaultSettings
-      };
+      saveSettings(
+        DEFAULT_SETTINGS
+      );
+
+      return DEFAULT_SETTINGS;
 
     }
 
@@ -71,7 +79,7 @@ function getSettings() {
 
     return {
 
-      ...defaultSettings,
+      ...DEFAULT_SETTINGS,
 
       ...parsed
 
@@ -79,15 +87,17 @@ function getSettings() {
 
   }
 
-  catch (error) {
+  catch (
+    error
+  ) {
 
     console.error(
+      "Settings error:",
       error
     );
 
-    return {
-      ...defaultSettings
-    };
+
+    return DEFAULT_SETTINGS;
 
   }
 
@@ -96,17 +106,17 @@ function getSettings() {
 
 
 // ======================
-// SAVE
+// SAVE SETTINGS
 // ======================
 
 function saveSettings(
-  settings
+  payload
 ) {
 
   localStorage.setItem(
     SETTINGS_STORAGE_KEY,
     JSON.stringify(
-      settings
+      payload
     )
   );
 
@@ -115,187 +125,52 @@ function saveSettings(
 
 
 // ======================
-// LOAD FORM
+// RESET SETTINGS
 // ======================
 
-function loadSettingsForm() {
+function resetSettings() {
+
+  localStorage.setItem(
+    SETTINGS_STORAGE_KEY,
+    JSON.stringify(
+      DEFAULT_SETTINGS
+    )
+  );
+
+}
+
+
+
+// ======================
+// EXPORT BACKUP
+// ======================
+
+function exportBackup() {
+
+  const entries =
+    getAllEntries();
+
 
   const settings =
     getSettings();
 
 
-  setValue(
-    "outletName",
-    settings.outletName
-  );
+  const payload = {
 
-  setValue(
-    "currency",
-    settings.currency
-  );
-
-  setValue(
-    "annualRevenueTarget",
-    formatNumber(
-      settings.annualRevenueTarget
-    )
-  );
-
-  setValue(
-    "monthlyBudget",
-    formatNumber(
-      settings.monthlyBudget
-    )
-  );
-
-  setValue(
-    "foodCostPercent",
-    settings.foodCostPercent
-  );
-
-  setValue(
-    "beverageCostPercent",
-    settings.beverageCostPercent
-  );
-
-  setValue(
-    "fixCostPercent",
-    settings.fixCostPercent
-  );
-
-  setValue(
-    "lyFoodRevenue",
-    formatNumber(
-      settings.lyFoodRevenue
-    )
-  );
-
-  setValue(
-    "lyBeverageRevenue",
-    formatNumber(
-      settings.lyBeverageRevenue
-    )
-  );
-
-}
+    version:
+      "2.0",
 
 
+    exportedAt:
+      new Date().toISOString(),
 
-// ======================
-// FORM SUBMIT
-// ======================
-
-function bindSettingsForm() {
-
-  const form =
-    document.getElementById(
-      "settingsForm"
-    );
-
-
-  if (!form) return;
-
-
-  form.addEventListener(
-    "submit",
-    function(event) {
-
-      event.preventDefault();
-
-
-      const payload = {
-
-        outletName:
-          getValue(
-            "outletName"
-          ),
-
-        currency:
-          getValue(
-            "currency"
-          ),
-
-        annualRevenueTarget:
-          parseNumber(
-            getValue(
-              "annualRevenueTarget"
-            )
-          ),
-
-        monthlyBudget:
-          parseNumber(
-            getValue(
-              "monthlyBudget"
-            )
-          ),
-
-        foodCostPercent:
-          parseNumber(
-            getValue(
-              "foodCostPercent"
-            )
-          ),
-
-        beverageCostPercent:
-          parseNumber(
-            getValue(
-              "beverageCostPercent"
-            )
-          ),
-
-        fixCostPercent:
-          parseNumber(
-            getValue(
-              "fixCostPercent"
-            )
-          ),
-
-        lyFoodRevenue:
-          parseNumber(
-            getValue(
-              "lyFoodRevenue"
-            )
-          ),
-
-        lyBeverageRevenue:
-          parseNumber(
-            getValue(
-              "lyBeverageRevenue"
-            )
-          )
-
-      };
-
-
-      saveSettings(
-        payload
-      );
-
-
-      alert(
-        "Settings saved."
-      );
-
-    }
-  );
-
-}
-
-
-
-// ======================
-// EXPORT
-// ======================
-
-function exportBackup() {
-
-  const backup = {
-
-    settings:
-      getSettings(),
 
     entries:
-      getAllEntries()
+      entries,
+
+
+    settings:
+      settings
 
   };
 
@@ -304,7 +179,7 @@ function exportBackup() {
     new Blob(
       [
         JSON.stringify(
-          backup,
+          payload,
           null,
           2
         )
@@ -331,68 +206,90 @@ function exportBackup() {
   a.href =
     url;
 
+
   a.download =
-    "skybar-backup.json";
+    `skybar-backup-${Date.now()}.json`;
 
 
   a.click();
+
+
+  URL.revokeObjectURL(
+    url
+  );
 
 }
 
 
 
 // ======================
-// IMPORT
+// IMPORT BACKUP
 // ======================
 
 function importBackup(
-  file
+  input
 ) {
+
+  const file =
+    input.files[0];
+
+
+  if (
+    !file
+  ) return;
+
 
   const reader =
     new FileReader();
 
 
   reader.onload =
-    function(event) {
+    function (
+      e
+    ) {
 
-      const data =
-        JSON.parse(
-          event.target.result
+      try {
+
+        const data =
+          JSON.parse(
+            e.target.result
+          );
+
+
+        saveAllEntries(
+          data.entries || []
         );
 
-
-      if (
-        data.settings
-      ) {
 
         saveSettings(
-          data.settings
+          {
+
+            ...DEFAULT_SETTINGS,
+
+            ...(data.settings || {})
+
+          }
         );
+
+
+        alert(
+          "Backup restored successfully."
+        );
+
+
+        location.reload();
 
       }
 
-
-      if (
-        data.entries
+      catch (
+        error
       ) {
 
-        localStorage.setItem(
-          "skybar_entries",
-          JSON.stringify(
-            data.entries
-          )
+        alert(
+          "Invalid backup file."
         );
 
       }
-
-
-      alert(
-        "Backup restored."
-      );
-
-
-      location.reload();
 
     };
 
@@ -406,266 +303,32 @@ function importBackup(
 
 
 // ======================
-// RESET
+// RESET SYSTEM
 // ======================
 
 function resetAllData() {
 
-  localStorage.clear();
+  const confirmReset =
+    confirm(
+      "Reset all finance data?"
+    );
+
+
+  if (
+    !confirmReset
+  ) return;
+
+
+  clearAllEntries();
+
+  resetSettings();
+
 
   alert(
-    "All data deleted."
+    "System reset completed."
   );
+
 
   location.reload();
 
 }
-
-
-
-// ======================
-// BUTTONS
-// ======================
-
-function bindButtons() {
-
-  const exportBtn =
-    document.getElementById(
-      "exportBackupBtn"
-    );
-
-  const importBtn =
-    document.getElementById(
-      "importBackupBtn"
-    );
-
-  const importFile =
-    document.getElementById(
-      "importBackupFile"
-    );
-
-  const resetBtn =
-    document.getElementById(
-      "resetDataBtn"
-    );
-
-
-  if (exportBtn) {
-
-    exportBtn.onclick =
-      exportBackup;
-
-  }
-
-
-  if (importBtn) {
-
-    importBtn.onclick =
-      function() {
-
-        importFile.click();
-
-      };
-
-  }
-
-
-  if (importFile) {
-
-    importFile.onchange =
-      function() {
-
-        if (
-          this.files.length
-        ) {
-
-          importBackup(
-            this.files[0]
-          );
-
-        }
-
-      };
-
-  }
-
-
-  if (resetBtn) {
-
-    resetBtn.onclick =
-      resetAllData;
-
-  }
-
-}
-
-
-
-// ======================
-// NUMBER FORMAT
-// ======================
-
-function bindNumberFormatting() {
-
-  const numericFields = [
-
-    "annualRevenueTarget",
-
-    "monthlyBudget",
-
-    "foodCostPercent",
-
-    "beverageCostPercent",
-
-    "fixCostPercent",
-
-    "lyFoodRevenue",
-
-    "lyBeverageRevenue"
-
-  ];
-
-
-  numericFields.forEach(
-    id => {
-
-      const field =
-        document.getElementById(
-          id
-        );
-
-
-      if (!field) return;
-
-
-      field.addEventListener(
-        "input",
-        function() {
-
-          let value =
-            this.value.replace(
-              /,/g,
-              ""
-            );
-
-
-          if (
-            value === ""
-          ) return;
-
-
-          if (
-            isNaN(
-              value
-            )
-          ) return;
-
-
-          this.value =
-            Number(
-              value
-            ).toLocaleString();
-
-        }
-      );
-
-    }
-  );
-
-}
-
-
-
-// ======================
-// HELPERS
-// ======================
-
-function setValue(
-  id,
-  value
-) {
-
-  const el =
-    document.getElementById(
-      id
-    );
-
-
-  if (el) {
-
-    el.value =
-      value;
-
-  }
-
-}
-
-
-function getValue(
-  id
-) {
-
-  const el =
-    document.getElementById(
-      id
-    );
-
-
-  if (!el) {
-
-    return "";
-
-  }
-
-
-  return el.value;
-
-}
-
-
-function parseNumber(
-  value
-) {
-
-  return Number(
-    String(
-      value
-    ).replace(
-      /,/g,
-      ""
-    )
-  );
-
-}
-
-
-function formatNumber(
-  value
-) {
-
-  return Number(
-    value || 0
-  ).toLocaleString();
-
-}
-
-
-
-// ======================
-// START
-// ======================
-
-document.addEventListener(
-  "DOMContentLoaded",
-  function() {
-
-    loadSettingsForm();
-
-    bindSettingsForm();
-
-    bindButtons();
-
-    bindNumberFormatting();
-
-  }
-);
