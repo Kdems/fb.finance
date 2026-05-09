@@ -118,38 +118,24 @@
 
 
 
-      <!-- 1. YTD -->
+      <!-- YTD -->
       <section class="bg-white rounded-2xl p-5 shadow">
 
         <h3 class="font-bold text-xl mb-4">
           Year-To-Date
         </h3>
 
+        <div class="grid xl:grid-cols-5 gap-4">
 
-        <div class="grid xl:grid-cols-5 gap-4 mb-6">
+          <div id="ytdRevenueCard"></div>
 
-          <div id="ytdRevenueCard">YTD Revenue</div>
+          <div id="ytdBudgetCard"></div>
 
-          <div id="ytdBudgetCard">YTD Budget</div>
+          <div id="ytdAchievementCard"></div>
 
-          <div id="ytdAchievementCard">Achievement</div>
+          <div id="ytdVarianceCard"></div>
 
-          <div id="ytdVarianceCard">Variance</div>
-
-          <div id="ytdBalanceCard">Balance</div>
-
-        </div>
-
-
-        <div class="grid xl:grid-cols-4 gap-4">
-
-          <div id="lyYtdRevenueCard">LY Revenue</div>
-
-          <div id="lyYtdAchievementCard">LY Achievement</div>
-
-          <div id="ytdGrowthCard">Growth</div>
-
-          <div id="ytdDiffCard">Diff</div>
+          <div id="ytdBalanceCard"></div>
 
         </div>
 
@@ -157,51 +143,37 @@
 
 
 
-      <!-- 2. MTD -->
+      <!-- MTD -->
       <section class="bg-white rounded-2xl p-5 shadow">
 
         <h3 class="font-bold text-xl mb-4">
           Month-To-Date
         </h3>
 
+        <div class="grid xl:grid-cols-5 gap-4 mb-4">
 
-        <div class="grid xl:grid-cols-5 gap-4 mb-6">
+          <div id="mtdRevenueCard"></div>
 
-          <div id="mtdRevenueCard">MTD Revenue</div>
+          <div id="mtdBudgetCard"></div>
 
-          <div id="mtdBudgetCard">MTD Budget</div>
+          <div id="mtdGopCard"></div>
 
-          <div id="mtdGopCard">MTD GOP</div>
+          <div id="mtdAchievementCard"></div>
 
-          <div id="mtdAchievementCard">Achievement</div>
-
-          <div id="mtdVarianceCard">Variance</div>
-
-        </div>
-
-
-        <div class="grid xl:grid-cols-4 gap-4 mb-6">
-
-          <div id="daysLeftCard">Days Left</div>
-
-          <div id="dailyPaceCard">Daily Pace</div>
-
-          <div id="projectionCard">Projection</div>
-
-          <div id="gapToTargetCard">Gap</div>
+          <div id="mtdVarianceCard"></div>
 
         </div>
 
 
         <div class="grid xl:grid-cols-4 gap-4">
 
-          <div id="lyMtdRevenueCard">LY Revenue</div>
+          <div id="daysLeftCard"></div>
 
-          <div id="lyMtdAchievementCard">LY Achievement</div>
+          <div id="dailyPaceCard"></div>
 
-          <div id="mtdGrowthCard">Growth</div>
+          <div id="projectionCard"></div>
 
-          <div id="mtdDiffCard">Diff</div>
+          <div id="gapToTargetCard"></div>
 
         </div>
 
@@ -209,36 +181,22 @@
 
 
 
-      <!-- 3. GOP -->
+      <!-- GOP -->
       <section class="bg-white rounded-2xl p-5 shadow">
 
         <h3 class="font-bold text-xl mb-4">
           Gross Operating Profit
         </h3>
 
-
-        <div class="grid xl:grid-cols-4 gap-4 mb-6">
-
-          <div id="gopRevenueCard">Revenue</div>
-
-          <div id="gopCostCard">Cost</div>
-
-          <div id="gopMainCard">GOP</div>
-
-          <div id="gopMarginCard">Margin</div>
-
-        </div>
-
-
         <div class="grid xl:grid-cols-4 gap-4">
 
-          <div id="lyGopCard">LY GOP</div>
+          <div id="gopRevenueCard"></div>
 
-          <div id="gopGrowthCard">Growth</div>
+          <div id="gopCostCard"></div>
 
-          <div id="lyMarginCard">LY Margin</div>
+          <div id="gopMainCard"></div>
 
-          <div id="marginGapCard">Gap</div>
+          <div id="gopMarginCard"></div>
 
         </div>
 
@@ -246,34 +204,20 @@
 
 
 
-      <!-- 4. FOOD & BEVERAGE -->
+      <!-- FOOD & BEVERAGE -->
       <section class="bg-white rounded-2xl p-5 shadow">
 
         <h3 class="font-bold text-xl mb-4">
           Food & Beverage
         </h3>
 
+        <div class="grid xl:grid-cols-3 gap-4">
 
-        <div class="grid xl:grid-cols-3 gap-4 mb-6">
+          <div id="foodRevenueCard"></div>
 
-          <div id="foodRevenueCard">Food Revenue</div>
+          <div id="bevRevenueCard"></div>
 
-          <div id="bevRevenueCard">Beverage Revenue</div>
-
-          <div id="totalCostCard">Total Cost</div>
-
-        </div>
-
-
-        <div class="grid xl:grid-cols-4 gap-4">
-
-          <div id="lyFoodCard">LY Food</div>
-
-          <div id="foodGrowthCard">Food Growth</div>
-
-          <div id="lyBevCard">LY Beverage</div>
-
-          <div id="bevGrowthCard">Beverage Growth</div>
+          <div id="totalCostCard"></div>
 
         </div>
 
@@ -281,25 +225,85 @@
 
 
 
-      <!-- 5. SUMMARY -->
+      <!-- SUMMARY -->
       <section class="bg-white rounded-2xl p-5 shadow">
 
         <h3 class="font-bold text-xl mb-4">
           Monthly Summary
         </h3>
 
-
         <div class="grid xl:grid-cols-5 gap-4">
 
-          <div id="summaryRevenueCard">Revenue</div>
+          <div id="summaryRevenueCard"></div>
 
-          <div id="summaryBudgetCard">Budget</div>
+          <div id="summaryBudgetCard"></div>
 
-          <div id="summaryAchievementCard">Avg Achievement</div>
+          <div id="summaryAchievementCard"></div>
 
-          <div id="bestDayCard">Best Day</div>
+          <div id="bestDayCard"></div>
 
-          <div id="worstDayCard">Worst Day</div>
+          <div id="worstDayCard"></div>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- CHARTS -->
+      <section class="grid xl:grid-cols-3 gap-6">
+
+
+        <!-- REVENUE -->
+        <div class="bg-white rounded-2xl shadow p-5">
+
+          <h3 class="font-bold mb-4">
+            Revenue Trend
+          </h3>
+
+          <div class="h-80">
+
+            <canvas
+              id="revenueChart"
+            ></canvas>
+
+          </div>
+
+        </div>
+
+
+        <!-- GOP -->
+        <div class="bg-white rounded-2xl shadow p-5">
+
+          <h3 class="font-bold mb-4">
+            GOP Trend
+          </h3>
+
+          <div class="h-80">
+
+            <canvas
+              id="gopChart"
+            ></canvas>
+
+          </div>
+
+        </div>
+
+
+        <!-- MIX -->
+        <div class="bg-white rounded-2xl shadow p-5">
+
+          <h3 class="font-bold mb-4">
+            Food vs Beverage
+          </h3>
+
+          <div class="h-80">
+
+            <canvas
+              id="mixChart"
+            ></canvas>
+
+          </div>
 
         </div>
 
