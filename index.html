@@ -97,7 +97,6 @@
             class="border rounded-xl px-4 py-2"
           ></select>
 
-
           <select
             id="monthFilter"
             class="border rounded-xl px-4 py-2"
@@ -116,7 +115,7 @@
           Year-To-Date
         </h3>
 
-        <div class="grid xl:grid-cols-5 gap-4">
+        <div class="grid xl:grid-cols-6 gap-4">
 
           <div class="kpi-card">
             <span class="kpi-label">YTD Revenue</span>
@@ -143,6 +142,12 @@
           </div>
 
           <div class="kpi-card">
+            <span class="kpi-label">LY Revenue</span>
+            <h4 id="lyRevenueCard">-</h4>
+            <small>Food + Beverage</small>
+          </div>
+
+          <div class="kpi-card">
             <span class="kpi-label">Variance</span>
             <h4 id="ytdVarianceCard">-</h4>
             <small>Budget Gap</small>
@@ -161,7 +166,7 @@
           Month-To-Date
         </h3>
 
-        <div class="grid xl:grid-cols-5 gap-4 mb-4">
+        <div class="grid xl:grid-cols-5 gap-4">
 
           <div class="kpi-card">
             <span class="kpi-label">Revenue</span>
@@ -248,49 +253,21 @@
         <div class="grid xl:grid-cols-3 gap-4">
 
           <div class="kpi-card">
-            <span class="kpi-label">
-              Food Revenue
-            </span>
-
-            <h4 id="foodRevenueCard">
-              -
-            </h4>
-
-            <small>
-              LY Comparison
-            </small>
+            <span class="kpi-label">Food Revenue</span>
+            <h4 id="foodRevenueCard">-</h4>
+            <small>LY Comparison</small>
           </div>
 
-
-
           <div class="kpi-card">
-            <span class="kpi-label">
-              Beverage Revenue
-            </span>
-
-            <h4 id="bevRevenueCard">
-              -
-            </h4>
-
-            <small>
-              LY Comparison
-            </small>
+            <span class="kpi-label">Beverage Revenue</span>
+            <h4 id="bevRevenueCard">-</h4>
+            <small>LY Comparison</small>
           </div>
 
-
-
           <div class="kpi-card">
-            <span class="kpi-label">
-              Total Cost
-            </span>
-
-            <h4 id="totalCostCard">
-              -
-            </h4>
-
-            <small>
-              Current Month
-            </small>
+            <span class="kpi-label">Total Cost</span>
+            <h4 id="totalCostCard">-</h4>
+            <small>Current Month</small>
           </div>
 
         </div>
