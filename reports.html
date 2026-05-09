@@ -30,7 +30,7 @@
 
 
     <!-- SIDEBAR -->
-    <aside class="w-64 bg-slate-900 text-white p-5">
+    <aside class="w-64 bg-slate-950 text-white p-5">
 
       <h1 class="text-2xl font-bold mb-8">
         SKYBAR
@@ -46,6 +46,12 @@
           Dashboard
         </a>
 
+        <a
+          href="entry.html"
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
+        >
+          Daily Entry
+        </a>
 
         <a
           href="generic.html"
@@ -54,14 +60,12 @@
           Operating Review
         </a>
 
-
         <a
           href="reports.html"
           class="block px-4 py-3 rounded-xl bg-slate-800"
         >
           Reports
         </a>
-
 
         <a
           href="settings.html"
@@ -77,207 +81,136 @@
 
 
     <!-- MAIN -->
-    <main class="flex-1 p-6">
+    <main class="flex-1 p-6 space-y-6">
 
 
       <!-- HEADER -->
-      <div class="mb-6">
+      <div class="flex justify-between items-center">
 
-        <h2 class="text-3xl font-bold">
-          Financial Reports
-        </h2>
+        <div>
 
-        <p class="text-slate-500">
-          Management reporting and data recovery center
-        </p>
+          <h2 class="text-3xl font-bold">
+            Monthly Finance Report
+          </h2>
 
-      </div>
+          <p class="text-slate-500">
+            Management reporting overview
+          </p>
 
-
-
-      <!-- FILTER + ACTION -->
-      <div
-        class="bg-white rounded-2xl p-5 shadow mb-6 flex gap-4 flex-wrap"
-      >
+        </div>
 
 
-        <!-- YEAR -->
-        <select
-          id="reportYearFilter"
-          class="border rounded-xl px-4 py-3"
-        ></select>
+        <div class="flex gap-3">
+
+          <select
+            id="reportYear"
+            class="border rounded-xl px-4 py-2"
+          ></select>
 
 
+          <select
+            id="reportMonth"
+            class="border rounded-xl px-4 py-2"
+          ></select>
 
-        <!-- MONTH -->
-        <select
-          id="reportMonthFilter"
-          class="border rounded-xl px-4 py-3"
-        ></select>
-
-
-
-        <!-- PRINT -->
-        <button
-          onclick="printReport()"
-          class="bg-slate-900 text-white px-5 rounded-xl"
-        >
-          Print
-        </button>
-
-
-
-        <!-- BACKUP -->
-        <button
-          onclick="exportBackup()"
-          class="bg-blue-600 text-white px-5 rounded-xl"
-        >
-          Backup
-        </button>
-
-
-
-        <!-- RESTORE -->
-        <label
-          class="bg-green-600 text-white px-5 rounded-xl cursor-pointer flex items-center"
-        >
-
-          Restore
-
-          <input
-            type="file"
-            accept=".json"
-            onchange="importBackup(event)"
-            hidden
-          />
-
-        </label>
-
-
-
-        <!-- RESET -->
-        <button
-          onclick="clearAllData()"
-          class="bg-red-600 text-white px-5 rounded-xl"
-        >
-          Reset
-        </button>
-
+        </div>
 
       </div>
 
 
 
       <!-- KPI -->
-      <div
-        class="grid md:grid-cols-2 xl:grid-cols-5 gap-4 mb-6"
-      >
+      <section class="grid xl:grid-cols-5 gap-4">
 
 
-        <div class="bg-white rounded-2xl p-4 shadow">
+        <div class="kpi-card">
 
-          <p class="text-sm text-slate-500">
-            Total Revenue
-          </p>
+          <span class="kpi-label">
+            Revenue
+          </span>
 
-          <h3
-            id="reportTotalRevenue"
-            class="text-2xl font-bold"
-          >
-            RM0
-          </h3>
+          <h4 id="reportRevenue">
+            -
+          </h4>
 
         </div>
 
 
 
-        <div class="bg-white rounded-2xl p-4 shadow">
+        <div class="kpi-card">
 
-          <p class="text-sm text-slate-500">
-            Total Cost
-          </p>
+          <span class="kpi-label">
+            Budget
+          </span>
 
-          <h3
-            id="reportTotalCost"
-            class="text-2xl font-bold"
-          >
-            RM0
-          </h3>
+          <h4 id="reportBudget">
+            -
+          </h4>
 
         </div>
 
 
 
-        <div class="bg-white rounded-2xl p-4 shadow">
+        <div class="kpi-card">
 
-          <p class="text-sm text-slate-500">
+          <span class="kpi-label">
+            Achievement
+          </span>
+
+          <h4 id="reportAchievement">
+            -
+          </h4>
+
+        </div>
+
+
+
+        <div class="kpi-card">
+
+          <span class="kpi-label">
             GOP
-          </p>
+          </span>
 
-          <h3
-            id="reportTotalGop"
-            class="text-2xl font-bold"
-          >
-            RM0
-          </h3>
+          <h4 id="reportGop">
+            -
+          </h4>
 
         </div>
 
 
 
-        <div class="bg-white rounded-2xl p-4 shadow">
+        <div class="kpi-card">
 
-          <p class="text-sm text-slate-500">
-            GOP Margin
-          </p>
+          <span class="kpi-label">
+            Margin
+          </span>
 
-          <h3
-            id="reportGopMargin"
-            class="text-2xl font-bold"
-          >
-            0%
-          </h3>
+          <h4 id="reportMargin">
+            -
+          </h4>
 
         </div>
 
 
-
-        <div class="bg-white rounded-2xl p-4 shadow">
-
-          <p class="text-sm text-slate-500">
-            Budget Variance
-          </p>
-
-          <h3
-            id="reportBudgetVariance"
-            class="text-2xl font-bold"
-          >
-            RM0
-          </h3>
-
-        </div>
-
-
-      </div>
+      </section>
 
 
 
-      <!-- REPORT TABLE -->
-      <div class="bg-white rounded-2xl p-5 shadow">
+      <!-- TABLE -->
+      <section class="bg-white rounded-2xl p-5 shadow">
 
         <h3 class="text-xl font-bold mb-4">
-          Financial Detail
+          Daily Breakdown
         </h3>
 
 
-        <div class="overflow-auto">
+        <div class="overflow-x-auto">
 
-          <table class="w-full text-left">
-
+          <table class="w-full text-sm">
 
             <thead>
 
-              <tr class="border-b">
+              <tr class="border-b text-left">
 
                 <th class="py-3">
                   Date
@@ -303,30 +236,20 @@
                   GOP
                 </th>
 
-                <th>
-                  Budget
-                </th>
-
-                <th>
-                  Variance
-                </th>
-
               </tr>
 
             </thead>
-
 
 
             <tbody
               id="reportTableBody"
             ></tbody>
 
-
           </table>
 
         </div>
 
-      </div>
+      </section>
 
 
     </main>
@@ -343,7 +266,7 @@
 
   <script src="assets/js/calculations.js"></script>
 
-  <script src="assets/js/backup.js"></script>
+  <script src="assets/js/dashboard.js"></script>
 
   <script src="assets/js/reports.js"></script>
 
