@@ -3,12 +3,12 @@
 
 <head>
 
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
 
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
-  />
+  >
 
   <title>
     SKYBAR Reports
@@ -16,289 +16,259 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <link
-    rel="stylesheet"
-    href="assets/css/main.css"
-  />
-
 </head>
 
 
-<body class="bg-slate-100 font-sans">
 
-  <div class="flex min-h-screen">
+<body class="bg-slate-100">
 
-
-    <!-- SIDEBAR -->
-    <aside class="w-64 bg-slate-950 text-white p-5">
-
-      <h1 class="text-2xl font-bold mb-8">
-        SKYBAR
-      </h1>
+<div class="min-h-screen flex">
 
 
-      <nav class="space-y-3">
+  <!-- NAVIGATION -->
+  <aside class="w-64 bg-slate-950 text-white p-6">
 
-        <a
-          href="index.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
+    <h2 class="text-xl font-bold mb-8">
+      SKYBAR
+    </h2>
+
+    <nav class="space-y-3">
+
+      <a
+        href="index.html"
+        class="block"
+      >
+        Dashboard
+      </a>
+
+      <a
+        href="entry.html"
+        class="block"
+      >
+        Entry
+      </a>
+
+      <a
+        href="reports.html"
+        class="block text-cyan-400"
+      >
+        Reports
+      </a>
+
+      <a
+        href="review.html"
+        class="block"
+      >
+        Review
+      </a>
+
+      <a
+        href="settings.html"
+        class="block"
+      >
+        Settings
+      </a>
+
+    </nav>
+
+  </aside>
+
+
+
+  <!-- MAIN -->
+  <main class="flex-1 p-8">
+
+
+    <!-- FILTER -->
+    <div class="mb-8 flex gap-4">
+
+      <select
+        id="reportYear"
+        class="border rounded-xl px-4 py-3"
+      ></select>
+
+
+
+      <select
+        id="reportMonth"
+        class="border rounded-xl px-4 py-3"
+      ></select>
+
+    </div>
+
+
+
+    <!-- KPI -->
+    <div class="grid md:grid-cols-5 gap-4 mb-8">
+
+
+      <div class="bg-white rounded-2xl p-6 shadow">
+
+        <p class="text-slate-500 text-sm">
+          Revenue
+        </p>
+
+        <h3
+          id="reportRevenue"
+          class="text-xl font-bold mt-2"
         >
-          Dashboard
-        </a>
-
-        <a
-          href="entry.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
-        >
-          Daily Entry
-        </a>
-
-        <a
-          href="generic.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
-        >
-          Operating Review
-        </a>
-
-        <a
-          href="reports.html"
-          class="block px-4 py-3 rounded-xl bg-slate-800"
-        >
-          Reports
-        </a>
-
-        <a
-          href="settings.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
-        >
-          Settings
-        </a>
-
-      </nav>
-
-    </aside>
-
-
-
-    <!-- MAIN -->
-    <main class="flex-1 p-6 space-y-6">
-
-
-      <!-- HEADER -->
-      <div class="flex justify-between items-center">
-
-        <div>
-
-          <h2 class="text-3xl font-bold">
-            Monthly Finance Report
-          </h2>
-
-          <p class="text-slate-500">
-            Management reporting overview
-          </p>
-
-        </div>
-
-
-        <div class="flex gap-3 items-center">
-
-          <select
-            id="reportYear"
-            class="border rounded-xl px-4 py-2"
-          ></select>
-
-
-          <select
-            id="reportMonth"
-            class="border rounded-xl px-4 py-2"
-          ></select>
-
-
-          <button
-            onclick="exportReportCSV()"
-            class="bg-slate-900 text-white px-4 py-2 rounded-xl font-semibold"
-          >
-            Export CSV
-          </button>
-
-        </div>
+          RM0
+        </h3>
 
       </div>
 
 
 
-      <!-- KPI -->
-      <section class="grid xl:grid-cols-5 gap-4">
+      <div class="bg-white rounded-2xl p-6 shadow">
 
+        <p class="text-slate-500 text-sm">
+          Budget
+        </p>
 
-        <div class="kpi-card">
-
-          <span class="kpi-label">
-            Revenue
-          </span>
-
-          <h4 id="reportRevenue">
-            -
-          </h4>
-
-          <small>
-            Monthly Sales
-          </small>
-
-        </div>
-
-
-
-        <div class="kpi-card">
-
-          <span class="kpi-label">
-            Budget
-          </span>
-
-          <h4 id="reportBudget">
-            -
-          </h4>
-
-          <small>
-            Monthly Target
-          </small>
-
-        </div>
-
-
-
-        <div class="kpi-card">
-
-          <span class="kpi-label">
-            Achievement
-          </span>
-
-          <h4 id="reportAchievement">
-            -
-          </h4>
-
-          <small>
-            vs Budget
-          </small>
-
-        </div>
-
-
-
-        <div class="kpi-card">
-
-          <span class="kpi-label">
-            GOP
-          </span>
-
-          <h4 id="reportGop">
-            -
-          </h4>
-
-          <small>
-            Gross Profit
-          </small>
-
-        </div>
-
-
-
-        <div class="kpi-card">
-
-          <span class="kpi-label">
-            Margin
-          </span>
-
-          <h4 id="reportMargin">
-            -
-          </h4>
-
-          <small>
-            Profit %
-          </small>
-
-        </div>
-
-
-      </section>
-
-
-
-      <!-- DAILY BREAKDOWN -->
-      <section class="bg-white rounded-2xl p-5 shadow">
-
-        <h3 class="text-xl font-bold mb-4">
-          Daily Breakdown
+        <h3
+          id="reportBudget"
+          class="text-xl font-bold mt-2"
+        >
+          RM0
         </h3>
 
-
-        <div class="overflow-x-auto">
-
-          <table class="w-full text-sm">
-
-            <thead>
-
-              <tr class="border-b text-left">
-
-                <th class="py-3">
-                  Date
-                </th>
-
-                <th>
-                  Food
-                </th>
-
-                <th>
-                  Beverage
-                </th>
-
-                <th>
-                  Revenue
-                </th>
-
-                <th>
-                  Cost
-                </th>
-
-                <th>
-                  GOP
-                </th>
-
-              </tr>
-
-            </thead>
-
-
-            <tbody
-              id="reportTableBody"
-            ></tbody>
-
-          </table>
-
-        </div>
-
-      </section>
-
-
-    </main>
-
-  </div>
+      </div>
 
 
 
-  <!-- SCRIPTS -->
+      <div class="bg-white rounded-2xl p-6 shadow">
 
-  <script src="assets/js/storage.js"></script>
+        <p class="text-slate-500 text-sm">
+          Achievement
+        </p>
 
-  <script src="assets/js/settings.js"></script>
+        <h3
+          id="reportAchievement"
+          class="text-xl font-bold mt-2"
+        >
+          0%
+        </h3>
 
-  <script src="assets/js/calculations.js"></script>
+      </div>
 
-  <script src="assets/js/dashboard.js"></script>
 
-  <script src="assets/js/reports.js"></script>
+
+      <div class="bg-white rounded-2xl p-6 shadow">
+
+        <p class="text-slate-500 text-sm">
+          GOP
+        </p>
+
+        <h3
+          id="reportGop"
+          class="text-xl font-bold mt-2"
+        >
+          RM0
+        </h3>
+
+      </div>
+
+
+
+      <div class="bg-white rounded-2xl p-6 shadow">
+
+        <p class="text-slate-500 text-sm">
+          GOP Margin
+        </p>
+
+        <h3
+          id="reportMargin"
+          class="text-xl font-bold mt-2"
+        >
+          0%
+        </h3>
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- EXPORT -->
+    <button
+      onclick="exportReportCSV()"
+      class="bg-slate-950 text-white px-6 py-3 rounded-xl mb-8"
+    >
+      Export CSV
+    </button>
+
+
+
+    <!-- TABLE -->
+    <div class="bg-white rounded-2xl p-6 shadow">
+
+      <h2 class="text-xl font-bold mb-6">
+        Finance Report
+      </h2>
+
+
+
+      <div class="overflow-x-auto">
+
+        <table class="w-full">
+
+          <thead>
+
+            <tr class="border-b">
+
+              <th class="text-left py-3">
+                Date
+              </th>
+
+              <th class="text-left">
+                Food
+              </th>
+
+              <th class="text-left">
+                Beverage
+              </th>
+
+              <th class="text-left">
+                Revenue
+              </th>
+
+              <th class="text-left">
+                Cost
+              </th>
+
+              <th class="text-left">
+                GOP
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+
+          <tbody
+            id="reportTableBody"
+          ></tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+  </main>
+
+</div>
+
+
+
+<script src="storage.js"></script>
+<script src="settings.js"></script>
+<script src="calculations.js"></script>
+<script src="reports.js"></script>
 
 
 </body>
-
 </html>
