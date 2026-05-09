@@ -1,45 +1,80 @@
-const STORAGE_KEY =
-  "skybar.finance.entries.v1";
+const ENTRY_STORAGE_KEY =
+  "skybar_entries";
+
 
 
 // ======================
 // GET ALL ENTRIES
 // ======================
 
-function getEntries() {
+function getAllEntries() {
 
-  const savedData =
-    localStorage.getItem(
-      STORAGE_KEY
+  try {
+
+    const raw =
+      localStorage.getItem(
+        ENTRY_STORAGE_KEY
+      );
+
+
+    if(
+      !raw
+    ) {
+
+      return [];
+
+    }
+
+
+    const parsed =
+      JSON.parse(
+        raw
+      );
+
+
+    if(
+      !Array.isArray(
+        parsed
+      )
+    ) {
+
+      return [];
+
+    }
+
+
+    return parsed;
+
+  }
+
+  catch(
+    error
+  ) {
+
+    console.error(
+      "Storage read error:",
+      error
     );
 
-
-  if(
-    !savedData
-  ) {
 
     return [];
 
   }
 
-
-  return JSON.parse(
-    savedData
-  );
-
 }
+
 
 
 // ======================
 // SAVE ALL ENTRIES
 // ======================
 
-function saveEntries(
+function saveAllEntries(
   entries
 ) {
 
   localStorage.setItem(
-    STORAGE_KEY,
+    ENTRY_STORAGE_KEY,
     JSON.stringify(
       entries
     )
@@ -48,26 +83,42 @@ function saveEntries(
 }
 
 
+
 // ======================
 // ADD ENTRY
 // ======================
 
 function addEntry(
-  entry
+  payload
 ) {
 
   const entries =
-    getEntries();
+    getAllEntries();
 
 
-  const newEntry = {
+  const newEntry =
+    {
 
-    ...entry,
+      id:
+        Date.now(),
 
-    id:
-      Date.now().toString()
 
-  };
+      date:
+        payload.date || "",
+
+
+      foodRevenue:
+        Number(
+          payload.foodRevenue || 0
+        ),
+
+
+      beverageRevenue:
+        Number(
+          payload.beverageRevenue || 0
+        )
+
+    };
 
 
   entries.push(
@@ -75,7 +126,7 @@ function addEntry(
   );
 
 
-  saveEntries(
+  saveAllEntries(
     entries
   );
 
@@ -85,26 +136,6 @@ function addEntry(
 }
 
 
-// ======================
-// GET SINGLE ENTRY
-// ======================
-
-function getEntryById(
-  entryId
-) {
-
-  const entries =
-    getEntries();
-
-
-  return entries.find(
-    entry =>
-      entry.id ===
-      entryId
-  );
-
-}
-
 
 // ======================
 // UPDATE ENTRY
@@ -112,44 +143,58 @@ function getEntryById(
 
 function updateEntry(
   entryId,
-  updatedData
+  payload
 ) {
 
   const entries =
-    getEntries();
+    getAllEntries();
 
 
-  const updatedEntries =
+  const updated =
     entries.map(
       entry => {
 
         if(
-          entry.id ===
-          entryId
+          entry.id != entryId
         ) {
 
-          return {
-
-            ...entry,
-
-            ...updatedData
-
-          };
+          return entry;
 
         }
 
 
-        return entry;
+        return {
+
+          ...entry,
+
+
+          date:
+            payload.date,
+
+
+          foodRevenue:
+            Number(
+              payload.foodRevenue || 0
+            ),
+
+
+          beverageRevenue:
+            Number(
+              payload.beverageRevenue || 0
+            )
+
+        };
 
       }
     );
 
 
-  saveEntries(
-    updatedEntries
+  saveAllEntries(
+    updated
   );
 
 }
+
 
 
 // ======================
@@ -161,87 +206,57 @@ function deleteEntry(
 ) {
 
   const entries =
-    getEntries();
+    getAllEntries();
 
 
-  const filteredEntries =
+  const filtered =
     entries.filter(
       entry =>
-        entry.id !==
+
+        entry.id !=
         entryId
     );
 
 
-  saveEntries(
-    filteredEntries
+  saveAllEntries(
+    filtered
   );
 
 }
 
 
+
 // ======================
-// FILTER ENTRIES
+// GET SINGLE ENTRY
 // ======================
 
-function filterEntries(
-  year,
-  month
+function getEntryById(
+  entryId
 ) {
 
   const entries =
-    getEntries();
+    getAllEntries();
 
 
-  return entries.filter(
-    entry => {
+  return entries.find(
+    entry =>
 
-      if(
-        !entry.date
-      ) {
-
-        return false;
-
-      }
-
-
-      const date =
-        new Date(
-          entry.date
-        );
-
-
-      const entryYear =
-        date.getFullYear();
-
-
-      const entryMonth =
-        date.getMonth() + 1;
-
-
-      return (
-        entryYear ===
-          year &&
-        entryMonth ===
-          month
-      );
-
-    }
+      entry.id ==
+      entryId
   );
 
 }
 
 
+
 // ======================
-// RESET ALL DATA
+// CLEAR
 // ======================
 
-function clearAllData() {
+function clearAllEntries() {
 
   localStorage.removeItem(
-    STORAGE_KEY
+    ENTRY_STORAGE_KEY
   );
-
-
-  location.reload();
 
 }
