@@ -28,11 +28,6 @@ const entryForm =
     "entryForm"
   );
 
-const tableBody =
-  document.getElementById(
-    "entriesTableBody"
-  );
-
 const entryDateField =
   document.getElementById(
     "entryDate"
@@ -66,8 +61,7 @@ function populateYearFilter() {
 
   if(!yearFilter) return;
 
-  yearFilter.innerHTML =
-    "";
+  yearFilter.innerHTML = "";
 
   for(
     let year = 2025;
@@ -87,7 +81,8 @@ function populateYearFilter() {
       year;
 
     if(
-      year === selectedYear
+      year ===
+      selectedYear
     ) {
 
       option.selected =
@@ -108,8 +103,7 @@ function populateMonthFilter() {
 
   if(!monthFilter) return;
 
-  monthFilter.innerHTML =
-    "";
+  monthFilter.innerHTML = "";
 
   for(
     let month = 1;
@@ -129,7 +123,8 @@ function populateMonthFilter() {
       month;
 
     if(
-      month === selectedMonth
+      month ===
+      selectedMonth
     ) {
 
       option.selected =
@@ -195,88 +190,7 @@ function bindEvents() {
 
 
 // ======================
-// AUTO DAILY BUDGET
-// ======================
-
-function updateAutoDailyBudget() {
-
-  const budgetField =
-    document.getElementById(
-      "dailyBudgetDisplay"
-    );
-
-  if(
-    !budgetField ||
-    !entryDateField
-  ) return;
-
-
-  if(
-    !entryDateField.value
-  ) {
-
-    budgetField.value =
-      "";
-
-    return;
-
-  }
-
-
-  const settings =
-    getSettings();
-
-
-  const date =
-    new Date(
-      entryDateField.value
-    );
-
-
-  const daysInMonth =
-    new Date(
-      date.getFullYear(),
-      date.getMonth() + 1,
-      0
-    ).getDate();
-
-
-  const dailyBudget =
-    settings.monthlyBudget /
-    daysInMonth;
-
-
-  budgetField.value =
-    `${settings.currency}${dailyBudget.toFixed(2)}`;
-
-}
-
-
-// ======================
-// FILTER CHANGE
-// ======================
-
-function handleFilterChange() {
-
-  selectedYear =
-    Number(
-      yearFilter.value
-    );
-
-
-  selectedMonth =
-    Number(
-      monthFilter.value
-    );
-
-
-  renderDashboard();
-
-}
-
-
-// ======================
-// ENTRY SAVE
+// ENTRY
 // ======================
 
 function handleSaveEntry(
@@ -343,6 +257,76 @@ function handleSaveEntry(
 
 
 // ======================
+// DAILY BUDGET
+// ======================
+
+function updateAutoDailyBudget() {
+
+  const budgetField =
+    document.getElementById(
+      "dailyBudgetDisplay"
+    );
+
+  if(
+    !budgetField ||
+    !entryDateField ||
+    !entryDateField.value
+  ) return;
+
+
+  const settings =
+    getSettings();
+
+
+  const date =
+    new Date(
+      entryDateField.value
+    );
+
+
+  const days =
+    new Date(
+      date.getFullYear(),
+      date.getMonth() + 1,
+      0
+    ).getDate();
+
+
+  const dailyBudget =
+    settings.monthlyBudget /
+    days;
+
+
+  budgetField.value =
+    `${settings.currency}${dailyBudget.toFixed(2)}`;
+
+}
+
+
+// ======================
+// FILTER
+// ======================
+
+function handleFilterChange() {
+
+  selectedYear =
+    Number(
+      yearFilter.value
+    );
+
+
+  selectedMonth =
+    Number(
+      monthFilter.value
+    );
+
+
+  renderDashboard();
+
+}
+
+
+// ======================
 // DASHBOARD
 // ======================
 
@@ -352,97 +336,65 @@ function renderDashboard() {
     getEntries();
 
 
-  const currentMonthEntries =
+  const currentMonth =
     filterEntries(
       selectedYear,
       selectedMonth
     );
 
 
-  const currentYearEntries =
-    allEntries.filter(
-      entry =>
-        new Date(
-          entry.date
-        ).getFullYear() ===
-        selectedYear
-    );
-
-
-  const lyMonthEntries =
+  const lastYearMonth =
     filterEntries(
       selectedYear - 1,
       selectedMonth
     );
 
 
-  const lyYearEntries =
-    allEntries.filter(
-      entry =>
-        new Date(
-          entry.date
-        ).getFullYear() ===
-        selectedYear - 1
+  const current =
+    calculatePeriodSummary(
+      currentMonth
     );
 
 
-  const mtd =
+  const ly =
     calculatePeriodSummary(
-      currentMonthEntries
-    );
-
-
-  const ytd =
-    calculatePeriodSummary(
-      currentYearEntries
-    );
-
-
-  const lyMtd =
-    calculatePeriodSummary(
-      lyMonthEntries
-    );
-
-
-  const lyYtd =
-    calculatePeriodSummary(
-      lyYearEntries
+      lastYearMonth
     );
 
 
   renderYtd(
-    ytd,
-    lyYtd
+    current,
+    ly
   );
 
 
   renderMtd(
-    mtd,
-    lyMtd
+    current,
+    ly
   );
 
 
   renderGop(
-    mtd,
-    lyMtd
+    current,
+    ly
   );
 
 
   renderFoodBeverage(
-    mtd,
-    lyMtd
+    current,
+    ly
   );
 
 
   renderSummary(
-    mtd
+    current
   );
 
 }
 
 
 // ======================
-// YTD
+// KPI RENDER
 // ======================
 
 function renderYtd(
@@ -454,173 +406,162 @@ function renderYtd(
     getSettings();
 
 
-  setCard(
-    "ytdRevenueCard",
-    `${settings.currency}${current.totalRevenue.toFixed(0)}`
-  );
+  const achievement =
+    calculateAchievement(
+      current.totalRevenue,
+      settings.annualRevenueTarget
+    );
 
 
-  setCard(
-    "lyYtdRevenueCard",
-    `${settings.currency}${ly.totalRevenue.toFixed(0)}`
-  );
-
-
-  setCard(
-    "ytdGrowthCard",
-    `${calculateGrowth(
+  const growth =
+    calculateGrowth(
       current.totalRevenue,
       ly.totalRevenue
-    ).toFixed(1)}%`
+    );
+
+
+  setSmartCard(
+    "ytdRevenueCard",
+    formatMoney(
+      current.totalRevenue
+    )
+  );
+
+
+  setSmartCard(
+    "ytdAchievementCard",
+    `${achievement.toFixed(1)}%`,
+    achievement
+  );
+
+
+  setSmartCard(
+    "ytdGrowthCard",
+    `${growth.toFixed(1)}%`,
+    growth
   );
 
 }
 
-
-// ======================
-// MTD
-// ======================
 
 function renderMtd(
   current,
   ly
 ) {
 
-  const settings =
-    getSettings();
-
-
-  setCard(
-    "mtdRevenueCard",
-    `${settings.currency}${current.totalRevenue.toFixed(0)}`
-  );
-
-
-  setCard(
-    "lyMtdRevenueCard",
-    `${settings.currency}${ly.totalRevenue.toFixed(0)}`
-  );
-
-
-  setCard(
-    "mtdGrowthCard",
-    `${calculateGrowth(
+  const growth =
+    calculateGrowth(
       current.totalRevenue,
       ly.totalRevenue
-    ).toFixed(1)}%`
+    );
+
+
+  setSmartCard(
+    "mtdRevenueCard",
+    formatMoney(
+      current.totalRevenue
+    )
+  );
+
+
+  setSmartCard(
+    "mtdGrowthCard",
+    `${growth.toFixed(1)}%`,
+    growth
   );
 
 }
 
-
-// ======================
-// GOP
-// ======================
 
 function renderGop(
   current,
   ly
 ) {
 
-  const settings =
-    getSettings();
-
-
-  setCard(
-    "gopMainCard",
-    `${settings.currency}${current.totalGop.toFixed(0)}`
-  );
-
-
-  setCard(
-    "lyGopCard",
-    `${settings.currency}${ly.totalGop.toFixed(0)}`
-  );
-
-
-  setCard(
-    "gopGrowthCard",
-    `${calculateGrowth(
+  const growth =
+    calculateGrowth(
       current.totalGop,
       ly.totalGop
-    ).toFixed(1)}%`
+    );
+
+
+  setSmartCard(
+    "gopMainCard",
+    formatMoney(
+      current.totalGop
+    )
+  );
+
+
+  setSmartCard(
+    "gopGrowthCard",
+    `${growth.toFixed(1)}%`,
+    growth
   );
 
 }
 
-
-// ======================
-// FOOD / BEVERAGE
-// ======================
 
 function renderFoodBeverage(
   current,
   ly
 ) {
 
-  const settings =
-    getSettings();
-
-
-  setCard(
-    "foodRevenueCard",
-    `${settings.currency}${current.totalFoodRevenue.toFixed(0)}`
-  );
-
-
-  setCard(
-    "lyFoodCard",
-    `${settings.currency}${ly.totalFoodRevenue.toFixed(0)}`
-  );
-
-
-  setCard(
-    "foodGrowthCard",
-    `${calculateGrowth(
+  const foodGrowth =
+    calculateGrowth(
       current.totalFoodRevenue,
       ly.totalFoodRevenue
-    ).toFixed(1)}%`
-  );
+    );
 
 
-  setCard(
-    "bevRevenueCard",
-    `${settings.currency}${current.totalBeverageRevenue.toFixed(0)}`
-  );
-
-
-  setCard(
-    "lyBevCard",
-    `${settings.currency}${ly.totalBeverageRevenue.toFixed(0)}`
-  );
-
-
-  setCard(
-    "bevGrowthCard",
-    `${calculateGrowth(
+  const bevGrowth =
+    calculateGrowth(
       current.totalBeverageRevenue,
       ly.totalBeverageRevenue
-    ).toFixed(1)}%`
+    );
+
+
+  setSmartCard(
+    "foodRevenueCard",
+    formatMoney(
+      current.totalFoodRevenue
+    )
+  );
+
+
+  setSmartCard(
+    "foodGrowthCard",
+    `${foodGrowth.toFixed(1)}%`,
+    foodGrowth
+  );
+
+
+  setSmartCard(
+    "bevRevenueCard",
+    formatMoney(
+      current.totalBeverageRevenue
+    )
+  );
+
+
+  setSmartCard(
+    "bevGrowthCard",
+    `${bevGrowth.toFixed(1)}%`,
+    bevGrowth
   );
 
 }
 
 
-// ======================
-// SUMMARY
-// ======================
-
 function renderSummary(
-  data
+  current
 ) {
 
-  const settings =
-    getSettings();
-
-
-  setCard(
+  setSmartCard(
     "summaryRevenueCard",
-    `${settings.currency}${data.totalRevenue.toFixed(0)}`
+    formatMoney(
+      current.totalRevenue
+    )
   );
 
 }
@@ -629,6 +570,23 @@ function renderSummary(
 // ======================
 // HELPERS
 // ======================
+
+function calculateAchievement(
+  current,
+  target
+) {
+
+  if(
+    !target
+  ) return 0;
+
+
+  return (
+    current / target
+  ) * 100;
+
+}
+
 
 function calculateGrowth(
   current,
@@ -649,9 +607,71 @@ function calculateGrowth(
 }
 
 
-function setCard(
+function formatMoney(
+  amount
+) {
+
+  const settings =
+    getSettings();
+
+
+  return (
+    settings.currency +
+    amount.toLocaleString()
+  );
+
+}
+
+
+function getCardTheme(
+  metric
+) {
+
+  if(
+    metric >= 100
+  ) {
+
+    return "bg-green-50 text-green-700";
+
+  }
+
+
+  if(
+    metric >= 80
+  ) {
+
+    return "bg-yellow-50 text-yellow-700";
+
+  }
+
+
+  return "bg-red-50 text-red-700";
+
+}
+
+
+function getGrowthTheme(
+  metric
+) {
+
+  if(
+    metric >= 0
+  ) {
+
+    return "bg-green-50 text-green-700";
+
+  }
+
+
+  return "bg-red-50 text-red-700";
+
+}
+
+
+function setSmartCard(
   id,
-  value
+  value,
+  metric = null
 ) {
 
   const element =
@@ -664,9 +684,46 @@ function setCard(
   ) return;
 
 
+  let theme =
+    "bg-slate-50 text-slate-700";
+
+
+  if(
+    metric !== null
+  ) {
+
+    if(
+      value.includes("%")
+    ) {
+
+      if(
+        metric > 50
+      ) {
+
+        theme =
+          getCardTheme(
+            metric
+          );
+
+      }
+
+      else {
+
+        theme =
+          getGrowthTheme(
+            metric
+          );
+
+      }
+
+    }
+
+  }
+
+
   element.innerHTML =
     `
-      <div class="bg-slate-50 rounded-xl p-4 text-center font-bold text-xl">
+      <div class="${theme} rounded-xl p-4 text-center font-bold text-xl">
         ${value}
       </div>
     `;
