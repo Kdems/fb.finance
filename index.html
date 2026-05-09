@@ -30,7 +30,7 @@
 
 
     <!-- SIDEBAR -->
-    <aside class="w-64 bg-slate-900 text-white p-5">
+    <aside class="w-64 bg-slate-950 text-white p-5">
 
       <h1 class="text-2xl font-bold mb-8">
         SKYBAR
@@ -39,38 +39,28 @@
 
       <nav class="space-y-3">
 
-        <a
-          href="index.html"
-          class="block px-4 py-3 rounded-xl bg-slate-800"
-        >
+        <a href="index.html"
+          class="block px-4 py-3 rounded-xl bg-slate-800">
           Dashboard
         </a>
 
-        <a
-          href="entry.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
-        >
+        <a href="entry.html"
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800">
           Daily Entry
         </a>
 
-        <a
-          href="generic.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
-        >
+        <a href="generic.html"
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800">
           Operating Review
         </a>
 
-        <a
-          href="reports.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
-        >
+        <a href="reports.html"
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800">
           Reports
         </a>
 
-        <a
-          href="settings.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
-        >
+        <a href="settings.html"
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800">
           Settings
         </a>
 
@@ -107,6 +97,7 @@
             class="border rounded-xl px-4 py-2"
           ></select>
 
+
           <select
             id="monthFilter"
             class="border rounded-xl px-4 py-2"
@@ -121,35 +112,40 @@
       <!-- YTD -->
       <section class="bg-white rounded-2xl p-5 shadow">
 
-        <h3 class="font-bold text-xl mb-4">
+        <h3 class="section-title">
           Year-To-Date
         </h3>
 
         <div class="grid xl:grid-cols-5 gap-4">
 
           <div class="kpi-card">
-            <p>YTD Revenue</p>
+            <span class="kpi-label">YTD Revenue</span>
             <h4 id="ytdRevenueCard">-</h4>
+            <small>Total Sales</small>
           </div>
 
           <div class="kpi-card">
-            <p>YTD Budget</p>
+            <span class="kpi-label">YTD Budget</span>
             <h4 id="ytdBudgetCard">-</h4>
+            <small>Annual Target</small>
           </div>
 
           <div class="kpi-card">
-            <p>Achievement</p>
+            <span class="kpi-label">Achievement</span>
             <h4 id="ytdAchievementCard">-</h4>
+            <small>vs Budget</small>
           </div>
 
           <div class="kpi-card">
-            <p>Growth</p>
+            <span class="kpi-label">Growth</span>
             <h4 id="ytdGrowthCard">-</h4>
+            <small>vs LY</small>
           </div>
 
           <div class="kpi-card">
-            <p>Variance</p>
+            <span class="kpi-label">Variance</span>
             <h4 id="ytdVarianceCard">-</h4>
+            <small>Budget Gap</small>
           </div>
 
         </div>
@@ -161,61 +157,40 @@
       <!-- MTD -->
       <section class="bg-white rounded-2xl p-5 shadow">
 
-        <h3 class="font-bold text-xl mb-4">
+        <h3 class="section-title">
           Month-To-Date
         </h3>
-
 
         <div class="grid xl:grid-cols-5 gap-4 mb-4">
 
           <div class="kpi-card">
-            <p>MTD Revenue</p>
+            <span class="kpi-label">Revenue</span>
             <h4 id="mtdRevenueCard">-</h4>
+            <small>Current Month</small>
           </div>
 
           <div class="kpi-card">
-            <p>MTD Budget</p>
+            <span class="kpi-label">Budget</span>
             <h4 id="mtdBudgetCard">-</h4>
+            <small>Monthly Budget</small>
           </div>
 
           <div class="kpi-card">
-            <p>MTD GOP</p>
+            <span class="kpi-label">GOP</span>
             <h4 id="mtdGopCard">-</h4>
+            <small>Profit</small>
           </div>
 
           <div class="kpi-card">
-            <p>Growth</p>
+            <span class="kpi-label">Growth</span>
             <h4 id="mtdGrowthCard">-</h4>
+            <small>vs LY</small>
           </div>
 
           <div class="kpi-card">
-            <p>Achievement</p>
+            <span class="kpi-label">Achievement</span>
             <h4 id="mtdAchievementCard">-</h4>
-          </div>
-
-        </div>
-
-
-        <div class="grid xl:grid-cols-4 gap-4">
-
-          <div class="kpi-card">
-            <p>Days Left</p>
-            <h4 id="daysLeftCard">-</h4>
-          </div>
-
-          <div class="kpi-card">
-            <p>Daily Pace</p>
-            <h4 id="dailyPaceCard">-</h4>
-          </div>
-
-          <div class="kpi-card">
-            <p>Projection</p>
-            <h4 id="projectionCard">-</h4>
-          </div>
-
-          <div class="kpi-card">
-            <p>Gap To Target</p>
-            <h4 id="gapToTargetCard">-</h4>
+            <small>vs Budget</small>
           </div>
 
         </div>
@@ -227,30 +202,34 @@
       <!-- GOP -->
       <section class="bg-white rounded-2xl p-5 shadow">
 
-        <h3 class="font-bold text-xl mb-4">
+        <h3 class="section-title">
           Gross Operating Profit
         </h3>
 
         <div class="grid xl:grid-cols-4 gap-4">
 
           <div class="kpi-card">
-            <p>Revenue</p>
+            <span class="kpi-label">Revenue</span>
             <h4 id="gopRevenueCard">-</h4>
+            <small>Total Sales</small>
           </div>
 
           <div class="kpi-card">
-            <p>Cost</p>
+            <span class="kpi-label">Cost</span>
             <h4 id="gopCostCard">-</h4>
+            <small>Total Cost</small>
           </div>
 
           <div class="kpi-card">
-            <p>GOP</p>
+            <span class="kpi-label">GOP</span>
             <h4 id="gopMainCard">-</h4>
+            <small>Profit</small>
           </div>
 
           <div class="kpi-card">
-            <p>Margin</p>
+            <span class="kpi-label">Margin</span>
             <h4 id="gopMarginCard">-</h4>
+            <small>Profit %</small>
           </div>
 
         </div>
@@ -262,25 +241,56 @@
       <!-- FOOD & BEVERAGE -->
       <section class="bg-white rounded-2xl p-5 shadow">
 
-        <h3 class="font-bold text-xl mb-4">
-          Food & Beverage
+        <h3 class="section-title">
+          Food & Beverage Performance
         </h3>
 
         <div class="grid xl:grid-cols-3 gap-4">
 
           <div class="kpi-card">
-            <p>Food Revenue</p>
-            <h4 id="foodRevenueCard">-</h4>
+            <span class="kpi-label">
+              Food Revenue
+            </span>
+
+            <h4 id="foodRevenueCard">
+              -
+            </h4>
+
+            <small>
+              LY Comparison
+            </small>
           </div>
 
-          <div class="kpi-card">
-            <p>Beverage Revenue</p>
-            <h4 id="bevRevenueCard">-</h4>
-          </div>
+
 
           <div class="kpi-card">
-            <p>Total Cost</p>
-            <h4 id="totalCostCard">-</h4>
+            <span class="kpi-label">
+              Beverage Revenue
+            </span>
+
+            <h4 id="bevRevenueCard">
+              -
+            </h4>
+
+            <small>
+              LY Comparison
+            </small>
+          </div>
+
+
+
+          <div class="kpi-card">
+            <span class="kpi-label">
+              Total Cost
+            </span>
+
+            <h4 id="totalCostCard">
+              -
+            </h4>
+
+            <small>
+              Current Month
+            </small>
           </div>
 
         </div>
@@ -292,34 +302,34 @@
       <!-- SUMMARY -->
       <section class="bg-white rounded-2xl p-5 shadow">
 
-        <h3 class="font-bold text-xl mb-4">
+        <h3 class="section-title">
           Monthly Summary
         </h3>
 
         <div class="grid xl:grid-cols-5 gap-4">
 
           <div class="kpi-card">
-            <p>Total Revenue</p>
+            <span class="kpi-label">Revenue</span>
             <h4 id="summaryRevenueCard">-</h4>
           </div>
 
           <div class="kpi-card">
-            <p>Avg Daily</p>
+            <span class="kpi-label">Avg Daily</span>
             <h4 id="summaryBudgetCard">-</h4>
           </div>
 
           <div class="kpi-card">
-            <p>Achievement</p>
+            <span class="kpi-label">Achievement</span>
             <h4 id="summaryAchievementCard">-</h4>
           </div>
 
           <div class="kpi-card">
-            <p>Best Day</p>
+            <span class="kpi-label">Best Day</span>
             <h4 id="bestDayCard">-</h4>
           </div>
 
           <div class="kpi-card">
-            <p>Worst Day</p>
+            <span class="kpi-label">Worst Day</span>
             <h4 id="worstDayCard">-</h4>
           </div>
 
@@ -329,25 +339,25 @@
 
 
 
-      <!-- CHARTS -->
+      <!-- CHART -->
       <section class="grid xl:grid-cols-3 gap-6">
 
-        <div class="bg-white rounded-2xl shadow p-5">
-          <h3 class="font-bold mb-4">Revenue Trend</h3>
+        <div class="bg-white rounded-2xl p-5 shadow">
+          <h3 class="section-title">Revenue Trend</h3>
           <div class="h-80">
             <canvas id="revenueChart"></canvas>
           </div>
         </div>
 
-        <div class="bg-white rounded-2xl shadow p-5">
-          <h3 class="font-bold mb-4">GOP Trend</h3>
+        <div class="bg-white rounded-2xl p-5 shadow">
+          <h3 class="section-title">GOP Trend</h3>
           <div class="h-80">
             <canvas id="gopChart"></canvas>
           </div>
         </div>
 
-        <div class="bg-white rounded-2xl shadow p-5">
-          <h3 class="font-bold mb-4">Food vs Beverage</h3>
+        <div class="bg-white rounded-2xl p-5 shadow">
+          <h3 class="section-title">Food vs Beverage</h3>
           <div class="h-80">
             <canvas id="mixChart"></canvas>
           </div>
@@ -364,15 +374,10 @@
 
   <!-- SCRIPTS -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <script src="assets/js/storage.js"></script>
-
   <script src="assets/js/settings.js"></script>
-
   <script src="assets/js/calculations.js"></script>
-
   <script src="assets/js/charts.js"></script>
-
   <script src="assets/js/dashboard.js"></script>
 
 </body>
