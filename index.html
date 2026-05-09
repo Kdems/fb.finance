@@ -10,7 +10,7 @@
     content="width=device-width, initial-scale=1.0">
 
   <title>
-    SKYBAR BI Dashboard
+    SKYBAR GM Dashboard
   </title>
 
   <link rel="icon" href="data:,">
@@ -32,7 +32,7 @@
   <!-- SIDEBAR -->
   <aside class="w-64 bg-slate-950 text-white p-6">
 
-    <h1 class="text-4xl font-bold mb-10">
+    <h1 class="text-4xl font-bold">
       SKYBAR
     </h1>
 
@@ -56,7 +56,7 @@
         </h2>
 
         <p class="text-slate-500">
-          SKYBAR Business Intelligence
+          Business Intelligence
         </p>
 
       </div>
@@ -82,157 +82,126 @@
 
 
 
-    <!-- F&B SECTION -->
-    <section class="bg-orange-200 rounded-3xl p-6 shadow space-y-5">
 
-      <h3 class="font-bold text-xl">
-        Food & Beverage Intelligence
+    <!-- MTD INTELLIGENCE -->
+    <section class="bg-sky-200 rounded-3xl p-6 shadow">
+
+      <h3 class="font-bold text-xl mb-5">
+        Month-To-Date Intelligence
       </h3>
 
 
-
-      <div class="grid grid-cols-4 gap-4">
+      <div class="grid grid-cols-6 gap-4">
 
         <div class="bg-white/70 rounded-2xl p-4">
-
-          <small>
-            Food Revenue
-          </small>
-
-          <h4
-            id="foodRevenueCard">
-          </h4>
-
+          <small>Revenue</small>
+          <h4 id="mtdRevenueCard"></h4>
         </div>
 
-
-
         <div class="bg-white/70 rounded-2xl p-4">
-
-          <small>
-            Food Mix %
-          </small>
-
-          <h4
-            id="foodMixCard">
-          </h4>
-
+          <small>Budget</small>
+          <h4 id="mtdBudgetCard"></h4>
         </div>
 
-
-
         <div class="bg-white/70 rounded-2xl p-4">
-
-          <small>
-            Food Cost %
-          </small>
-
-          <h4
-            id="foodCostCard">
-          </h4>
-
+          <small>Daily Pace</small>
+          <h4 id="dailyPaceCard"></h4>
         </div>
 
-
+        <div class="bg-white/70 rounded-2xl p-4">
+          <small>Projection</small>
+          <h4 id="projectionCard"></h4>
+        </div>
 
         <div class="bg-white/70 rounded-2xl p-4">
+          <small>Gap</small>
+          <h4 id="projectionGapCard"></h4>
+        </div>
 
-          <small>
-            Food Growth
-          </small>
-
-          <h4
-            id="foodGrowthCard">
-          </h4>
-
+        <div class="bg-white/70 rounded-2xl p-4">
+          <small>Days Left</small>
+          <h4 id="daysLeftCard"></h4>
         </div>
 
       </div>
 
 
 
+      <div class="bg-white/30 rounded-full h-2 mt-5">
 
-
-      <div class="grid grid-cols-4 gap-4">
-
-        <div class="bg-white/70 rounded-2xl p-4">
-
-          <small>
-            Beverage Revenue
-          </small>
-
-          <h4
-            id="bevRevenueCard">
-          </h4>
-
-        </div>
-
-
-
-        <div class="bg-white/70 rounded-2xl p-4">
-
-          <small>
-            Beverage Mix %
-          </small>
-
-          <h4
-            id="bevMixCard">
-          </h4>
-
-        </div>
-
-
-
-        <div class="bg-white/70 rounded-2xl p-4">
-
-          <small>
-            Beverage Cost %
-          </small>
-
-          <h4
-            id="bevCostCard">
-          </h4>
-
-        </div>
-
-
-
-        <div class="bg-white/70 rounded-2xl p-4">
-
-          <small>
-            Beverage Growth
-          </small>
-
-          <h4
-            id="bevGrowthCard">
-          </h4>
-
+        <div
+          id="mtdProgressBar"
+          class="bg-blue-700 rounded-full h-2"
+          style="width:0%">
         </div>
 
       </div>
-
-
-
-
-
-      <div class="grid grid-cols-1">
-
-        <div class="bg-white/70 rounded-2xl p-4">
-
-          <small>
-            Fixed Cost
-          </small>
-
-          <h4
-            id="fixCostCard">
-          </h4>
-
-        </div>
-
-      </div>
-
 
     </section>
+
+
+
+
+
+
+    <!-- F&B -->
+    <section class="bg-orange-200 rounded-3xl p-6 shadow">
+
+      <h3 class="font-bold text-xl mb-5">
+        Food & Beverage Intelligence
+      </h3>
+
+      <div class="grid grid-cols-4 gap-4">
+
+        <div class="bg-white/70 rounded-2xl p-4">
+          <small>Food Revenue</small>
+          <h4 id="foodRevenueCard"></h4>
+        </div>
+
+        <div class="bg-white/70 rounded-2xl p-4">
+          <small>Food Mix</small>
+          <h4 id="foodMixCard"></h4>
+        </div>
+
+        <div class="bg-white/70 rounded-2xl p-4">
+          <small>Food Cost %</small>
+          <h4 id="foodCostCard"></h4>
+        </div>
+
+        <div class="bg-white/70 rounded-2xl p-4">
+          <small>Food Growth</small>
+          <h4 id="foodGrowthCard"></h4>
+        </div>
+
+      </div>
+
+
+      <div class="grid grid-cols-4 gap-4 mt-4">
+
+        <div class="bg-white/70 rounded-2xl p-4">
+          <small>Beverage Revenue</small>
+          <h4 id="bevRevenueCard"></h4>
+        </div>
+
+        <div class="bg-white/70 rounded-2xl p-4">
+          <small>Bev Mix</small>
+          <h4 id="bevMixCard"></h4>
+        </div>
+
+        <div class="bg-white/70 rounded-2xl p-4">
+          <small>Bev Cost %</small>
+          <h4 id="bevCostCard"></h4>
+        </div>
+
+        <div class="bg-white/70 rounded-2xl p-4">
+          <small>Bev Growth</small>
+          <h4 id="bevGrowthCard"></h4>
+        </div>
+
+      </div>
+
+    </section>
+
 
 
 
@@ -254,6 +223,7 @@
       </div>
 
     </section>
+
 
 
 
