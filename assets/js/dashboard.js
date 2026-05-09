@@ -211,11 +211,8 @@ function updateAutoDailyBudget() {
   ) return;
 
 
-  const dateValue =
-    entryDateField.value;
-
   if(
-    !dateValue
+    !entryDateField.value
   ) {
 
     budgetField.value =
@@ -232,7 +229,7 @@ function updateAutoDailyBudget() {
 
   const date =
     new Date(
-      dateValue
+      entryDateField.value
     );
 
 
@@ -256,7 +253,7 @@ function updateAutoDailyBudget() {
 
 
 // ======================
-// FILTER
+// FILTER CHANGE
 // ======================
 
 function handleFilterChange() {
@@ -279,7 +276,7 @@ function handleFilterChange() {
 
 
 // ======================
-// SAVE ENTRY
+// ENTRY SAVE
 // ======================
 
 function handleSaveEntry(
@@ -289,7 +286,7 @@ function handleSaveEntry(
   e.preventDefault();
 
 
-  const entryData = {
+  const data = {
 
     date:
       document.getElementById(
@@ -321,7 +318,7 @@ function handleSaveEntry(
 
     updateEntry(
       editingEntryId,
-      entryData
+      data
     );
 
     editingEntryId =
@@ -332,7 +329,7 @@ function handleSaveEntry(
   else {
 
     addEntry(
-      entryData
+      data
     );
 
   }
@@ -340,84 +337,105 @@ function handleSaveEntry(
 
   entryForm.reset();
 
-  updateAutoDailyBudget();
-
   renderDashboard();
 
 }
 
 
 // ======================
-// MAIN RENDER
+// DASHBOARD
 // ======================
 
 function renderDashboard() {
 
-  const monthlyEntries =
+  const allEntries =
+    getEntries();
+
+
+  const currentMonthEntries =
     filterEntries(
       selectedYear,
       selectedMonth
     );
 
 
-  const yearlyEntries =
-    getEntries().filter(
-      entry => {
+  const currentYearEntries =
+    allEntries.filter(
+      entry =>
+        new Date(
+          entry.date
+        ).getFullYear() ===
+        selectedYear
+    );
 
-        const date =
-          new Date(
-            entry.date
-          );
 
-        return (
-          date.getFullYear() ===
-          selectedYear
-        );
+  const lyMonthEntries =
+    filterEntries(
+      selectedYear - 1,
+      selectedMonth
+    );
 
-      }
+
+  const lyYearEntries =
+    allEntries.filter(
+      entry =>
+        new Date(
+          entry.date
+        ).getFullYear() ===
+        selectedYear - 1
     );
 
 
   const mtd =
     calculatePeriodSummary(
-      monthlyEntries
+      currentMonthEntries
     );
 
 
   const ytd =
     calculatePeriodSummary(
-      yearlyEntries
+      currentYearEntries
+    );
+
+
+  const lyMtd =
+    calculatePeriodSummary(
+      lyMonthEntries
+    );
+
+
+  const lyYtd =
+    calculatePeriodSummary(
+      lyYearEntries
     );
 
 
   renderYtd(
-    ytd
+    ytd,
+    lyYtd
   );
 
 
   renderMtd(
-    mtd
+    mtd,
+    lyMtd
   );
 
 
   renderGop(
-    mtd
+    mtd,
+    lyMtd
   );
 
 
   renderFoodBeverage(
-    mtd
+    mtd,
+    lyMtd
   );
 
 
   renderSummary(
-    monthlyEntries,
     mtd
-  );
-
-
-  renderTable(
-    monthlyEntries
   );
 
 }
@@ -428,7 +446,8 @@ function renderDashboard() {
 // ======================
 
 function renderYtd(
-  data
+  current,
+  ly
 ) {
 
   const settings =
@@ -437,21 +456,21 @@ function renderYtd(
 
   setCard(
     "ytdRevenueCard",
-    `${settings.currency}${data.totalRevenue.toFixed(0)}`
+    `${settings.currency}${current.totalRevenue.toFixed(0)}`
   );
 
 
   setCard(
-    "ytdBudgetCard",
-    `${settings.currency}${(settings.monthlyBudget * 12).toFixed(0)}`
+    "lyYtdRevenueCard",
+    `${settings.currency}${ly.totalRevenue.toFixed(0)}`
   );
 
 
   setCard(
-    "ytdAchievementCard",
-    `${calculateAchievement(
-      data.totalRevenue,
-      settings.annualRevenueTarget
+    "ytdGrowthCard",
+    `${calculateGrowth(
+      current.totalRevenue,
+      ly.totalRevenue
     ).toFixed(1)}%`
   );
 
@@ -463,7 +482,8 @@ function renderYtd(
 // ======================
 
 function renderMtd(
-  data
+  current,
+  ly
 ) {
 
   const settings =
@@ -472,27 +492,21 @@ function renderMtd(
 
   setCard(
     "mtdRevenueCard",
-    `${settings.currency}${data.totalRevenue.toFixed(0)}`
+    `${settings.currency}${current.totalRevenue.toFixed(0)}`
   );
 
 
   setCard(
-    "mtdBudgetCard",
-    `${settings.currency}${settings.monthlyBudget.toFixed(0)}`
+    "lyMtdRevenueCard",
+    `${settings.currency}${ly.totalRevenue.toFixed(0)}`
   );
 
 
   setCard(
-    "mtdGopCard",
-    `${settings.currency}${data.totalGop.toFixed(0)}`
-  );
-
-
-  setCard(
-    "mtdAchievementCard",
-    `${calculateAchievement(
-      data.totalRevenue,
-      settings.monthlyBudget
+    "mtdGrowthCard",
+    `${calculateGrowth(
+      current.totalRevenue,
+      ly.totalRevenue
     ).toFixed(1)}%`
   );
 
@@ -504,7 +518,8 @@ function renderMtd(
 // ======================
 
 function renderGop(
-  data
+  current,
+  ly
 ) {
 
   const settings =
@@ -512,37 +527,35 @@ function renderGop(
 
 
   setCard(
-    "gopRevenueCard",
-    `${settings.currency}${data.totalRevenue.toFixed(0)}`
-  );
-
-
-  setCard(
-    "gopCostCard",
-    `${settings.currency}${data.totalCost.toFixed(0)}`
-  );
-
-
-  setCard(
     "gopMainCard",
-    `${settings.currency}${data.totalGop.toFixed(0)}`
+    `${settings.currency}${current.totalGop.toFixed(0)}`
   );
 
 
   setCard(
-    "gopMarginCard",
-    `${data.gopMargin.toFixed(1)}%`
+    "lyGopCard",
+    `${settings.currency}${ly.totalGop.toFixed(0)}`
+  );
+
+
+  setCard(
+    "gopGrowthCard",
+    `${calculateGrowth(
+      current.totalGop,
+      ly.totalGop
+    ).toFixed(1)}%`
   );
 
 }
 
 
 // ======================
-// FOOD & BEVERAGE
+// FOOD / BEVERAGE
 // ======================
 
 function renderFoodBeverage(
-  data
+  current,
+  ly
 ) {
 
   const settings =
@@ -551,19 +564,43 @@ function renderFoodBeverage(
 
   setCard(
     "foodRevenueCard",
-    `${settings.currency}${data.totalFoodRevenue.toFixed(0)}`
+    `${settings.currency}${current.totalFoodRevenue.toFixed(0)}`
+  );
+
+
+  setCard(
+    "lyFoodCard",
+    `${settings.currency}${ly.totalFoodRevenue.toFixed(0)}`
+  );
+
+
+  setCard(
+    "foodGrowthCard",
+    `${calculateGrowth(
+      current.totalFoodRevenue,
+      ly.totalFoodRevenue
+    ).toFixed(1)}%`
   );
 
 
   setCard(
     "bevRevenueCard",
-    `${settings.currency}${data.totalBeverageRevenue.toFixed(0)}`
+    `${settings.currency}${current.totalBeverageRevenue.toFixed(0)}`
   );
 
 
   setCard(
-    "totalCostCard",
-    `${settings.currency}${data.totalCost.toFixed(0)}`
+    "lyBevCard",
+    `${settings.currency}${ly.totalBeverageRevenue.toFixed(0)}`
+  );
+
+
+  setCard(
+    "bevGrowthCard",
+    `${calculateGrowth(
+      current.totalBeverageRevenue,
+      ly.totalBeverageRevenue
+    ).toFixed(1)}%`
   );
 
 }
@@ -574,7 +611,6 @@ function renderFoodBeverage(
 // ======================
 
 function renderSummary(
-  entries,
   data
 ) {
 
@@ -587,27 +623,31 @@ function renderSummary(
     `${settings.currency}${data.totalRevenue.toFixed(0)}`
   );
 
-
-  setCard(
-    "summaryBudgetCard",
-    `${settings.currency}${settings.monthlyBudget.toFixed(0)}`
-  );
-
-
-  setCard(
-    "summaryAchievementCard",
-    `${calculateAchievement(
-      data.totalRevenue,
-      settings.monthlyBudget
-    ).toFixed(1)}%`
-  );
-
 }
 
 
 // ======================
 // HELPERS
 // ======================
+
+function calculateGrowth(
+  current,
+  ly
+) {
+
+  if(
+    !ly
+  ) return 0;
+
+
+  return (
+    (
+      current - ly
+    ) / ly
+  ) * 100;
+
+}
+
 
 function setCard(
   id,
@@ -630,102 +670,6 @@ function setCard(
         ${value}
       </div>
     `;
-
-}
-
-
-function calculateAchievement(
-  current,
-  target
-) {
-
-  if(
-    !target
-  ) return 0;
-
-
-  return (
-    current / target
-  ) * 100;
-
-}
-
-
-// ======================
-// TABLE
-// ======================
-
-function renderTable(
-  entries
-) {
-
-  if(
-    !tableBody
-  ) return;
-
-
-  tableBody.innerHTML =
-    "";
-
-}
-
-
-// ======================
-// EDIT
-// ======================
-
-function editEntry(
-  entryId
-) {
-
-  const entry =
-    getEntryById(
-      entryId
-    );
-
-  if(
-    !entry
-  ) return;
-
-
-  editingEntryId =
-    entryId;
-
-
-  document.getElementById(
-    "entryDate"
-  ).value =
-    entry.date;
-
-
-  document.getElementById(
-    "foodRevenue"
-  ).value =
-    entry.foodRevenue;
-
-
-  document.getElementById(
-    "beverageRevenue"
-  ).value =
-    entry.beverageRevenue;
-
-}
-
-
-// ======================
-// DELETE
-// ======================
-
-function removeEntry(
-  entryId
-) {
-
-  deleteEntry(
-    entryId
-  );
-
-
-  renderDashboard();
 
 }
 
