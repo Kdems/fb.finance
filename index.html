@@ -2,33 +2,21 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
-
-  <title>
-    SKYBAR Dashboard
-  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SKYBAR Dashboard</title>
 
   <link rel="icon" href="data:,">
-
   <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
-
-
 
 <body class="bg-slate-100 font-sans">
 
   <div class="flex min-h-screen">
 
-
-
-    <!-- SIDEBAR -->
-    <aside class="w-64 bg-slate-950 text-white p-5">
+    <!-- Sidebar -->
+    <aside class="w-60 bg-slate-950 text-white p-5">
 
       <h1 class="text-2xl font-bold mb-8">
         SKYBAR
@@ -67,18 +55,23 @@
 
 
 
+    <!-- Main -->
+    <main class="flex-1 p-6 space-y-5">
 
-
-    <!-- MAIN -->
-    <main class="flex-1 p-6 space-y-6">
-
-
-      <!-- HEADER -->
+      <!-- Header -->
       <div class="flex justify-between items-center">
 
-        <h2 class="text-3xl font-bold">
-          Management Dashboard
-        </h2>
+        <div>
+
+          <h2 class="text-4xl font-bold">
+            Management Dashboard
+          </h2>
+
+          <p class="text-slate-500">
+            SKYBAR Performance Cockpit
+          </p>
+
+        </div>
 
 
         <div class="flex gap-3">
@@ -100,51 +93,45 @@
 
 
 
+      <!-- YTD -->
+      <section class="bg-white rounded-2xl p-5 shadow">
 
-      <!-- MTD -->
-      <section class="bg-white rounded-2xl p-6 shadow">
-
-        <h3 class="font-bold mb-4">
-          Month-To-Date
+        <h3 class="font-semibold mb-4">
+          Year-To-Date
         </h3>
-
 
         <div class="grid grid-cols-6 gap-4">
 
+          <div><small>Revenue</small><h4 id="ytdRevenueCard">-</h4></div>
+          <div><small>Budget</small><h4 id="ytdBudgetCard">-</h4></div>
+          <div><small>Achievement</small><h4 id="ytdAchievementCard">-</h4></div>
+          <div><small>Growth</small><h4 id="ytdGrowthCard">-</h4></div>
+          <div><small>LY Revenue</small><h4 id="lyRevenueCard">-</h4></div>
+          <div><small>Variance</small><h4 id="ytdVarianceCard">-</h4></div>
 
-          <div class="kpi-card">
-            <small>Revenue</small>
-            <h4 id="mtdRevenueCard">-</h4>
-          </div>
+        </div>
 
-
-          <div class="kpi-card">
-            <small>Budget</small>
-            <h4 id="mtdBudgetCard">-</h4>
-          </div>
-
-
-          <div class="kpi-card">
-            <small>GOP</small>
-            <h4 id="mtdGopCard">-</h4>
-          </div>
-
-
-          <div class="kpi-card">
-            <small>Growth</small>
-            <h4 id="mtdGrowthCard">-</h4>
-          </div>
-
-
-          <div class="kpi-card">
-            <small>LY Revenue</small>
-            <h4 id="mtdLyRevenueCard">-</h4>
-          </div>
+      </section>
 
 
 
-          <!-- MTD PROGRESS -->
-          <div class="kpi-card">
+
+      <!-- MTD -->
+      <section class="bg-white rounded-2xl p-5 shadow">
+
+        <h3 class="font-semibold mb-4">
+          Month-To-Date
+        </h3>
+
+        <div class="grid grid-cols-6 gap-4">
+
+          <div><small>Revenue</small><h4 id="mtdRevenueCard">-</h4></div>
+          <div><small>Budget</small><h4 id="mtdBudgetCard">-</h4></div>
+          <div><small>GOP</small><h4 id="mtdGopCard">-</h4></div>
+          <div><small>Growth</small><h4 id="mtdGrowthCard">-</h4></div>
+          <div><small>LY Revenue</small><h4 id="mtdLyRevenueCard">-</h4></div>
+
+          <div>
 
             <small>
               Achievement
@@ -154,9 +141,7 @@
               -
             </h4>
 
-
-            <div
-              class="w-full bg-slate-200 rounded-full h-2 mt-3">
+            <div class="w-full bg-slate-200 rounded-full h-2 mt-2">
 
               <div
                 id="mtdProgressBar"
@@ -168,6 +153,26 @@
 
           </div>
 
+        </div>
+
+      </section>
+
+
+
+
+      <!-- GOP -->
+      <section class="bg-white rounded-2xl p-5 shadow">
+
+        <h3 class="font-semibold mb-4">
+          Gross Operating Profit
+        </h3>
+
+        <div class="grid grid-cols-4 gap-4">
+
+          <div><small>Revenue</small><h4 id="gopRevenueCard">-</h4></div>
+          <div><small>Cost</small><h4 id="gopCostCard">-</h4></div>
+          <div><small>GOP</small><h4 id="gopMainCard">-</h4></div>
+          <div><small>Margin</small><h4 id="gopMarginCard">-</h4></div>
 
         </div>
 
@@ -176,30 +181,90 @@
 
 
 
+      <!-- Food Beverage -->
+      <section class="bg-white rounded-2xl p-5 shadow">
 
-      <!-- SUMMARY -->
-      <section class="bg-white rounded-2xl p-6 shadow">
+        <h3 class="font-semibold mb-4">
+          Food & Beverage Analysis
+        </h3>
 
-        <h3 class="font-bold mb-4">
+        <div class="grid grid-cols-5 gap-4">
+
+          <div><small>Food Revenue</small><h4 id="foodRevenueCard">-</h4></div>
+          <div><small>Beverage Revenue</small><h4 id="bevRevenueCard">-</h4></div>
+          <div><small>Food Cost</small><h4 id="foodCostCard">-</h4></div>
+          <div><small>Beverage Cost</small><h4 id="bevCostCard">-</h4></div>
+          <div><small>Fixed Cost</small><h4 id="fixCostCard">-</h4></div>
+
+        </div>
+
+      </section>
+
+
+
+
+      <!-- Summary -->
+      <section class="bg-white rounded-2xl p-5 shadow">
+
+        <h3 class="font-semibold mb-4">
+          Monthly Summary
+        </h3>
+
+        <div class="grid grid-cols-5 gap-4">
+
+          <div><small>Revenue</small><h4 id="summaryRevenueCard">-</h4></div>
+          <div><small>Avg Daily</small><h4 id="summaryBudgetCard">-</h4></div>
+          <div><small>Achievement</small><h4 id="summaryAchievementCard">-</h4></div>
+          <div><small>Best Day</small><h4 id="bestDayCard">-</h4></div>
+          <div><small>Worst Day</small><h4 id="worstDayCard">-</h4></div>
+
+        </div>
+
+      </section>
+
+
+
+
+      <!-- Recent -->
+      <section class="bg-white rounded-2xl p-5 shadow">
+
+        <h3 class="font-semibold mb-4">
           Recent Entries
         </h3>
 
         <div
           id="recentEntriesList"
           class="space-y-3">
-
         </div>
 
       </section>
 
 
 
+
+      <!-- Charts -->
+      <section class="grid grid-cols-3 gap-4">
+
+        <div class="bg-white rounded-2xl p-4 shadow">
+          <canvas id="revenueChart"></canvas>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow">
+          <canvas id="gopChart"></canvas>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow">
+          <canvas id="mixChart"></canvas>
+        </div>
+
+      </section>
+
     </main>
 
   </div>
 
 
-
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <script src="assets/js/storage.js"></script>
   <script src="assets/js/settings.js"></script>
