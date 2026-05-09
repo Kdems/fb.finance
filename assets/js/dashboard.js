@@ -20,11 +20,6 @@ const monthFilter =
     "monthFilter"
   );
 
-const entryDateField =
-  document.getElementById(
-    "entryDate"
-  );
-
 
 
 // ======================
@@ -40,8 +35,6 @@ function initDashboard() {
   bindEvents();
 
   renderDashboard();
-
-  updateAutoDailyBudget();
 
 }
 
@@ -156,15 +149,6 @@ function bindEvents() {
     monthFilter.addEventListener(
       "change",
       handleFilterChange
-    );
-
-  }
-
-  if (entryDateField) {
-
-    entryDateField.addEventListener(
-      "change",
-      updateAutoDailyBudget
     );
 
   }
@@ -315,7 +299,7 @@ function renderYtd(
 
   updateCard(
     "ytdVarianceCard",
-    formatMoney(
+    formatVariance(
       variance
     )
   );
@@ -436,27 +420,12 @@ function renderGop(
 
 
 // ======================
-// FOOD & BEVERAGE
+// F&B
 // ======================
 
 function renderFoodBeverage(
   current
 ) {
-
-  const settings =
-    getSettings();
-
-  const foodGrowth =
-    calculateGrowth(
-      current.totalFoodRevenue,
-      settings.lyFoodRevenue
-    );
-
-  const bevGrowth =
-    calculateGrowth(
-      current.totalBeverageRevenue,
-      settings.lyBeverageRevenue
-    );
 
   updateCard(
     "foodRevenueCard",
@@ -493,230 +462,6 @@ function renderFoodBeverage(
     )
   );
 
-  updateSubCard(
-    "foodRevenueCard",
-    `LY ${foodGrowth.toFixed(2)}%`
-  );
-
-  updateSubCard(
-    "bevRevenueCard",
-    `LY ${bevGrowth.toFixed(2)}%`
-  );
-
-  updateText(
-    "foodCostPercentText",
-    `${settings.foodCostPercent}%`
-  );
-
-  updateText(
-    "bevCostPercentText",
-    `${settings.beverageCostPercent}%`
-  );
-
-  updateText(
-    "fixCostPercentText",
-    `${settings.fixCostPercent}%`
-  );
-
-}
-
-
-
-// ======================
-// SUMMARY
-// ======================
-
-function renderSummary(
-  entries,
-  current
-) {
-
-  const settings =
-    getSettings();
-
-  const monthlyBudget =
-    Number(
-      settings.monthlyBudget || 0
-    );
-
-  const avgDaily =
-    entries.length > 0
-      ? current.totalRevenue /
-        entries.length
-      : 0;
-
-  const achievement =
-    calculateAchievement(
-      current.totalRevenue,
-      monthlyBudget
-    );
-
-  let bestDay = "-";
-  let worstDay = "-";
-
-  if (
-    entries.length > 0
-  ) {
-
-    const ranked =
-      [...entries].map(
-        entry => ({
-
-          date:
-            entry.date,
-
-          revenue:
-            Number(
-              entry.foodRevenue || 0
-            ) +
-            Number(
-              entry.beverageRevenue || 0
-            )
-
-        })
-      );
-
-    ranked.sort(
-      (a, b) =>
-        a.revenue -
-        b.revenue
-    );
-
-    worstDay =
-      ranked[0].date;
-
-    bestDay =
-      ranked[
-        ranked.length - 1
-      ].date;
-
-  }
-
-  updateCard(
-    "summaryRevenueCard",
-    formatMoney(
-      current.totalRevenue
-    )
-  );
-
-  updateCard(
-    "summaryBudgetCard",
-    formatMoney(
-      avgDaily
-    )
-  );
-
-  updateCard(
-    "summaryAchievementCard",
-    `${achievement.toFixed(2)}%`
-  );
-
-  updateCard(
-    "bestDayCard",
-    bestDay
-  );
-
-  updateCard(
-    "worstDayCard",
-    worstDay
-  );
-
-}
-
-
-
-// ======================
-// RECENT ENTRIES
-// ======================
-
-function renderRecentEntries(
-  entries
-) {
-
-  const container =
-    document.getElementById(
-      "recentEntriesList"
-    );
-
-  if (!container) return;
-
-  if (
-    entries.length === 0
-  ) {
-
-    container.innerHTML =
-      `
-      <div class="text-slate-400">
-        No entries found
-      </div>
-      `;
-
-    return;
-
-  }
-
-  const latest =
-    [...entries]
-    .sort(
-      (a, b) =>
-        new Date(
-          b.date
-        ) -
-        new Date(
-          a.date
-        )
-    )
-    .slice(
-      0,
-      10
-    );
-
-  container.innerHTML =
-    latest.map(
-      entry => {
-
-        const food =
-          Number(
-            entry.foodRevenue || 0
-          );
-
-        const bev =
-          Number(
-            entry.beverageRevenue || 0
-          );
-
-        const total =
-          food + bev;
-
-        return `
-        <div class="border rounded-xl p-4 flex justify-between">
-
-          <div>
-
-            <div class="font-medium">
-              ${new Date(entry.date).toLocaleDateString("en-GB")}
-            </div>
-
-            <div class="text-sm text-slate-500">
-              Food ${formatMoney(food)}
-            </div>
-
-            <div class="text-sm text-slate-500">
-              Beverage ${formatMoney(bev)}
-            </div>
-
-          </div>
-
-          <div class="font-bold">
-            ${formatMoney(total)}
-          </div>
-
-        </div>
-        `;
-
-      }
-    ).join("");
-
 }
 
 
@@ -724,6 +469,27 @@ function renderRecentEntries(
 // ======================
 // HELPERS
 // ======================
+
+function formatVariance(
+  amount
+) {
+
+  const icon =
+    amount >= 0
+      ? "🟢 +"
+      : "🔴 -";
+
+  return (
+    icon +
+    formatMoney(
+      Math.abs(
+        amount
+      )
+    )
+  );
+
+}
+
 
 function getLyTotalRevenue() {
 
@@ -746,53 +512,6 @@ function getLyTotalRevenue() {
 
 
 function updateCard(
-  id,
-  value
-) {
-
-  const el =
-    document.getElementById(
-      id
-    );
-
-  if (!el) return;
-
-  el.innerHTML =
-    value;
-
-}
-
-
-function updateSubCard(
-  id,
-  value
-) {
-
-  const el =
-    document.getElementById(
-      id
-    );
-
-  if (!el) return;
-
-  const small =
-    el.parentElement.querySelector(
-      "small"
-    );
-
-  if (
-    small
-  ) {
-
-    small.innerHTML =
-      value;
-
-  }
-
-}
-
-
-function updateText(
   id,
   value
 ) {
@@ -840,7 +559,6 @@ function calculateGrowth(
 }
 
 
-// NO .00
 function formatMoney(
   amount
 ) {
@@ -865,52 +583,6 @@ function formatMoney(
     )
 
   );
-
-}
-
-
-
-// ======================
-// DAILY BUDGET
-// ======================
-
-function updateAutoDailyBudget() {
-
-  const budgetField =
-    document.getElementById(
-      "dailyBudgetDisplay"
-    );
-
-  if (
-    !budgetField ||
-    !entryDateField ||
-    !entryDateField.value
-  ) return;
-
-  const settings =
-    getSettings();
-
-  const date =
-    new Date(
-      entryDateField.value
-    );
-
-  const days =
-    new Date(
-      date.getFullYear(),
-      date.getMonth() + 1,
-      0
-    ).getDate();
-
-  const dailyBudget =
-    Number(
-      settings.monthlyBudget || 0
-    ) / days;
-
-  budgetField.value =
-    formatMoney(
-      dailyBudget
-    );
 
 }
 
