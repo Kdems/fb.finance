@@ -1,367 +1,572 @@
-<!DOCTYPE html>
-<html lang="en">
+const SETTINGS_STORAGE_KEY =
+  "skybar_settings";
 
-<head>
 
-  <meta charset="UTF-8" />
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
+// ======================
+// DEFAULT SETTINGS
+// ======================
 
-  <title>
-    SKYBAR Settings
-  </title>
+const defaultSettings = {
 
-  <link rel="icon" href="data:,">
+  outletName:
+    "SKYBAR",
 
-  <script src="https://cdn.tailwindcss.com"></script>
+  currency:
+    "RM",
 
-  <link
-    rel="stylesheet"
-    href="assets/css/main.css"
-  />
+  annualRevenueTarget:
+    0,
 
-</head>
+  monthlyBudget:
+    0,
 
+  foodCostPercent:
+    35,
 
+  beverageCostPercent:
+    25,
 
-<body class="bg-slate-100 font-sans">
+  fixCostPercent:
+    18,
 
-  <div class="flex min-h-screen">
+  lyFoodRevenue:
+    0,
 
+  lyBeverageRevenue:
+    0
 
+};
 
-    <!-- SIDEBAR -->
-    <aside class="w-64 bg-slate-950 text-white p-5">
 
-      <h1 class="text-2xl font-bold mb-8">
-        SKYBAR
-      </h1>
 
-      <nav class="space-y-3">
+// ======================
+// GET SETTINGS
+// ======================
 
-        <a
-          href="index.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800">
-          Dashboard
-        </a>
+function getSettings() {
 
-        <a
-          href="entry.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800">
-          Daily Entry
-        </a>
+  try {
 
-        <a
-          href="generic.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800">
-          Operating Review
-        </a>
+    const raw =
+      localStorage.getItem(
+        SETTINGS_STORAGE_KEY
+      );
 
-        <a
-          href="reports.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800">
-          Reports
-        </a>
 
-        <a
-          href="settings.html"
-          class="block px-4 py-3 rounded-xl bg-slate-800">
-          Settings
-        </a>
+    if(
+      !raw
+    ) {
 
-      </nav>
+      return {
+        ...defaultSettings
+      };
 
-    </aside>
+    }
 
 
+    const parsed =
+      JSON.parse(
+        raw
+      );
 
 
+    return {
 
-    <!-- MAIN -->
-    <main class="flex-1 p-6 space-y-6">
+      ...defaultSettings,
 
+      ...parsed
 
-      <!-- HEADER -->
-      <div>
+    };
 
-        <h2 class="text-3xl font-bold">
-          Finance Settings
-        </h2>
+  }
 
-        <p class="text-slate-500">
-          Manage targets, costs, benchmark and data tools
-        </p>
+  catch(
+    error
+  ) {
 
-      </div>
+    console.error(
+      error
+    );
 
 
+    return {
+      ...defaultSettings
+    };
 
+  }
 
+}
 
-      <!-- SETTINGS FORM -->
-      <section class="bg-white rounded-2xl p-6 shadow">
 
-        <form
-          id="settingsForm"
-          class="grid grid-cols-2 gap-6">
 
+// ======================
+// SAVE SETTINGS
+// ======================
 
+function saveSettings(
+  settings
+) {
 
-          <!-- OUTLET -->
-          <div>
+  localStorage.setItem(
+    SETTINGS_STORAGE_KEY,
+    JSON.stringify(
+      settings
+    )
+  );
 
-            <label class="block mb-2 font-medium">
-              Outlet Name
-            </label>
+}
 
-            <input
-              id="outletName"
-              type="text"
-              class="w-full border rounded-xl p-3"
-            />
 
-          </div>
 
+// ======================
+// LOAD FORM
+// ======================
 
+function loadSettingsForm() {
 
-          <!-- CURRENCY -->
-          <div>
+  const settings =
+    getSettings();
 
-            <label class="block mb-2 font-medium">
-              Currency
-            </label>
 
-            <select
-              id="currency"
-              class="w-full border rounded-xl p-3">
+  setValue(
+    "outletName",
+    settings.outletName
+  );
 
-              <option value="RM">
-                RM
-              </option>
+  setValue(
+    "currency",
+    settings.currency
+  );
 
-              <option value="$">
-                USD
-              </option>
+  setValue(
+    "annualRevenueTarget",
+    settings.annualRevenueTarget
+  );
 
-              <option value="SGD">
-                SGD
-              </option>
+  setValue(
+    "monthlyBudget",
+    settings.monthlyBudget
+  );
 
-            </select>
+  setValue(
+    "foodCostPercent",
+    settings.foodCostPercent
+  );
 
-          </div>
+  setValue(
+    "beverageCostPercent",
+    settings.beverageCostPercent
+  );
 
+  setValue(
+    "fixCostPercent",
+    settings.fixCostPercent
+  );
 
+  setValue(
+    "lyFoodRevenue",
+    settings.lyFoodRevenue
+  );
 
-          <!-- ANNUAL TARGET -->
-          <div>
+  setValue(
+    "lyBeverageRevenue",
+    settings.lyBeverageRevenue
+  );
 
-            <label class="block mb-2 font-medium">
-              Annual Revenue Target
-            </label>
+}
 
-            <input
-              id="annualRevenueTarget"
-              type="number"
-              class="w-full border rounded-xl p-3"
-            />
 
-          </div>
 
+// ======================
+// FORM SUBMIT
+// ======================
 
+function bindSettingsForm() {
 
-          <!-- MONTHLY BUDGET -->
-          <div>
+  const form =
+    document.getElementById(
+      "settingsForm"
+    );
 
-            <label class="block mb-2 font-medium">
-              Monthly Budget
-            </label>
 
-            <input
-              id="monthlyBudget"
-              type="number"
-              class="w-full border rounded-xl p-3"
-            />
+  if(
+    !form
+  ) return;
 
-          </div>
 
+  form.addEventListener(
+    "submit",
+    function(event) {
 
+      event.preventDefault();
 
-          <!-- FOOD COST -->
-          <div>
 
-            <label class="block mb-2 font-medium">
-              Food Cost %
-            </label>
+      const payload = {
 
-            <input
-              id="foodCostPercent"
-              type="number"
-              class="w-full border rounded-xl p-3"
-            />
+        outletName:
+          getValue(
+            "outletName"
+          ),
 
-          </div>
+        currency:
+          getValue(
+            "currency"
+          ),
 
+        annualRevenueTarget:
+          Number(
+            getValue(
+              "annualRevenueTarget"
+            )
+          ),
 
+        monthlyBudget:
+          Number(
+            getValue(
+              "monthlyBudget"
+            )
+          ),
 
-          <!-- BEVERAGE COST -->
-          <div>
+        foodCostPercent:
+          Number(
+            getValue(
+              "foodCostPercent"
+            )
+          ),
 
-            <label class="block mb-2 font-medium">
-              Beverage Cost %
-            </label>
+        beverageCostPercent:
+          Number(
+            getValue(
+              "beverageCostPercent"
+            )
+          ),
 
-            <input
-              id="beverageCostPercent"
-              type="number"
-              class="w-full border rounded-xl p-3"
-            />
+        fixCostPercent:
+          Number(
+            getValue(
+              "fixCostPercent"
+            )
+          ),
 
-          </div>
+        lyFoodRevenue:
+          Number(
+            getValue(
+              "lyFoodRevenue"
+            )
+          ),
 
+        lyBeverageRevenue:
+          Number(
+            getValue(
+              "lyBeverageRevenue"
+            )
+          )
 
+      };
 
-          <!-- FIXED COST -->
-          <div>
 
-            <label class="block mb-2 font-medium">
-              Fixed Cost %
-            </label>
+      saveSettings(
+        payload
+      );
 
-            <input
-              id="fixCostPercent"
-              type="number"
-              class="w-full border rounded-xl p-3"
-            />
 
-          </div>
+      alert(
+        "Settings saved."
+      );
 
+    }
+  );
 
+}
 
-          <!-- LY FOOD -->
-          <div>
 
-            <label class="block mb-2 font-medium">
-              LY Food Revenue
-            </label>
 
-            <input
-              id="lyFoodRevenue"
-              type="number"
-              class="w-full border rounded-xl p-3"
-            />
+// ======================
+// EXPORT
+// ======================
 
-          </div>
+function exportBackup() {
 
+  const backup = {
 
+    settings:
+      getSettings(),
 
-          <!-- LY BEVERAGE -->
-          <div>
+    entries:
+      getAllEntries()
 
-            <label class="block mb-2 font-medium">
-              LY Beverage Revenue
-            </label>
+  };
 
-            <input
-              id="lyBeverageRevenue"
-              type="number"
-              class="w-full border rounded-xl p-3"
-            />
 
-          </div>
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          backup,
+          null,
+          2
+        )
+      ],
+      {
+        type:
+          "application/json"
+      }
+    );
 
 
+  const url =
+    URL.createObjectURL(
+      blob
+    );
 
 
-          <!-- SAVE -->
-          <div class="col-span-2">
+  const a =
+    document.createElement(
+      "a"
+    );
 
-            <button
-              type="submit"
-              class="w-full bg-slate-950 text-white rounded-xl p-4 font-semibold">
 
-              Save Settings
+  a.href =
+    url;
 
-            </button>
+  a.download =
+    "skybar-backup.json";
 
-          </div>
 
+  a.click();
 
+}
 
-        </form>
 
-      </section>
 
+// ======================
+// IMPORT
+// ======================
 
+function importBackup(
+  file
+) {
 
+  const reader =
+    new FileReader();
 
 
-      <!-- DATA MANAGEMENT -->
-      <section class="bg-white rounded-2xl p-6 shadow">
+  reader.onload =
+    function(event) {
 
-        <h3 class="text-2xl font-bold mb-6">
-          Data Management
-        </h3>
+      const data =
+        JSON.parse(
+          event.target.result
+        );
 
 
-        <div class="grid grid-cols-3 gap-4">
+      if(
+        data.settings
+      ) {
 
-          <button
-            id="exportBackupBtn"
-            class="bg-green-600 text-white rounded-xl p-4 font-semibold">
+        saveSettings(
+          data.settings
+        );
 
-            Export Backup
+      }
 
-          </button>
 
+      if(
+        data.entries
+      ) {
 
-          <button
-            id="importBackupBtn"
-            class="bg-blue-600 text-white rounded-xl p-4 font-semibold">
+        localStorage.setItem(
+          "skybar_entries",
+          JSON.stringify(
+            data.entries
+          )
+        );
 
-            Restore Backup
+      }
 
-          </button>
 
+      alert(
+        "Backup restored."
+      );
 
-          <button
-            id="resetDataBtn"
-            class="bg-red-600 text-white rounded-xl p-4 font-semibold">
 
-            Reset Data
+      location.reload();
 
-          </button>
+    };
 
-        </div>
 
+  reader.readAsText(
+    file
+  );
 
-        <input
-          type="file"
-          id="importBackupFile"
-          hidden
-        />
+}
 
-      </section>
 
 
+// ======================
+// RESET
+// ======================
 
-    </main>
+function resetAllData() {
 
-  </div>
+  localStorage.clear();
 
+  alert(
+    "All data deleted."
+  );
 
+  location.reload();
 
+}
 
 
-  <script src="assets/js/storage.js"></script>
 
-  <script src="assets/js/settings.js"></script>
+// ======================
+// EVENTS
+// ======================
 
+function bindButtons() {
 
+  const exportBtn =
+    document.getElementById(
+      "exportBackupBtn"
+    );
 
-</body>
+  const importBtn =
+    document.getElementById(
+      "importBackupBtn"
+    );
 
-</html>
+  const importFile =
+    document.getElementById(
+      "importBackupFile"
+    );
+
+  const resetBtn =
+    document.getElementById(
+      "resetDataBtn"
+    );
+
+
+  if(
+    exportBtn
+  ) {
+
+    exportBtn.onclick =
+      exportBackup;
+
+  }
+
+
+  if(
+    importBtn
+  ) {
+
+    importBtn.onclick =
+      function() {
+
+        importFile.click();
+
+      };
+
+  }
+
+
+  if(
+    importFile
+  ) {
+
+    importFile.onchange =
+      function() {
+
+        if(
+          this.files.length
+        ) {
+
+          importBackup(
+            this.files[0]
+          );
+
+        }
+
+      };
+
+  }
+
+
+  if(
+    resetBtn
+  ) {
+
+    resetBtn.onclick =
+      resetAllData;
+
+  }
+
+}
+
+
+
+// ======================
+// HELPERS
+// ======================
+
+function setValue(
+  id,
+  value
+) {
+
+  const el =
+    document.getElementById(
+      id
+    );
+
+  if(
+    el
+  ) {
+
+    el.value =
+      value;
+
+  }
+
+}
+
+
+function getValue(
+  id
+) {
+
+  const el =
+    document.getElementById(
+      id
+    );
+
+  if(
+    !el
+  ) return "";
+
+
+  return el.value;
+
+}
+
+
+
+// ======================
+// START
+// ======================
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    loadSettingsForm();
+
+    bindSettingsForm();
+
+    bindButtons();
+
+  }
+);
