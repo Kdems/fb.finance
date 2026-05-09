@@ -1,5 +1,5 @@
-const REVIEW_KEY =
-  "skybar.operating.review.v1";
+const REVIEW_NOTE_KEY =
+  "skybar.finance.dashboard.review.notes.v1";
 
 
 
@@ -7,163 +7,173 @@ const REVIEW_KEY =
 // INIT
 // ======================
 
+document.addEventListener(
+  "DOMContentLoaded",
+  initReviewPage
+);
+
+
+
 function initReviewPage() {
 
-  bindReviewForm();
+  renderReview();
 
-  setDefaultReviewDate();
+  loadManagementNotes();
 
-  renderReviewHistory();
-
-}
-
-
-
-// ======================
-// STORAGE
-// ======================
-
-function getReviews() {
-
-  const saved =
-    localStorage.getItem(
-      REVIEW_KEY
-    );
-
-
-  if(
-    !saved
-  ) {
-
-    return [];
-
-  }
-
-
-  try {
-
-    return JSON.parse(
-      saved
-    );
-
-  }
-
-  catch(
-    error
-  ) {
-
-    console.error(
-      error
-    );
-
-
-    return [];
-
-  }
-
-}
-
-
-function saveReviews(
-  reviews
-) {
-
-  localStorage.setItem(
-    REVIEW_KEY,
-    JSON.stringify(
-      reviews
-    )
-  );
+  bindManagementNotes();
 
 }
 
 
 
 // ======================
-// FORM
+// MAIN
 // ======================
 
-function bindReviewForm() {
+function renderReview() {
 
-  const form =
-    document.getElementById(
-      "reviewForm"
+  const entries =
+    getAllEntries();
+
+
+
+  const summary =
+    calculatePeriodSummary(
+      entries
     );
 
 
-  if(
-    !form
-  ) return;
+
+  const settings =
+    getSettings();
 
 
-  form.addEventListener(
-    "submit",
-    handleSaveReview
-  );
 
-}
+// ======================
+// REVENUE ACHIEVEMENT
+// ======================
 
+  const revenueAchievement =
 
-function handleSaveReview(
-  e
-) {
+    settings.annualRevenueTarget > 0
 
-  e.preventDefault();
+      ?
 
+      (
 
-  const reviews =
-    getReviews();
+        summary.totalRevenue /
 
+        settings.annualRevenueTarget
 
-  reviews.push({
+      ) * 100
 
-    date:
-      getValue(
-        "reviewDate"
-      ),
+      :
+
+      0;
 
 
-    revenueComment:
-      getValue(
-        "revenueComment"
-      ),
+
+// ======================
+// GOP ACHIEVEMENT
+// ======================
+
+  const gopAchievement =
+
+    settings.annualGopTarget > 0
+
+      ?
+
+      (
+
+        summary.totalGop /
+
+        settings.annualGopTarget
+
+      ) * 100
+
+      :
+
+      0;
 
 
-    costComment:
-      getValue(
-        "costComment"
-      ),
 
+// ======================
+// COST VARIANCE
+// ======================
 
-    operationComment:
-      getValue(
-        "operationComment"
-      ),
+  const actualFoodCost =
 
+    summary.totalRevenue > 0
 
-    actionPlan:
-      getValue(
-        "actionPlan"
+      ?
+
+      (
+
+        summary.totalFoodRevenue *
+
+        settings.foodCostPercent /
+
+        100
+
       )
 
-  });
+      /
+
+      summary.totalRevenue
+
+      *
+
+      100
+
+      :
+
+      0;
 
 
-  saveReviews(
-    reviews
-  );
+
+  const actualBeverageCost =
+
+    summary.totalRevenue > 0
+
+      ?
+
+      (
+
+        summary.totalBeverageRevenue *
+
+        settings.beverageCostPercent /
+
+        100
+
+      )
+
+      /
+
+      summary.totalRevenue
+
+      *
+
+      100
+
+      :
+
+      0;
 
 
-  document.getElementById(
-    "reviewForm"
-  ).reset();
+
+  const foodVariance =
+
+    actualFoodCost -
+
+    settings.foodCostPercent;
 
 
-  setDefaultReviewDate();
 
-  renderReviewHistory();
+  const beverageVariance =
 
-}
+    actualBeverageCost -
+
+    settings.beverageCostPercent;
 
 
 
@@ -171,105 +181,214 @@ function handleSaveReview(
 // UI
 // ======================
 
-function renderReviewHistory() {
-
-  const container =
-    document.getElementById(
-      "reviewHistory"
-    );
-
-
-  if(
-    !container
-  ) return;
+  setText(
+    "reviewRevenueAchievement",
+    formatPercent(
+      revenueAchievement
+    )
+  );
 
 
-  const reviews =
-    getReviews();
+
+  setText(
+    "reviewGopAchievement",
+    formatPercent(
+      gopAchievement
+    )
+  );
 
 
-  container.innerHTML =
+
+  setText(
+    "reviewFoodVariance",
+    formatPercent(
+      foodVariance
+    )
+  );
+
+
+
+  setText(
+    "reviewBeverageVariance",
+    formatPercent(
+      beverageVariance
+    )
+  );
+
+
+
+  renderBusinessInsight(
+    revenueAchievement,
+    gopAchievement,
+    foodVariance,
+    beverageVariance
+  );
+
+}
+
+
+
+// ======================
+// INSIGHT ENGINE
+// ======================
+
+function renderBusinessInsight(
+
+  revenueAchievement,
+
+  gopAchievement,
+
+  foodVariance,
+
+  beverageVariance
+
+) {
+
+  let insight =
     "";
 
 
-  if(
-    reviews.length === 0
+
+  if (
+
+    revenueAchievement >= 100
+
   ) {
 
-    container.innerHTML =
-      `
-      <div class="text-slate-400">
-        No reviews yet
-      </div>
-      `;
+    insight +=
 
-    return;
+      "Revenue target achieved. ";
+
+  }
+
+  else {
+
+    insight +=
+
+      "Revenue below target. ";
 
   }
 
 
-  const sorted =
-    [...reviews].sort(
-      (
-        a,
-        b
-      ) =>
-        new Date(
-          b.date
-        ) -
-        new Date(
-          a.date
-        )
+
+  if (
+
+    gopAchievement >= 100
+
+  ) {
+
+    insight +=
+
+      "Profitability healthy. ";
+
+  }
+
+  else {
+
+    insight +=
+
+      "Profitability needs attention. ";
+
+  }
+
+
+
+  if (
+
+    foodVariance > 0
+
+  ) {
+
+    insight +=
+
+      "Food cost above target. ";
+
+  }
+
+
+
+  if (
+
+    beverageVariance > 0
+
+  ) {
+
+    insight +=
+
+      "Beverage cost above target.";
+
+  }
+
+
+
+  setText(
+    "businessInsight",
+    insight
+  );
+
+}
+
+
+
+// ======================
+// NOTES
+// ======================
+
+function loadManagementNotes() {
+
+  const notesField =
+    document.getElementById(
+      "managementNotes"
     );
 
 
-  sorted.forEach(
-    review => {
 
-      const card =
-        document.createElement(
-          "div"
-        );
+  if (
+    !notesField
+  ) return;
 
 
-      card.className =
-        "border rounded-2xl p-5";
+
+  const savedNotes =
+
+    localStorage.getItem(
+      REVIEW_NOTE_KEY
+    ) || "";
 
 
-      card.innerHTML =
-        `
-        <div class="font-bold mb-4">
-          ${review.date}
-        </div>
 
-        <div class="mb-3">
-          <strong>Revenue:</strong>
-          <br>
-          ${review.revenueComment || "-"}
-        </div>
+  notesField.value =
+    savedNotes;
 
-        <div class="mb-3">
-          <strong>Cost:</strong>
-          <br>
-          ${review.costComment || "-"}
-        </div>
-
-        <div class="mb-3">
-          <strong>Operation:</strong>
-          <br>
-          ${review.operationComment || "-"}
-        </div>
-
-        <div>
-          <strong>Action:</strong>
-          <br>
-          ${review.actionPlan || "-"}
-        </div>
-        `;
+}
 
 
-      container.appendChild(
-        card
+
+function bindManagementNotes() {
+
+  const notesField =
+    document.getElementById(
+      "managementNotes"
+    );
+
+
+
+  if (
+    !notesField
+  ) return;
+
+
+
+  notesField.addEventListener(
+    "input",
+    function() {
+
+      localStorage.setItem(
+
+        REVIEW_NOTE_KEY,
+
+        this.value
+
       );
 
     }
@@ -280,11 +399,12 @@ function renderReviewHistory() {
 
 
 // ======================
-// HELPERS
+// HELPER
 // ======================
 
-function getValue(
-  id
+function setText(
+  id,
+  value
 ) {
 
   const el =
@@ -293,49 +413,14 @@ function getValue(
     );
 
 
-  if(
+
+  if (
     !el
-  ) return "";
-
-
-  return el.value;
-
-}
-
-
-function setDefaultReviewDate() {
-
-  const dateField =
-    document.getElementById(
-      "reviewDate"
-    );
-
-
-  if(
-    !dateField
   ) return;
 
 
-  const today =
-    new Date();
 
-
-  dateField.value =
-    today
-      .toISOString()
-      .split(
-        "T"
-      )[0];
+  el.innerHTML =
+    value;
 
 }
-
-
-
-// ======================
-// START
-// ======================
-
-document.addEventListener(
-  "DOMContentLoaded",
-  initReviewPage
-);
