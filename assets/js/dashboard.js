@@ -49,8 +49,7 @@ function setupFilters() {
   ) {
 
     yearFilter.innerHTML += `
-      <option
-        value="${y}"
+      <option value="${y}"
         ${
           y === selectedYear
             ? "selected"
@@ -71,8 +70,7 @@ function setupFilters() {
   ) {
 
     monthFilter.innerHTML += `
-      <option
-        value="${m}"
+      <option value="${m}"
         ${
           m === selectedMonth
             ? "selected"
@@ -136,10 +134,14 @@ function renderDashboard() {
     );
 
 
+  renderMtd(
+    data,
+    entries
+  );
+
   renderFoodBeverage(
     data
   );
-
 
   renderRecentEntries(
     entries
@@ -164,7 +166,123 @@ function renderDashboard() {
 
 
 // ====================
-// FOOD & BEVERAGE
+// MTD
+// ====================
+
+function renderMtd(
+  data,
+  entries
+) {
+
+  const settings =
+    getSettings();
+
+
+  const budget =
+    Number(
+      settings.monthlyBudget || 0
+    );
+
+
+  const daysInMonth =
+    new Date(
+      selectedYear,
+      selectedMonth,
+      0
+    ).getDate();
+
+
+  const daysPassed =
+    entries.length || 1;
+
+
+  const daysLeft =
+    daysInMonth -
+    daysPassed;
+
+
+  const dailyPace =
+    data.totalRevenue /
+    daysPassed;
+
+
+  const projection =
+    dailyPace *
+    daysInMonth;
+
+
+  const gap =
+    projection -
+    budget;
+
+
+  const achievement =
+    percentage(
+      data.totalRevenue,
+      budget
+    );
+
+
+
+  setText(
+    "mtdRevenueCard",
+    money(
+      data.totalRevenue
+    )
+  );
+
+
+  setText(
+    "mtdBudgetCard",
+    money(
+      budget
+    )
+  );
+
+
+  setText(
+    "dailyPaceCard",
+    money(
+      dailyPace
+    )
+  );
+
+
+  setText(
+    "projectionCard",
+    money(
+      projection
+    )
+  );
+
+
+  setText(
+    "projectionGapCard",
+    money(
+      gap
+    )
+  );
+
+
+  setText(
+    "daysLeftCard",
+    daysLeft
+  );
+
+
+  setBar(
+    "mtdProgressBar",
+    achievement
+  );
+
+}
+
+
+
+
+
+// ====================
+// F&B
 // ====================
 
 function renderFoodBeverage(
@@ -175,17 +293,19 @@ function renderFoodBeverage(
     data.totalRevenue || 0;
 
 
+  const settings =
+    getSettings();
+
+
   const lyFood =
     Number(
-      getSettings()
-        .lyFoodRevenue || 0
+      settings.lyFoodRevenue || 0
     );
 
 
   const lyBev =
     Number(
-      getSettings()
-        .lyBeverageRevenue || 0
+      settings.lyBeverageRevenue || 0
     );
 
 
@@ -205,14 +325,14 @@ function renderFoodBeverage(
 
 
 
-  const foodCostPercent =
+  const foodCost =
     percentage(
       data.foodCost,
       data.totalFoodRevenue
     );
 
 
-  const bevCostPercent =
+  const bevCost =
     percentage(
       data.beverageCost,
       data.totalBeverageRevenue
@@ -242,7 +362,6 @@ function renderFoodBeverage(
     )
   );
 
-
   setText(
     "foodMixCard",
     percent(
@@ -250,14 +369,12 @@ function renderFoodBeverage(
     )
   );
 
-
   setText(
     "foodCostCard",
     percent(
-      foodCostPercent
+      foodCost
     )
   );
-
 
   setText(
     "foodGrowthCard",
@@ -268,15 +385,12 @@ function renderFoodBeverage(
 
 
 
-
-
   setText(
     "bevRevenueCard",
     money(
       data.totalBeverageRevenue
     )
   );
-
 
   setText(
     "bevMixCard",
@@ -285,30 +399,17 @@ function renderFoodBeverage(
     )
   );
 
-
   setText(
     "bevCostCard",
     percent(
-      bevCostPercent
+      bevCost
     )
   );
-
 
   setText(
     "bevGrowthCard",
     percent(
       bevGrowth
-    )
-  );
-
-
-
-
-
-  setText(
-    "fixCostCard",
-    money(
-      data.fixCost
     )
   );
 
@@ -423,6 +524,31 @@ function setText(
 }
 
 
+function setBar(
+  id,
+  value
+) {
+
+  const el =
+    document.getElementById(
+      id
+    );
+
+  if (
+    el
+  ) {
+
+    el.style.width =
+      Math.min(
+        value,
+        100
+      ) + "%";
+
+  }
+
+}
+
+
 function percentage(
   actual,
   target
@@ -500,7 +626,7 @@ function formatDate(
   return new Date(
     value
   ).toLocaleDateString(
-    "en-GB"
-  );
+      "en-GB"
+    );
 
 }
