@@ -81,8 +81,7 @@ function populateYearFilter() {
       year;
 
     if(
-      year ===
-      selectedYear
+      year === selectedYear
     ) {
 
       option.selected =
@@ -123,8 +122,7 @@ function populateMonthFilter() {
       month;
 
     if(
-      month ===
-      selectedMonth
+      month === selectedMonth
     ) {
 
       option.selected =
@@ -298,7 +296,9 @@ function updateAutoDailyBudget() {
 
 
   budgetField.value =
-    `${settings.currency}${dailyBudget.toFixed(2)}`;
+    formatMoney(
+      dailyBudget
+    );
 
 }
 
@@ -332,18 +332,14 @@ function handleFilterChange() {
 
 function renderDashboard() {
 
-  const allEntries =
-    getEntries();
-
-
-  const currentMonth =
+  const currentEntries =
     filterEntries(
       selectedYear,
       selectedMonth
     );
 
 
-  const lastYearMonth =
+  const lyEntries =
     filterEntries(
       selectedYear - 1,
       selectedMonth
@@ -352,13 +348,13 @@ function renderDashboard() {
 
   const current =
     calculatePeriodSummary(
-      currentMonth
+      currentEntries
     );
 
 
   const ly =
     calculatePeriodSummary(
-      lastYearMonth
+      lyEntries
     );
 
 
@@ -394,7 +390,7 @@ function renderDashboard() {
 
 
 // ======================
-// KPI RENDER
+// KPI
 // ======================
 
 function renderYtd(
@@ -430,14 +426,14 @@ function renderYtd(
 
   setSmartCard(
     "ytdAchievementCard",
-    `${achievement.toFixed(1)}%`,
+    `${achievement.toFixed(2)}%`,
     achievement
   );
 
 
   setSmartCard(
     "ytdGrowthCard",
-    `${growth.toFixed(1)}%`,
+    `${growth.toFixed(2)}%`,
     growth
   );
 
@@ -466,7 +462,7 @@ function renderMtd(
 
   setSmartCard(
     "mtdGrowthCard",
-    `${growth.toFixed(1)}%`,
+    `${growth.toFixed(2)}%`,
     growth
   );
 
@@ -495,7 +491,7 @@ function renderGop(
 
   setSmartCard(
     "gopGrowthCard",
-    `${growth.toFixed(1)}%`,
+    `${growth.toFixed(2)}%`,
     growth
   );
 
@@ -531,7 +527,7 @@ function renderFoodBeverage(
 
   setSmartCard(
     "foodGrowthCard",
-    `${foodGrowth.toFixed(1)}%`,
+    `${foodGrowth.toFixed(2)}%`,
     foodGrowth
   );
 
@@ -546,7 +542,7 @@ function renderFoodBeverage(
 
   setSmartCard(
     "bevGrowthCard",
-    `${bevGrowth.toFixed(1)}%`,
+    `${bevGrowth.toFixed(2)}%`,
     bevGrowth
   );
 
@@ -607,6 +603,10 @@ function calculateGrowth(
 }
 
 
+// ======================
+// FULL FINANCE FORMAT
+// ======================
+
 function formatMoney(
   amount
 ) {
@@ -615,15 +615,52 @@ function formatMoney(
     getSettings();
 
 
-  return (
-    settings.currency +
-    amount.toLocaleString()
-  );
+  const currency =
+    settings.currency || "RM";
+
+
+  const negative =
+    amount < 0;
+
+
+  amount =
+    Math.abs(
+      amount
+    );
+
+
+  let formatted =
+    amount.toLocaleString(
+      undefined,
+      {
+
+        minimumFractionDigits: 2,
+
+        maximumFractionDigits: 2
+
+      }
+    );
+
+
+  if(
+    negative
+  ) {
+
+    return `-${currency}${formatted}`;
+
+  }
+
+
+  return `${currency}${formatted}`;
 
 }
 
 
-function getCardTheme(
+// ======================
+// COLORS
+// ======================
+
+function getTheme(
   metric
 ) {
 
@@ -641,24 +678,6 @@ function getCardTheme(
   ) {
 
     return "bg-yellow-50 text-yellow-700";
-
-  }
-
-
-  return "bg-red-50 text-red-700";
-
-}
-
-
-function getGrowthTheme(
-  metric
-) {
-
-  if(
-    metric >= 0
-  ) {
-
-    return "bg-green-50 text-green-700";
 
   }
 
@@ -692,31 +711,10 @@ function setSmartCard(
     metric !== null
   ) {
 
-    if(
-      value.includes("%")
-    ) {
-
-      if(
-        metric > 50
-      ) {
-
-        theme =
-          getCardTheme(
-            metric
-          );
-
-      }
-
-      else {
-
-        theme =
-          getGrowthTheme(
-            metric
-          );
-
-      }
-
-    }
+    theme =
+      getTheme(
+        metric
+      );
 
   }
 
