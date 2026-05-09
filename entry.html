@@ -46,14 +46,12 @@
           Dashboard
         </a>
 
-
         <a
           href="entry.html"
           class="block px-4 py-3 rounded-xl bg-slate-800"
         >
           Daily Entry
         </a>
-
 
         <a
           href="generic.html"
@@ -62,14 +60,12 @@
           Operating Review
         </a>
 
-
         <a
           href="reports.html"
           class="block px-4 py-3 rounded-xl hover:bg-slate-800"
         >
           Reports
         </a>
-
 
         <a
           href="settings.html"
@@ -85,11 +81,11 @@
 
 
     <!-- MAIN -->
-    <main class="flex-1 p-6">
+    <main class="flex-1 p-6 space-y-6">
 
 
       <!-- HEADER -->
-      <div class="mb-6">
+      <div>
 
         <h2 class="text-3xl font-bold">
           Daily Sales Entry
@@ -103,140 +99,109 @@
 
 
 
-      <!-- ENTRY FORM -->
-      <div
-        class="bg-white rounded-2xl p-6 shadow mb-6 max-w-5xl"
-      >
+      <!-- FORM -->
+      <section class="bg-white rounded-2xl p-5 shadow">
 
         <form
           id="entryForm"
-          class="grid md:grid-cols-2 xl:grid-cols-4 gap-4"
+          class="grid xl:grid-cols-5 gap-4"
         >
 
-
-          <!-- DATE -->
           <div>
 
-            <label
-              class="block mb-2 text-sm font-medium"
-            >
+            <label class="text-sm">
               Date
             </label>
 
             <input
               id="entryDate"
               type="date"
-              class="w-full border rounded-xl px-4 py-3"
+              required
+              class="w-full border rounded-xl p-3"
             />
 
           </div>
 
 
-
-          <!-- FOOD -->
           <div>
 
-            <label
-              class="block mb-2 text-sm font-medium"
-            >
+            <label class="text-sm">
               Food Revenue
             </label>
 
             <input
               id="foodRevenue"
               type="number"
-              class="w-full border rounded-xl px-4 py-3"
+              required
+              class="w-full border rounded-xl p-3"
             />
 
           </div>
 
 
-
-          <!-- BEVERAGE -->
           <div>
 
-            <label
-              class="block mb-2 text-sm font-medium"
-            >
+            <label class="text-sm">
               Beverage Revenue
             </label>
 
             <input
               id="beverageRevenue"
               type="number"
-              class="w-full border rounded-xl px-4 py-3"
+              required
+              class="w-full border rounded-xl p-3"
             />
 
           </div>
 
 
-
-          <!-- DAILY BUDGET AUTO -->
           <div>
 
-            <label
-              class="block mb-2 text-sm font-medium"
-            >
-              Daily Budget (Auto)
+            <label class="text-sm">
+              Daily Budget
             </label>
 
             <input
               id="dailyBudgetDisplay"
-              type="text"
               readonly
-              class="w-full bg-slate-100 border rounded-xl px-4 py-3"
+              class="w-full bg-slate-100 border rounded-xl p-3"
             />
 
           </div>
 
 
-
-          <!-- BUTTON -->
-          <div
-            class="md:col-span-2 xl:col-span-4 flex justify-end mt-2"
-          >
+          <div class="flex items-end">
 
             <button
               type="submit"
-              class="bg-slate-900 text-white px-8 py-3 rounded-xl"
+              class="w-full bg-slate-900 text-white rounded-xl p-3"
             >
               Save Entry
             </button>
 
           </div>
 
-
         </form>
 
-      </div>
+      </section>
 
 
 
       <!-- RECENT ENTRIES -->
-      <div
-        class="bg-white rounded-2xl p-5 shadow"
-      >
+      <section class="bg-white rounded-2xl p-5 shadow">
 
-        <h3
-          class="font-bold text-xl mb-4"
-        >
+        <h3 class="text-xl font-bold mb-4">
           Recent Entries
         </h3>
 
 
-        <div
-          class="overflow-auto"
-        >
+        <div class="overflow-x-auto">
 
-          <table
-            class="w-full text-left"
-          >
+          <table class="w-full text-sm">
 
             <thead>
 
-              <tr
-                class="border-b"
-              >
+              <tr class="text-left border-b">
 
                 <th class="py-3">
                   Date
@@ -267,17 +232,15 @@
             </thead>
 
 
-
             <tbody
-              id="entriesTableBody"
+              id="recentEntriesBody"
             ></tbody>
-
 
           </table>
 
         </div>
 
-      </div>
+      </section>
 
 
     </main>
@@ -295,6 +258,28 @@
   <script src="assets/js/calculations.js"></script>
 
   <script src="assets/js/dashboard.js"></script>
+
+
+  <!-- AUTO LOAD TABLE -->
+  <script>
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      function() {
+
+        if(
+          typeof renderRecentEntries ===
+          "function"
+        ) {
+
+          renderRecentEntries();
+
+        }
+
+      }
+    );
+
+  </script>
 
 
 </body>
