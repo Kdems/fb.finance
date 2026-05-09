@@ -48,6 +48,14 @@
 
 
         <a
+          href="entry.html"
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
+        >
+          Daily Entry
+        </a>
+
+
+        <a
           href="generic.html"
           class="block px-4 py-3 rounded-xl hover:bg-slate-800"
         >
@@ -80,7 +88,6 @@
     <main class="flex-1 p-6">
 
 
-      <!-- HEADER -->
       <div class="mb-6">
 
         <h2 class="text-3xl font-bold">
@@ -88,14 +95,13 @@
         </h2>
 
         <p class="text-slate-500">
-          Manage annual targets and operating benchmarks
+          Monthly financial planning and annual targets
         </p>
 
       </div>
 
 
 
-      <!-- SETTINGS PANEL -->
       <div
         class="max-w-5xl bg-white rounded-2xl p-6 shadow"
       >
@@ -107,7 +113,7 @@
         >
 
 
-          <!-- BUSINESS PROFILE -->
+          <!-- PROFILE -->
           <section>
 
             <h3
@@ -124,9 +130,7 @@
 
               <div>
 
-                <label
-                  class="block text-sm font-medium mb-2"
-                >
+                <label class="block mb-2 text-sm font-medium">
                   Outlet Name
                 </label>
 
@@ -142,9 +146,7 @@
 
               <div>
 
-                <label
-                  class="block text-sm font-medium mb-2"
-                >
+                <label class="block mb-2 text-sm font-medium">
                   Currency
                 </label>
 
@@ -172,7 +174,7 @@
 
 
 
-          <!-- ANNUAL TARGETS -->
+          <!-- ANNUAL TARGET -->
           <section>
 
             <h3
@@ -189,9 +191,7 @@
 
               <div>
 
-                <label
-                  class="block text-sm font-medium mb-2"
-                >
+                <label class="block mb-2 text-sm font-medium">
                   Annual Revenue Target
                 </label>
 
@@ -207,9 +207,7 @@
 
               <div>
 
-                <label
-                  class="block text-sm font-medium mb-2"
-                >
+                <label class="block mb-2 text-sm font-medium">
                   Annual GOP Target
                 </label>
 
@@ -228,31 +226,29 @@
 
 
 
-          <!-- MONTHLY COST TARGETS -->
+          <!-- MONTHLY FINANCE -->
           <section>
 
             <h3
               class="text-lg font-bold mb-4"
             >
-              Monthly Cost Targets
+              Monthly Finance Inputs
             </h3>
 
 
             <div
-              class="grid md:grid-cols-3 gap-4"
+              class="grid md:grid-cols-2 xl:grid-cols-4 gap-4"
             >
 
 
               <div>
 
-                <label
-                  class="block text-sm font-medium mb-2"
-                >
-                  Food Cost %
+                <label class="block mb-2 text-sm font-medium">
+                  Monthly Food Cost
                 </label>
 
                 <input
-                  id="foodCostTarget"
+                  id="monthlyFoodCost"
                   type="number"
                   class="w-full border rounded-xl px-4 py-3"
                 />
@@ -263,14 +259,12 @@
 
               <div>
 
-                <label
-                  class="block text-sm font-medium mb-2"
-                >
-                  Beverage Cost %
+                <label class="block mb-2 text-sm font-medium">
+                  Monthly Beverage Cost
                 </label>
 
                 <input
-                  id="beverageCostTarget"
+                  id="monthlyBeverageCost"
                   type="number"
                   class="w-full border rounded-xl px-4 py-3"
                 />
@@ -281,14 +275,28 @@
 
               <div>
 
-                <label
-                  class="block text-sm font-medium mb-2"
-                >
-                  Fixed Cost %
+                <label class="block mb-2 text-sm font-medium">
+                  Monthly Fixed Cost
                 </label>
 
                 <input
-                  id="fixedCostTarget"
+                  id="monthlyFixedCost"
+                  type="number"
+                  class="w-full border rounded-xl px-4 py-3"
+                />
+
+              </div>
+
+
+
+              <div>
+
+                <label class="block mb-2 text-sm font-medium">
+                  Monthly Budget
+                </label>
+
+                <input
+                  id="monthlyBudget"
                   type="number"
                   class="w-full border rounded-xl px-4 py-3"
                 />
@@ -316,9 +324,7 @@
               class="max-w-sm"
             >
 
-              <label
-                class="block text-sm font-medium mb-2"
-              >
+              <label class="block mb-2 text-sm font-medium">
                 PIN Access
               </label>
 
@@ -334,7 +340,7 @@
 
 
 
-          <!-- ACTION -->
+          <!-- BUTTON -->
           <div
             class="flex justify-end"
           >
@@ -361,7 +367,6 @@
 
 
 
-  <!-- SCRIPT -->
   <script src="assets/js/settings.js"></script>
 
 </body>
