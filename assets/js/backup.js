@@ -2,8 +2,9 @@ const BACKUP_FILENAME =
   "skybar-finance-backup.json";
 
 
+
 // ======================
-// EXPORT BACKUP
+// EXPORT
 // ======================
 
 function exportBackup() {
@@ -25,7 +26,11 @@ function exportBackup() {
 
 
       entries:
-        getEntries()
+        getEntries(),
+
+
+      reviews:
+        getStoredReviews()
 
     };
 
@@ -102,7 +107,7 @@ function exportBackup() {
 
 
     alert(
-      "Backup export failed."
+      "Backup failed."
     );
 
   }
@@ -110,25 +115,24 @@ function exportBackup() {
 }
 
 
+
 // ======================
-// RESTORE BACKUP
+// RESTORE
 // ======================
 
-function restoreBackup(
-  file
+function handleBackupUpload(
+  input
 ) {
 
   if(
-    !file
-  ) {
+    !input ||
+    !input.files ||
+    !input.files[0]
+  ) return;
 
-    alert(
-      "No backup file selected."
-    );
 
-    return;
-
-  }
+  const file =
+    input.files[0];
 
 
   const reader =
@@ -142,38 +146,52 @@ function restoreBackup(
 
       try {
 
-        const parsed =
+        const data =
           JSON.parse(
             event.target.result
           );
 
 
         if(
-          !parsed.entries ||
-          !parsed.settings
+          data.entries
         ) {
 
-          throw new Error(
-            "Invalid backup file."
+          localStorage.setItem(
+            "skybar.finance.entries.v1",
+            JSON.stringify(
+              data.entries
+            )
           );
 
         }
 
 
-        localStorage.setItem(
-          "skybar.finance.entries.v1",
-          JSON.stringify(
-            parsed.entries
-          )
-        );
+        if(
+          data.reviews
+        ) {
+
+          localStorage.setItem(
+            "skybar.operating.review.v1",
+            JSON.stringify(
+              data.reviews
+            )
+          );
+
+        }
 
 
-        localStorage.setItem(
-          "skybar.finance.settings.v1",
-          JSON.stringify(
-            parsed.settings
-          )
-        );
+        if(
+          data.settings
+        ) {
+
+          localStorage.setItem(
+            "skybar.finance.settings.v1",
+            JSON.stringify(
+              data.settings
+            )
+          );
+
+        }
 
 
         alert(
@@ -210,27 +228,80 @@ function restoreBackup(
 }
 
 
+
 // ======================
-// INPUT HANDLER
+// RESET DATA
 // ======================
 
-function handleBackupUpload(
-  input
-) {
+function resetAllData() {
+
+  const confirmed =
+    confirm(
+      "Delete all finance data?"
+    );
+
 
   if(
-    !input ||
-    !input.files ||
-    !input.files[0]
-  ) {
+    !confirmed
+  ) return;
 
-    return;
+
+  localStorage.removeItem(
+    "skybar.finance.entries.v1"
+  );
+
+
+  localStorage.removeItem(
+    "skybar.operating.review.v1"
+  );
+
+
+  alert(
+    "All operational data deleted. Settings kept."
+  );
+
+
+  location.reload();
+
+}
+
+
+
+// ======================
+// REVIEW FALLBACK
+// ======================
+
+function getStoredReviews() {
+
+  try {
+
+    const saved =
+      localStorage.getItem(
+        "skybar.operating.review.v1"
+      );
+
+
+    if(
+      !saved
+    ) {
+
+      return [];
+
+    }
+
+
+    return JSON.parse(
+      saved
+    );
 
   }
 
+  catch(
+    error
+  ) {
 
-  restoreBackup(
-    input.files[0]
-  );
+    return [];
+
+  }
 
 }
