@@ -17,9 +17,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <link
-  rel="stylesheet"
-  href="assets/css/main.css"
-/>
+    rel="stylesheet"
+    href="assets/css/main.css"
+  />
 
 </head>
 
@@ -88,24 +88,31 @@
         </h2>
 
         <p class="text-slate-500">
-          Management performance review and operational action planning
+          Performance review and operating action plan
         </p>
 
       </div>
 
 
 
-      <!-- EXECUTIVE SUMMARY -->
-      <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+      <!-- KPI -->
+      <div
+        class="grid md:grid-cols-2 xl:grid-cols-4 gap-4 mb-6"
+      >
 
 
-        <div class="bg-white rounded-2xl p-4 shadow">
+        <div
+          class="bg-white rounded-2xl p-4 shadow"
+        >
 
           <p class="text-sm text-slate-500">
-            Revenue vs Budget
+            Revenue vs Target
           </p>
 
-          <h3 class="text-2xl font-bold">
+          <h3
+            id="reviewRevenueAchievement"
+            class="text-2xl font-bold"
+          >
             0%
           </h3>
 
@@ -113,13 +120,18 @@
 
 
 
-        <div class="bg-white rounded-2xl p-4 shadow">
+        <div
+          class="bg-white rounded-2xl p-4 shadow"
+        >
 
           <p class="text-sm text-slate-500">
             GOP vs Target
           </p>
 
-          <h3 class="text-2xl font-bold">
+          <h3
+            id="reviewGopAchievement"
+            class="text-2xl font-bold"
+          >
             0%
           </h3>
 
@@ -127,13 +139,18 @@
 
 
 
-        <div class="bg-white rounded-2xl p-4 shadow">
+        <div
+          class="bg-white rounded-2xl p-4 shadow"
+        >
 
           <p class="text-sm text-slate-500">
             Food Cost Variance
           </p>
 
-          <h3 class="text-2xl font-bold">
+          <h3
+            id="reviewFoodVariance"
+            class="text-2xl font-bold"
+          >
             0%
           </h3>
 
@@ -141,13 +158,18 @@
 
 
 
-        <div class="bg-white rounded-2xl p-4 shadow">
+        <div
+          class="bg-white rounded-2xl p-4 shadow"
+        >
 
           <p class="text-sm text-slate-500">
             Beverage Cost Variance
           </p>
 
-          <h3 class="text-2xl font-bold">
+          <h3
+            id="reviewBeverageVariance"
+            class="text-2xl font-bold"
+          >
             0%
           </h3>
 
@@ -158,53 +180,56 @@
 
 
 
-      <!-- KEY ISSUES -->
-      <div class="bg-white rounded-2xl p-5 shadow mb-6">
+      <!-- BUSINESS INSIGHT -->
+      <div
+        class="bg-white rounded-2xl p-5 shadow mb-6"
+      >
 
-        <h3 class="text-xl font-bold mb-4">
-          Key Business Issues
+        <h3
+          class="text-xl font-bold mb-4"
+        >
+          Business Insight
         </h3>
 
 
-        <ul class="space-y-3 text-slate-700">
+        <div
+          id="businessInsight"
+          class="text-slate-700 leading-8"
+        >
 
-          <li>
-            • Food cost above monthly target
-          </li>
+          No operating insight yet.
 
-          <li>
-            • Weekend covers below forecast
-          </li>
-
-          <li>
-            • Beverage attachment rate declined
-          </li>
-
-          <li>
-            • Private dining conversion needs follow-up
-          </li>
-
-        </ul>
+        </div>
 
       </div>
 
 
 
       <!-- ACTION PLAN -->
-      <div class="bg-white rounded-2xl p-5 shadow mb-6">
+      <div
+        class="bg-white rounded-2xl p-5 shadow mb-6"
+      >
 
-        <h3 class="text-xl font-bold mb-4">
+        <h3
+          class="text-xl font-bold mb-4"
+        >
           Corrective Action Plan
         </h3>
 
 
-        <div class="overflow-auto">
+        <div
+          class="overflow-auto"
+        >
 
-          <table class="w-full text-left">
+          <table
+            class="w-full text-left"
+          >
 
             <thead>
 
-              <tr class="border-b">
+              <tr
+                class="border-b"
+              >
 
                 <th class="py-3">
                   Owner
@@ -237,33 +262,11 @@
                 </td>
 
                 <td>
-                  Review pricing strategy
+                  Review menu pricing
                 </td>
 
                 <td>
                   Month End
-                </td>
-
-                <td>
-                  In Progress
-                </td>
-
-              </tr>
-
-
-
-              <tr>
-
-                <td class="py-4">
-                  Chef
-                </td>
-
-                <td>
-                  Reduce kitchen waste
-                </td>
-
-                <td>
-                  Weekly
                 </td>
 
                 <td>
@@ -277,11 +280,33 @@
               <tr>
 
                 <td class="py-4">
+                  Chef
+                </td>
+
+                <td>
+                  Reduce kitchen wastage
+                </td>
+
+                <td>
+                  Weekly
+                </td>
+
+                <td>
+                  In Progress
+                </td>
+
+              </tr>
+
+
+
+              <tr>
+
+                <td class="py-4">
                   Finance
                 </td>
 
                 <td>
-                  Review beverage margin
+                  Review beverage profitability
                 </td>
 
                 <td>
@@ -296,7 +321,6 @@
 
             </tbody>
 
-
           </table>
 
         </div>
@@ -305,17 +329,21 @@
 
 
 
-      <!-- OUTLET NOTES -->
-      <div class="bg-white rounded-2xl p-5 shadow">
+      <!-- MANAGEMENT NOTES -->
+      <div
+        class="bg-white rounded-2xl p-5 shadow"
+      >
 
-        <h3 class="text-xl font-bold mb-4">
-          Outlet Management Notes
+        <h3
+          class="text-xl font-bold mb-4"
+        >
+          Management Notes
         </h3>
 
 
         <textarea
           class="w-full border rounded-xl p-4 h-48"
-          placeholder="Write management notes, customer feedback, staffing issues, campaign performance..."
+          placeholder="Write outlet notes, staffing issues, promotions, customer trends..."
         ></textarea>
 
       </div>
@@ -324,6 +352,19 @@
     </main>
 
   </div>
+
+
+
+  <!-- SCRIPTS -->
+
+  <script src="assets/js/storage.js"></script>
+
+  <script src="assets/js/settings.js"></script>
+
+  <script src="assets/js/calculations.js"></script>
+
+  <script src="assets/js/generic.js"></script>
+
 
 </body>
 
