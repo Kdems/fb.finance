@@ -1,5 +1,5 @@
 const ENTRY_STORAGE_KEY =
-  "skybar_entries";
+  "skybar.finance.dashboard.entries.v1";
 
 
 
@@ -17,7 +17,7 @@ function getAllEntries() {
       );
 
 
-    if(
+    if (
       !raw
     ) {
 
@@ -32,7 +32,7 @@ function getAllEntries() {
       );
 
 
-    if(
+    if (
       !Array.isArray(
         parsed
       )
@@ -47,7 +47,7 @@ function getAllEntries() {
 
   }
 
-  catch(
+  catch (
     error
   ) {
 
@@ -96,29 +96,52 @@ function addEntry(
     getAllEntries();
 
 
-  const newEntry =
-    {
+  const newEntry = {
 
-      id:
-        Date.now(),
-
-
-      date:
-        payload.date || "",
+    id:
+      Date.now(),
 
 
-      foodRevenue:
-        Number(
-          payload.foodRevenue || 0
-        ),
+    date:
+      payload.date || "",
 
 
-      beverageRevenue:
-        Number(
-          payload.beverageRevenue || 0
-        )
+    foodRevenue:
+      Number(
+        payload.foodRevenue || 0
+      ),
 
-    };
+
+    beverageRevenue:
+      Number(
+        payload.beverageRevenue || 0
+      ),
+
+
+    foodCostPercent:
+      Number(
+        payload.foodCostPercent || 0
+      ),
+
+
+    beverageCostPercent:
+      Number(
+        payload.beverageCostPercent || 0
+      ),
+
+
+    fixedCostPercent:
+      Number(
+        payload.fixedCostPercent || 0
+      ),
+
+
+    dailyBudget:
+      Number(
+        payload.dailyBudget || 0
+      )
+
+  };
 
 
   entries.push(
@@ -154,7 +177,7 @@ function updateEntry(
     entries.map(
       entry => {
 
-        if(
+        if (
           entry.id != entryId
         ) {
 
@@ -181,6 +204,30 @@ function updateEntry(
           beverageRevenue:
             Number(
               payload.beverageRevenue || 0
+            ),
+
+
+          foodCostPercent:
+            Number(
+              payload.foodCostPercent || 0
+            ),
+
+
+          beverageCostPercent:
+            Number(
+              payload.beverageCostPercent || 0
+            ),
+
+
+          fixedCostPercent:
+            Number(
+              payload.fixedCostPercent || 0
+            ),
+
+
+          dailyBudget:
+            Number(
+              payload.dailyBudget || 0
             )
 
         };
