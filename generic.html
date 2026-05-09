@@ -30,7 +30,7 @@
 
 
     <!-- SIDEBAR -->
-    <aside class="w-64 bg-slate-900 text-white p-5">
+    <aside class="w-64 bg-slate-950 text-white p-5">
 
       <h1 class="text-2xl font-bold mb-8">
         SKYBAR
@@ -46,6 +46,12 @@
           Dashboard
         </a>
 
+        <a
+          href="entry.html"
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
+        >
+          Daily Entry
+        </a>
 
         <a
           href="generic.html"
@@ -54,14 +60,12 @@
           Operating Review
         </a>
 
-
         <a
           href="reports.html"
           class="block px-4 py-3 rounded-xl hover:bg-slate-800"
         >
           Reports
         </a>
-
 
         <a
           href="settings.html"
@@ -77,276 +81,152 @@
 
 
     <!-- MAIN -->
-    <main class="flex-1 p-6">
+    <main class="flex-1 p-6 space-y-6">
 
 
       <!-- HEADER -->
-      <div class="mb-6">
+      <div>
 
         <h2 class="text-3xl font-bold">
-          Monthly Business Review
+          Operating Review
         </h2>
 
         <p class="text-slate-500">
-          Performance review and operating action plan
+          Record qualitative business insights and action plans
         </p>
 
       </div>
 
 
 
-      <!-- KPI -->
-      <div
-        class="grid md:grid-cols-2 xl:grid-cols-4 gap-4 mb-6"
-      >
+      <!-- FORM -->
+      <section class="bg-white rounded-2xl p-6 shadow">
 
-
-        <div
-          class="bg-white rounded-2xl p-4 shadow"
+        <form
+          id="reviewForm"
+          class="space-y-5"
         >
 
-          <p class="text-sm text-slate-500">
-            Revenue vs Target
-          </p>
 
-          <h3
-            id="reviewRevenueAchievement"
-            class="text-2xl font-bold"
+          <!-- DATE -->
+          <div>
+
+            <label class="block mb-2 font-medium">
+              Review Date
+            </label>
+
+            <input
+              id="reviewDate"
+              type="date"
+              required
+              class="w-full border rounded-xl p-3"
+            />
+
+          </div>
+
+
+
+          <!-- REVENUE -->
+          <div>
+
+            <label class="block mb-2 font-medium">
+              Revenue Commentary
+            </label>
+
+            <textarea
+              id="revenueComment"
+              rows="4"
+              class="w-full border rounded-xl p-3"
+              placeholder="Example: Weekend event boosted beverage sales..."
+            ></textarea>
+
+          </div>
+
+
+
+          <!-- COST -->
+          <div>
+
+            <label class="block mb-2 font-medium">
+              Cost Commentary
+            </label>
+
+            <textarea
+              id="costComment"
+              rows="4"
+              class="w-full border rounded-xl p-3"
+              placeholder="Example: Seafood promotion increased food cost..."
+            ></textarea>
+
+          </div>
+
+
+
+          <!-- OPERATION -->
+          <div>
+
+            <label class="block mb-2 font-medium">
+              Operational Notes
+            </label>
+
+            <textarea
+              id="operationComment"
+              rows="4"
+              class="w-full border rounded-xl p-3"
+              placeholder="Example: Guest flow slower during weekday lunch..."
+            ></textarea>
+
+          </div>
+
+
+
+          <!-- ACTION -->
+          <div>
+
+            <label class="block mb-2 font-medium">
+              Action Plan
+            </label>
+
+            <textarea
+              id="actionPlan"
+              rows="4"
+              class="w-full border rounded-xl p-3"
+              placeholder="Example: Push happy hour promotion..."
+            ></textarea>
+
+          </div>
+
+
+
+          <!-- SAVE -->
+          <button
+            type="submit"
+            class="bg-slate-900 text-white rounded-xl px-6 py-3 font-semibold"
           >
-            0%
-          </h3>
-
-        </div>
+            Save Review
+          </button>
 
 
+        </form>
 
-        <div
-          class="bg-white rounded-2xl p-4 shadow"
-        >
-
-          <p class="text-sm text-slate-500">
-            GOP vs Target
-          </p>
-
-          <h3
-            id="reviewGopAchievement"
-            class="text-2xl font-bold"
-          >
-            0%
-          </h3>
-
-        </div>
+      </section>
 
 
 
-        <div
-          class="bg-white rounded-2xl p-4 shadow"
-        >
+      <!-- HISTORY -->
+      <section class="bg-white rounded-2xl p-6 shadow">
 
-          <p class="text-sm text-slate-500">
-            Food Cost Variance
-          </p>
-
-          <h3
-            id="reviewFoodVariance"
-            class="text-2xl font-bold"
-          >
-            0%
-          </h3>
-
-        </div>
-
-
-
-        <div
-          class="bg-white rounded-2xl p-4 shadow"
-        >
-
-          <p class="text-sm text-slate-500">
-            Beverage Cost Variance
-          </p>
-
-          <h3
-            id="reviewBeverageVariance"
-            class="text-2xl font-bold"
-          >
-            0%
-          </h3>
-
-        </div>
-
-
-      </div>
-
-
-
-      <!-- BUSINESS INSIGHT -->
-      <div
-        class="bg-white rounded-2xl p-5 shadow mb-6"
-      >
-
-        <h3
-          class="text-xl font-bold mb-4"
-        >
-          Business Insight
+        <h3 class="text-xl font-bold mb-4">
+          Review History
         </h3>
 
 
         <div
-          id="businessInsight"
-          class="text-slate-700 leading-8"
-        >
+          id="reviewHistory"
+          class="space-y-4"
+        ></div>
 
-          No operating insight yet.
-
-        </div>
-
-      </div>
-
-
-
-      <!-- ACTION PLAN -->
-      <div
-        class="bg-white rounded-2xl p-5 shadow mb-6"
-      >
-
-        <h3
-          class="text-xl font-bold mb-4"
-        >
-          Corrective Action Plan
-        </h3>
-
-
-        <div
-          class="overflow-auto"
-        >
-
-          <table
-            class="w-full text-left"
-          >
-
-            <thead>
-
-              <tr
-                class="border-b"
-              >
-
-                <th class="py-3">
-                  Owner
-                </th>
-
-                <th>
-                  Action
-                </th>
-
-                <th>
-                  Deadline
-                </th>
-
-                <th>
-                  Status
-                </th>
-
-              </tr>
-
-            </thead>
-
-
-
-            <tbody>
-
-              <tr>
-
-                <td class="py-4">
-                  GM
-                </td>
-
-                <td>
-                  Review menu pricing
-                </td>
-
-                <td>
-                  Month End
-                </td>
-
-                <td>
-                  Active
-                </td>
-
-              </tr>
-
-
-
-              <tr>
-
-                <td class="py-4">
-                  Chef
-                </td>
-
-                <td>
-                  Reduce kitchen wastage
-                </td>
-
-                <td>
-                  Weekly
-                </td>
-
-                <td>
-                  In Progress
-                </td>
-
-              </tr>
-
-
-
-              <tr>
-
-                <td class="py-4">
-                  Finance
-                </td>
-
-                <td>
-                  Review beverage profitability
-                </td>
-
-                <td>
-                  Immediate
-                </td>
-
-                <td>
-                  Pending
-                </td>
-
-              </tr>
-
-            </tbody>
-
-          </table>
-
-        </div>
-
-      </div>
-
-
-
-      <!-- MANAGEMENT NOTES -->
-      <div
-        class="bg-white rounded-2xl p-5 shadow"
-      >
-
-        <h3
-          class="text-xl font-bold mb-4"
-        >
-          Management Notes
-        </h3>
-
-
-        <textarea
-          class="w-full border rounded-xl p-4 h-48"
-          placeholder="Write outlet notes, staffing issues, promotions, customer trends..."
-        ></textarea>
-
-      </div>
+      </section>
 
 
     </main>
@@ -357,13 +237,7 @@
 
   <!-- SCRIPTS -->
 
-  <script src="assets/js/storage.js"></script>
-
-  <script src="assets/js/settings.js"></script>
-
-  <script src="assets/js/calculations.js"></script>
-
-  <script src="assets/js/generic.js"></script>
+  <script src="assets/js/review.js"></script>
 
 
 </body>
