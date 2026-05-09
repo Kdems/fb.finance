@@ -1,84 +1,105 @@
-let dailyRevenueChart = null;
-let gopTrendChart = null;
-let revenueMixChart = null;
+let revenueChart =
+  null;
+
+let gopChart =
+  null;
+
+let mixChart =
+  null;
 
 
-// =========================
-// COMMON CONFIG
-// =========================
+// ======================
+// MAIN
+// ======================
 
-function destroyChart(chart) {
+function renderCharts(
+  entries
+) {
 
-  if(chart) {
-    chart.destroy();
-  }
-
-}
+  renderRevenueChart(
+    entries
+  );
 
 
-function getChartLabels(entries) {
+  renderGopChart(
+    entries
+  );
 
-  return entries.map(
-    entry => entry.date
+
+  renderMixChart(
+    entries
   );
 
 }
 
 
-// =========================
-// DAILY REVENUE TREND
-// =========================
+// ======================
+// REVENUE TREND
+// ======================
 
-function renderDailyRevenueChart(
+function renderRevenueChart(
   entries
 ) {
 
   const canvas =
     document.getElementById(
-      "dailyRevenueChart"
+      "revenueChart"
     );
 
   if(
-    !canvas ||
-    typeof Chart ===
-    "undefined"
+    !canvas
   ) return;
 
 
-  destroyChart(
-    dailyRevenueChart
-  );
+  if(
+    revenueChart
+  ) {
+
+    revenueChart.destroy();
+
+  }
 
 
   const labels =
-    getChartLabels(
-      entries
-    );
+    [];
+
+  const data =
+    [];
 
 
-  const revenueData =
-    entries.map(
-      entry => {
+  entries.forEach(
+    entry => {
 
-        const calculated =
-          calculateEntryMetrics(
-            entry
-          );
+      labels.push(
+        entry.date
+      );
 
-        return (
-          calculated.totalRevenue
+
+      const revenue =
+        Number(
+          entry.foodRevenue || 0
+        ) +
+        Number(
+          entry.beverageRevenue || 0
         );
 
-      }
-    );
+
+      data.push(
+        revenue
+      );
+
+    }
+  );
 
 
-  dailyRevenueChart =
+  revenueChart =
     new Chart(
       canvas,
       {
 
-        type: "line",
+        type:
+          "line",
+
 
         data: {
 
@@ -91,28 +112,17 @@ function renderDailyRevenueChart(
               label:
                 "Revenue",
 
-              data:
-                revenueData,
-
-              borderColor:
-                "#0f172a",
-
-              backgroundColor:
-                "rgba(15,23,42,0.1)",
-
-              borderWidth:
-                2,
-
-              fill: true,
+              data,
 
               tension:
-                0.35
+                0.3
 
             }
 
           ]
 
         },
+
 
         options: {
 
@@ -130,60 +140,70 @@ function renderDailyRevenueChart(
 }
 
 
-// =========================
+// ======================
 // GOP TREND
-// =========================
+// ======================
 
-function renderGopTrendChart(
+function renderGopChart(
   entries
 ) {
 
   const canvas =
     document.getElementById(
-      "gopTrendChart"
+      "gopChart"
     );
 
   if(
-    !canvas ||
-    typeof Chart ===
-    "undefined"
+    !canvas
   ) return;
 
 
-  destroyChart(
-    gopTrendChart
-  );
+  if(
+    gopChart
+  ) {
+
+    gopChart.destroy();
+
+  }
 
 
   const labels =
-    getChartLabels(
-      entries
-    );
+    [];
+
+  const data =
+    [];
 
 
-  const gopData =
-    entries.map(
-      entry => {
+  entries.forEach(
+    entry => {
 
-        const calculated =
-          calculateEntryMetrics(
-            entry
-          );
+      labels.push(
+        entry.date
+      );
 
-        return (
-          calculated.gop
+
+      const calculated =
+        calculateEntryMetrics(
+          entry
         );
 
-      }
-    );
+
+      data.push(
+        calculated.gop
+      );
+
+    }
+  );
 
 
-  gopTrendChart =
+  gopChart =
     new Chart(
       canvas,
       {
 
-        type: "bar",
+        type:
+          "bar",
+
 
         data: {
 
@@ -196,17 +216,14 @@ function renderGopTrendChart(
               label:
                 "GOP",
 
-              data:
-                gopData,
-
-              backgroundColor:
-                "#1e293b"
+              data
 
             }
 
           ]
 
         },
+
 
         options: {
 
@@ -224,44 +241,51 @@ function renderGopTrendChart(
 }
 
 
-// =========================
+// ======================
 // FOOD VS BEVERAGE
-// =========================
+// ======================
 
-function renderRevenueMixChart(
+function renderMixChart(
   entries
 ) {
 
   const canvas =
     document.getElementById(
-      "revenueMixChart"
+      "mixChart"
     );
 
   if(
-    !canvas ||
-    typeof Chart ===
-    "undefined"
+    !canvas
   ) return;
 
 
-  destroyChart(
-    revenueMixChart
-  );
+  if(
+    mixChart
+  ) {
+
+    mixChart.destroy();
+
+  }
 
 
-  let totalFood = 0;
-  let totalBeverage = 0;
+  let food =
+    0;
+
+
+  let beverage =
+    0;
 
 
   entries.forEach(
     entry => {
 
-      totalFood +=
+      food +=
         Number(
           entry.foodRevenue || 0
         );
 
-      totalBeverage +=
+
+      beverage +=
         Number(
           entry.beverageRevenue || 0
         );
@@ -270,32 +294,36 @@ function renderRevenueMixChart(
   );
 
 
-  revenueMixChart =
+  mixChart =
     new Chart(
       canvas,
       {
 
-        type: "doughnut",
+        type:
+          "doughnut",
+
 
         data: {
 
           labels: [
+
             "Food",
+
             "Beverage"
+
           ],
+
 
           datasets: [
 
             {
 
               data: [
-                totalFood,
-                totalBeverage
-              ],
 
-              backgroundColor: [
-                "#0f172a",
-                "#475569"
+                food,
+
+                beverage
+
               ]
 
             }
@@ -303,6 +331,7 @@ function renderRevenueMixChart(
           ]
 
         },
+
 
         options: {
 
@@ -316,28 +345,5 @@ function renderRevenueMixChart(
 
       }
     );
-
-}
-
-
-// =========================
-// MASTER RENDER
-// =========================
-
-function renderCharts(
-  entries
-) {
-
-  renderDailyRevenueChart(
-    entries
-  );
-
-  renderGopTrendChart(
-    entries
-  );
-
-  renderRevenueMixChart(
-    entries
-  );
 
 }
