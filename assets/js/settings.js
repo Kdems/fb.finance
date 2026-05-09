@@ -4,7 +4,7 @@ const SETTINGS_STORAGE_KEY =
 
 
 // ======================
-// DEFAULT SETTINGS
+// DEFAULT
 // ======================
 
 const defaultSettings = {
@@ -41,7 +41,7 @@ const defaultSettings = {
 
 
 // ======================
-// GET SETTINGS
+// GET
 // ======================
 
 function getSettings() {
@@ -54,9 +54,7 @@ function getSettings() {
       );
 
 
-    if(
-      !raw
-    ) {
+    if (!raw) {
 
       return {
         ...defaultSettings
@@ -81,14 +79,11 @@ function getSettings() {
 
   }
 
-  catch(
-    error
-  ) {
+  catch (error) {
 
     console.error(
       error
     );
-
 
     return {
       ...defaultSettings
@@ -101,7 +96,7 @@ function getSettings() {
 
 
 // ======================
-// SAVE SETTINGS
+// SAVE
 // ======================
 
 function saveSettings(
@@ -141,12 +136,16 @@ function loadSettingsForm() {
 
   setValue(
     "annualRevenueTarget",
-    settings.annualRevenueTarget
+    formatNumber(
+      settings.annualRevenueTarget
+    )
   );
 
   setValue(
     "monthlyBudget",
-    settings.monthlyBudget
+    formatNumber(
+      settings.monthlyBudget
+    )
   );
 
   setValue(
@@ -166,12 +165,16 @@ function loadSettingsForm() {
 
   setValue(
     "lyFoodRevenue",
-    settings.lyFoodRevenue
+    formatNumber(
+      settings.lyFoodRevenue
+    )
   );
 
   setValue(
     "lyBeverageRevenue",
-    settings.lyBeverageRevenue
+    formatNumber(
+      settings.lyBeverageRevenue
+    )
   );
 
 }
@@ -190,9 +193,7 @@ function bindSettingsForm() {
     );
 
 
-  if(
-    !form
-  ) return;
+  if (!form) return;
 
 
   form.addEventListener(
@@ -215,49 +216,49 @@ function bindSettingsForm() {
           ),
 
         annualRevenueTarget:
-          Number(
+          parseNumber(
             getValue(
               "annualRevenueTarget"
             )
           ),
 
         monthlyBudget:
-          Number(
+          parseNumber(
             getValue(
               "monthlyBudget"
             )
           ),
 
         foodCostPercent:
-          Number(
+          parseNumber(
             getValue(
               "foodCostPercent"
             )
           ),
 
         beverageCostPercent:
-          Number(
+          parseNumber(
             getValue(
               "beverageCostPercent"
             )
           ),
 
         fixCostPercent:
-          Number(
+          parseNumber(
             getValue(
               "fixCostPercent"
             )
           ),
 
         lyFoodRevenue:
-          Number(
+          parseNumber(
             getValue(
               "lyFoodRevenue"
             )
           ),
 
         lyBeverageRevenue:
-          Number(
+          parseNumber(
             getValue(
               "lyBeverageRevenue"
             )
@@ -361,7 +362,7 @@ function importBackup(
         );
 
 
-      if(
+      if (
         data.settings
       ) {
 
@@ -372,7 +373,7 @@ function importBackup(
       }
 
 
-      if(
+      if (
         data.entries
       ) {
 
@@ -423,7 +424,7 @@ function resetAllData() {
 
 
 // ======================
-// EVENTS
+// BUTTONS
 // ======================
 
 function bindButtons() {
@@ -449,9 +450,7 @@ function bindButtons() {
     );
 
 
-  if(
-    exportBtn
-  ) {
+  if (exportBtn) {
 
     exportBtn.onclick =
       exportBackup;
@@ -459,9 +458,7 @@ function bindButtons() {
   }
 
 
-  if(
-    importBtn
-  ) {
+  if (importBtn) {
 
     importBtn.onclick =
       function() {
@@ -473,14 +470,12 @@ function bindButtons() {
   }
 
 
-  if(
-    importFile
-  ) {
+  if (importFile) {
 
     importFile.onchange =
       function() {
 
-        if(
+        if (
           this.files.length
         ) {
 
@@ -495,14 +490,87 @@ function bindButtons() {
   }
 
 
-  if(
-    resetBtn
-  ) {
+  if (resetBtn) {
 
     resetBtn.onclick =
       resetAllData;
 
   }
+
+}
+
+
+
+// ======================
+// NUMBER FORMAT
+// ======================
+
+function bindNumberFormatting() {
+
+  const numericFields = [
+
+    "annualRevenueTarget",
+
+    "monthlyBudget",
+
+    "foodCostPercent",
+
+    "beverageCostPercent",
+
+    "fixCostPercent",
+
+    "lyFoodRevenue",
+
+    "lyBeverageRevenue"
+
+  ];
+
+
+  numericFields.forEach(
+    id => {
+
+      const field =
+        document.getElementById(
+          id
+        );
+
+
+      if (!field) return;
+
+
+      field.addEventListener(
+        "input",
+        function() {
+
+          let value =
+            this.value.replace(
+              /,/g,
+              ""
+            );
+
+
+          if (
+            value === ""
+          ) return;
+
+
+          if (
+            isNaN(
+              value
+            )
+          ) return;
+
+
+          this.value =
+            Number(
+              value
+            ).toLocaleString();
+
+        }
+      );
+
+    }
+  );
 
 }
 
@@ -522,9 +590,8 @@ function setValue(
       id
     );
 
-  if(
-    el
-  ) {
+
+  if (el) {
 
     el.value =
       value;
@@ -543,12 +610,42 @@ function getValue(
       id
     );
 
-  if(
-    !el
-  ) return "";
+
+  if (!el) {
+
+    return "";
+
+  }
 
 
   return el.value;
+
+}
+
+
+function parseNumber(
+  value
+) {
+
+  return Number(
+    String(
+      value
+    ).replace(
+      /,/g,
+      ""
+    )
+  );
+
+}
+
+
+function formatNumber(
+  value
+) {
+
+  return Number(
+    value || 0
+  ).toLocaleString();
 
 }
 
@@ -567,6 +664,8 @@ document.addEventListener(
     bindSettingsForm();
 
     bindButtons();
+
+    bindNumberFormatting();
 
   }
 );
