@@ -14,6 +14,8 @@
     SKYBAR Settings
   </title>
 
+  <link rel="icon" href="data:,">
+
   <script src="https://cdn.tailwindcss.com"></script>
 
   <link
@@ -24,9 +26,11 @@
 </head>
 
 
+
 <body class="bg-slate-100 font-sans">
 
   <div class="flex min-h-screen">
+
 
 
     <!-- SIDEBAR -->
@@ -36,47 +40,43 @@
         SKYBAR
       </h1>
 
-
       <nav class="space-y-3">
 
         <a
           href="index.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
-        >
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800">
           Dashboard
         </a>
 
         <a
           href="entry.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
-        >
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800">
           Daily Entry
         </a>
 
         <a
           href="generic.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
-        >
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800">
           Operating Review
         </a>
 
         <a
           href="reports.html"
-          class="block px-4 py-3 rounded-xl hover:bg-slate-800"
-        >
+          class="block px-4 py-3 rounded-xl hover:bg-slate-800">
           Reports
         </a>
 
         <a
           href="settings.html"
-          class="block px-4 py-3 rounded-xl bg-slate-800"
-        >
+          class="block px-4 py-3 rounded-xl bg-slate-800">
           Settings
         </a>
 
       </nav>
 
     </aside>
+
+
 
 
 
@@ -99,118 +99,196 @@
 
 
 
+
+
       <!-- SETTINGS FORM -->
       <section class="bg-white rounded-2xl p-6 shadow">
 
         <form
           id="settingsForm"
-          class="grid xl:grid-cols-2 gap-4"
-        >
-
-
-          <!-- BASIC -->
-          <input
-            id="outletName"
-            type="text"
-            placeholder="Outlet Name"
-            class="border rounded-xl p-3"
-          />
-
-
-          <select
-            id="currency"
-            class="border rounded-xl p-3"
-          >
-
-            <option value="RM">
-              RM
-            </option>
-
-            <option value="$">
-              $
-            </option>
-
-          </select>
+          class="grid grid-cols-2 gap-6">
 
 
 
-          <!-- TARGET -->
-          <input
-            id="annualRevenueTarget"
-            type="number"
-            placeholder="Annual Revenue Target"
-            class="border rounded-xl p-3"
-          />
+          <!-- OUTLET -->
+          <div>
 
+            <label class="block mb-2 font-medium">
+              Outlet Name
+            </label>
 
-          <input
-            id="annualGopTarget"
-            type="number"
-            placeholder="Annual GOP Target"
-            class="border rounded-xl p-3"
-          />
+            <input
+              id="outletName"
+              type="text"
+              class="w-full border rounded-xl p-3"
+            />
 
-
-          <input
-            id="monthlyBudget"
-            type="number"
-            placeholder="Monthly Budget"
-            class="border rounded-xl p-3"
-          />
+          </div>
 
 
 
-          <!-- COST -->
-          <input
-            id="foodCostPercent"
-            type="number"
-            placeholder="Food Cost %"
-            class="border rounded-xl p-3"
-          />
+          <!-- CURRENCY -->
+          <div>
+
+            <label class="block mb-2 font-medium">
+              Currency
+            </label>
+
+            <select
+              id="currency"
+              class="w-full border rounded-xl p-3">
+
+              <option value="RM">
+                RM
+              </option>
+
+              <option value="$">
+                USD
+              </option>
+
+              <option value="SGD">
+                SGD
+              </option>
+
+            </select>
+
+          </div>
 
 
-          <input
-            id="beverageCostPercent"
-            type="number"
-            placeholder="Beverage Cost %"
-            class="border rounded-xl p-3"
-          />
+
+          <!-- ANNUAL TARGET -->
+          <div>
+
+            <label class="block mb-2 font-medium">
+              Annual Revenue Target
+            </label>
+
+            <input
+              id="annualRevenueTarget"
+              type="number"
+              class="w-full border rounded-xl p-3"
+            />
+
+          </div>
 
 
-          <input
-            id="fixCostPercent"
-            type="number"
-            placeholder="Fix Cost %"
-            class="border rounded-xl p-3"
-          />
+
+          <!-- MONTHLY BUDGET -->
+          <div>
+
+            <label class="block mb-2 font-medium">
+              Monthly Budget
+            </label>
+
+            <input
+              id="monthlyBudget"
+              type="number"
+              class="w-full border rounded-xl p-3"
+            />
+
+          </div>
 
 
 
-          <!-- LY BASELINE -->
-          <input
-            id="lyFoodRevenue"
-            type="number"
-            placeholder="LY Food Revenue"
-            class="border rounded-xl p-3"
-          />
+          <!-- FOOD COST -->
+          <div>
+
+            <label class="block mb-2 font-medium">
+              Food Cost %
+            </label>
+
+            <input
+              id="foodCostPercent"
+              type="number"
+              class="w-full border rounded-xl p-3"
+            />
+
+          </div>
 
 
-          <input
-            id="lyBeverageRevenue"
-            type="number"
-            placeholder="LY Beverage Revenue"
-            class="border rounded-xl p-3"
-          />
+
+          <!-- BEVERAGE COST -->
+          <div>
+
+            <label class="block mb-2 font-medium">
+              Beverage Cost %
+            </label>
+
+            <input
+              id="beverageCostPercent"
+              type="number"
+              class="w-full border rounded-xl p-3"
+            />
+
+          </div>
+
+
+
+          <!-- FIXED COST -->
+          <div>
+
+            <label class="block mb-2 font-medium">
+              Fixed Cost %
+            </label>
+
+            <input
+              id="fixCostPercent"
+              type="number"
+              class="w-full border rounded-xl p-3"
+            />
+
+          </div>
+
+
+
+          <!-- LY FOOD -->
+          <div>
+
+            <label class="block mb-2 font-medium">
+              LY Food Revenue
+            </label>
+
+            <input
+              id="lyFoodRevenue"
+              type="number"
+              class="w-full border rounded-xl p-3"
+            />
+
+          </div>
+
+
+
+          <!-- LY BEVERAGE -->
+          <div>
+
+            <label class="block mb-2 font-medium">
+              LY Beverage Revenue
+            </label>
+
+            <input
+              id="lyBeverageRevenue"
+              type="number"
+              class="w-full border rounded-xl p-3"
+            />
+
+          </div>
+
 
 
 
           <!-- SAVE -->
-          <button
-            type="submit"
-            class="xl:col-span-2 bg-slate-900 text-white rounded-xl p-4 font-semibold"
-          >
-            Save Settings
-          </button>
+          <div class="col-span-2">
+
+            <button
+              type="submit"
+              class="w-full bg-slate-950 text-white rounded-xl p-4 font-semibold">
+
+              Save Settings
+
+            </button>
+
+          </div>
+
 
 
         </form>
@@ -219,54 +297,55 @@
 
 
 
-      <!-- DATA TOOLS -->
+
+
+      <!-- DATA MANAGEMENT -->
       <section class="bg-white rounded-2xl p-6 shadow">
 
-        <h3 class="text-xl font-bold mb-4">
+        <h3 class="text-2xl font-bold mb-6">
           Data Management
         </h3>
 
 
-        <div class="grid xl:grid-cols-3 gap-4">
-
+        <div class="grid grid-cols-3 gap-4">
 
           <button
-            onclick="exportBackup()"
-            class="bg-green-600 text-white rounded-xl p-4 font-semibold"
-          >
+            id="exportBackupBtn"
+            class="bg-green-600 text-white rounded-xl p-4 font-semibold">
+
             Export Backup
+
           </button>
 
 
-
-          <label
-            class="bg-blue-600 text-white rounded-xl p-4 font-semibold text-center cursor-pointer"
-          >
+          <button
+            id="importBackupBtn"
+            class="bg-blue-600 text-white rounded-xl p-4 font-semibold">
 
             Restore Backup
 
-            <input
-              type="file"
-              hidden
-              accept=".json"
-              onchange="handleBackupUpload(this)"
-            />
-
-          </label>
-
-
-
-          <button
-            onclick="resetAllData()"
-            class="bg-red-600 text-white rounded-xl p-4 font-semibold"
-          >
-            Reset Data
           </button>
 
 
+          <button
+            id="resetDataBtn"
+            class="bg-red-600 text-white rounded-xl p-4 font-semibold">
+
+            Reset Data
+
+          </button>
+
         </div>
 
+
+        <input
+          type="file"
+          id="importBackupFile"
+          hidden
+        />
+
       </section>
+
 
 
     </main>
@@ -275,13 +354,12 @@
 
 
 
-  <!-- SCRIPTS -->
+
 
   <script src="assets/js/storage.js"></script>
 
   <script src="assets/js/settings.js"></script>
 
-  <script src="assets/js/backup.js"></script>
 
 
 </body>
