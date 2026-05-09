@@ -30,7 +30,7 @@
 
 
     <!-- SIDEBAR -->
-    <aside class="w-64 bg-slate-900 text-white p-5">
+    <aside class="w-64 bg-slate-950 text-white p-5">
 
       <h1 class="text-2xl font-bold mb-8">
         SKYBAR
@@ -88,18 +88,18 @@
       <div>
 
         <h2 class="text-3xl font-bold">
-          Daily Sales Entry
+          Daily Revenue Entry
         </h2>
 
         <p class="text-slate-500">
-          Input daily outlet revenue
+          Record daily outlet performance
         </p>
 
       </div>
 
 
 
-      <!-- FORM -->
+      <!-- ENTRY FORM -->
       <section class="bg-white rounded-2xl p-5 shadow">
 
         <form
@@ -107,9 +107,10 @@
           class="grid xl:grid-cols-5 gap-4"
         >
 
+
           <div>
 
-            <label class="text-sm">
+            <label class="block mb-2 text-sm font-medium">
               Date
             </label>
 
@@ -123,9 +124,10 @@
           </div>
 
 
+
           <div>
 
-            <label class="text-sm">
+            <label class="block mb-2 text-sm font-medium">
               Food Revenue
             </label>
 
@@ -139,9 +141,10 @@
           </div>
 
 
+
           <div>
 
-            <label class="text-sm">
+            <label class="block mb-2 text-sm font-medium">
               Beverage Revenue
             </label>
 
@@ -155,9 +158,10 @@
           </div>
 
 
+
           <div>
 
-            <label class="text-sm">
+            <label class="block mb-2 text-sm font-medium">
               Daily Budget
             </label>
 
@@ -170,16 +174,18 @@
           </div>
 
 
+
           <div class="flex items-end">
 
             <button
               type="submit"
-              class="w-full bg-slate-900 text-white rounded-xl p-3"
+              class="w-full bg-slate-900 text-white rounded-xl p-3 font-semibold"
             >
               Save Entry
             </button>
 
           </div>
+
 
         </form>
 
@@ -201,10 +207,18 @@
 
             <thead>
 
-              <tr class="text-left border-b">
+              <tr class="border-b text-left">
 
                 <th class="py-3">
                   Date
+                </th>
+
+                <th>
+                  Food
+                </th>
+
+                <th>
+                  Beverage
                 </th>
 
                 <th>
@@ -251,33 +265,15 @@
 
   <!-- SCRIPTS -->
 
-<script src="assets/js/storage.js"></script>
-<script src="assets/js/settings.js"></script>
-<script src="assets/js/calculations.js"></script>
-<script src="assets/js/dashboard.js"></script>
-<script src="assets/js/entry.js"></script>
+  <script src="assets/js/storage.js"></script>
 
+  <script src="assets/js/settings.js"></script>
 
-  <!-- AUTO LOAD TABLE -->
-  <script>
+  <script src="assets/js/calculations.js"></script>
 
-    document.addEventListener(
-      "DOMContentLoaded",
-      function() {
+  <script src="assets/js/dashboard.js"></script>
 
-        if(
-          typeof renderRecentEntries ===
-          "function"
-        ) {
-
-          renderRecentEntries();
-
-        }
-
-      }
-    );
-
-  </script>
+  <script src="assets/js/entry.js"></script>
 
 
 </body>
