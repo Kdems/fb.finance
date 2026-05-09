@@ -1,47 +1,47 @@
 const SETTINGS_KEY =
-  "skybar.finance.dashboard.settings.v1";
+  "skybar.finance.settings.v1";
+
 
 
 // ======================
 // DEFAULT SETTINGS
 // ======================
 
-const defaultSettings = {
+const DEFAULT_SETTINGS = {
 
   outletName:
     "SKYBAR",
+
 
   currency:
     "RM",
 
 
-  // Annual Targets
   annualRevenueTarget:
-    3000000,
+    7472762,
+
 
   annualGopTarget:
     900000,
 
 
-  // Monthly Finance
-  monthlyFoodCost:
-    0,
-
-  monthlyBeverageCost:
-    0,
-
-  monthlyFixedCost:
-    0,
-
   monthlyBudget:
-    0,
+    575649,
 
 
-  // Security
-  pinCode:
-    "1298"
+  foodCostPercent:
+    35,
+
+
+  beverageCostPercent:
+    25,
+
+
+  fixCostPercent:
+    18
 
 };
+
 
 
 // ======================
@@ -50,26 +50,55 @@ const defaultSettings = {
 
 function getSettings() {
 
-  const savedData =
+  const saved =
     localStorage.getItem(
       SETTINGS_KEY
     );
 
 
   if(
-    !savedData
+    !saved
   ) {
 
-    return defaultSettings;
+    return DEFAULT_SETTINGS;
 
   }
 
 
-  return JSON.parse(
-    savedData
-  );
+  try {
+
+    const parsed =
+      JSON.parse(
+        saved
+      );
+
+
+    return {
+
+      ...DEFAULT_SETTINGS,
+
+      ...parsed
+
+    };
+
+  }
+
+  catch(
+    error
+  ) {
+
+    console.error(
+      "Settings load error:",
+      error
+    );
+
+
+    return DEFAULT_SETTINGS;
+
+  }
 
 }
+
 
 
 // ======================
@@ -77,220 +106,38 @@ function getSettings() {
 // ======================
 
 function saveSettings(
-  settings
+  newSettings
 ) {
+
+  const merged =
+    {
+
+      ...getSettings(),
+
+      ...newSettings
+
+    };
+
 
   localStorage.setItem(
     SETTINGS_KEY,
     JSON.stringify(
-      settings
+      merged
     )
   );
 
-}
 
-
-// ======================
-// SET FIELD
-// ======================
-
-function setField(
-  fieldId,
-  value
-) {
-
-  const field =
-    document.getElementById(
-      fieldId
-    );
-
-
-  if(
-    !field
-  ) return;
-
-
-  field.value =
-    value;
+  return merged;
 
 }
 
 
+
 // ======================
-// LOAD FORM
+// FORM INIT
 // ======================
 
 function loadSettingsForm() {
-
-  const settings =
-    getSettings();
-
-
-  // PROFILE
-  setField(
-    "outletName",
-    settings.outletName
-  );
-
-
-  setField(
-    "currency",
-    settings.currency
-  );
-
-
-  // ANNUAL TARGET
-  setField(
-    "annualRevenueTarget",
-    settings.annualRevenueTarget
-  );
-
-
-  setField(
-    "annualGopTarget",
-    settings.annualGopTarget
-  );
-
-
-  // MONTHLY FINANCE
-  setField(
-    "monthlyFoodCost",
-    settings.monthlyFoodCost
-  );
-
-
-  setField(
-    "monthlyBeverageCost",
-    settings.monthlyBeverageCost
-  );
-
-
-  setField(
-    "monthlyFixedCost",
-    settings.monthlyFixedCost
-  );
-
-
-  setField(
-    "monthlyBudget",
-    settings.monthlyBudget
-  );
-
-
-  // SECURITY
-  setField(
-    "pinCode",
-    settings.pinCode
-  );
-
-}
-
-
-// ======================
-// SAVE FORM
-// ======================
-
-function handleSaveSettings(
-  e
-) {
-
-  e.preventDefault();
-
-
-  const settings = {
-
-    // PROFILE
-    outletName:
-      document.getElementById(
-        "outletName"
-      ).value,
-
-
-    currency:
-      document.getElementById(
-        "currency"
-      ).value,
-
-
-    // ANNUAL TARGET
-    annualRevenueTarget:
-      Number(
-        document.getElementById(
-          "annualRevenueTarget"
-        ).value || 0
-      ),
-
-
-    annualGopTarget:
-      Number(
-        document.getElementById(
-          "annualGopTarget"
-        ).value || 0
-      ),
-
-
-    // MONTHLY FINANCE
-    monthlyFoodCost:
-      Number(
-        document.getElementById(
-          "monthlyFoodCost"
-        ).value || 0
-      ),
-
-
-    monthlyBeverageCost:
-      Number(
-        document.getElementById(
-          "monthlyBeverageCost"
-        ).value || 0
-      ),
-
-
-    monthlyFixedCost:
-      Number(
-        document.getElementById(
-          "monthlyFixedCost"
-        ).value || 0
-      ),
-
-
-    monthlyBudget:
-      Number(
-        document.getElementById(
-          "monthlyBudget"
-        ).value || 0
-      ),
-
-
-    // SECURITY
-    pinCode:
-      document.getElementById(
-        "pinCode"
-      ).value
-
-  };
-
-
-  saveSettings(
-    settings
-  );
-
-
-  alert(
-    "Settings saved successfully"
-  );
-
-}
-
-
-// ======================
-// INIT
-// ======================
-
-function initSettings() {
-
-  loadSettingsForm();
-
 
   const form =
     document.getElementById(
@@ -299,24 +146,224 @@ function initSettings() {
 
 
   if(
-    form
-  ) {
+    !form
+  ) return;
 
-    form.addEventListener(
-      "submit",
-      handleSaveSettings
-    );
 
-  }
+  const settings =
+    getSettings();
+
+
+  setValue(
+    "outletName",
+    settings.outletName
+  );
+
+
+  setValue(
+    "currency",
+    settings.currency
+  );
+
+
+  setValue(
+    "annualRevenueTarget",
+    settings.annualRevenueTarget
+  );
+
+
+  setValue(
+    "annualGopTarget",
+    settings.annualGopTarget
+  );
+
+
+  setValue(
+    "monthlyBudget",
+    settings.monthlyBudget
+  );
+
+
+  setValue(
+    "foodCostPercent",
+    settings.foodCostPercent
+  );
+
+
+  setValue(
+    "beverageCostPercent",
+    settings.beverageCostPercent
+  );
+
+
+  setValue(
+    "fixCostPercent",
+    settings.fixCostPercent
+  );
 
 }
 
 
+
 // ======================
-// START
+// FORM SAVE
+// ======================
+
+function bindSettingsForm() {
+
+  const form =
+    document.getElementById(
+      "settingsForm"
+    );
+
+
+  if(
+    !form
+  ) return;
+
+
+  form.addEventListener(
+    "submit",
+    function(
+      e
+    ) {
+
+      e.preventDefault();
+
+
+      saveSettings({
+
+        outletName:
+          getValue(
+            "outletName"
+          ),
+
+
+        currency:
+          getValue(
+            "currency"
+          ),
+
+
+        annualRevenueTarget:
+          Number(
+            getValue(
+              "annualRevenueTarget"
+            ) || 0
+          ),
+
+
+        annualGopTarget:
+          Number(
+            getValue(
+              "annualGopTarget"
+            ) || 0
+          ),
+
+
+        monthlyBudget:
+          Number(
+            getValue(
+              "monthlyBudget"
+            ) || 0
+          ),
+
+
+        foodCostPercent:
+          Number(
+            getValue(
+              "foodCostPercent"
+            ) || 0
+          ),
+
+
+        beverageCostPercent:
+          Number(
+            getValue(
+              "beverageCostPercent"
+            ) || 0
+          ),
+
+
+        fixCostPercent:
+          Number(
+            getValue(
+              "fixCostPercent"
+            ) || 0
+          )
+
+      });
+
+
+      alert(
+        "Settings saved successfully."
+      );
+
+    }
+  );
+
+}
+
+
+
+// ======================
+// HELPERS
+// ======================
+
+function setValue(
+  id,
+  value
+) {
+
+  const el =
+    document.getElementById(
+      id
+    );
+
+
+  if(
+    !el
+  ) return;
+
+
+  el.value =
+    value;
+
+}
+
+
+function getValue(
+  id
+) {
+
+  const el =
+    document.getElementById(
+      id
+    );
+
+
+  if(
+    !el
+  ) return "";
+
+
+  return el.value;
+
+}
+
+
+
+// ======================
+// INIT
 // ======================
 
 document.addEventListener(
   "DOMContentLoaded",
-  initSettings
+  function() {
+
+    loadSettingsForm();
+
+    bindSettingsForm();
+
+  }
 );
