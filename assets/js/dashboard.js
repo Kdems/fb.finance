@@ -6,14 +6,11 @@ let selectedMonth =
 
 
 
-// ====================
-// INIT
-// ====================
-
 document.addEventListener(
   "DOMContentLoaded",
   initDashboard
 );
+
 
 
 function initDashboard() {
@@ -26,8 +23,10 @@ function initDashboard() {
 
 
 
+
+
 // ====================
-// FILTERS
+// FILTER
 // ====================
 
 function setupFilters() {
@@ -43,105 +42,74 @@ function setupFilters() {
     );
 
 
-  if (
-    yearFilter
+  for (
+    let y = 2025;
+    y <= 2040;
+    y++
   ) {
 
-    yearFilter.innerHTML =
-      "";
-
-    for (
-      let y = 2025;
-      y <= 2040;
-      y++
-    ) {
-
-      yearFilter.innerHTML += `
-        <option
-          value="${y}"
-          ${
-            y === selectedYear
-              ? "selected"
-              : ""
-          }>
-          ${y}
-        </option>
-      `;
-
-    }
+    yearFilter.innerHTML += `
+      <option
+        value="${y}"
+        ${
+          y === selectedYear
+            ? "selected"
+            : ""
+        }>
+        ${y}
+      </option>
+    `;
 
   }
 
 
 
-  if (
-    monthFilter
+  for (
+    let m = 1;
+    m <= 12;
+    m++
   ) {
 
-    monthFilter.innerHTML =
-      "";
-
-    for (
-      let m = 1;
-      m <= 12;
-      m++
-    ) {
-
-      monthFilter.innerHTML += `
-        <option
-          value="${m}"
-          ${
-            m === selectedMonth
-              ? "selected"
-              : ""
-          }>
-          ${m}
-        </option>
-      `;
-
-    }
+    monthFilter.innerHTML += `
+      <option
+        value="${m}"
+        ${
+          m === selectedMonth
+            ? "selected"
+            : ""
+        }>
+        ${m}
+      </option>
+    `;
 
   }
 
 
 
-  if (
-    yearFilter
-  ) {
+  yearFilter.onchange =
+    function () {
 
-    yearFilter.onchange =
-      function () {
+      selectedYear =
+        Number(
+          this.value
+        );
 
-        selectedYear =
-          Number(
-            this.value
-          );
+      renderDashboard();
 
-        renderDashboard();
-
-      };
-
-  }
+    };
 
 
+  monthFilter.onchange =
+    function () {
 
-  if (
-    monthFilter
-  ) {
+      selectedMonth =
+        Number(
+          this.value
+        );
 
-    monthFilter.onchange =
-      function () {
+      renderDashboard();
 
-        selectedMonth =
-          Number(
-            this.value
-          );
-
-        renderDashboard();
-
-      };
-
-  }
+    };
 
 }
 
@@ -232,38 +200,20 @@ function renderYtd(
       settings.annualRevenueTarget || 0
     );
 
-  const lyRevenue =
+  const ly =
     getLyRevenue();
 
-  const achievement =
+  const ach =
     percentage(
       data.totalRevenue,
       budget
     );
 
-  const lyAchievement =
+  const lyAch =
     percentage(
-      lyRevenue,
+      ly,
       budget
     );
-
-  const variance =
-    data.totalRevenue -
-    budget;
-
-  const remaining =
-    budget -
-    data.totalRevenue;
-
-  const growth =
-    percentageChange(
-      data.totalRevenue,
-      lyRevenue
-    );
-
-  const diff =
-    achievement -
-    lyAchievement;
 
 
   setText(
@@ -283,56 +233,62 @@ function renderYtd(
   setText(
     "ytdAchievementCard",
     percent(
-      achievement
+      ach
     )
   );
 
   setText(
     "ytdVarianceCard",
     money(
-      variance
+      data.totalRevenue -
+      budget
     )
   );
 
   setText(
     "ytdBalanceCard",
     money(
-      remaining
+      budget -
+      data.totalRevenue
     )
   );
 
   setText(
     "lyRevenueCard",
     money(
-      lyRevenue
+      ly
     )
   );
 
   setText(
     "lyAchievementCard",
     percent(
-      lyAchievement
+      lyAch
     )
   );
 
   setText(
     "ytdGrowthCard",
     percent(
-      growth
+      percentageChange(
+        data.totalRevenue,
+        ly
+      )
     )
   );
 
   setText(
     "achievementDiffCard",
     percent(
-      diff
+      ach -
+      lyAch
     )
   );
 
 
   setBar(
     "ytdProgressBar",
-    achievement
+    ach
   );
 
 }
@@ -356,7 +312,7 @@ function renderMtd(
       settings.monthlyBudget || 0
     );
 
-  const achievement =
+  const ach =
     percentage(
       data.totalRevenue,
       budget
@@ -369,23 +325,15 @@ function renderMtd(
       0
     ).getDate();
 
-  const avgDaily =
-
-    entries.length > 0
-
+  const avg =
+    entries.length
       ? data.totalRevenue /
         entries.length
-
       : 0;
 
-
   const projection =
-    avgDaily *
+    avg *
     daysInMonth;
-
-  const gap =
-    projection -
-    budget;
 
 
   setText(
@@ -412,21 +360,22 @@ function renderMtd(
   setText(
     "projectionGapCard",
     money(
-      gap
+      projection -
+      budget
     )
   );
 
   setText(
     "mtdAchievementCard",
     percent(
-      achievement
+      ach
     )
   );
 
 
   setBar(
     "mtdProgressBar",
-    achievement
+    ach
   );
 
 }
@@ -536,13 +485,6 @@ function renderSummary(
   settings
 ) {
 
-  const achievement =
-    percentage(
-      data.totalRevenue,
-      settings.monthlyBudget
-    );
-
-
   setText(
     "summaryRevenueCard",
     money(
@@ -560,38 +502,11 @@ function renderSummary(
   setText(
     "summaryAchievementCard",
     percent(
-      achievement
+      percentage(
+        data.totalRevenue,
+        settings.monthlyBudget
+      )
     )
-  );
-
-
-  const best =
-    getBestEntry(
-      entries
-    );
-
-  const worst =
-    getWorstEntry(
-      entries
-    );
-
-
-  setText(
-    "bestDayCard",
-    best
-      ? formatDate(
-          best.date
-        )
-      : "-"
-  );
-
-  setText(
-    "worstDayCard",
-    worst
-      ? formatDate(
-          worst.date
-        )
-      : "-"
   );
 
 }
@@ -601,7 +516,7 @@ function renderSummary(
 
 
 // ====================
-// RECENT
+// RECENT TABLE
 // ====================
 
 function renderRecentEntries(
@@ -609,61 +524,134 @@ function renderRecentEntries(
   settings
 ) {
 
-  const el =
+  const container =
     document.getElementById(
       "recentEntriesList"
     );
 
-  if (!el) return;
+  if (!container)
+    return;
 
 
-  el.innerHTML =
+  const dailyBudget =
+    Number(
+      settings.monthlyBudget || 0
+    ) / 31;
+
+
+  container.innerHTML =
+
+    `
+    <div class="grid grid-cols-9 font-bold border-b pb-3 mb-3 text-sm">
+
+      <div>Date</div>
+      <div>Food</div>
+      <div>Bev</div>
+      <div>Total</div>
+      <div>Budget</div>
+      <div>Variance</div>
+      <div>Ach.</div>
+      <div>Status</div>
+      <div>Action</div>
+
+    </div>
+    ` +
+
     entries
       .slice()
       .reverse()
       .map(
         entry => {
 
-          const revenue =
-
+          const food =
             Number(
               entry.foodRevenue || 0
-            ) +
+            );
 
+          const bev =
             Number(
               entry.beverageRevenue || 0
             );
 
+          const total =
+            food + bev;
+
           const variance =
-            revenue -
-            settings.monthlyBudget / 31;
+            total -
+            dailyBudget;
+
+          const ach =
+            percentage(
+              total,
+              dailyBudget
+            );
+
+
+          const status =
+
+            ach >= 100
+
+              ? `<span class="text-green-600 font-bold">GOOD</span>`
+
+              : `<span class="text-red-600 font-bold">LOW</span>`;
 
 
           return `
-            <div class="grid grid-cols-4 border-b py-3">
+
+            <div class="grid grid-cols-9 border-b py-3 text-sm">
 
               <div>
-                ${formatDate(entry.date)}
+                ${formatDate(
+                  entry.date
+                )}
               </div>
 
               <div>
-                ${money(revenue)}
+                ${money(
+                  food
+                )}
               </div>
 
               <div>
-                ${money(variance)}
+                ${money(
+                  bev
+                )}
+              </div>
+
+              <div>
+                ${money(
+                  total
+                )}
+              </div>
+
+              <div>
+                ${money(
+                  dailyBudget
+                )}
+              </div>
+
+              <div>
+                ${money(
+                  variance
+                )}
               </div>
 
               <div>
                 ${percent(
-                  percentage(
-                    revenue,
-                    settings.monthlyBudget / 31
-                  )
+                  ach
                 )}
               </div>
 
+              <div>
+                ${status}
+              </div>
+
+              <div>
+                ✏️ 🗑️
+              </div>
+
             </div>
+
           `;
 
         }
@@ -690,9 +678,7 @@ function setText(
       id
     );
 
-  if (
-    el
-  ) {
+  if (el) {
 
     el.innerHTML =
       value;
@@ -712,9 +698,7 @@ function setBar(
       id
     );
 
-  if (
-    el
-  ) {
+  if (el) {
 
     el.style.width =
       Math.min(
@@ -752,7 +736,8 @@ function percentageChange(
 
   return (
     (
-      current - old
+      current -
+      old
     ) / old
   ) * 100;
 
@@ -777,12 +762,10 @@ function money(
   value
 ) {
 
-  const currency =
-    getSettings()
-      .currency || "RM";
-
   return (
-    currency +
+    getSettings()
+      .currency +
+
     Number(
       value || 0
     ).toLocaleString(
@@ -791,6 +774,7 @@ function money(
         maximumFractionDigits: 0
       }
     )
+
   );
 
 }
@@ -817,11 +801,11 @@ function getLyRevenue() {
 
 
 function formatDate(
-  date
+  value
 ) {
 
   return new Date(
-    date
+    value
   ).toLocaleDateString(
     "en-GB"
   );
