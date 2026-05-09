@@ -100,7 +100,7 @@
         </div>
 
 
-        <div class="flex gap-3">
+        <div class="flex gap-3 items-center">
 
           <select
             id="reportYear"
@@ -112,6 +112,14 @@
             id="reportMonth"
             class="border rounded-xl px-4 py-2"
           ></select>
+
+
+          <button
+            onclick="exportReportCSV()"
+            class="bg-slate-900 text-white px-4 py-2 rounded-xl font-semibold"
+          >
+            Export CSV
+          </button>
 
         </div>
 
@@ -133,6 +141,10 @@
             -
           </h4>
 
+          <small>
+            Monthly Sales
+          </small>
+
         </div>
 
 
@@ -146,6 +158,10 @@
           <h4 id="reportBudget">
             -
           </h4>
+
+          <small>
+            Monthly Target
+          </small>
 
         </div>
 
@@ -161,6 +177,10 @@
             -
           </h4>
 
+          <small>
+            vs Budget
+          </small>
+
         </div>
 
 
@@ -174,6 +194,10 @@
           <h4 id="reportGop">
             -
           </h4>
+
+          <small>
+            Gross Profit
+          </small>
 
         </div>
 
@@ -189,6 +213,10 @@
             -
           </h4>
 
+          <small>
+            Profit %
+          </small>
+
         </div>
 
 
@@ -196,7 +224,7 @@
 
 
 
-      <!-- TABLE -->
+      <!-- DAILY BREAKDOWN -->
       <section class="bg-white rounded-2xl p-5 shadow">
 
         <h3 class="text-xl font-bold mb-4">
