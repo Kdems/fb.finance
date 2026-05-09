@@ -48,17 +48,17 @@ function initDashboard() {
 
 
 // ======================
-// FILTER
+// FILTERS
 // ======================
 
 function populateYearFilter() {
 
-  if(!yearFilter) return;
+  if (!yearFilter) return;
 
   yearFilter.innerHTML =
     "";
 
-  for(
+  for (
     let year = 2025;
     year <= 2040;
     year++
@@ -75,7 +75,7 @@ function populateYearFilter() {
     option.textContent =
       year;
 
-    if(
+    if (
       year === selectedYear
     ) {
 
@@ -95,12 +95,12 @@ function populateYearFilter() {
 
 function populateMonthFilter() {
 
-  if(!monthFilter) return;
+  if (!monthFilter) return;
 
   monthFilter.innerHTML =
     "";
 
-  for(
+  for (
     let month = 1;
     month <= 12;
     month++
@@ -117,7 +117,7 @@ function populateMonthFilter() {
     option.textContent =
       month;
 
-    if(
+    if (
       month === selectedMonth
     ) {
 
@@ -142,7 +142,7 @@ function populateMonthFilter() {
 
 function bindEvents() {
 
-  if(yearFilter) {
+  if (yearFilter) {
 
     yearFilter.addEventListener(
       "change",
@@ -151,8 +151,7 @@ function bindEvents() {
 
   }
 
-
-  if(monthFilter) {
+  if (monthFilter) {
 
     monthFilter.addEventListener(
       "change",
@@ -161,8 +160,7 @@ function bindEvents() {
 
   }
 
-
-  if(entryDateField) {
+  if (entryDateField) {
 
     entryDateField.addEventListener(
       "change",
@@ -204,12 +202,10 @@ function renderDashboard() {
       selectedMonth
     );
 
-
   const current =
     calculatePeriodSummary(
       entries
     );
-
 
   renderYtd(
     current
@@ -236,8 +232,7 @@ function renderDashboard() {
     entries
   );
 
-
-  if(
+  if (
     typeof renderCharts ===
     "function"
   ) {
@@ -263,16 +258,13 @@ function renderYtd(
   const settings =
     getSettings();
 
-
   const budget =
     Number(
       settings.annualRevenueTarget || 0
     );
 
-
   const lyRevenue =
     getLyTotalRevenue();
-
 
   const achievement =
     calculateAchievement(
@@ -280,18 +272,15 @@ function renderYtd(
       budget
     );
 
-
   const growth =
     calculateGrowth(
       current.totalRevenue,
       lyRevenue
     );
 
-
   const variance =
     current.totalRevenue -
     budget;
-
 
   updateCard(
     "ytdRevenueCard",
@@ -346,16 +335,13 @@ function renderMtd(
   const settings =
     getSettings();
 
-
   const monthlyBudget =
     Number(
       settings.monthlyBudget || 0
     );
 
-
   const lyMonthlyRevenue =
     getLyTotalRevenue() / 12;
-
 
   const growth =
     calculateGrowth(
@@ -363,13 +349,11 @@ function renderMtd(
       lyMonthlyRevenue
     );
 
-
   const achievement =
     calculateAchievement(
       current.totalRevenue,
       monthlyBudget
     );
-
 
   updateCard(
     "mtdRevenueCard",
@@ -462,20 +446,17 @@ function renderFoodBeverage(
   const settings =
     getSettings();
 
-
   const foodGrowth =
     calculateGrowth(
       current.totalFoodRevenue,
       settings.lyFoodRevenue
     );
 
-
   const bevGrowth =
     calculateGrowth(
       current.totalBeverageRevenue,
       settings.lyBeverageRevenue
     );
-
 
   updateCard(
     "foodRevenueCard",
@@ -512,7 +493,6 @@ function renderFoodBeverage(
     )
   );
 
-
   updateSubCard(
     "foodRevenueCard",
     `LY ${foodGrowth.toFixed(2)}%`
@@ -523,20 +503,19 @@ function renderFoodBeverage(
     `LY ${bevGrowth.toFixed(2)}%`
   );
 
-
   updateText(
     "foodCostPercentText",
-    `${settings.foodCostPercent.toFixed(2)}%`
+    `${settings.foodCostPercent}%`
   );
 
   updateText(
     "bevCostPercentText",
-    `${settings.beverageCostPercent.toFixed(2)}%`
+    `${settings.beverageCostPercent}%`
   );
 
   updateText(
     "fixCostPercentText",
-    `${settings.fixCostPercent.toFixed(2)}%`
+    `${settings.fixCostPercent}%`
   );
 
 }
@@ -555,12 +534,10 @@ function renderSummary(
   const settings =
     getSettings();
 
-
   const monthlyBudget =
     Number(
       settings.monthlyBudget || 0
     );
-
 
   const avgDaily =
     entries.length > 0
@@ -568,37 +545,36 @@ function renderSummary(
         entries.length
       : 0;
 
-
   const achievement =
     calculateAchievement(
       current.totalRevenue,
       monthlyBudget
     );
 
-
   let bestDay = "-";
-
   let worstDay = "-";
 
-
-  if(
+  if (
     entries.length > 0
   ) {
 
     const ranked =
-      entries.map(
+      [...entries].map(
         entry => ({
 
           date:
             entry.date,
 
           revenue:
-            Number(entry.foodRevenue || 0) +
-            Number(entry.beverageRevenue || 0)
+            Number(
+              entry.foodRevenue || 0
+            ) +
+            Number(
+              entry.beverageRevenue || 0
+            )
 
         })
       );
-
 
     ranked.sort(
       (a, b) =>
@@ -606,10 +582,8 @@ function renderSummary(
         b.revenue
     );
 
-
     worstDay =
       ranked[0].date;
-
 
     bestDay =
       ranked[
@@ -617,7 +591,6 @@ function renderSummary(
       ].date;
 
   }
-
 
   updateCard(
     "summaryRevenueCard",
@@ -665,13 +638,9 @@ function renderRecentEntries(
       "recentEntriesList"
     );
 
+  if (!container) return;
 
-  if(
-    !container
-  ) return;
-
-
-  if(
+  if (
     entries.length === 0
   ) {
 
@@ -685,7 +654,6 @@ function renderRecentEntries(
     return;
 
   }
-
 
   const latest =
     [...entries]
@@ -703,7 +671,6 @@ function renderRecentEntries(
       10
     );
 
-
   container.innerHTML =
     latest.map(
       entry => {
@@ -713,16 +680,13 @@ function renderRecentEntries(
             entry.foodRevenue || 0
           );
 
-
         const bev =
           Number(
             entry.beverageRevenue || 0
           );
 
-
         const total =
           food + bev;
-
 
         return `
         <div class="border rounded-xl p-4 flex justify-between">
@@ -751,9 +715,7 @@ function renderRecentEntries(
         `;
 
       }
-    ).join(
-      ""
-    );
+    ).join("");
 
 }
 
@@ -767,7 +729,6 @@ function getLyTotalRevenue() {
 
   const settings =
     getSettings();
-
 
   return (
 
@@ -794,9 +755,7 @@ function updateCard(
       id
     );
 
-  if(
-    !el
-  ) return;
+  if (!el) return;
 
   el.innerHTML =
     value;
@@ -814,17 +773,14 @@ function updateSubCard(
       id
     );
 
-  if(
-    !el
-  ) return;
-
+  if (!el) return;
 
   const small =
     el.parentElement.querySelector(
       "small"
     );
 
-  if(
+  if (
     small
   ) {
 
@@ -846,9 +802,7 @@ function updateText(
       id
     );
 
-  if(
-    !el
-  ) return;
+  if (!el) return;
 
   el.innerHTML =
     value;
@@ -861,10 +815,7 @@ function calculateAchievement(
   target
 ) {
 
-  if(
-    !target
-  ) return 0;
-
+  if (!target) return 0;
 
   return (
     current / target
@@ -878,10 +829,7 @@ function calculateGrowth(
   ly
 ) {
 
-  if(
-    !ly
-  ) return 0;
-
+  if (!ly) return 0;
 
   return (
     (
@@ -892,6 +840,7 @@ function calculateGrowth(
 }
 
 
+// NO .00
 function formatMoney(
   amount
 ) {
@@ -899,10 +848,8 @@ function formatMoney(
   const settings =
     getSettings();
 
-
   const currency =
     settings.currency || "RM";
-
 
   return (
 
@@ -913,8 +860,7 @@ function formatMoney(
     ).toLocaleString(
       undefined,
       {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
+        maximumFractionDigits: 0
       }
     )
 
@@ -935,23 +881,19 @@ function updateAutoDailyBudget() {
       "dailyBudgetDisplay"
     );
 
-
-  if(
+  if (
     !budgetField ||
     !entryDateField ||
     !entryDateField.value
   ) return;
 
-
   const settings =
     getSettings();
-
 
   const date =
     new Date(
       entryDateField.value
     );
-
 
   const days =
     new Date(
@@ -960,12 +902,10 @@ function updateAutoDailyBudget() {
       0
     ).getDate();
 
-
   const dailyBudget =
     Number(
       settings.monthlyBudget || 0
     ) / days;
-
 
   budgetField.value =
     formatMoney(
