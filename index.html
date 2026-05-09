@@ -2,10 +2,16 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>SKYBAR Executive Dashboard</title>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>
+    SKYBAR Executive Dashboard
+  </title>
 
   <link rel="icon" href="data:,">
 
@@ -26,7 +32,7 @@
   <!-- SIDEBAR -->
   <aside class="w-64 bg-slate-950 text-white p-6">
 
-    <h1 class="text-3xl font-bold mb-10">
+    <h1 class="text-4xl font-bold mb-10">
       SKYBAR
     </h1>
 
@@ -65,8 +71,9 @@
 
 
 
+
   <!-- MAIN -->
-  <main class="flex-1 p-8 space-y-8">
+  <main class="flex-1 p-8 space-y-6">
 
 
     <!-- HEADER -->
@@ -74,7 +81,7 @@
 
       <div>
 
-        <h2 class="text-4xl font-bold text-slate-900">
+        <h2 class="text-4xl font-bold">
           Executive Dashboard
         </h2>
 
@@ -89,12 +96,12 @@
 
         <select
           id="yearFilter"
-          class="bg-white shadow px-4 py-2 rounded-xl">
+          class="bg-white rounded-xl px-4 py-2 shadow">
         </select>
 
         <select
           id="monthFilter"
-          class="bg-white shadow px-4 py-2 rounded-xl">
+          class="bg-white rounded-xl px-4 py-2 shadow">
         </select>
 
       </div>
@@ -104,69 +111,36 @@
 
 
 
-    <!-- KPI ROW -->
+
+    <!-- PRIMARY KPI -->
     <section class="grid grid-cols-4 gap-5">
 
 
-      <div class="bg-gradient-to-r from-slate-900 to-slate-700 text-white rounded-2xl p-5 shadow">
-
-        <p class="text-sm opacity-70">
-          Revenue
-        </p>
-
-        <h3
-          id="ytdRevenueCard"
-          class="text-3xl font-bold mt-2">
-          -
-        </h3>
-
+      <div class="bg-slate-900 text-white rounded-2xl p-5 shadow">
+        <p class="text-sm opacity-70">Revenue</p>
+        <h3 id="ytdRevenueCard" class="text-3xl font-bold mt-2">-</h3>
       </div>
 
 
-
-      <div class="bg-gradient-to-r from-green-700 to-green-500 text-white rounded-2xl p-5 shadow">
-
-        <p class="text-sm opacity-70">
-          GOP
-        </p>
-
-        <h3
-          id="gopMainCard"
-          class="text-3xl font-bold mt-2">
-          -
-        </h3>
-
+      <div class="bg-green-600 text-white rounded-2xl p-5 shadow">
+        <p class="text-sm opacity-70">GOP</p>
+        <h3 id="gopMainCard" class="text-3xl font-bold mt-2">-</h3>
       </div>
 
 
-
-      <div class="bg-gradient-to-r from-red-700 to-red-500 text-white rounded-2xl p-5 shadow">
-
-        <p class="text-sm opacity-70">
-          Cost
-        </p>
-
-        <h3
-          id="gopCostCard"
-          class="text-3xl font-bold mt-2">
-          -
-        </h3>
-
+      <div class="bg-red-600 text-white rounded-2xl p-5 shadow">
+        <p class="text-sm opacity-70">Cost</p>
+        <h3 id="gopCostCard" class="text-3xl font-bold mt-2">-</h3>
       </div>
 
 
-
-      <div class="bg-gradient-to-r from-blue-700 to-blue-500 text-white rounded-2xl p-5 shadow">
+      <div class="bg-blue-600 text-white rounded-2xl p-5 shadow">
 
         <p class="text-sm opacity-70">
           Achievement
         </p>
 
-        <h3
-          id="mtdAchievementCard"
-          class="text-3xl font-bold mt-2">
-          -
-        </h3>
+        <h3 id="mtdAchievementCard" class="text-3xl font-bold mt-2">-</h3>
 
         <div class="bg-white/20 h-2 rounded-full mt-4">
 
@@ -186,18 +160,139 @@
 
 
 
-    <!-- ANALYTICS -->
+
+    <!-- FINANCIAL INTELLIGENCE -->
+    <section class="grid grid-cols-6 gap-4">
+
+
+      <div class="bg-white rounded-2xl p-4 shadow">
+        <small>YTD Budget</small>
+        <h4 id="ytdBudgetCard">-</h4>
+      </div>
+
+
+      <div class="bg-white rounded-2xl p-4 shadow">
+        <small>MTD Revenue</small>
+        <h4 id="mtdRevenueCard">-</h4>
+      </div>
+
+
+      <div class="bg-white rounded-2xl p-4 shadow">
+        <small>LY Revenue</small>
+        <h4 id="lyRevenueCard">-</h4>
+      </div>
+
+
+      <div class="bg-white rounded-2xl p-4 shadow">
+        <small>Variance</small>
+        <h4 id="ytdVarianceCard">-</h4>
+      </div>
+
+
+      <div class="bg-white rounded-2xl p-4 shadow">
+        <small>Growth</small>
+        <h4 id="ytdGrowthCard">-</h4>
+      </div>
+
+
+      <div class="bg-white rounded-2xl p-4 shadow">
+        <small>Margin</small>
+        <h4 id="gopMarginCard">-</h4>
+      </div>
+
+
+    </section>
+
+
+
+
+
+    <!-- F&B -->
+    <section class="grid grid-cols-5 gap-4">
+
+
+      <div class="bg-white rounded-2xl p-4 shadow">
+        <small>Food Revenue</small>
+        <h4 id="foodRevenueCard">-</h4>
+      </div>
+
+
+      <div class="bg-white rounded-2xl p-4 shadow">
+        <small>Beverage Revenue</small>
+        <h4 id="bevRevenueCard">-</h4>
+      </div>
+
+
+      <div class="bg-white rounded-2xl p-4 shadow">
+        <small>Food Cost</small>
+        <h4 id="foodCostCard">-</h4>
+      </div>
+
+
+      <div class="bg-white rounded-2xl p-4 shadow">
+        <small>Beverage Cost</small>
+        <h4 id="bevCostCard">-</h4>
+      </div>
+
+
+      <div class="bg-white rounded-2xl p-4 shadow">
+        <small>Fixed Cost</small>
+        <h4 id="fixCostCard">-</h4>
+      </div>
+
+
+    </section>
+
+
+
+
+
+    <!-- MONTHLY -->
+    <section class="grid grid-cols-4 gap-4">
+
+
+      <div class="bg-white rounded-2xl p-4 shadow">
+        <small>Avg Daily</small>
+        <h4 id="summaryBudgetCard">-</h4>
+      </div>
+
+
+      <div class="bg-white rounded-2xl p-4 shadow">
+        <small>Best Day</small>
+        <h4 id="bestDayCard">-</h4>
+      </div>
+
+
+      <div class="bg-white rounded-2xl p-4 shadow">
+        <small>Worst Day</small>
+        <h4 id="worstDayCard">-</h4>
+      </div>
+
+
+      <div class="bg-white rounded-2xl p-4 shadow">
+        <small>Monthly Achievement</small>
+        <h4 id="summaryAchievementCard">-</h4>
+      </div>
+
+
+    </section>
+
+
+
+
+
+    <!-- CHART -->
     <section class="grid grid-cols-3 gap-5">
 
-      <div class="bg-white rounded-2xl p-5 shadow">
+      <div class="bg-white rounded-2xl p-4 shadow">
         <canvas id="revenueChart"></canvas>
       </div>
 
-      <div class="bg-white rounded-2xl p-5 shadow">
+      <div class="bg-white rounded-2xl p-4 shadow">
         <canvas id="gopChart"></canvas>
       </div>
 
-      <div class="bg-white rounded-2xl p-5 shadow">
+      <div class="bg-white rounded-2xl p-4 shadow">
         <canvas id="mixChart"></canvas>
       </div>
 
@@ -206,10 +301,11 @@
 
 
 
-    <!-- RECENT -->
-    <section class="bg-white rounded-2xl p-6 shadow">
 
-      <h3 class="font-bold text-lg mb-5">
+    <!-- RECENT -->
+    <section class="bg-white rounded-2xl p-5 shadow">
+
+      <h3 class="font-bold mb-4">
         Recent Revenue Activity
       </h3>
 
@@ -219,6 +315,7 @@
       </div>
 
     </section>
+
 
 
 
