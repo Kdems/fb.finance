@@ -14,21 +14,30 @@ const defaultSettings = {
   currency:
     "RM",
 
+
+  // Annual Targets
   annualRevenueTarget:
     3000000,
 
   annualGopTarget:
     900000,
 
-  foodCostTarget:
-    35,
 
-  beverageCostTarget:
-    25,
+  // Monthly Finance
+  monthlyFoodCost:
+    0,
 
-  fixedCostTarget:
-    18,
+  monthlyBeverageCost:
+    0,
 
+  monthlyFixedCost:
+    0,
+
+  monthlyBudget:
+    0,
+
+
+  // Security
   pinCode:
     "1298"
 
@@ -46,11 +55,15 @@ function getSettings() {
       SETTINGS_KEY
     );
 
-  if(!savedData) {
+
+  if(
+    !savedData
+  ) {
 
     return defaultSettings;
 
   }
+
 
   return JSON.parse(
     savedData
@@ -78,60 +91,7 @@ function saveSettings(
 
 
 // ======================
-// LOAD TO FORM
-// ======================
-
-function loadSettingsForm() {
-
-  const settings =
-    getSettings();
-
-
-  setField(
-    "outletName",
-    settings.outletName
-  );
-
-  setField(
-    "currency",
-    settings.currency
-  );
-
-  setField(
-    "annualRevenueTarget",
-    settings.annualRevenueTarget
-  );
-
-  setField(
-    "annualGopTarget",
-    settings.annualGopTarget
-  );
-
-  setField(
-    "foodCostTarget",
-    settings.foodCostTarget
-  );
-
-  setField(
-    "beverageCostTarget",
-    settings.beverageCostTarget
-  );
-
-  setField(
-    "fixedCostTarget",
-    settings.fixedCostTarget
-  );
-
-  setField(
-    "pinCode",
-    settings.pinCode
-  );
-
-}
-
-
-// ======================
-// HELPER
+// SET FIELD
 // ======================
 
 function setField(
@@ -144,7 +104,11 @@ function setField(
       fieldId
     );
 
-  if(!field) return;
+
+  if(
+    !field
+  ) return;
+
 
   field.value =
     value;
@@ -153,7 +117,77 @@ function setField(
 
 
 // ======================
-// FORM SUBMIT
+// LOAD FORM
+// ======================
+
+function loadSettingsForm() {
+
+  const settings =
+    getSettings();
+
+
+  // PROFILE
+  setField(
+    "outletName",
+    settings.outletName
+  );
+
+
+  setField(
+    "currency",
+    settings.currency
+  );
+
+
+  // ANNUAL TARGET
+  setField(
+    "annualRevenueTarget",
+    settings.annualRevenueTarget
+  );
+
+
+  setField(
+    "annualGopTarget",
+    settings.annualGopTarget
+  );
+
+
+  // MONTHLY FINANCE
+  setField(
+    "monthlyFoodCost",
+    settings.monthlyFoodCost
+  );
+
+
+  setField(
+    "monthlyBeverageCost",
+    settings.monthlyBeverageCost
+  );
+
+
+  setField(
+    "monthlyFixedCost",
+    settings.monthlyFixedCost
+  );
+
+
+  setField(
+    "monthlyBudget",
+    settings.monthlyBudget
+  );
+
+
+  // SECURITY
+  setField(
+    "pinCode",
+    settings.pinCode
+  );
+
+}
+
+
+// ======================
+// SAVE FORM
 // ======================
 
 function handleSaveSettings(
@@ -165,6 +199,7 @@ function handleSaveSettings(
 
   const settings = {
 
+    // PROFILE
     outletName:
       document.getElementById(
         "outletName"
@@ -177,6 +212,7 @@ function handleSaveSettings(
       ).value,
 
 
+    // ANNUAL TARGET
     annualRevenueTarget:
       Number(
         document.getElementById(
@@ -193,30 +229,40 @@ function handleSaveSettings(
       ),
 
 
-    foodCostTarget:
+    // MONTHLY FINANCE
+    monthlyFoodCost:
       Number(
         document.getElementById(
-          "foodCostTarget"
+          "monthlyFoodCost"
         ).value || 0
       ),
 
 
-    beverageCostTarget:
+    monthlyBeverageCost:
       Number(
         document.getElementById(
-          "beverageCostTarget"
+          "monthlyBeverageCost"
         ).value || 0
       ),
 
 
-    fixedCostTarget:
+    monthlyFixedCost:
       Number(
         document.getElementById(
-          "fixedCostTarget"
+          "monthlyFixedCost"
         ).value || 0
       ),
 
 
+    monthlyBudget:
+      Number(
+        document.getElementById(
+          "monthlyBudget"
+        ).value || 0
+      ),
+
+
+    // SECURITY
     pinCode:
       document.getElementById(
         "pinCode"
@@ -251,7 +297,10 @@ function initSettings() {
       "settingsForm"
     );
 
-  if(form) {
+
+  if(
+    form
+  ) {
 
     form.addEventListener(
       "submit",
