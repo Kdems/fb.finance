@@ -8,6 +8,7 @@ let editingEntryId =
   null;
 
 
+
 // ======================
 // ELEMENTS
 // ======================
@@ -33,6 +34,7 @@ const entryDateField =
   );
 
 
+
 // ======================
 // INIT
 // ======================
@@ -50,6 +52,7 @@ function initDashboard() {
   updateAutoDailyBudget();
 
 }
+
 
 
 // ======================
@@ -156,6 +159,7 @@ function populateMonthFilter() {
 }
 
 
+
 // ======================
 // EVENTS
 // ======================
@@ -210,6 +214,7 @@ function bindEvents() {
   }
 
 }
+
 
 
 // ======================
@@ -273,13 +278,23 @@ function handleSaveEntry(
   }
 
 
-  entryForm.reset();
+  if(
+    entryForm
+  ) {
+
+    entryForm.reset();
+
+  }
+
+
+  renderDashboard();
 
 }
 
 
+
 // ======================
-// FILTER
+// FILTER CHANGE
 // ======================
 
 function handleFilterChange() {
@@ -299,6 +314,7 @@ function handleFilterChange() {
   renderDashboard();
 
 }
+
 
 
 // ======================
@@ -350,6 +366,7 @@ function updateAutoDailyBudget() {
     );
 
 }
+
 
 
 // ======================
@@ -426,6 +443,7 @@ function renderDashboard() {
 }
 
 
+
 // ======================
 // YTD
 // ======================
@@ -439,10 +457,16 @@ function renderYtd(
     getSettings();
 
 
+  const budget =
+    Number(
+      settings.annualRevenueTarget || 0
+    );
+
+
   const achievement =
     calculateAchievement(
       current.totalRevenue,
-      settings.annualRevenueTarget
+      budget
     );
 
 
@@ -451,6 +475,11 @@ function renderYtd(
       current.totalRevenue,
       ly.totalRevenue
     );
+
+
+  const variance =
+    current.totalRevenue -
+    budget;
 
 
   updateCard(
@@ -464,7 +493,7 @@ function renderYtd(
   updateCard(
     "ytdBudgetCard",
     formatMoney(
-      settings.annualRevenueTarget || 0
+      budget
     )
   );
 
@@ -480,7 +509,16 @@ function renderYtd(
     `${growth.toFixed(2)}%`
   );
 
+
+  updateCard(
+    "ytdVarianceCard",
+    formatMoney(
+      variance
+    )
+  );
+
 }
+
 
 
 // ======================
@@ -494,6 +532,12 @@ function renderMtd(
 
   const settings =
     getSettings();
+
+
+  const monthlyBudget =
+    Number(
+      settings.monthlyBudget || 0
+    );
 
 
   const today =
@@ -545,15 +589,20 @@ function renderMtd(
 
   const gap =
     projection -
-    Number(
-      settings.monthlyBudget || 0
-    );
+    monthlyBudget;
 
 
   const growth =
     calculateGrowth(
       current.totalRevenue,
       ly.totalRevenue
+    );
+
+
+  const achievement =
+    calculateAchievement(
+      current.totalRevenue,
+      monthlyBudget
     );
 
 
@@ -568,7 +617,7 @@ function renderMtd(
   updateCard(
     "mtdBudgetCard",
     formatMoney(
-      settings.monthlyBudget || 0
+      monthlyBudget
     )
   );
 
@@ -584,6 +633,12 @@ function renderMtd(
   updateCard(
     "mtdGrowthCard",
     `${growth.toFixed(2)}%`
+  );
+
+
+  updateCard(
+    "mtdAchievementCard",
+    `${achievement.toFixed(2)}%`
   );
 
 
@@ -617,6 +672,7 @@ function renderMtd(
   );
 
 }
+
 
 
 // ======================
@@ -659,6 +715,7 @@ function renderGop(
 }
 
 
+
 // ======================
 // F&B
 // ======================
@@ -693,6 +750,7 @@ function renderFoodBeverage(
 }
 
 
+
 // ======================
 // SUMMARY
 // ======================
@@ -702,6 +760,90 @@ function renderSummary(
   current
 ) {
 
+  const settings =
+    getSettings();
+
+
+  const monthlyBudget =
+    Number(
+      settings.monthlyBudget || 0
+    );
+
+
+  const avgDaily =
+    entries.length > 0
+      ? current.totalRevenue /
+        entries.length
+      : 0;
+
+
+  const achievement =
+    calculateAchievement(
+      current.totalRevenue,
+      monthlyBudget
+    );
+
+
+  let bestDay =
+    "-";
+
+
+  let worstDay =
+    "-";
+
+
+  if(
+    entries.length > 0
+  ) {
+
+    const ranked =
+      entries.map(
+        entry => {
+
+          const revenue =
+            Number(
+              entry.foodRevenue || 0
+            ) +
+            Number(
+              entry.beverageRevenue || 0
+            );
+
+
+          return {
+
+            date:
+              entry.date,
+
+            revenue
+
+          };
+
+        }
+      );
+
+
+    ranked.sort(
+      (
+        a,
+        b
+      ) =>
+        a.revenue -
+        b.revenue
+    );
+
+
+    worstDay =
+      ranked[0].date;
+
+
+    bestDay =
+      ranked[
+        ranked.length - 1
+      ].date;
+
+  }
+
+
   updateCard(
     "summaryRevenueCard",
     formatMoney(
@@ -709,7 +851,34 @@ function renderSummary(
     )
   );
 
+
+  updateCard(
+    "summaryBudgetCard",
+    formatMoney(
+      avgDaily
+    )
+  );
+
+
+  updateCard(
+    "summaryAchievementCard",
+    `${achievement.toFixed(2)}%`
+  );
+
+
+  updateCard(
+    "bestDayCard",
+    bestDay
+  );
+
+
+  updateCard(
+    "worstDayCard",
+    worstDay
+  );
+
 }
+
 
 
 // ======================
@@ -804,6 +973,7 @@ function formatMoney(
   );
 
 }
+
 
 
 // ======================
