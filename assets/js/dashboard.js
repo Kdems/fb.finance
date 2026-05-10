@@ -187,11 +187,163 @@ function renderYtd() {
 
 
 
-function renderMtd() {
-  document.getElementById(
-    "mtdSection"
-  ).innerHTML =
-    "<h2 class='text-2xl font-bold'>MTD Performance</h2>";
+function renderMtd(
+  data
+) {
+
+  document
+    .getElementById(
+      "mtdSection"
+    )
+
+    .innerHTML = `
+
+      <div class="space-y-5">
+
+
+        <div>
+
+          <h2 class="text-2xl font-bold">
+
+            Month-To-Date Performance
+
+          </h2>
+
+        </div>
+
+
+
+
+
+        <div
+          class="grid grid-cols-5 gap-4">
+
+
+
+
+
+          <div
+            class="bg-slate-50 rounded-2xl p-5">
+
+            <p class="text-sm text-slate-500">
+
+              MTD Revenue
+
+            </p>
+
+            <h3 class="text-3xl font-bold">
+
+              RM${data.totalRevenue.toLocaleString()}
+
+            </h3>
+
+          </div>
+
+
+
+
+
+
+
+
+          <div
+            class="bg-slate-50 rounded-2xl p-5">
+
+            <p class="text-sm text-slate-500">
+
+              Target
+
+            </p>
+
+            <h3 class="text-3xl font-bold">
+
+              RM${data.targetRevenue.toLocaleString()}
+
+            </h3>
+
+          </div>
+
+
+
+
+
+
+
+
+          <div
+            class="bg-slate-50 rounded-2xl p-5">
+
+            <p class="text-sm text-slate-500">
+
+              Variance
+
+            </p>
+
+            <h3 class="text-3xl font-bold">
+
+              RM${data.revenueVariance.toLocaleString()}
+
+            </h3>
+
+          </div>
+
+
+
+
+
+
+
+
+          <div
+            class="bg-slate-50 rounded-2xl p-5">
+
+            <p class="text-sm text-slate-500">
+
+              Achievement
+
+            </p>
+
+            <h3 class="text-3xl font-bold">
+
+              ${data.revenueAchievement.toFixed(1)}%
+
+            </h3>
+
+          </div>
+
+
+
+
+
+
+
+
+          <div
+            class="bg-slate-50 rounded-2xl p-5">
+
+            <p class="text-sm text-slate-500">
+
+              Daily Pace
+
+            </p>
+
+            <h3 class="text-3xl font-bold">
+
+              RM${Math.round(
+                data.dailyPace
+              ).toLocaleString()}
+
+            </h3>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+    `;
+
 }
 
 
