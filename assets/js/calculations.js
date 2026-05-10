@@ -1,10 +1,11 @@
-function calculateDashboardData(
+ function calculateDashboardData(
   outlet,
   year,
   month
 ) {
 
   const dailyEntries =
+
     getFilteredDailyEntries(
 
       outlet,
@@ -17,7 +18,10 @@ function calculateDashboardData(
 
 
 
+
+
   const monthlyTarget =
+
     getMonthlyTarget(
 
       outlet,
@@ -30,7 +34,10 @@ function calculateDashboardData(
 
 
 
+
+
   const annualTarget =
+
     getAnnualTarget(
 
       outlet,
@@ -43,11 +50,11 @@ function calculateDashboardData(
 
 
 
-  // ====================
-  // REVENUE
-  // ====================
 
+
+  // REVENUE
   const foodRevenue =
+
     sumField(
       dailyEntries,
       "foodRevenue"
@@ -56,6 +63,7 @@ function calculateDashboardData(
 
 
   const beverageRevenue =
+
     sumField(
       dailyEntries,
       "beverageRevenue"
@@ -75,17 +83,45 @@ function calculateDashboardData(
 
 
 
-  // ====================
-  // COST
-  // ====================
+  // COST %
+  const foodCostPercent =
 
+    Number(
+      monthlyTarget
+        .foodCostPercent || 0
+    );
+
+
+
+  const beverageCostPercent =
+
+    Number(
+      monthlyTarget
+        .beverageCostPercent || 0
+    );
+
+
+
+  const fixedCostPercent =
+
+    Number(
+      monthlyTarget
+        .fixedCostPercent || 0
+    );
+
+
+
+
+
+
+
+  // COST VALUE
   const foodCost =
 
     foodRevenue *
 
     (
-      monthlyTarget
-        .foodCostPercent / 100
+      foodCostPercent / 100
     );
 
 
@@ -95,8 +131,7 @@ function calculateDashboardData(
     beverageRevenue *
 
     (
-      monthlyTarget
-        .beverageCostPercent / 100
+      beverageCostPercent / 100
     );
 
 
@@ -106,8 +141,7 @@ function calculateDashboardData(
     totalRevenue *
 
     (
-      monthlyTarget
-        .fixedCostPercent / 100
+      fixedCostPercent / 100
     );
 
 
@@ -126,10 +160,7 @@ function calculateDashboardData(
 
 
 
-  // ====================
   // GOP
-  // ====================
-
   const gop =
 
     totalRevenue -
@@ -138,9 +169,11 @@ function calculateDashboardData(
 
 
 
+
+
   const gopMargin =
 
-    totalRevenue
+    totalRevenue > 0
 
       ? (
 
@@ -158,17 +191,32 @@ function calculateDashboardData(
 
 
 
-  // ====================
   // TARGET
-  // ====================
+  const foodTarget =
+
+    Number(
+      monthlyTarget
+        .foodTarget || 0
+    );
+
+
+
+  const beverageTarget =
+
+    Number(
+      monthlyTarget
+        .beverageTarget || 0
+    );
+
+
+
+
 
   const targetRevenue =
 
-    monthlyTarget
-      .foodTarget +
+    foodTarget +
 
-    monthlyTarget
-      .beverageTarget;
+    beverageTarget;
 
 
 
@@ -186,7 +234,7 @@ function calculateDashboardData(
 
   const revenueAchievement =
 
-    targetRevenue
+    targetRevenue > 0
 
       ? (
 
@@ -204,17 +252,32 @@ function calculateDashboardData(
 
 
 
-  // ====================
   // LY
-  // ====================
+  const lyFoodRevenue =
+
+    Number(
+      monthlyTarget
+        .lyFoodRevenue || 0
+    );
+
+
+
+  const lyBeverageRevenue =
+
+    Number(
+      monthlyTarget
+        .lyBeverageRevenue || 0
+    );
+
+
+
+
 
   const lyRevenue =
 
-    monthlyTarget
-      .lyFoodRevenue +
+    lyFoodRevenue +
 
-    monthlyTarget
-      .lyBeverageRevenue;
+    lyBeverageRevenue;
 
 
 
@@ -222,7 +285,7 @@ function calculateDashboardData(
 
   const lyGrowth =
 
-    lyRevenue
+    lyRevenue > 0
 
       ? (
 
@@ -246,10 +309,7 @@ function calculateDashboardData(
 
 
 
-  // ====================
   // DAYS
-  // ====================
-
   const today =
     new Date();
 
@@ -268,11 +328,19 @@ function calculateDashboardData(
 
 
 
+
+
   const daysLeft =
 
-    daysInMonth -
+    Math.max(
 
-    today.getDate();
+      daysInMonth -
+
+      today.getDate(),
+
+      0
+
+    );
 
 
 
@@ -296,29 +364,11 @@ function calculateDashboardData(
 
 
 
-  const projectedRevenue =
-
-    totalRevenue +
-
-    (
-
-      dailyPace *
-
-      daysLeft
-
-    );
 
 
-
-
-
-
-
-  // ====================
   // YTD
-  // ====================
-
   const ytdRevenue =
+
     getYtdRevenue(
 
       outlet,
@@ -331,26 +381,38 @@ function calculateDashboardData(
 
 
 
+
+
+  const annualRevenueTarget =
+
+    Number(
+      annualTarget
+        .annualRevenueTarget || 0
+    );
+
+
+
+
+
   const ytdVariance =
 
     ytdRevenue -
 
-    annualTarget
-      .annualRevenueTarget;
+    annualRevenueTarget;
+
+
 
 
 
   const ytdAchievement =
 
-    annualTarget
-      .annualRevenueTarget
+    annualRevenueTarget > 0
 
       ? (
 
           ytdRevenue /
 
-          annualTarget
-            .annualRevenueTarget
+          annualRevenueTarget
 
         ) * 100
 
@@ -406,8 +468,6 @@ function calculateDashboardData(
 
     dailyPace,
 
-    projectedRevenue,
-
 
 
     ytdRevenue,
@@ -418,7 +478,17 @@ function calculateDashboardData(
 
   };
 
-  function sumField(
+}
+
+
+
+
+
+
+
+
+
+function sumField(
   rows,
   field
 ) {
@@ -438,15 +508,21 @@ function calculateDashboardData(
           item[
             field
           ] || 0
-        );
+        )
 
-      },
+      );
+
+    },
 
     0
 
   );
 
 }
+
+
+
+
 
 
 
@@ -470,24 +546,17 @@ function getFilteredDailyEntries(
 
 
 
-        const outletMatch =
-
-          outlet ===
-          "ALL"
-
-            ||
-
-          item.outlet ===
-            outlet;
-
-
-
         return (
 
-          outletMatch &&
+          item.outlet ===
+            outlet
+
+          &&
 
           date.getFullYear() ===
-            year &&
+            year
+
+          &&
 
           date.getMonth() + 1 ===
             month
@@ -498,6 +567,10 @@ function getFilteredDailyEntries(
     );
 
 }
+
+
+
+
 
 
 
@@ -519,10 +592,14 @@ function getMonthlyTarget(
           return (
 
             item.outlet ===
-              outlet &&
+              outlet
+
+            &&
 
             item.year ===
-              year &&
+              year
+
+            &&
 
             item.month ===
               month
@@ -544,6 +621,10 @@ function getMonthlyTarget(
 
 
 
+
+
+
+
 function getAnnualTarget(
   outlet,
   year
@@ -559,7 +640,9 @@ function getAnnualTarget(
           return (
 
             item.outlet ===
-              outlet &&
+              outlet
+
+            &&
 
             item.year ===
               year
@@ -581,14 +664,17 @@ function getAnnualTarget(
 
 
 
+
+
+
+
 function getYtdRevenue(
   outlet,
   year,
   month
 ) {
 
-  let total =
-    0;
+  let total = 0;
 
 
 
@@ -599,6 +685,7 @@ function getYtdRevenue(
   ) {
 
     const rows =
+
       getFilteredDailyEntries(
 
         outlet,
@@ -630,7 +717,5 @@ function getYtdRevenue(
 
 
   return total;
-
-}
 
 }
