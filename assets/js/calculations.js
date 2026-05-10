@@ -20,6 +20,65 @@
 
 
 
+  const monthlyTarget =
+
+    getMonthlyTarget(
+
+      outlet,
+
+      year,
+
+      month
+
+    );
+
+
+
+
+
+  const annualTarget =
+
+    getAnnualTarget(
+
+      outlet,
+
+      year
+
+    );
+
+
+
+
+
+
+
+  // REVENUE
+  const foodRevenue =
+
+    sumField(
+      dailyEntries,
+      "foodRevenue"
+    );
+
+
+
+  const beverageRevenue =
+
+    sumField(
+      dailyEntries,
+      "beverageRevenue"
+    );
+
+
+
+  const totalRevenue =
+
+    foodRevenue +
+
+    beverageRevenue;
+
+
+
   const sortedEntries =
 
   [...dailyEntries]
@@ -124,71 +183,7 @@ if (
 
     "GOP Below Target";
 
-}      
-
-
-
-
-  const monthlyTarget =
-
-    getMonthlyTarget(
-
-      outlet,
-
-      year,
-
-      month
-
-    );
-
-
-
-
-
-  const annualTarget =
-
-    getAnnualTarget(
-
-      outlet,
-
-      year
-
-    );
-
-
-
-
-
-
-
-  // REVENUE
-  const foodRevenue =
-
-    sumField(
-      dailyEntries,
-      "foodRevenue"
-    );
-
-
-
-  const beverageRevenue =
-
-    sumField(
-      dailyEntries,
-      "beverageRevenue"
-    );
-
-
-
-  const totalRevenue =
-
-    foodRevenue +
-
-    beverageRevenue;
-
-
-
-
+}
 
 
 
