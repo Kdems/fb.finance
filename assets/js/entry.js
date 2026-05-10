@@ -686,6 +686,8 @@ function buildDropdowns() {
 
 
 
+
+
   buildMonthDropdown(
     "monthlyMonth"
   );
@@ -695,6 +697,98 @@ function buildDropdowns() {
   buildMonthDropdown(
     "filterMonth"
   );
+
+
+
+
+
+
+
+
+  const today =
+    new Date();
+
+
+
+
+
+  const currentYear =
+    today.getFullYear();
+
+
+
+
+
+  const currentMonth =
+    today.getMonth() + 1;
+
+
+
+
+
+
+
+
+  // MONTHLY
+  document
+    .getElementById(
+      "monthlyYear"
+    )
+    .value =
+
+    currentYear;
+
+
+
+  document
+    .getElementById(
+      "monthlyMonth"
+    )
+    .value =
+
+    currentMonth;
+
+
+
+
+
+
+
+
+  // ANNUAL
+  document
+    .getElementById(
+      "annualYear"
+    )
+    .value =
+
+    currentYear;
+
+
+
+
+
+
+
+
+  // FILTER
+  document
+    .getElementById(
+      "filterYear"
+    )
+    .value =
+
+    currentYear;
+
+
+
+  document
+    .getElementById(
+      "filterMonth"
+    )
+    .value =
+
+    currentMonth;
 
 }
 
