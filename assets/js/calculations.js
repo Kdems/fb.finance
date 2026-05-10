@@ -418,4 +418,219 @@ function calculateDashboardData(
 
   };
 
+  function sumField(
+  rows,
+  field
+) {
+
+  return rows.reduce(
+
+    (
+      total,
+      item
+    ) => {
+
+      return (
+
+        total +
+
+        Number(
+          item[
+            field
+          ] || 0
+        );
+
+      },
+
+    0
+
+  );
+
+}
+
+
+
+
+
+function getFilteredDailyEntries(
+  outlet,
+  year,
+  month
+) {
+
+  return getDailyEntries()
+
+    .filter(
+      item => {
+
+        const date =
+          new Date(
+            item.date
+          );
+
+
+
+        const outletMatch =
+
+          outlet ===
+          "ALL"
+
+            ||
+
+          item.outlet ===
+            outlet;
+
+
+
+        return (
+
+          outletMatch &&
+
+          date.getFullYear() ===
+            year &&
+
+          date.getMonth() + 1 ===
+            month
+
+        );
+
+      }
+    );
+
+}
+
+
+
+
+
+function getMonthlyTarget(
+  outlet,
+  year,
+  month
+) {
+
+  return (
+
+    getMonthlyTargets()
+
+      .find(
+        item => {
+
+          return (
+
+            item.outlet ===
+              outlet &&
+
+            item.year ===
+              year &&
+
+            item.month ===
+              month
+
+          );
+
+        }
+      )
+
+    ||
+
+    {}
+
+  );
+
+}
+
+
+
+
+
+function getAnnualTarget(
+  outlet,
+  year
+) {
+
+  return (
+
+    getAnnualTargets()
+
+      .find(
+        item => {
+
+          return (
+
+            item.outlet ===
+              outlet &&
+
+            item.year ===
+              year
+
+          );
+
+        }
+      )
+
+    ||
+
+    {}
+
+  );
+
+}
+
+
+
+
+
+function getYtdRevenue(
+  outlet,
+  year,
+  month
+) {
+
+  let total =
+    0;
+
+
+
+  for (
+    let m = 1;
+    m <= month;
+    m++
+  ) {
+
+    const rows =
+      getFilteredDailyEntries(
+
+        outlet,
+
+        year,
+
+        m
+
+      );
+
+
+
+    total +=
+
+      sumField(
+        rows,
+        "foodRevenue"
+      )
+
+      +
+
+      sumField(
+        rows,
+        "beverageRevenue"
+      );
+
+  }
+
+
+
+  return total;
+
+}
+
 }
