@@ -19,15 +19,36 @@
 
 <body class="bg-slate-100">
 
-<div class="p-8 space-y-8">
+<div class="min-h-screen p-6 space-y-6">
+
+
+
+  <!-- HEADER -->
+  <div>
+
+    <h1 class="text-4xl font-bold">
+      Entry Management
+    </h1>
+
+    <p class="text-slate-500">
+      Daily performance & target control
+    </p>
+
+  </div>
+
+
+
+
+
+
 
 
 
 
   <!-- DAILY ENTRY -->
-  <section class="bg-white rounded-3xl p-6 shadow">
+  <section class="bg-white rounded-3xl shadow p-6">
 
-    <h2 class="text-2xl font-bold mb-4">
+    <h2 class="text-2xl font-bold mb-5">
       Daily Entry
     </h2>
 
@@ -41,7 +62,7 @@
 
       <select
         id="dailyOutlet"
-        class="border rounded-xl p-3">
+        class="border rounded-xl p-3 w-full">
 
         <option>
           SKYBAR
@@ -62,7 +83,7 @@
       <input
         id="dailyDate"
         type="date"
-        class="border rounded-xl p-3">
+        class="border rounded-xl p-3 w-full">
 
 
 
@@ -70,7 +91,7 @@
         id="dailyFoodRevenue"
         type="number"
         placeholder="Food Revenue"
-        class="border rounded-xl p-3">
+        class="border rounded-xl p-3 w-full">
 
 
 
@@ -78,11 +99,20 @@
         id="dailyBeverageRevenue"
         type="number"
         placeholder="Beverage Revenue"
-        class="border rounded-xl p-3">
+        class="border rounded-xl p-3 w-full">
+
+
+
+      <input
+        id="dailyTotalRevenue"
+        readonly
+        placeholder="Auto Total Revenue"
+        class="bg-slate-100 border rounded-xl p-3 w-full">
 
 
 
       <button
+        type="submit"
         class="bg-slate-950 text-white rounded-xl p-3">
 
         Save Daily
@@ -101,10 +131,11 @@
 
 
 
-  <!-- MONTHLY -->
-  <section class="bg-white rounded-3xl p-6 shadow">
 
-    <h2 class="text-2xl font-bold mb-4">
+  <!-- MONTHLY TARGET -->
+  <section class="bg-white rounded-3xl shadow p-6">
+
+    <h2 class="text-2xl font-bold mb-5">
       Monthly Target
     </h2>
 
@@ -118,7 +149,7 @@
 
       <select
         id="monthlyOutlet"
-        class="border rounded-xl p-3">
+        class="border rounded-xl p-3 w-full">
 
         <option>
           SKYBAR
@@ -139,74 +170,85 @@
       <input
         id="monthlyYear"
         type="number"
-        placeholder="Year">
+        placeholder="Year"
+        class="border rounded-xl p-3 w-full">
 
 
 
       <input
         id="monthlyMonth"
         type="number"
-        placeholder="Month">
+        placeholder="Month"
+        class="border rounded-xl p-3 w-full">
 
 
 
       <input
         id="foodTarget"
         type="number"
-        placeholder="Food Target">
+        placeholder="Food Target"
+        class="border rounded-xl p-3 w-full">
 
 
 
       <input
         id="beverageTarget"
         type="number"
-        placeholder="Beverage Target">
+        placeholder="Beverage Target"
+        class="border rounded-xl p-3 w-full">
 
 
 
       <input
         id="lyFoodRevenue"
         type="number"
-        placeholder="LY Food Revenue">
+        placeholder="LY Food Revenue"
+        class="border rounded-xl p-3 w-full">
 
 
 
       <input
         id="lyBeverageRevenue"
         type="number"
-        placeholder="LY Beverage Revenue">
+        placeholder="LY Beverage Revenue"
+        class="border rounded-xl p-3 w-full">
 
 
 
       <input
         id="foodCostPercent"
         type="number"
-        placeholder="Food Cost %">
+        placeholder="Food Cost %"
+        class="border rounded-xl p-3 w-full">
 
 
 
       <input
         id="beverageCostPercent"
         type="number"
-        placeholder="Beverage Cost %">
+        placeholder="Beverage Cost %"
+        class="border rounded-xl p-3 w-full">
 
 
 
       <input
         id="fixedCostPercent"
         type="number"
-        placeholder="Fixed Cost %">
+        placeholder="Fixed Cost %"
+        class="border rounded-xl p-3 w-full">
 
 
 
       <input
         id="gopTarget"
         type="number"
-        placeholder="GOP Target">
+        placeholder="GOP Target"
+        class="border rounded-xl p-3 w-full">
 
 
 
       <button
+        type="submit"
         class="bg-slate-950 text-white rounded-xl p-3">
 
         Save Monthly
@@ -225,10 +267,11 @@
 
 
 
-  <!-- ANNUAL -->
-  <section class="bg-white rounded-3xl p-6 shadow">
 
-    <h2 class="text-2xl font-bold mb-4">
+  <!-- ANNUAL TARGET -->
+  <section class="bg-white rounded-3xl shadow p-6">
+
+    <h2 class="text-2xl font-bold mb-5">
       Annual Target
     </h2>
 
@@ -236,12 +279,13 @@
 
     <form
       id="annualForm"
-      class="grid grid-cols-4 gap-4">
+      class="grid grid-cols-5 gap-4 items-end">
 
 
 
       <select
-        id="annualOutlet">
+        id="annualOutlet"
+        class="border rounded-xl p-3 w-full">
 
         <option>
           SKYBAR
@@ -262,25 +306,29 @@
       <input
         id="annualYear"
         type="number"
-        placeholder="Year">
+        placeholder="Year"
+        class="border rounded-xl p-3 w-full">
 
 
 
       <input
         id="annualRevenueTarget"
         type="number"
-        placeholder="Annual Revenue">
+        placeholder="Annual Revenue"
+        class="border rounded-xl p-3 w-full">
 
 
 
       <input
         id="annualGopTarget"
         type="number"
-        placeholder="Annual GOP">
+        placeholder="Annual GOP"
+        class="border rounded-xl p-3 w-full">
 
 
 
       <button
+        type="submit"
         class="bg-slate-950 text-white rounded-xl p-3">
 
         Save Annual
@@ -299,22 +347,26 @@
 
 
 
-  <!-- RECENT -->
-  <section class="bg-white rounded-3xl p-6 shadow">
 
-    <h2 class="text-2xl font-bold mb-4">
+  <!-- RECENT -->
+  <section class="bg-white rounded-3xl shadow p-6">
+
+    <h2 class="text-2xl font-bold mb-5">
       Recent Entries
     </h2>
 
 
 
-    <div id="recentEntryList"></div>
+    <div
+      id="recentEntryList"
+      class="space-y-2">
+
+    </div>
 
   </section>
 
 
 </div>
-
 
 
 <script src="assets/js/storage.js"></script>
