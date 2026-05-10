@@ -468,6 +468,12 @@ const gopAchievement =
 
     fixedCost,
 
+    foodCostPercent,
+
+    beverageCostPercent,
+
+    fixedCostPercent,
+
     totalCost,
 
 

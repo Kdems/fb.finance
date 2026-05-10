@@ -620,19 +620,96 @@ function renderGop(
 
 
           <div
-            class="bg-slate-50 rounded-2xl p-5">
+  class="bg-slate-50 rounded-2xl p-5">
 
-            <p>Total COGS</p>
+  <p>
 
-            <h3 class="text-3xl font-bold">
+    Total COGS
 
-              RM${Math.round(
-                data.totalCost
-              ).toLocaleString()}
+  </p>
 
-            </h3>
 
-          </div>
+
+
+
+
+  <h3 class="text-3xl font-bold mb-3">
+
+    RM${Math.round(
+      data.totalCost
+    ).toLocaleString()}
+
+  </h3>
+
+
+
+
+
+
+
+  <div class="text-sm space-y-1 text-slate-600">
+
+    <div>
+
+      Food:
+
+      RM${Math.round(
+        data.foodCost
+      ).toLocaleString()}
+
+      (
+
+      ${data.foodCostPercent.toFixed(1)}%
+
+      )
+
+    </div>
+
+
+
+
+
+
+    <div>
+
+      Beverage:
+
+      RM${Math.round(
+        data.beverageCost
+      ).toLocaleString()}
+
+      (
+
+      ${data.beverageCostPercent.toFixed(1)}%
+
+      )
+
+    </div>
+
+
+
+
+
+
+    <div>
+
+      Fixed:
+
+      RM${Math.round(
+        data.fixedCost
+      ).toLocaleString()}
+
+      (
+
+      ${data.fixedCostPercent.toFixed(1)}%
+
+      )
+
+    </div>
+
+  </div>
+
+</div>
 
 
 
