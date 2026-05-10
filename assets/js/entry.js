@@ -4,6 +4,8 @@ window.onload = function () {
 
   setupDailyAutoTotal();
 
+  setupRecentFilters();
+
   bindDailyForm();
 
   bindMonthlyForm();
@@ -313,37 +315,46 @@ function bindAnnualForm() {
 
 function renderRecentEntries() {
 
-  const entries =
-    getDailyEntries();
+ const entries =
+
+  getDailyEntries()
+
+    .filter(
+      item => {
+
+        const date =
+          new Date(
+            item.date
+          );
 
 
 
+        const outletMatch =
+
+          selectedOutlet ===
+            "ALL"
+
+            ||
+
+          item.outlet ===
+            selectedOutlet;
 
 
-  const container =
-    document.getElementById(
-      "recentEntryList"
+
+        return (
+
+          outletMatch &&
+
+          date.getFullYear() ===
+            selectedYear &&
+
+          date.getMonth() + 1 ===
+            selectedMonth
+
+        );
+
+      }
     );
-
-
-
-
-
-  if (
-    entries.length === 0
-  ) {
-
-    container.innerHTML =
-
-      `
-        <p class="text-slate-400">
-          No entries found
-        </p>
-      `;
-
-    return;
-
-  }
 
 
 
@@ -597,8 +608,20 @@ function buildDropdowns() {
 
 
 
+  buildYearDropdown(
+    "filterYear"
+  );
+
+
+
   buildMonthDropdown(
     "monthlyMonth"
+  );
+
+
+
+  buildMonthDropdown(
+    "filterMonth"
   );
 
 }
@@ -768,5 +791,66 @@ function setupDailyAutoTotal() {
     "input",
     updateTotal
   );
+
+}
+
+function setupRecentFilters() {
+
+  const selectedOutlet =
+
+  getValue(
+    "filterOutlet"
+  );
+
+
+
+const selectedYear =
+
+  Number(
+    getValue(
+      "filterYear"
+    )
+  );
+
+
+
+const selectedMonth =
+
+  Number(
+    getValue(
+      "filterMonth"
+    )
+  );
+
+  document
+    .getElementById(
+      "filterOutlet"
+    )
+    .addEventListener(
+      "change",
+      renderRecentEntries
+    );
+
+
+
+  document
+    .getElementById(
+      "filterYear"
+    )
+    .addEventListener(
+      "change",
+      renderRecentEntries
+    );
+
+
+
+  document
+    .getElementById(
+      "filterMonth"
+    )
+    .addEventListener(
+      "change",
+      renderRecentEntries
+    );
 
 }
