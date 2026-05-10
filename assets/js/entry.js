@@ -9,6 +9,8 @@ document.addEventListener(
 
 function initEntryPage() {
 
+  buildDropdowns();
+
   bindDailyForm();
 
   bindMonthlyForm();
@@ -466,5 +468,133 @@ function getValue(
     .getElementById(
       id
     ).value;
+
+}
+
+function buildDropdowns() {
+
+  buildYearDropdown(
+    "monthlyYear"
+  );
+
+
+
+  buildYearDropdown(
+    "annualYear"
+  );
+
+
+
+  buildMonthDropdown(
+    "monthlyMonth"
+  );
+
+}
+
+
+
+
+
+
+
+function buildYearDropdown(
+  id
+) {
+
+  const select =
+    document.getElementById(
+      id
+    );
+
+
+
+  let html = "";
+
+
+
+  for (
+    let year = 2025;
+    year <= 2030;
+    year++
+  ) {
+
+    html += `
+
+      <option value="${year}">
+
+        ${year}
+
+      </option>
+
+    `;
+
+  }
+
+
+
+  select.innerHTML =
+    html;
+
+}
+
+
+
+
+
+
+
+function buildMonthDropdown(
+  id
+) {
+
+  const months = [
+
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+
+  ];
+
+
+
+  const select =
+    document.getElementById(
+      id
+    );
+
+
+
+  select.innerHTML =
+
+    months
+      .map(
+        (
+          name,
+          index
+        ) => {
+
+          return `
+
+            <option value="${index + 1}">
+
+              ${name}
+
+            </option>
+
+          `;
+
+        }
+      )
+      .join("");
 
 }
