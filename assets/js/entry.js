@@ -6,6 +6,8 @@ window.onload = function () {
 
   setupRecentFilters();
 
+  setupTargetReload();
+
   bindDailyForm();
 
   bindMonthlyForm();
@@ -13,6 +15,10 @@ window.onload = function () {
   bindAnnualForm();
 
   renderRecentEntries();
+
+  loadMonthlyTargetToForm();
+
+  loadAnnualTargetToForm();
 
 };
 
@@ -918,5 +924,253 @@ const selectedMonth =
       "change",
       renderRecentEntries
     );
+
+}
+
+function setupTargetReload() {
+
+  // MONTHLY
+  document
+    .getElementById(
+      "monthlyOutlet"
+    )
+    .addEventListener(
+      "change",
+      loadMonthlyTargetToForm
+    );
+
+
+
+  document
+    .getElementById(
+      "monthlyYear"
+    )
+    .addEventListener(
+      "change",
+      loadMonthlyTargetToForm
+    );
+
+
+
+  document
+    .getElementById(
+      "monthlyMonth"
+    )
+    .addEventListener(
+      "change",
+      loadMonthlyTargetToForm
+    );
+
+
+
+
+
+
+  // ANNUAL
+  document
+    .getElementById(
+      "annualOutlet"
+    )
+    .addEventListener(
+      "change",
+      loadAnnualTargetToForm
+    );
+
+
+
+  document
+    .getElementById(
+      "annualYear"
+    )
+    .addEventListener(
+      "change",
+      loadAnnualTargetToForm
+    );
+
+}
+
+function loadMonthlyTargetToForm() {
+
+  const outlet =
+    getValue(
+      "monthlyOutlet"
+    );
+
+
+
+  const year =
+    Number(
+      getValue(
+        "monthlyYear"
+      )
+    );
+
+
+
+  const month =
+    Number(
+      getValue(
+        "monthlyMonth"
+      )
+    );
+
+
+
+
+
+  const target =
+
+    getMonthlyTargets()
+
+      .find(
+        item => {
+
+          return (
+
+            item.outlet ===
+              outlet &&
+
+            item.year ===
+              year &&
+
+            item.month ===
+              month
+
+          );
+
+        }
+      );
+
+
+
+
+
+  if (
+    !target
+  ) return;
+
+
+
+
+
+  document.getElementById(
+    "foodTarget"
+  ).value =
+    target.foodTarget || "";
+
+
+
+  document.getElementById(
+    "beverageTarget"
+  ).value =
+    target.beverageTarget || "";
+
+
+
+  document.getElementById(
+    "lyFoodRevenue"
+  ).value =
+    target.lyFoodRevenue || "";
+
+
+
+  document.getElementById(
+    "lyBeverageRevenue"
+  ).value =
+    target.lyBeverageRevenue || "";
+
+
+
+  document.getElementById(
+    "foodCostPercent"
+  ).value =
+    target.foodCostPercent || "";
+
+
+
+  document.getElementById(
+    "beverageCostPercent"
+  ).value =
+    target.beverageCostPercent || "";
+
+
+
+  document.getElementById(
+    "fixedCostPercent"
+  ).value =
+    target.fixedCostPercent || "";
+
+
+
+  document.getElementById(
+    "gopTarget"
+  ).value =
+    target.gopTarget || "";
+
+}
+
+function loadAnnualTargetToForm() {
+
+  const outlet =
+    getValue(
+      "annualOutlet"
+    );
+
+
+
+  const year =
+    Number(
+      getValue(
+        "annualYear"
+      )
+    );
+
+
+
+
+
+  const target =
+
+    getAnnualTargets()
+
+      .find(
+        item => {
+
+          return (
+
+            item.outlet ===
+              outlet &&
+
+            item.year ===
+              year
+
+          );
+
+        }
+      );
+
+
+
+
+
+  if (
+    !target
+  ) return;
+
+
+
+
+
+  document.getElementById(
+    "annualRevenueTarget"
+  ).value =
+    target.annualRevenueTarget || "";
+
+
+
+  document.getElementById(
+    "annualGopTarget"
+  ).value =
+    target.annualGopTarget || "";
 
 }
