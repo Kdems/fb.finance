@@ -7,8 +7,7 @@
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+    content="width=device-width, initial-scale=1.0">
 
   <title>
     SKYBAR Dashboard
@@ -18,227 +17,235 @@
 
 </head>
 
-
-
 <body class="bg-slate-100">
 
-<div class="min-h-screen flex">
-
-
-  <!-- NAVIGATION -->
-  <aside class="w-64 bg-slate-950 text-white p-6">
-
-    <h2 class="text-xl font-bold mb-8">
-      SKYBAR
-    </h2>
-
-    <nav class="space-y-3">
-
-      <a
-        href="index.html"
-        class="block text-cyan-400"
-      >
-        Dashboard
-      </a>
-
-      <a
-        href="entry.html"
-        class="block"
-      >
-        Entry
-      </a>
-
-      <a
-        href="reports.html"
-        class="block"
-      >
-        Reports
-      </a>
-
-      <a
-        href="review.html"
-        class="block"
-      >
-        Review
-      </a>
-
-      <a
-        href="settings.html"
-        class="block"
-      >
-        Settings
-      </a>
-
-    </nav>
-
-  </aside>
+<div class="p-6 space-y-6">
 
 
 
-  <!-- MAIN -->
-  <main class="flex-1 p-8">
 
+  <!-- HEADER -->
+  <section
+    class="bg-slate-950 text-white rounded-3xl p-6">
 
-    <!-- HEADER -->
-    <div class="mb-8 flex gap-4">
+    <div
+      class="flex justify-between items-center">
 
-      <select
-        id="yearFilter"
-        class="border rounded-xl px-4 py-3"
-      ></select>
+      <div>
 
+        <h1
+          class="text-4xl font-bold">
 
-      <select
-        id="monthFilter"
-        class="border rounded-xl px-4 py-3"
-      ></select>
+          SKYBAR Finance
 
-    </div>
+        </h1>
 
 
 
-    <!-- KPI -->
-    <div class="grid md:grid-cols-4 gap-6 mb-8">
+        <p
+          class="text-slate-300">
 
+          Multi Outlet Executive Dashboard
 
-      <div class="bg-white rounded-2xl p-6 shadow">
-
-        <p class="text-slate-500 text-sm">
-          Total Revenue
         </p>
-
-        <h3
-          id="ytdRevenueCard"
-          class="text-2xl font-bold mt-2"
-        >
-          RM0
-        </h3>
 
       </div>
 
 
 
-      <div class="bg-white rounded-2xl p-6 shadow">
 
-        <p class="text-slate-500 text-sm">
-          Total Budget
-        </p>
-
-        <h3
-          id="ytdBudgetCard"
-          class="text-2xl font-bold mt-2"
-        >
-          RM0
-        </h3>
-
-      </div>
-
-
-
-      <div class="bg-white rounded-2xl p-6 shadow">
-
-        <p class="text-slate-500 text-sm">
-          Achievement
-        </p>
-
-        <h3
-          id="ytdAchievementCard"
-          class="text-2xl font-bold mt-2"
-        >
-          0%
-        </h3>
-
-      </div>
-
-
-
-      <div class="bg-white rounded-2xl p-6 shadow">
-
-        <p class="text-slate-500 text-sm">
-          GOP Margin
-        </p>
-
-        <h3
-          id="gopMarginCard"
-          class="text-2xl font-bold mt-2"
-        >
-          0%
-        </h3>
-
-      </div>
-
-
-    </div>
-
-
-
-    <!-- F&B -->
-    <div class="grid md:grid-cols-2 gap-6 mb-8">
-
-
-      <div class="bg-white rounded-2xl p-6 shadow">
-
-        <p class="text-slate-500 text-sm">
-          Food Revenue
-        </p>
-
-        <h3
-          id="foodRevenueCard"
-          class="text-2xl font-bold mt-2"
-        >
-          RM0
-        </h3>
-
-      </div>
-
-
-
-      <div class="bg-white rounded-2xl p-6 shadow">
-
-        <p class="text-slate-500 text-sm">
-          Beverage Revenue
-        </p>
-
-        <h3
-          id="bevRevenueCard"
-          class="text-2xl font-bold mt-2"
-        >
-          RM0
-        </h3>
-
-      </div>
-
-
-    </div>
-
-
-
-    <!-- RECENT -->
-    <div class="bg-white rounded-2xl p-6 shadow">
-
-      <h2 class="text-xl font-bold mb-6">
-        Recent Entries
-      </h2>
 
 
       <div
-        id="recentEntriesList"
-      ></div>
+        class="grid grid-cols-3 gap-3">
+
+
+
+        <select
+          id="dashboardOutlet"
+          class="text-black rounded-xl px-4 py-2">
+
+          <option>
+            SKYBAR
+          </option>
+
+          <option>
+            GCC
+          </option>
+
+          <option>
+            BO6
+          </option>
+
+        </select>
+
+
+
+
+
+
+        <select
+          id="dashboardYear"
+          class="text-black rounded-xl px-4 py-2">
+
+        </select>
+
+
+
+
+
+
+        <select
+          id="dashboardMonth"
+          class="text-black rounded-xl px-4 py-2">
+
+        </select>
+
+      </div>
 
     </div>
 
+  </section>
 
-  </main>
+
+
+
+
+
+
+
+
+
+  <!-- YTD -->
+  <section
+    id="ytdSection"
+    class="bg-white rounded-3xl p-6 shadow">
+
+  </section>
+
+
+
+
+
+
+
+
+
+
+  <!-- MTD -->
+  <section
+    id="mtdSection"
+    class="bg-white rounded-3xl p-6 shadow">
+
+  </section>
+
+
+
+
+
+
+
+
+
+
+  <!-- GOP -->
+  <section
+    id="gopSection"
+    class="bg-white rounded-3xl p-6 shadow">
+
+  </section>
+
+
+
+
+
+
+
+
+
+
+  <!-- COST -->
+  <section
+    id="costSection"
+    class="bg-white rounded-3xl p-6 shadow">
+
+  </section>
+
+
+
+
+
+
+
+
+
+
+  <!-- SUMMARY -->
+  <section
+    id="summarySection"
+    class="bg-white rounded-3xl p-6 shadow">
+
+  </section>
+
+
+
+
+
+
+
+
+
+
+  <!-- RECENT -->
+  <section
+    id="recentSection"
+    class="bg-white rounded-3xl p-6 shadow">
+
+  </section>
+
+
+
+
+
+
+
+
+
+
+  <!-- OUTLET -->
+  <section
+    id="rankingSection"
+    class="bg-white rounded-3xl p-6 shadow">
+
+  </section>
+
+
+
+
+
+
+
+
+
+
+  <!-- ALERTS -->
+  <section
+    id="alertSection"
+    class="bg-white rounded-3xl p-6 shadow">
+
+  </section>
+
+
 
 </div>
 
 
 
-<script src="storage.js"></script>
-<script src="settings.js"></script>
-<script src="calculations.js"></script>
-<script src="dashboard.js"></script>
 
+
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/calculations.js"></script>
+<script src="assets/js/dashboard.js"></script>
 
 </body>
 </html>
