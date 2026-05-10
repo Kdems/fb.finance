@@ -546,10 +546,26 @@ function getFilteredDailyEntries(
 
 
 
-        return (
+
+
+        const outletMatch =
+
+          outlet === "ALL"
+
+            ||
 
           item.outlet ===
-            outlet
+            outlet;
+
+
+
+
+
+
+
+        return (
+
+          outletMatch
 
           &&
 
