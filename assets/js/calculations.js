@@ -222,6 +222,74 @@
 
 
 
+  const targetFoodCost =
+
+  foodTarget *
+
+  (
+    foodCostPercent / 100
+  );
+
+
+
+
+
+  const targetBeverageCost =
+
+  beverageTarget *
+
+  (
+    beverageCostPercent / 100
+  );
+
+
+
+
+
+  const targetFixedCost =
+
+  targetRevenue *
+
+  (
+    fixedCostPercent / 100
+  );
+
+
+
+
+
+
+
+
+  const foodCostVariance =
+
+  foodCost -
+
+  targetFoodCost;
+
+
+
+
+
+  const beverageCostVariance =
+
+  beverageCost -
+
+  targetBeverageCost;
+
+
+
+
+
+  const fixedCostVariance =
+
+  fixedCost -
+
+  targetFixedCost;  
+
+
+
+
   const revenueVariance =
 
     totalRevenue -
@@ -468,11 +536,31 @@ const gopAchievement =
 
     fixedCost,
 
+
+
+    targetFoodCost,
+
+    targetBeverageCost,
+
+    targetFixedCost,
+
+
+
+    foodCostVariance,
+
+    beverageCostVariance,
+
+    fixedCostVariance,
+
+
+
     foodCostPercent,
 
     beverageCostPercent,
 
     fixedCostPercent,
+
+
 
     totalCost,
 
