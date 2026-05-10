@@ -1596,7 +1596,7 @@ function renderRanking() {
         <h3 class="text-2xl font-bold">
           ${best.name}
         </h3>
-        <p>RM${formatNumber(best.revenue)}</p>
+        <p>${formatCurrency(best.revenue)}</p>
       </div>
 
       <div class="bg-slate-50 rounded-2xl p-4">
@@ -1604,7 +1604,7 @@ function renderRanking() {
         <h3 class="text-2xl font-bold">
           ${worst.name}
         </h3>
-        <p>RM${formatNumber(worst.revenue)}</p>
+        <p>${formatCurrency(worst.revenue)}</p>
       </div>
 
     </div>
