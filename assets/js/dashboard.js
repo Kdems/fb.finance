@@ -206,6 +206,15 @@ function renderDashboard() {
 
 
 
+
+  renderTrend(
+  outlet,
+  year,
+  month
+  );
+
+
+
   renderRanking();
 
 
@@ -1401,4 +1410,141 @@ function renderSummary(
 
     `;
 
+}
+
+function renderTrend(
+  outlet,
+  year,
+  month
+) {
+
+  const entries =
+    getFilteredDailyEntries(
+      outlet,
+      year,
+      month
+    );
+
+  const totalDays =
+    entries.length;
+
+  const highestDay =
+    entries.reduce(
+      (
+        best,
+        current
+      ) =>
+
+        !best ||
+
+        current.totalRevenue >
+          best.totalRevenue
+
+          ? current
+
+          : best,
+
+      null
+    );
+
+  const lowestDay =
+    entries.reduce(
+      (
+        worst,
+        current
+      ) =>
+
+        !worst ||
+
+        current.totalRevenue <
+          worst.totalRevenue
+
+          ? current
+
+          : worst,
+
+      null
+    );
+
+  const average =
+    totalDays > 0
+
+      ? entries.reduce(
+          (
+            sum,
+            item
+          ) =>
+
+            sum +
+            item.totalRevenue,
+
+          0
+        ) / totalDays
+
+      : 0;
+
+  document
+    .getElementById(
+      "trendSection"
+    )
+
+    .innerHTML = `
+
+      <div class="space-y-5">
+
+        <h2 class="text-2xl font-bold">
+
+          Performance Trend
+
+        </h2>
+
+        <div class="grid grid-cols-3 gap-4">
+
+          <div class="bg-slate-50 rounded-2xl p-5">
+
+            <p>Best Day</p>
+
+            <h3 class="text-xl font-bold">
+
+              RM${Math.round(
+                highestDay?.totalRevenue || 0
+              ).toLocaleString()}
+
+            </h3>
+
+          </div>
+
+          <div class="bg-slate-50 rounded-2xl p-5">
+
+            <p>Worst Day</p>
+
+            <h3 class="text-xl font-bold">
+
+              RM${Math.round(
+                lowestDay?.totalRevenue || 0
+              ).toLocaleString()}
+
+            </h3>
+
+          </div>
+
+          <div class="bg-slate-50 rounded-2xl p-5">
+
+            <p>Daily Average</p>
+
+            <h3 class="text-xl font-bold">
+
+              RM${Math.round(
+                average
+              ).toLocaleString()}
+
+            </h3>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
 }
