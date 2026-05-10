@@ -1,15 +1,8 @@
-document.addEventListener(
-  "DOMContentLoaded",
-  initEntryPage
-);
-
-
-
-
-
-function initEntryPage() {
+window.onload = function () {
 
   buildDropdowns();
+
+  setupDailyAutoTotal();
 
   bindDailyForm();
 
@@ -19,7 +12,11 @@ function initEntryPage() {
 
   renderRecentEntries();
 
-}
+};
+
+
+
+
 
 function bindDailyForm() {
 
@@ -497,14 +494,10 @@ function buildDropdowns() {
 
 
 
-function buildYearDropdown(
-  id
-) {
+function buildYearDropdown(id) {
 
   const select =
-    document.getElementById(
-      id
-    );
+    document.getElementById(id);
 
 
 
@@ -543,9 +536,7 @@ function buildYearDropdown(
 
 
 
-function buildMonthDropdown(
-  id
-) {
+function buildMonthDropdown(id) {
 
   const months = [
 
@@ -568,9 +559,7 @@ function buildMonthDropdown(
 
 
   const select =
-    document.getElementById(
-      id
-    );
+    document.getElementById(id);
 
 
 
