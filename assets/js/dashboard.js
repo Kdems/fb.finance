@@ -206,9 +206,7 @@ function renderDashboard() {
 
 
 
-  renderRanking(
-    data
-  );
+  renderRanking();
 
 
   renderRecent(
@@ -926,23 +924,16 @@ function renderRanking() {
 
 
   const year = Number(
-    getValue(
-      "yearFilter"
-    )
-  );
+  document
+    .getElementById("dashboardYear")
+    .value
+);
 
-
-
-
-
-
-
-
-  const month = Number(
-    getValue(
-      "monthFilter"
-    )
-  );
+const month = Number(
+  document
+    .getElementById("dashboardMonth")
+    .value
+);
 
 
 
@@ -1409,187 +1400,5 @@ function renderSummary(
       </div>
 
     `;
-
-}
-
-function renderRanking() {
-
-  const outlets = [
-
-    "SKYBAR",
-
-    "GCC",
-
-    "BO6"
-
-  ];
-
-
-
-
-
-
-
-
-  const year = Number(
-
-    document
-      .getElementById(
-        "yearFilter"
-      ).value
-
-  );
-
-
-
-
-
-
-
-
-  const month = Number(
-
-    document
-      .getElementById(
-        "monthFilter"
-      ).value
-
-  );
-
-
-
-
-
-
-
-
-  const rankingData =
-
-    outlets
-
-      .map(
-        outlet => {
-
-          const result =
-
-            calculateDashboardData(
-              outlet,
-              year,
-              month
-            );
-
-
-
-
-
-
-
-
-          return {
-
-            outlet,
-
-            revenue:
-              result.totalRevenue,
-
-
-
-            score:
-
-              result.revenueAchievement +
-
-              result.gopAchievement
-
-          };
-
-        }
-      )
-
-
-
-
-
-
-
-
-      .sort(
-        (
-          a,
-          b
-        ) =>
-
-          b.score - a.score
-
-      );
-
-
-
-
-
-
-
-
-  document
-    .getElementById(
-      "rankingSection"
-    )
-
-    .innerHTML =
-
-      `
-        <h2 class="text-2xl font-bold mb-4">
-
-          Outlet Ranking
-
-        </h2>
-
-
-
-
-
-
-
-
-        ${rankingData
-
-          .map(
-            (
-              item,
-              index
-            ) =>
-
-              `
-                <div class="bg-slate-50 rounded-2xl p-4 flex justify-between mb-3">
-
-                  <div>
-
-                    #${index + 1}
-
-                    ${item.outlet}
-
-                  </div>
-
-
-
-
-
-
-
-
-                  <div>
-
-                    RM${Math.round(
-                      item.revenue
-                    ).toLocaleString()}
-
-                  </div>
-
-                </div>
-              `
-
-          )
-
-          .join("")}
-      `;
 
 }
