@@ -830,6 +830,7 @@ function getAnnualTarget(
 
 
 
+
     return {
 
       annualRevenueTarget:
@@ -857,35 +858,8 @@ function getAnnualTarget(
 
 
 
-  return (
 
-    getAnnualTargets()
 
-      .find(
-        item => {
-
-          return (
-
-            item.outlet ===
-              outlet
-
-            &&
-
-            item.year ===
-              year
-
-          );
-
-        }
-      )
-
-    ||
-
-    {}
-
-  );
-
-}
 
   return (
 
