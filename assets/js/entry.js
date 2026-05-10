@@ -30,11 +30,35 @@ function bindDailyForm() {
   form.addEventListener(
     "submit",
 
-    function(
+    function (
       event
     ) {
 
       event.preventDefault();
+
+
+
+
+
+      const foodRevenue =
+
+        Number(
+          getValue(
+            "dailyFoodRevenue"
+          )
+        );
+
+
+
+      const beverageRevenue =
+
+        Number(
+          getValue(
+            "dailyBeverageRevenue"
+          )
+        );
+
+
 
 
 
@@ -54,27 +78,29 @@ function bindDailyForm() {
 
 
 
-        foodRevenue:
-          Number(
-            getValue(
-              "dailyFoodRevenue"
-            )
-          ),
+        foodRevenue,
 
 
 
-        beverageRevenue:
-          Number(
-            getValue(
-              "dailyBeverageRevenue"
-            )
-          )
+        beverageRevenue
 
       });
 
 
 
+
+
+      console.log(
+        "Saved successfully"
+      );
+
+
+
+
+
       form.reset();
+
+
 
 
 
