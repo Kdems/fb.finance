@@ -1,309 +1,397 @@
-const ENTRY_STORAGE_KEY =
-  "skybar.finance.dashboard.entries.v1";
+const DAILY_KEY =
+  "skybar_daily_entries";
+
+
+
+const MONTHLY_KEY =
+  "skybar_monthly_targets";
+
+
+
+const ANNUAL_KEY =
+  "skybar_annual_targets";
+
+
+
+
+
+
 
 
 
 // ======================
-// GET ALL ENTRIES
+// DAILY ENTRIES
 // ======================
 
-function getAllEntries() {
+function getDailyEntries() {
 
-  try {
-
-    const raw =
-      localStorage.getItem(
-        ENTRY_STORAGE_KEY
-      );
-
-
-    if (
-      !raw
-    ) {
-
-      return [];
-
-    }
-
-
-    const parsed =
-      JSON.parse(
-        raw
-      );
-
-
-    if (
-      !Array.isArray(
-        parsed
-      )
-    ) {
-
-      return [];
-
-    }
-
-
-    return parsed;
-
-  }
-
-  catch (
-    error
-  ) {
-
-    console.error(
-      "Storage read error:",
-      error
+  const raw =
+    localStorage.getItem(
+      DAILY_KEY
     );
 
 
-    return [];
 
-  }
+  return raw
+
+    ? JSON.parse(
+        raw
+      )
+
+    : [];
 
 }
 
 
 
-// ======================
-// SAVE ALL ENTRIES
-// ======================
 
-function saveAllEntries(
+
+function saveDailyEntries(
   entries
 ) {
 
   localStorage.setItem(
-    ENTRY_STORAGE_KEY,
+
+    DAILY_KEY,
+
     JSON.stringify(
       entries
     )
+
   );
 
 }
 
 
 
-// ======================
-// ADD ENTRY
-// ======================
 
-function addEntry(
+
+function addDailyEntry(
   payload
 ) {
 
   const entries =
-    getAllEntries();
+    getDailyEntries();
 
 
-  const newEntry = {
+
+  entries.push({
 
     id:
       Date.now(),
 
 
-    date:
-      payload.date || "",
+
+    ...payload
+
+  });
 
 
-    foodRevenue:
-      Number(
-        payload.foodRevenue || 0
-      ),
 
-
-    beverageRevenue:
-      Number(
-        payload.beverageRevenue || 0
-      ),
-
-
-    foodCostPercent:
-      Number(
-        payload.foodCostPercent || 0
-      ),
-
-
-    beverageCostPercent:
-      Number(
-        payload.beverageCostPercent || 0
-      ),
-
-
-    fixedCostPercent:
-      Number(
-        payload.fixedCostPercent || 0
-      ),
-
-
-    dailyBudget:
-      Number(
-        payload.dailyBudget || 0
-      )
-
-  };
-
-
-  entries.push(
-    newEntry
-  );
-
-
-  saveAllEntries(
+  saveDailyEntries(
     entries
   );
-
-
-  return newEntry;
 
 }
 
 
 
-// ======================
-// UPDATE ENTRY
-// ======================
 
-function updateEntry(
+
+function updateDailyEntry(
   entryId,
   payload
 ) {
 
   const entries =
-    getAllEntries();
+    getDailyEntries()
+
+      .map(
+        item => {
+
+          if (
+            item.id ==
+            entryId
+          ) {
+
+            return {
+
+              ...item,
+
+              ...payload
+
+            };
+
+          }
 
 
-  const updated =
-    entries.map(
-      entry => {
 
-        if (
-          entry.id != entryId
-        ) {
-
-          return entry;
+          return item;
 
         }
+      );
 
 
-        return {
 
-          ...entry,
+  saveDailyEntries(
+    entries
+  );
 
-
-          date:
-            payload.date,
-
-
-          foodRevenue:
-            Number(
-              payload.foodRevenue || 0
-            ),
+}
 
 
-          beverageRevenue:
-            Number(
-              payload.beverageRevenue || 0
-            ),
 
 
-          foodCostPercent:
-            Number(
-              payload.foodCostPercent || 0
-            ),
+
+function deleteDailyEntry(
+  entryId
+) {
+
+  const entries =
+    getDailyEntries()
+
+      .filter(
+        item =>
+
+          item.id !=
+          entryId
+      );
 
 
-          beverageCostPercent:
-            Number(
-              payload.beverageCostPercent || 0
-            ),
+
+  saveDailyEntries(
+    entries
+  );
+
+}
 
 
-          fixedCostPercent:
-            Number(
-              payload.fixedCostPercent || 0
-            ),
 
 
-          dailyBudget:
-            Number(
-              payload.dailyBudget || 0
-            )
 
-        };
+
+
+
+
+
+// ======================
+// MONTHLY TARGETS
+// ======================
+
+function getMonthlyTargets() {
+
+  const raw =
+    localStorage.getItem(
+      MONTHLY_KEY
+    );
+
+
+
+  return raw
+
+    ? JSON.parse(
+        raw
+      )
+
+    : [];
+
+}
+
+
+
+
+
+function saveMonthlyTargets(
+  targets
+) {
+
+  localStorage.setItem(
+
+    MONTHLY_KEY,
+
+    JSON.stringify(
+      targets
+    )
+
+  );
+
+}
+
+
+
+
+
+function saveMonthlyTarget(
+  payload
+) {
+
+  const targets =
+    getMonthlyTargets();
+
+
+
+  const existing =
+    targets.find(
+      item => {
+
+        return (
+
+          item.outlet ===
+            payload.outlet &&
+
+          item.year ===
+            payload.year &&
+
+          item.month ===
+            payload.month
+
+        );
 
       }
     );
 
 
-  saveAllEntries(
-    updated
+
+  if (
+    existing
+  ) {
+
+    Object.assign(
+
+      existing,
+
+      payload
+
+    );
+
+  }
+
+  else {
+
+    targets.push(
+      payload
+    );
+
+  }
+
+
+
+  saveMonthlyTargets(
+    targets
   );
 
 }
 
 
 
+
+
+
+
+
+
+
 // ======================
-// DELETE ENTRY
+// ANNUAL TARGETS
 // ======================
 
-function deleteEntry(
-  entryId
-) {
+function getAnnualTargets() {
 
-  const entries =
-    getAllEntries();
-
-
-  const filtered =
-    entries.filter(
-      entry =>
-
-        entry.id !=
-        entryId
+  const raw =
+    localStorage.getItem(
+      ANNUAL_KEY
     );
 
 
-  saveAllEntries(
-    filtered
-  );
+
+  return raw
+
+    ? JSON.parse(
+        raw
+      )
+
+    : [];
 
 }
 
 
 
-// ======================
-// GET SINGLE ENTRY
-// ======================
 
-function getEntryById(
-  entryId
+
+function saveAnnualTargets(
+  targets
 ) {
 
-  const entries =
-    getAllEntries();
+  localStorage.setItem(
 
+    ANNUAL_KEY,
 
-  return entries.find(
-    entry =>
+    JSON.stringify(
+      targets
+    )
 
-      entry.id ==
-      entryId
   );
 
 }
 
 
 
-// ======================
-// CLEAR
-// ======================
 
-function clearAllEntries() {
 
-  localStorage.removeItem(
-    ENTRY_STORAGE_KEY
+function saveAnnualTarget(
+  payload
+) {
+
+  const targets =
+    getAnnualTargets();
+
+
+
+  const existing =
+    targets.find(
+      item => {
+
+        return (
+
+          item.outlet ===
+            payload.outlet &&
+
+          item.year ===
+            payload.year
+
+        );
+
+      }
+    );
+
+
+
+  if (
+    existing
+  ) {
+
+    Object.assign(
+
+      existing,
+
+      payload
+
+    );
+
+  }
+
+  else {
+
+    targets.push(
+      payload
+    );
+
+  }
+
+
+
+  saveAnnualTargets(
+    targets
   );
 
 }
