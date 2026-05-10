@@ -907,10 +907,188 @@ function renderRecent() {
 
 
 function renderRanking() {
-  document.getElementById(
-    "rankingSection"
-  ).innerHTML =
-    "<h2 class='text-2xl font-bold'>Outlet Ranking</h2>";
+
+  const outlets = [
+
+    "SKYBAR",
+
+    "GCC",
+
+    "BO6"
+
+  ];
+
+
+
+
+
+
+
+
+  const year = Number(
+    getValue(
+      "yearFilter"
+    )
+  );
+
+
+
+
+
+
+
+
+  const month = Number(
+    getValue(
+      "monthFilter"
+    )
+  );
+
+
+
+
+
+
+
+
+  const rankingData =
+
+    outlets
+
+      .map(
+        outlet => {
+
+          const result =
+
+            calculateDashboardData(
+              outlet,
+              year,
+              month
+            );
+
+
+
+
+
+
+
+
+          return {
+
+            outlet,
+
+            revenue:
+
+              result.totalRevenue,
+
+
+
+            score:
+
+              result.revenueAchievement +
+
+              result.gopAchievement
+
+          };
+
+        }
+      )
+
+
+
+
+
+
+
+
+      .sort(
+        (
+          a,
+          b
+        ) => {
+
+          return b.score - a.score;
+
+        }
+      );
+
+
+
+
+
+
+
+
+  document
+    .getElementById(
+      "rankingSection"
+    )
+
+    .innerHTML = `
+
+      <div class="space-y-4">
+
+        <h2 class="text-2xl font-bold">
+
+          Outlet Ranking
+
+        </h2>
+
+
+
+
+
+
+
+
+        ${rankingData
+
+          .map(
+            (
+              item,
+              index
+            ) => {
+
+              return `
+
+                <div class="bg-slate-50 rounded-2xl p-4 flex justify-between">
+
+                  <div>
+
+                    #${index + 1}
+
+                    ${item.outlet}
+
+                  </div>
+
+
+
+
+
+
+
+
+                  <div>
+
+                    RM${Math.round(
+                      item.revenue
+                    ).toLocaleString()}
+
+                  </div>
+
+                </div>
+
+              `;
+
+            }
+          )
+
+          .join("")}
+
+      </div>
+
+    `;
+
 }
 
 
