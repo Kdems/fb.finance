@@ -1,8 +1,8 @@
-window.onload = function () {
-
-  function formatCurrency(value) {
+function formatCurrency(value) {
   return "RM" + Number(value || 0).toLocaleString();
 }
+
+window.onload = function () {
 
   buildDashboardDropdowns();
 
