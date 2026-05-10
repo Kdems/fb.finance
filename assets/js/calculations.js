@@ -711,7 +711,7 @@ const gopAchievement =
 
     ytdVariance,
 
-    ytdAchievement
+    ytdAchievement,
 
 
 
