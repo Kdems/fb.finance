@@ -1,433 +1,335 @@
-let selectedYear =
-  new Date().getFullYear();
+window.onload = function () {
 
-let selectedMonth =
-  new Date().getMonth() + 1;
+  buildDashboardDropdowns();
 
-
-
-// ======================
-// INIT
-// ======================
-
-document.addEventListener(
-  "DOMContentLoaded",
-  initDashboard
-);
-
-
-
-function initDashboard() {
-
-  populateFilters();
-
-  bindFilters();
+  setupDashboardFilters();
 
   renderDashboard();
 
-}
+};
 
 
 
-// ======================
-// FILTERS
-// ======================
-
-function populateFilters() {
-
-  const yearFilter =
-    document.getElementById(
-      "yearFilter"
-    );
-
-
-  const monthFilter =
-    document.getElementById(
-      "monthFilter"
-    );
 
 
 
-  if (
-    yearFilter
-  ) {
-
-    yearFilter.innerHTML =
-      "";
 
 
 
-    for (
-      let year = 2025;
-      year <= 2040;
-      year++
-    ) {
+function buildDashboardDropdowns() {
 
-      yearFilter.innerHTML +=
-
-        `
-        <option
-          value="${year}"
-          ${
-            year === selectedYear
-              ? "selected"
-              : ""
-          }>
-          ${year}
-        </option>
-        `;
-
-    }
-
-  }
+  buildYearDropdown(
+    "dashboardYear"
+  );
 
 
 
-  if (
-    monthFilter
-  ) {
-
-    monthFilter.innerHTML =
-      "";
-
-
-
-    for (
-      let month = 1;
-      month <= 12;
-      month++
-    ) {
-
-      monthFilter.innerHTML +=
-
-        `
-        <option
-          value="${month}"
-          ${
-            month === selectedMonth
-              ? "selected"
-              : ""
-          }>
-          ${month}
-        </option>
-        `;
-
-    }
-
-  }
+  buildMonthDropdown(
+    "dashboardMonth"
+  );
 
 }
 
 
 
-// ======================
-// EVENTS
-// ======================
-
-function bindFilters() {
-
-  const yearFilter =
-    document.getElementById(
-      "yearFilter"
-    );
-
-
-  const monthFilter =
-    document.getElementById(
-      "monthFilter"
-    );
 
 
 
-  if (
-    yearFilter
-  ) {
 
-    yearFilter.addEventListener(
+
+
+
+function setupDashboardFilters() {
+
+  document
+    .getElementById(
+      "dashboardOutlet"
+    )
+    .addEventListener(
       "change",
-      function() {
-
-        selectedYear =
-          Number(
-            this.value
-          );
-
-
-        renderDashboard();
-
-      }
+      renderDashboard
     );
 
-  }
 
 
-
-  if (
-    monthFilter
-  ) {
-
-    monthFilter.addEventListener(
+  document
+    .getElementById(
+      "dashboardYear"
+    )
+    .addEventListener(
       "change",
-      function() {
-
-        selectedMonth =
-          Number(
-            this.value
-          );
-
-
-        renderDashboard();
-
-      }
+      renderDashboard
     );
 
-  }
+
+
+  document
+    .getElementById(
+      "dashboardMonth"
+    )
+    .addEventListener(
+      "change",
+      renderDashboard
+    );
 
 }
-
-
-
-// ======================
-// MAIN
-// ======================
 
 function renderDashboard() {
 
-  const entries =
-    filterEntries(
-      selectedYear,
-      selectedMonth
+  const outlet =
+    document
+      .getElementById(
+        "dashboardOutlet"
+      )
+      .value;
+
+
+
+  const year =
+    Number(
+      document
+        .getElementById(
+          "dashboardYear"
+        )
+        .value
     );
 
 
 
-  const summary =
-    calculatePeriodSummary(
-      entries
+  const month =
+    Number(
+      document
+        .getElementById(
+          "dashboardMonth"
+        )
+        .value
     );
 
 
 
-  renderKpi(
-    summary
-  );
 
 
+  const data =
 
-  renderFoodBeverage(
-    summary
-  );
+    calculateDashboardData(
 
+      outlet,
 
+      year,
 
-  renderRecentEntries(
-    entries
-  );
+      month
 
-}
-
-
-
-// ======================
-// KPI
-// ======================
-
-function renderKpi(
-  summary
-) {
-
-  setText(
-    "ytdRevenueCard",
-    formatMoney(
-      summary.totalRevenue
-    )
-  );
-
-
-
-  setText(
-    "ytdBudgetCard",
-    formatMoney(
-      summary.totalBudget
-    )
-  );
-
-
-
-  setText(
-    "ytdAchievementCard",
-    formatPercent(
-      summary.achievement
-    )
-  );
-
-
-
-  setText(
-    "gopMarginCard",
-    formatPercent(
-      summary.gopMargin
-    )
-  );
-
-}
-
-
-
-// ======================
-// FOOD / BEVERAGE
-// ======================
-
-function renderFoodBeverage(
-  summary
-) {
-
-  setText(
-    "foodRevenueCard",
-    formatMoney(
-      summary.totalFoodRevenue
-    )
-  );
-
-
-
-  setText(
-    "bevRevenueCard",
-    formatMoney(
-      summary.totalBeverageRevenue
-    )
-  );
-
-}
-
-
-
-// ======================
-// RECENT
-// ======================
-
-function renderRecentEntries(
-  entries
-) {
-
-  const container =
-    document.getElementById(
-      "recentEntriesList"
     );
 
 
 
-  if (
-    !container
-  ) return;
+
+
+  renderYtd(
+    data
+  );
 
 
 
-  container.innerHTML =
-    "";
+  renderMtd(
+    data
+  );
 
 
 
-  if (
-    entries.length === 0
+  renderGop(
+    data
+  );
+
+
+
+  renderCost(
+    data
+  );
+
+
+
+
+
+  renderSummary(
+    data
+  );
+
+
+
+  renderRecent(
+    outlet,
+    year,
+    month
+  );
+
+
+
+  renderRanking(
+    year,
+    month
+  );
+
+
+
+  renderAlerts(
+    data
+  );
+
+}
+
+function renderYtd() {
+  document.getElementById(
+    "ytdSection"
+  ).innerHTML =
+    "<h2 class='text-2xl font-bold'>YTD Performance</h2>";
+}
+
+
+
+function renderMtd() {
+  document.getElementById(
+    "mtdSection"
+  ).innerHTML =
+    "<h2 class='text-2xl font-bold'>MTD Performance</h2>";
+}
+
+
+
+function renderGop() {
+  document.getElementById(
+    "gopSection"
+  ).innerHTML =
+    "<h2 class='text-2xl font-bold'>GOP Performance</h2>";
+}
+
+
+
+function renderCost() {
+  document.getElementById(
+    "costSection"
+  ).innerHTML =
+    "<h2 class='text-2xl font-bold'>Cost Control</h2>";
+}
+
+
+
+function renderSummary() {
+  document.getElementById(
+    "summarySection"
+  ).innerHTML =
+    "<h2 class='text-2xl font-bold'>Summary</h2>";
+}
+
+
+
+function renderRecent() {
+  document.getElementById(
+    "recentSection"
+  ).innerHTML =
+    "<h2 class='text-2xl font-bold'>Recent Entries</h2>";
+}
+
+
+
+function renderRanking() {
+  document.getElementById(
+    "rankingSection"
+  ).innerHTML =
+    "<h2 class='text-2xl font-bold'>Outlet Ranking</h2>";
+}
+
+
+
+function renderAlerts() {
+  document.getElementById(
+    "alertSection"
+  ).innerHTML =
+    "<h2 class='text-2xl font-bold'>Executive Alerts</h2>";
+}
+
+function buildYearDropdown(id) {
+
+  const select =
+    document.getElementById(id);
+
+
+
+  let html = "";
+
+
+
+  for (
+    let year = 2025;
+    year <= 2030;
+    year++
   ) {
 
-    container.innerHTML =
-
-      `
-      <div class="text-slate-400">
-        No entries found
-      </div>
-      `;
-
-    return;
+    html += `
+      <option value="${year}">
+        ${year}
+      </option>
+    `;
 
   }
 
 
 
-  const reversed =
-    [...entries].reverse();
-
-
-
-  reversed.forEach(
-    entry => {
-
-      const revenue =
-
-        Number(
-          entry.foodRevenue || 0
-        )
-
-        +
-
-        Number(
-          entry.beverageRevenue || 0
-        );
-
-
-
-      container.innerHTML +=
-
-        `
-        <div class="grid grid-cols-4 border-b py-4">
-
-          <div>
-            ${entry.date}
-          </div>
-
-          <div>
-            ${formatMoney(
-              entry.foodRevenue
-            )}
-          </div>
-
-          <div>
-            ${formatMoney(
-              entry.beverageRevenue
-            )}
-          </div>
-
-          <div>
-            ${formatMoney(
-              revenue
-            )}
-          </div>
-
-        </div>
-        `;
-
-    }
-  );
+  select.innerHTML =
+    html;
 
 }
 
 
 
-// ======================
-// HELPER
-// ======================
-
-function setText(
-  id,
-  value
-) {
-
-  const el =
-    document.getElementById(
-      id
-    );
 
 
 
-  if (
-    !el
-  ) return;
+
+function buildMonthDropdown(id) {
+
+  const months = [
+
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+
+  ];
 
 
 
-  el.innerHTML =
-    value;
+  const select =
+    document.getElementById(id);
+
+
+
+  select.innerHTML =
+
+    months
+      .map(
+        (
+          month,
+          index
+        ) => {
+
+          return `
+            <option value="${index + 1}">
+              ${month}
+            </option>
+          `;
+
+        }
+      )
+      .join("");
 
 }
