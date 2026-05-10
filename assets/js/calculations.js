@@ -388,39 +388,7 @@
 
 
 
-  let executiveAlert =
-
-  "Healthy Performance";
-
-
-
-
-
-
-  if (
-    revenueAchievement < 90
-  ) {
-
-    executiveAlert =
-
-      "Revenue Below Target";
-
-  }
-
-
-
-
-
-
-  if (
-    gopAchievement < 90
-  ) {
-
-    executiveAlert =
-
-      "GOP Below Target";
-
-  }      
+  
 
 
 
@@ -619,7 +587,39 @@ const gopAchievement =
 
     : 0;  
 
+let executiveAlert =
 
+  "Healthy Performance";
+
+
+
+
+
+
+  if (
+    revenueAchievement < 90
+  ) {
+
+    executiveAlert =
+
+      "Revenue Below Target";
+
+  }
+
+
+
+
+
+
+  if (
+    gopAchievement < 90
+  ) {
+
+    executiveAlert =
+
+      "GOP Below Target";
+
+  }      
 
 
 
