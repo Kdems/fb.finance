@@ -613,3 +613,71 @@ function buildMonthDropdown(id) {
       .join("");
 
 }
+
+
+function setupDailyAutoTotal() {
+
+  const foodInput =
+    document.getElementById(
+      "dailyFoodRevenue"
+    );
+
+
+
+  const beverageInput =
+    document.getElementById(
+      "dailyBeverageRevenue"
+    );
+
+
+
+  const totalInput =
+    document.getElementById(
+      "dailyTotalRevenue"
+    );
+
+
+
+
+
+  function updateTotal() {
+
+    const food =
+
+      Number(
+        foodInput.value || 0
+      );
+
+
+
+    const beverage =
+
+      Number(
+        beverageInput.value || 0
+      );
+
+
+
+    totalInput.value =
+
+      food + beverage;
+
+  }
+
+
+
+
+
+  foodInput.addEventListener(
+    "input",
+    updateTotal
+  );
+
+
+
+  beverageInput.addEventListener(
+    "input",
+    updateTotal
+  );
+
+}
