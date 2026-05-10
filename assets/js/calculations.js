@@ -800,6 +800,93 @@ function getAnnualTarget(
   year
 ) {
 
+
+
+
+
+  if (
+    outlet === "ALL"
+  ) {
+
+    const targets =
+
+      getAnnualTargets()
+
+        .filter(
+          item => {
+
+            return (
+
+              item.year ===
+                year
+
+            );
+
+          }
+        );
+
+
+
+
+
+
+    return {
+
+      annualRevenueTarget:
+
+        sumField(
+          targets,
+          "annualRevenueTarget"
+        ),
+
+
+
+      annualGopTarget:
+
+        sumField(
+          targets,
+          "annualGopTarget"
+        )
+
+    };
+
+  }
+
+
+
+
+
+
+  return (
+
+    getAnnualTargets()
+
+      .find(
+        item => {
+
+          return (
+
+            item.outlet ===
+              outlet
+
+            &&
+
+            item.year ===
+              year
+
+          );
+
+        }
+      )
+
+    ||
+
+    {}
+
+  );
+
+}
+
   return (
 
     getAnnualTargets()
