@@ -786,11 +786,105 @@ function renderGop(
 
 
 
-function renderCost() {
-  document.getElementById(
-    "costSection"
-  ).innerHTML =
-    "<h2 class='text-2xl font-bold'>Cost Control</h2>";
+function renderCost(
+  data
+) {
+
+
+
+
+
+  document
+    .getElementById(
+      "costSection"
+    )
+
+    .innerHTML = `
+
+      <div class="space-y-5">
+
+        <h2 class="text-2xl font-bold">
+
+          Cost Control
+
+        </h2>
+
+
+
+
+
+
+
+
+        <div
+          class="grid grid-cols-3 gap-4">
+
+
+
+
+
+
+
+          ${renderCostCard(
+
+            "Food",
+
+            data.foodCost,
+
+            data.targetFoodCost,
+
+            data.foodCostVariance
+
+          )}
+
+
+
+
+
+
+
+
+          ${renderCostCard(
+
+            "Beverage",
+
+            data.beverageCost,
+
+            data.targetBeverageCost,
+
+            data.beverageCostVariance
+
+          )}
+
+
+
+
+
+
+
+
+          ${renderCostCard(
+
+            "Fixed",
+
+            data.fixedCost,
+
+            data.targetFixedCost,
+
+            data.fixedCostVariance
+
+          )}
+
+
+
+
+
+        </div>
+
+      </div>
+
+    `;
+
 }
 
 
@@ -912,5 +1006,102 @@ function buildMonthDropdown(id) {
         }
       )
       .join("");
+
+}
+
+function renderCostCard(
+  title,
+  actual,
+  target,
+  variance
+) {
+
+  const indicator =
+
+    variance <= 0
+
+      ? "🟢"
+
+      :
+
+    variance <= 1000
+
+      ? "🟡"
+
+      :
+
+      "🔴";
+
+
+
+
+
+
+
+
+  return `
+
+    <div
+      class="bg-slate-50 rounded-2xl p-5">
+
+      <h3 class="text-xl font-bold mb-4">
+
+        ${title}
+
+      </h3>
+
+
+
+
+
+
+
+      <p>
+
+        Actual:
+
+        RM${Math.round(
+          actual
+        ).toLocaleString()}
+
+      </p>
+
+
+
+
+
+
+
+      <p>
+
+        Target:
+
+        RM${Math.round(
+          target
+        ).toLocaleString()}
+
+      </p>
+
+
+
+
+
+
+
+      <p class="font-semibold mt-3">
+
+        ${indicator}
+
+        Variance:
+
+        RM${Math.round(
+          variance
+        ).toLocaleString()}
+
+      </p>
+
+    </div>
+
+  `;
 
 }
