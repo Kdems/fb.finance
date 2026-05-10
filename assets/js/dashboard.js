@@ -200,8 +200,6 @@ function renderDashboard() {
 
 
 
-
-
   renderSummary(
     data
   );
@@ -1103,5 +1101,134 @@ function renderCostCard(
     </div>
 
   `;
+
+}
+
+function renderSummary(
+  data
+) {
+
+  document
+    .getElementById(
+      "summarySection"
+    )
+
+    .innerHTML = `
+
+      <div class="space-y-5">
+
+        <h2 class="text-2xl font-bold">
+
+          Executive Summary
+
+        </h2>
+
+
+
+
+
+
+
+
+        <div
+          class="grid grid-cols-4 gap-4">
+
+
+
+
+
+
+
+          <div
+            class="bg-slate-50 rounded-2xl p-5">
+
+            <p>Best Day</p>
+
+            <h3 class="text-xl font-bold">
+
+              RM${Math.round(
+                data.bestDay.totalRevenue || 0
+              ).toLocaleString()}
+
+            </h3>
+
+          </div>
+
+
+
+
+
+
+
+
+          <div
+            class="bg-slate-50 rounded-2xl p-5">
+
+            <p>Worst Day</p>
+
+            <h3 class="text-xl font-bold">
+
+              RM${Math.round(
+                data.worstDay.totalRevenue || 0
+              ).toLocaleString()}
+
+            </h3>
+
+          </div>
+
+
+
+
+
+
+
+
+          <div
+            class="bg-slate-50 rounded-2xl p-5">
+
+            <p>Daily Average</p>
+
+            <h3 class="text-xl font-bold">
+
+              RM${Math.round(
+                data.averageDailyRevenue
+              ).toLocaleString()}
+
+            </h3>
+
+          </div>
+
+
+
+
+
+
+
+
+          <div
+            class="bg-slate-50 rounded-2xl p-5">
+
+            <p>Alert</p>
+
+            <h3 class="text-lg font-bold">
+
+              ${data.executiveAlert}
+
+            </h3>
+
+          </div>
+
+
+
+
+
+
+
+
+        </div>
+
+      </div>
+
+    `;
 
 }

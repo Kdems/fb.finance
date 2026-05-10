@@ -20,6 +20,115 @@
 
 
 
+    const sortedEntries =
+
+  [...dailyEntries]
+
+    .sort(
+      (
+        a,
+        b
+      ) => {
+
+        return (
+
+          b.totalRevenue -
+
+          a.totalRevenue
+
+        );
+
+      }
+    );
+
+
+
+
+
+
+
+
+const bestDay =
+
+  sortedEntries[0]
+
+  ||
+
+  {};
+
+
+
+
+
+
+const worstDay =
+
+  sortedEntries[
+    sortedEntries.length - 1
+  ]
+
+  ||
+
+  {};
+
+
+
+
+
+
+
+
+const averageDailyRevenue =
+
+  dailyEntries.length > 0
+
+    ?
+
+      totalRevenue /
+
+      dailyEntries.length
+
+    :
+
+      0;
+
+let executiveAlert =
+
+  "Healthy Performance";
+
+
+
+
+
+
+if (
+  revenueAchievement < 90
+) {
+
+  executiveAlert =
+
+    "Revenue Below Target";
+
+}
+
+
+
+
+
+
+if (
+  gopAchievement < 90
+) {
+
+  executiveAlert =
+
+    "GOP Below Target";
+
+}      
+
+
+
+
   const monthlyTarget =
 
     getMonthlyTarget(
@@ -604,6 +713,15 @@ const gopAchievement =
 
     ytdAchievement
 
+
+
+    bestDay,
+
+    worstDay,
+
+    averageDailyRevenue,
+
+    executiveAlert,
   };
 
 }
