@@ -1,12 +1,3 @@
-let editingEntryId =
-  null;
-
-
-
-// ======================
-// INIT
-// ======================
-
 document.addEventListener(
   "DOMContentLoaded",
   initEntryPage
@@ -14,518 +5,466 @@ document.addEventListener(
 
 
 
+
+
 function initEntryPage() {
 
-  bindEntryForm();
+  bindDailyForm();
 
-  setDefaultDate();
+  bindMonthlyForm();
 
-  updateDailyBudget();
+  bindAnnualForm();
 
   renderRecentEntries();
 
 }
 
-
-
-// ======================
-// DEFAULT DATE
-// ======================
-
-function setDefaultDate() {
-
-  const dateField =
-    document.getElementById(
-      "entryDate"
-    );
-
-
-  if (
-    !dateField
-  ) return;
-
-
-  if (
-    !dateField.value
-  ) {
-
-    const today =
-      new Date();
-
-
-    dateField.value =
-
-      today
-        .toISOString()
-        .split(
-          "T"
-        )[0];
-
-  }
-
-}
-
-
-
-// ======================
-// BIND FORM
-// ======================
-
-function bindEntryForm() {
+function bindDailyForm() {
 
   const form =
     document.getElementById(
-      "entryForm"
+      "dailyForm"
     );
 
-
-  if (
-    !form
-  ) return;
 
 
   form.addEventListener(
     "submit",
-    handleSaveEntry
-  );
 
+    function(
+      event
+    ) {
 
+      event.preventDefault();
 
-  const dateField =
-    document.getElementById(
-      "entryDate"
-    );
 
 
-  if (
-    dateField
-  ) {
+      addDailyEntry({
 
-    dateField.addEventListener(
-      "change",
-      updateDailyBudget
-    );
+        outlet:
+          getValue(
+            "dailyOutlet"
+          ),
 
-  }
 
-}
 
+        date:
+          getValue(
+            "dailyDate"
+          ),
 
 
-// ======================
-// SAVE
-// ======================
 
-function handleSaveEntry(
-  e
-) {
+        foodRevenue:
+          Number(
+            getValue(
+              "dailyFoodRevenue"
+            )
+          ),
 
-  e.preventDefault();
 
 
+        beverageRevenue:
+          Number(
+            getValue(
+              "dailyBeverageRevenue"
+            )
+          )
 
-  const settings =
-    getSettings();
+      });
 
 
 
-  const payload = {
+      form.reset();
 
-    date:
-      document.getElementById(
-        "entryDate"
-      ).value,
 
 
+      renderRecentEntries();
 
-    foodRevenue:
-      Number(
-        document.getElementById(
-          "foodRevenue"
-        ).value || 0
-      ),
-
-
-
-    beverageRevenue:
-      Number(
-        document.getElementById(
-          "beverageRevenue"
-        ).value || 0
-      ),
-
-
-
-    foodCostPercent:
-      settings.foodCostPercent,
-
-
-
-    beverageCostPercent:
-      settings.beverageCostPercent,
-
-
-
-    fixedCostPercent:
-      settings.fixedCostPercent,
-
-
-
-    dailyBudget:
-      getDailyBudget()
-
-  };
-
-
-
-  if (
-    editingEntryId !==
-    null
-  ) {
-
-    updateEntry(
-      editingEntryId,
-      payload
-    );
-
-
-    editingEntryId =
-      null;
-
-  }
-
-  else {
-
-    addEntry(
-      payload
-    );
-
-  }
-
-
-
-  document.getElementById(
-    "entryForm"
-  ).reset();
-
-
-
-  setDefaultDate();
-
-  updateDailyBudget();
-
-  renderRecentEntries();
-
-}
-
-
-
-// ======================
-// DAILY BUDGET
-// ======================
-
-function getDailyBudget() {
-
-  const settings =
-    getSettings();
-
-
-  const dateField =
-    document.getElementById(
-      "entryDate"
-    );
-
-
-  if (
-    !dateField ||
-    !dateField.value
-  ) {
-
-    return 0;
-
-  }
-
-
-
-  const date =
-    new Date(
-      dateField.value
-    );
-
-
-
-  const daysInMonth =
-
-    new Date(
-
-      date.getFullYear(),
-
-      date.getMonth() + 1,
-
-      0
-
-    ).getDate();
-
-
-
-  return (
-
-    Number(
-      settings.monthlyBudget || 0
-    )
-
-    /
-
-    daysInMonth
+    }
 
   );
 
 }
 
+function bindMonthlyForm() {
 
-
-function updateDailyBudget() {
-
-  const field =
+  const form =
     document.getElementById(
-      "dailyBudgetDisplay"
+      "monthlyForm"
     );
 
 
-  if (
-    !field
-  ) return;
+
+  form.addEventListener(
+    "submit",
+
+    function(
+      event
+    ) {
+
+      event.preventDefault();
 
 
 
-  field.value =
+      saveMonthlyTarget({
 
-    formatMoney(
-      getDailyBudget()
-    );
-
-}
-
-
-
-// ======================
-// TABLE
-// ======================
-
-function renderRecentEntries() {
-
-  const tbody =
-    document.getElementById(
-      "recentEntriesBody"
-    );
-
-
-  if (
-    !tbody
-  ) return;
+        outlet:
+          getValue(
+            "monthlyOutlet"
+          ),
 
 
 
-  const entries =
-    getAllEntries();
+        year:
+          Number(
+            getValue(
+              "monthlyYear"
+            )
+          ),
 
 
 
-  tbody.innerHTML =
-    "";
+        month:
+          Number(
+            getValue(
+              "monthlyMonth"
+            )
+          ),
 
 
 
-  if (
-    entries.length === 0
-  ) {
-
-    tbody.innerHTML =
-
-      `
-      <tr>
-        <td colspan="8" class="py-6 text-center text-slate-400">
-          No entries found
-        </td>
-      </tr>
-      `;
-
-    return;
-
-  }
+        foodTarget:
+          Number(
+            getValue(
+              "foodTarget"
+            )
+          ),
 
 
 
-  const reversed =
-    [...entries].reverse();
+        beverageTarget:
+          Number(
+            getValue(
+              "beverageTarget"
+            )
+          ),
 
 
 
-  reversed.forEach(
-    entry => {
-
-      const calc =
-        calculateEntryMetrics(
-          entry
-        );
-
-
-
-      const row =
-        document.createElement(
-          "tr"
-        );
+        lyFoodRevenue:
+          Number(
+            getValue(
+              "lyFoodRevenue"
+            )
+          ),
 
 
 
-      row.className =
-        "border-b";
+        lyBeverageRevenue:
+          Number(
+            getValue(
+              "lyBeverageRevenue"
+            )
+          ),
 
 
 
-      row.innerHTML =
-
-        `
-        <td class="py-4">
-          ${entry.date}
-        </td>
-
-        <td>
-          ${formatMoney(
-            entry.foodRevenue
-          )}
-        </td>
-
-        <td>
-          ${formatMoney(
-            entry.beverageRevenue
-          )}
-        </td>
-
-        <td>
-          ${formatMoney(
-            calc.totalRevenue
-          )}
-        </td>
-
-        <td>
-          ${formatMoney(
-            calc.totalCost
-          )}
-        </td>
-
-        <td>
-          ${formatMoney(
-            calc.gop
-          )}
-        </td>
-
-        <td>
-          <button
-            onclick="editEntry(${entry.id})"
-            class="font-semibold"
-          >
-            Edit
-          </button>
-        </td>
-
-        <td>
-          <button
-            onclick="removeEntry(${entry.id})"
-            class="text-red-600 font-semibold"
-          >
-            Delete
-          </button>
-        </td>
-        `;
+        foodCostPercent:
+          Number(
+            getValue(
+              "foodCostPercent"
+            )
+          ),
 
 
 
-      tbody.appendChild(
-        row
+        beverageCostPercent:
+          Number(
+            getValue(
+              "beverageCostPercent"
+            )
+          ),
+
+
+
+        fixedCostPercent:
+          Number(
+            getValue(
+              "fixedCostPercent"
+            )
+          ),
+
+
+
+        gopTarget:
+          Number(
+            getValue(
+              "gopTarget"
+            )
+          )
+
+      });
+
+
+
+      alert(
+        "Monthly target saved"
       );
 
     }
+
   );
 
 }
 
+function bindAnnualForm() {
+
+  const form =
+    document.getElementById(
+      "annualForm"
+    );
 
 
-// ======================
-// EDIT
-// ======================
+
+  form.addEventListener(
+    "submit",
+
+    function(
+      event
+    ) {
+
+      event.preventDefault();
+
+
+
+      saveAnnualTarget({
+
+        outlet:
+          getValue(
+            "annualOutlet"
+          ),
+
+
+
+        year:
+          Number(
+            getValue(
+              "annualYear"
+            )
+          ),
+
+
+
+        annualRevenueTarget:
+          Number(
+            getValue(
+              "annualRevenueTarget"
+            )
+          ),
+
+
+
+        annualGopTarget:
+          Number(
+            getValue(
+              "annualGopTarget"
+            )
+          )
+
+      });
+
+
+
+      alert(
+        "Annual target saved"
+      );
+
+    }
+
+  );
+
+}
+
+function renderRecentEntries() {
+
+  const entries =
+    getDailyEntries();
+
+
+
+  const container =
+    document.getElementById(
+      "recentEntryList"
+    );
+
+
+
+  container.innerHTML =
+
+    entries
+      .slice()
+      .reverse()
+      .map(
+        item => {
+
+          const total =
+
+            Number(
+              item.foodRevenue
+            )
+
+            +
+
+            Number(
+              item.beverageRevenue
+            );
+
+
+
+          return `
+
+            <div
+              class="grid grid-cols-6 border-b py-3 gap-3">
+
+              <div>
+                ${item.date}
+              </div>
+
+
+
+              <div>
+                ${item.outlet}
+              </div>
+
+
+
+              <div>
+                ${total}
+              </div>
+
+
+
+              <button
+                onclick="editEntry(${item.id})">
+
+                Edit
+
+              </button>
+
+
+
+              <button
+                onclick="removeEntry(${item.id})"
+                class="text-red-500">
+
+                Delete
+
+              </button>
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join("");
+
+}
 
 function editEntry(
   entryId
 ) {
 
-  const entry =
-    getEntryById(
-      entryId
-    );
+  const item =
+    getDailyEntries()
+
+      .find(
+        x =>
+
+          x.id ==
+          entryId
+      );
+
 
 
   if (
-    !entry
+    !item
   ) return;
 
 
 
-  editingEntryId =
-    entryId;
+  document
+    .getElementById(
+      "dailyOutlet"
+    ).value =
+      item.outlet;
 
 
 
-  document.getElementById(
-    "entryDate"
-  ).value =
-    entry.date;
+  document
+    .getElementById(
+      "dailyDate"
+    ).value =
+      item.date;
 
 
 
-  document.getElementById(
-    "foodRevenue"
-  ).value =
-    entry.foodRevenue;
+  document
+    .getElementById(
+      "dailyFoodRevenue"
+    ).value =
+      item.foodRevenue;
 
 
 
-  document.getElementById(
-    "beverageRevenue"
-  ).value =
-    entry.beverageRevenue;
-
-}
-
-
-
-// ======================
-// DELETE
-// ======================
-
-function removeEntry(
-  entryId
-) {
-
-  const confirmed =
-    confirm(
-      "Delete this entry?"
-    );
-
-
-  if (
-    !confirmed
-  ) return;
+  document
+    .getElementById(
+      "dailyBeverageRevenue"
+    ).value =
+      item.beverageRevenue;
 
 
 
-  deleteEntry(
+  deleteDailyEntry(
     entryId
   );
 
 
 
   renderRecentEntries();
+
+}
+
+
+
+
+
+function removeEntry(
+  entryId
+) {
+
+  deleteDailyEntry(
+    entryId
+  );
+
+
+
+  renderRecentEntries();
+
+}
+
+
+
+
+
+function getValue(
+  id
+) {
+
+  return document
+    .getElementById(
+      id
+    ).value;
 
 }
