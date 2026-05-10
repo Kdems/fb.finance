@@ -622,6 +622,86 @@ let executiveAlert =
   }      
 
 
+const outletRanking =
+
+  OUTLETS
+
+    .map(
+      outletName => {
+
+        const outletData =
+
+          calculateDashboardData(
+
+            outletName,
+
+            year,
+
+            month
+
+          );
+
+
+
+
+
+
+
+
+        return {
+
+          outlet:
+
+            outletName,
+
+
+
+          score:
+
+            outletData
+              .revenueAchievement
+
+            +
+
+            outletData
+              .gopAchievement,
+
+
+
+          revenue:
+
+            outletData
+              .totalRevenue
+
+        };
+
+      }
+    )
+
+
+
+
+
+
+
+
+    .sort(
+      (
+        a,
+        b
+      ) => {
+
+        return (
+
+          b.score -
+
+          a.score
+
+        );
+
+      }
+    );
+
 
 
   return {
@@ -717,6 +797,8 @@ let executiveAlert =
     averageDailyRevenue,
 
     executiveAlert,
+
+    outletRanking,
   };
 
 }

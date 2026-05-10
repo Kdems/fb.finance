@@ -206,6 +206,11 @@ function renderDashboard() {
 
 
 
+  renderRanking(
+    data
+  );
+
+
   renderRecent(
     outlet,
     year,
@@ -1224,6 +1229,89 @@ function renderSummary(
 
 
 
+
+        </div>
+
+      </div>
+
+    `;
+
+}
+
+function renderRanking(
+  data
+) {
+
+  document
+    .getElementById(
+      "rankingSection"
+    )
+
+    .innerHTML = `
+
+      <div class="space-y-5">
+
+        <h2 class="text-2xl font-bold">
+
+          Outlet Ranking
+
+        </h2>
+
+
+
+
+
+
+
+
+        <div
+          class="space-y-3">
+
+          ${data.outletRanking
+
+            .map(
+              (
+                item,
+                index
+              ) => {
+
+                return `
+
+                  <div
+                    class="bg-slate-50 rounded-2xl p-4 flex justify-between">
+
+                    <div>
+
+                      #${index + 1}
+
+                      ${item.outlet}
+
+                    </div>
+
+
+
+
+
+
+
+                    <div>
+
+                      RM${Math.round(
+                        item.revenue
+                      ).toLocaleString()}
+
+                    </div>
+
+                  </div>
+
+                `;
+
+              }
+            )
+
+            .join(
+              ""
+            )}
 
         </div>
 
