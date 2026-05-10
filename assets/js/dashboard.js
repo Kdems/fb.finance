@@ -1548,3 +1548,65 @@ function renderTrend(
 
     `;
 }
+
+function renderRanking() {
+  const outlets = ["SKYBAR", "GCC", "BO6"];
+
+  const year = Number(
+    document.getElementById("dashboardYear").value
+  );
+
+  const month = Number(
+    document.getElementById("dashboardMonth").value
+  );
+
+  const ranking = outlets.map(name => {
+    const data = calculateDashboardData(
+      name,
+      year,
+      month
+    );
+
+    return {
+      name,
+      revenue: data.totalRevenue || 0
+    };
+  });
+
+  ranking.sort(
+    (a, b) => b.revenue - a.revenue
+  );
+
+  const best = ranking[0];
+  const worst = ranking[
+    ranking.length - 1
+  ];
+
+  document.getElementById(
+    "rankingSection"
+  ).innerHTML = `
+    <h2 class="text-2xl font-bold mb-4">
+      Outlet Ranking
+    </h2>
+
+    <div class="grid grid-cols-2 gap-4">
+
+      <div class="bg-slate-50 rounded-2xl p-4">
+        <p>Top Performer</p>
+        <h3 class="text-2xl font-bold">
+          ${best.name}
+        </h3>
+        <p>RM${formatNumber(best.revenue)}</p>
+      </div>
+
+      <div class="bg-slate-50 rounded-2xl p-4">
+        <p>Lowest Performer</p>
+        <h3 class="text-2xl font-bold">
+          ${worst.name}
+        </h3>
+        <p>RM${formatNumber(worst.revenue)}</p>
+      </div>
+
+    </div>
+  `;
+}
