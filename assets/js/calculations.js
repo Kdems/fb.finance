@@ -624,7 +624,11 @@ let executiveAlert =
 
 const outletRanking =
 
-  OUTLETS
+  [
+  "SKYBAR",
+  "GCC",
+  "BO6"
+]
 
     .map(
       outletName => {
