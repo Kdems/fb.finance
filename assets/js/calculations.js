@@ -598,6 +598,158 @@ function getMonthlyTarget(
   month
 ) {
 
+
+
+
+
+  if (
+    outlet === "ALL"
+  ) {
+
+    const targets =
+
+      getMonthlyTargets()
+
+        .filter(
+          item => {
+
+            return (
+
+              item.year ===
+                year
+
+              &&
+
+              item.month ===
+                month
+
+            );
+
+          }
+        );
+
+
+
+
+
+
+    return {
+
+      foodTarget:
+
+        sumField(
+          targets,
+          "foodTarget"
+        ),
+
+
+
+      beverageTarget:
+
+        sumField(
+          targets,
+          "beverageTarget"
+        ),
+
+
+
+      lyFoodRevenue:
+
+        sumField(
+          targets,
+          "lyFoodRevenue"
+        ),
+
+
+
+      lyBeverageRevenue:
+
+        sumField(
+          targets,
+          "lyBeverageRevenue"
+        ),
+
+
+
+      foodCostPercent:
+
+        targets.length > 0
+
+          ? (
+
+              sumField(
+                targets,
+                "foodCostPercent"
+              )
+
+              /
+
+              targets.length
+
+            )
+
+          : 0,
+
+
+
+      beverageCostPercent:
+
+        targets.length > 0
+
+          ? (
+
+              sumField(
+                targets,
+                "beverageCostPercent"
+              )
+
+              /
+
+              targets.length
+
+            )
+
+          : 0,
+
+
+
+      fixedCostPercent:
+
+        targets.length > 0
+
+          ? (
+
+              sumField(
+                targets,
+                "fixedCostPercent"
+              )
+
+              /
+
+              targets.length
+
+            )
+
+          : 0,
+
+
+
+      gopTarget:
+
+        sumField(
+          targets,
+          "gopTarget"
+        )
+
+    };
+
+  }
+
+
+
+
+
+
   return (
 
     getMonthlyTargets()
