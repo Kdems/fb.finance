@@ -622,89 +622,6 @@ let executiveAlert =
   }      
 
 
-const outletRanking =
-
-  [
-  "SKYBAR",
-  "GCC",
-  "BO6"
-]
-
-    .map(
-      outletName => {
-
-        const outletData =
-
-          calculateDashboardData(
-
-            outletName,
-
-            year,
-
-            month
-
-          );
-
-
-
-
-
-
-
-
-        return {
-
-          outlet:
-
-            outletName,
-
-
-
-          score:
-
-            outletData
-              .revenueAchievement
-
-            +
-
-            outletData
-              .gopAchievement,
-
-
-
-          revenue:
-
-            outletData
-              .totalRevenue
-
-        };
-
-      }
-    )
-
-
-
-
-
-
-
-
-    .sort(
-      (
-        a,
-        b
-      ) => {
-
-        return (
-
-          b.score -
-
-          a.score
-
-        );
-
-      }
-    );
 
 
 
@@ -801,8 +718,6 @@ const outletRanking =
     averageDailyRevenue,
 
     executiveAlert,
-
-    outletRanking,
   };
 
 }

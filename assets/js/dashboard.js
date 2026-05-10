@@ -218,11 +218,7 @@ function renderDashboard() {
   );
 
 
-
-  renderRanking(
-    year,
-    month
-  );
+  
 
 
 
