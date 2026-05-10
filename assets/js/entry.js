@@ -318,6 +318,8 @@ function renderRecentEntries() {
 
 
 
+
+
   const container =
     document.getElementById(
       "recentEntryList"
@@ -325,32 +327,97 @@ function renderRecentEntries() {
 
 
 
-  container.innerHTML =
+
+
+  if (
+    entries.length === 0
+  ) {
+
+    container.innerHTML =
+
+      `
+        <p class="text-slate-400">
+          No entries found
+        </p>
+      `;
+
+    return;
+
+  }
+
+
+
+
+
+
+  let html = `
+
+    <div
+      class="grid grid-cols-7 gap-4 font-bold border-b pb-3 mb-3">
+
+      <div>Date</div>
+
+      <div>Outlet</div>
+
+      <div>Food</div>
+
+      <div>Beverage</div>
+
+      <div>Total</div>
+
+      <div>Edit</div>
+
+      <div>Delete</div>
+
+    </div>
+
+  `;
+
+
+
+
+
+
+  html +=
 
     entries
       .slice()
       .reverse()
+
       .map(
         item => {
 
+          const food =
+
+            Number(
+              item.foodRevenue || 0
+            );
+
+
+
+          const beverage =
+
+            Number(
+              item.beverageRevenue || 0
+            );
+
+
+
           const total =
 
-            Number(
-              item.foodRevenue
-            )
+            food +
 
-            +
+            beverage;
 
-            Number(
-              item.beverageRevenue
-            );
+
+
 
 
 
           return `
 
             <div
-              class="grid grid-cols-6 border-b py-3 gap-3">
+              class="grid grid-cols-7 gap-4 border-b py-3">
 
               <div>
                 ${item.date}
@@ -365,7 +432,21 @@ function renderRecentEntries() {
 
 
               <div>
-                ${total}
+                RM${food.toLocaleString()}
+              </div>
+
+
+
+              <div>
+                RM${beverage.toLocaleString()}
+              </div>
+
+
+
+              <div class="font-semibold">
+
+                RM${total.toLocaleString()}
+
               </div>
 
 
@@ -393,7 +474,15 @@ function renderRecentEntries() {
 
         }
       )
+
       .join("");
+
+
+
+
+
+  container.innerHTML =
+    html;
 
 }
 
