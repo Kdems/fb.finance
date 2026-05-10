@@ -7,255 +7,318 @@
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+    content="width=device-width, initial-scale=1.0">
 
   <title>
-    SKYBAR Finance Entry
+    SKYBAR Entry
   </title>
 
   <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
 
-
-
 <body class="bg-slate-100">
 
-<div class="min-h-screen flex">
+<div class="p-8 space-y-8">
 
 
-  <!-- NAVIGATION -->
-  <aside class="w-64 bg-slate-950 text-white p-6">
 
-    <h2 class="text-xl font-bold mb-8">
-      SKYBAR
+
+  <!-- DAILY ENTRY -->
+  <section class="bg-white rounded-3xl p-6 shadow">
+
+    <h2 class="text-2xl font-bold mb-4">
+      Daily Entry
     </h2>
 
-    <nav class="space-y-3">
-
-      <a
-        href="index.html"
-        class="block"
-      >
-        Dashboard
-      </a>
-
-      <a
-        href="entry.html"
-        class="block text-cyan-400"
-      >
-        Entry
-      </a>
-
-      <a
-        href="reports.html"
-        class="block"
-      >
-        Reports
-      </a>
-
-      <a
-        href="review.html"
-        class="block"
-      >
-        Review
-      </a>
-
-      <a
-        href="settings.html"
-        class="block"
-      >
-        Settings
-      </a>
-
-    </nav>
-
-  </aside>
 
 
-
-  <!-- MAIN -->
-  <main class="flex-1 p-8">
-
-
-    <!-- HEADER -->
-    <div class="mb-8">
-
-      <h1 class="text-3xl font-bold">
-        Daily Finance Entry
-      </h1>
-
-      <p class="text-slate-500 mt-2">
-        Input daily restaurant revenue
-      </p>
-
-    </div>
-
-
-
-    <!-- FORM -->
     <form
-      id="entryForm"
-      class="bg-white rounded-2xl p-6 shadow mb-8"
-    >
-
-      <div class="grid md:grid-cols-2 gap-6">
-
-
-        <div>
-
-          <label class="block mb-2 font-semibold">
-            Date
-          </label>
-
-          <input
-            id="entryDate"
-            type="date"
-            class="w-full border rounded-xl px-4 py-3"
-          >
-
-        </div>
+      id="dailyForm"
+      class="grid grid-cols-3 gap-4">
 
 
 
-        <div>
+      <select
+        id="dailyOutlet"
+        class="border rounded-xl p-3">
 
-          <label class="block mb-2 font-semibold">
-            Daily Budget
-          </label>
+        <option>
+          SKYBAR
+        </option>
 
-          <input
-            id="dailyBudgetDisplay"
-            readonly
-            class="w-full border rounded-xl px-4 py-3 bg-slate-50"
-          >
+        <option>
+          GCC
+        </option>
 
-        </div>
+        <option>
+          BO6
+        </option>
 
-
-
-        <div>
-
-          <label class="block mb-2 font-semibold">
-            Food Revenue
-          </label>
-
-          <input
-            id="foodRevenue"
-            type="number"
-            class="w-full border rounded-xl px-4 py-3"
-          >
-
-        </div>
+      </select>
 
 
 
-        <div>
-
-          <label class="block mb-2 font-semibold">
-            Beverage Revenue
-          </label>
-
-          <input
-            id="beverageRevenue"
-            type="number"
-            class="w-full border rounded-xl px-4 py-3"
-          >
-
-        </div>
+      <input
+        id="dailyDate"
+        type="date"
+        class="border rounded-xl p-3">
 
 
 
-      </div>
+      <input
+        id="dailyFoodRevenue"
+        type="number"
+        placeholder="Food Revenue"
+        class="border rounded-xl p-3">
+
+
+
+      <input
+        id="dailyBeverageRevenue"
+        type="number"
+        placeholder="Beverage Revenue"
+        class="border rounded-xl p-3">
+
 
 
       <button
-        type="submit"
-        class="mt-6 bg-slate-950 text-white px-6 py-3 rounded-xl"
-      >
-        Save Entry
+        class="bg-slate-950 text-white rounded-xl p-3">
+
+        Save Daily
+
       </button>
 
     </form>
 
+  </section>
 
 
-    <!-- TABLE -->
-    <div class="bg-white rounded-2xl p-6 shadow">
-
-      <h2 class="text-xl font-bold mb-6">
-        Recent Entries
-      </h2>
 
 
-      <div class="overflow-x-auto">
-
-        <table class="w-full">
-
-          <thead>
-
-            <tr class="border-b">
-
-              <th class="text-left py-3">
-                Date
-              </th>
-
-              <th class="text-left">
-                Food
-              </th>
-
-              <th class="text-left">
-                Beverage
-              </th>
-
-              <th class="text-left">
-                Revenue
-              </th>
-
-              <th class="text-left">
-                Cost
-              </th>
-
-              <th class="text-left">
-                GOP
-              </th>
-
-              <th class="text-left">
-                Edit
-              </th>
-
-              <th class="text-left">
-                Delete
-              </th>
-
-            </tr>
-
-          </thead>
 
 
-          <tbody
-            id="recentEntriesBody"
-          ></tbody>
-
-        </table>
-
-      </div>
-
-    </div>
 
 
-  </main>
+
+  <!-- MONTHLY -->
+  <section class="bg-white rounded-3xl p-6 shadow">
+
+    <h2 class="text-2xl font-bold mb-4">
+      Monthly Target
+    </h2>
+
+
+
+    <form
+      id="monthlyForm"
+      class="grid grid-cols-4 gap-4">
+
+
+
+      <select
+        id="monthlyOutlet"
+        class="border rounded-xl p-3">
+
+        <option>
+          SKYBAR
+        </option>
+
+        <option>
+          GCC
+        </option>
+
+        <option>
+          BO6
+        </option>
+
+      </select>
+
+
+
+      <input
+        id="monthlyYear"
+        type="number"
+        placeholder="Year">
+
+
+
+      <input
+        id="monthlyMonth"
+        type="number"
+        placeholder="Month">
+
+
+
+      <input
+        id="foodTarget"
+        type="number"
+        placeholder="Food Target">
+
+
+
+      <input
+        id="beverageTarget"
+        type="number"
+        placeholder="Beverage Target">
+
+
+
+      <input
+        id="lyFoodRevenue"
+        type="number"
+        placeholder="LY Food Revenue">
+
+
+
+      <input
+        id="lyBeverageRevenue"
+        type="number"
+        placeholder="LY Beverage Revenue">
+
+
+
+      <input
+        id="foodCostPercent"
+        type="number"
+        placeholder="Food Cost %">
+
+
+
+      <input
+        id="beverageCostPercent"
+        type="number"
+        placeholder="Beverage Cost %">
+
+
+
+      <input
+        id="fixedCostPercent"
+        type="number"
+        placeholder="Fixed Cost %">
+
+
+
+      <input
+        id="gopTarget"
+        type="number"
+        placeholder="GOP Target">
+
+
+
+      <button
+        class="bg-slate-950 text-white rounded-xl p-3">
+
+        Save Monthly
+
+      </button>
+
+    </form>
+
+  </section>
+
+
+
+
+
+
+
+
+
+  <!-- ANNUAL -->
+  <section class="bg-white rounded-3xl p-6 shadow">
+
+    <h2 class="text-2xl font-bold mb-4">
+      Annual Target
+    </h2>
+
+
+
+    <form
+      id="annualForm"
+      class="grid grid-cols-4 gap-4">
+
+
+
+      <select
+        id="annualOutlet">
+
+        <option>
+          SKYBAR
+        </option>
+
+        <option>
+          GCC
+        </option>
+
+        <option>
+          BO6
+        </option>
+
+      </select>
+
+
+
+      <input
+        id="annualYear"
+        type="number"
+        placeholder="Year">
+
+
+
+      <input
+        id="annualRevenueTarget"
+        type="number"
+        placeholder="Annual Revenue">
+
+
+
+      <input
+        id="annualGopTarget"
+        type="number"
+        placeholder="Annual GOP">
+
+
+
+      <button
+        class="bg-slate-950 text-white rounded-xl p-3">
+
+        Save Annual
+
+      </button>
+
+    </form>
+
+  </section>
+
+
+
+
+
+
+
+
+
+  <!-- RECENT -->
+  <section class="bg-white rounded-3xl p-6 shadow">
+
+    <h2 class="text-2xl font-bold mb-4">
+      Recent Entries
+    </h2>
+
+
+
+    <div id="recentEntryList"></div>
+
+  </section>
+
 
 </div>
 
 
 
-<script src="storage.js"></script>
-<script src="settings.js"></script>
-<script src="calculations.js"></script>
-<script src="entry.js"></script>
-
+<script src="assets/js/storage.js"></script>
+<script src="assets/js/entry.js"></script>
 
 </body>
 </html>
