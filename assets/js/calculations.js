@@ -20,7 +20,7 @@
 
 
 
-    const sortedEntries =
+  const sortedEntries =
 
   [...dailyEntries]
 
@@ -48,7 +48,7 @@
 
 
 
-const bestDay =
+  const bestDay =
 
   sortedEntries[0]
 
@@ -61,7 +61,7 @@ const bestDay =
 
 
 
-const worstDay =
+  const worstDay =
 
   sortedEntries[
     sortedEntries.length - 1
@@ -78,7 +78,7 @@ const worstDay =
 
 
 
-const averageDailyRevenue =
+  const averageDailyRevenue =
 
   dailyEntries.length > 0
 
