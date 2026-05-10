@@ -472,6 +472,8 @@
 
     ytdRevenue,
 
+    annualRevenueTarget,
+
     ytdVariance,
 
     ytdAchievement

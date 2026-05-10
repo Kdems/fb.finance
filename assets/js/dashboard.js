@@ -229,11 +229,148 @@ function renderDashboard() {
 
 }
 
-function renderYtd() {
-  document.getElementById(
-    "ytdSection"
-  ).innerHTML =
-    "<h2 class='text-2xl font-bold'>YTD Performance</h2>";
+function renderYtd(
+  data
+) {
+
+  document
+    .getElementById(
+      "ytdSection"
+    )
+
+    .innerHTML = `
+
+      <div class="space-y-5">
+
+
+        <div>
+
+          <h2 class="text-2xl font-bold">
+
+            Year-To-Date Performance
+
+          </h2>
+
+        </div>
+
+
+
+
+
+
+
+        <div
+          class="grid grid-cols-4 gap-4">
+
+
+
+
+
+
+
+          <div
+            class="bg-slate-50 rounded-2xl p-5">
+
+            <p class="text-sm text-slate-500">
+
+              YTD Revenue
+
+            </p>
+
+            <h3 class="text-3xl font-bold">
+
+              RM${data.ytdRevenue.toLocaleString()}
+
+            </h3>
+
+          </div>
+
+
+
+
+
+
+
+
+
+          <div
+            class="bg-slate-50 rounded-2xl p-5">
+
+            <p class="text-sm text-slate-500">
+
+              Annual Target
+
+            </p>
+
+            <h3 class="text-3xl font-bold">
+
+              RM${data.annualRevenueTarget.toLocaleString()}
+
+            </h3>
+
+          </div>
+
+
+
+
+
+
+
+
+
+          <div
+            class="bg-slate-50 rounded-2xl p-5">
+
+            <p class="text-sm text-slate-500">
+
+              Variance
+
+            </p>
+
+            <h3 class="text-3xl font-bold">
+
+              RM${data.ytdVariance.toLocaleString()}
+
+            </h3>
+
+          </div>
+
+
+
+
+
+
+
+
+
+          <div
+            class="bg-slate-50 rounded-2xl p-5">
+
+            <p class="text-sm text-slate-500">
+
+              Achievement
+
+            </p>
+
+            <h3 class="text-3xl font-bold">
+
+              ${data.ytdAchievement.toFixed(1)}%
+
+            </h3>
+
+          </div>
+
+
+
+
+
+
+        </div>
+
+      </div>
+
+    `;
+
 }
 
 
