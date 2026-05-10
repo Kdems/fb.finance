@@ -315,46 +315,120 @@ function bindAnnualForm() {
 
 function renderRecentEntries() {
 
- const entries =
+  const selectedOutlet =
+    document.getElementById(
+      "filterOutlet"
+    ).value;
 
-  getDailyEntries()
 
-    .filter(
-      item => {
 
-        const date =
-          new Date(
-            item.date
+  const selectedYear =
+    Number(
+      document.getElementById(
+        "filterYear"
+      ).value
+    );
+
+
+
+  const selectedMonth =
+    Number(
+      document.getElementById(
+        "filterMonth"
+      ).value
+    );
+
+
+
+
+
+  const entries =
+
+    getDailyEntries()
+
+      .filter(
+        item => {
+
+          const date =
+            new Date(
+              item.date
+            );
+
+
+
+          const outletMatch =
+
+            selectedOutlet ===
+              "ALL"
+
+              ||
+
+            item.outlet ===
+              selectedOutlet;
+
+
+
+
+
+          const yearMatch =
+
+            date.getFullYear() ===
+              selectedYear;
+
+
+
+
+
+          const monthMatch =
+
+            date.getMonth() + 1 ===
+              selectedMonth;
+
+
+
+
+
+          return (
+
+            outletMatch &&
+
+            yearMatch &&
+
+            monthMatch
+
           );
 
-
-
-        const outletMatch =
-
-          selectedOutlet ===
-            "ALL"
-
-            ||
-
-          item.outlet ===
-            selectedOutlet;
+        }
+      );
 
 
 
-        return (
 
-          outletMatch &&
 
-          date.getFullYear() ===
-            selectedYear &&
-
-          date.getMonth() + 1 ===
-            selectedMonth
-
-        );
-
-      }
+  const container =
+    document.getElementById(
+      "recentEntryList"
     );
+
+
+
+
+
+  if (
+    entries.length === 0
+  ) {
+
+    container.innerHTML =
+
+      `
+        <p class="text-slate-400">
+          No entries found
+        </p>
+      `;
+
+    return;
+
+  }
 
 
 
@@ -399,7 +473,6 @@ function renderRecentEntries() {
         item => {
 
           const food =
-
             Number(
               item.foodRevenue || 0
             );
@@ -407,7 +480,6 @@ function renderRecentEntries() {
 
 
           const beverage =
-
             Number(
               item.beverageRevenue || 0
             );
@@ -415,11 +487,7 @@ function renderRecentEntries() {
 
 
           const total =
-
-            food +
-
-            beverage;
-
+            food + beverage;
 
 
 
@@ -455,9 +523,7 @@ function renderRecentEntries() {
 
 
               <div class="font-semibold">
-
                 RM${total.toLocaleString()}
-
               </div>
 
 
