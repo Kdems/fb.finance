@@ -422,6 +422,34 @@
 
 
 
+    const gopTarget =
+
+  Number(
+    monthlyTarget
+      .gopTarget || 0
+  );
+
+
+
+
+
+const gopAchievement =
+
+  gopTarget > 0
+
+    ? (
+
+        gop /
+
+        gopTarget
+
+      ) * 100
+
+    : 0;  
+
+
+
+
 
 
   return {
@@ -447,6 +475,10 @@
     gop,
 
     gopMargin,
+
+    gopTarget,
+
+    gopAchievement,
 
 
 

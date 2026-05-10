@@ -536,11 +536,175 @@ function renderMtd(
 
 
 
-function renderGop() {
-  document.getElementById(
-    "gopSection"
-  ).innerHTML =
-    "<h2 class='text-2xl font-bold'>GOP Performance</h2>";
+function renderGop(
+  data
+) {
+
+
+
+
+
+  const trafficLight =
+
+    data.gopAchievement >= 100
+
+      ? "🟢"
+
+      :
+
+    data.gopAchievement >= 90
+
+      ? "🟡"
+
+      :
+
+      "🔴";
+
+
+
+
+
+
+
+
+  document
+    .getElementById(
+      "gopSection"
+    )
+
+    .innerHTML = `
+
+      <div class="space-y-5">
+
+
+        <h2 class="text-2xl font-bold">
+
+          GOP Performance
+
+        </h2>
+
+
+
+
+
+
+
+
+        <div
+          class="grid grid-cols-5 gap-4">
+
+
+
+
+
+
+
+          <div
+            class="bg-slate-50 rounded-2xl p-5">
+
+            <p>Revenue</p>
+
+            <h3 class="text-3xl font-bold">
+
+              RM${data.totalRevenue.toLocaleString()}
+
+            </h3>
+
+          </div>
+
+
+
+
+
+
+
+
+          <div
+            class="bg-slate-50 rounded-2xl p-5">
+
+            <p>Total COGS</p>
+
+            <h3 class="text-3xl font-bold">
+
+              RM${Math.round(
+                data.totalCost
+              ).toLocaleString()}
+
+            </h3>
+
+          </div>
+
+
+
+
+
+
+
+
+          <div
+            class="bg-slate-50 rounded-2xl p-5">
+
+            <p>GOP</p>
+
+            <h3 class="text-3xl font-bold">
+
+              RM${Math.round(
+                data.gop
+              ).toLocaleString()}
+
+            </h3>
+
+          </div>
+
+
+
+
+
+
+
+
+          <div
+            class="bg-slate-50 rounded-2xl p-5">
+
+            <p>GOP %</p>
+
+            <h3 class="text-3xl font-bold">
+
+              ${data.gopMargin.toFixed(1)}%
+
+            </h3>
+
+          </div>
+
+
+
+
+
+
+
+
+          <div
+            class="bg-slate-50 rounded-2xl p-5">
+
+            <p>Status</p>
+
+            <h3 class="text-3xl font-bold">
+
+              ${trafficLight}
+
+              ${data.gopAchievement.toFixed(1)}%
+
+            </h3>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+    `;
+
 }
 
 
