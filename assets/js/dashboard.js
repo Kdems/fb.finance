@@ -28,6 +28,57 @@ function buildDashboardDropdowns() {
     "dashboardMonth"
   );
 
+
+
+
+
+
+
+  const today =
+    new Date();
+
+
+
+
+
+  const currentYear =
+    today.getFullYear();
+
+
+
+
+
+  const currentMonth =
+    today.getMonth() + 1;
+
+
+
+
+
+
+
+  document
+    .getElementById(
+      "dashboardYear"
+    )
+    .value =
+
+    currentYear;
+
+
+
+
+
+
+
+  document
+    .getElementById(
+      "dashboardMonth"
+    )
+    .value =
+
+    currentMonth;
+
 }
 
 
