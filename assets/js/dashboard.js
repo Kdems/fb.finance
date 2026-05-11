@@ -1419,6 +1419,23 @@ function renderTrend(
         ) * 100
       : 0;
 
+  let forecastStatus =
+  "🟢 Ahead of Target";
+
+  if (
+    vsTarget < 90
+  ) {
+    forecastStatus =
+      "🔴 Critical";
+  }
+
+  else if (
+    vsTarget < 100
+  ) {
+    forecastStatus =
+      "🟡 At Risk";
+  }
+
   document
     .getElementById(
       "trendSection"
@@ -1456,6 +1473,15 @@ function renderTrend(
             <h3 class="text-xl font-bold">
               ${vsTarget.toFixed(1)}%
             </h3>
+            </div>
+
+            <div class="bg-slate-50 rounded-2xl p-5">
+              <p>Status</p>
+
+              <h3 class="text-xl font-bold">
+                ${forecastStatus}
+              </h3>
+            </div>
           </div>
 
         </div>
