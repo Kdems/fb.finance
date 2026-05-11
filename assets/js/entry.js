@@ -55,7 +55,7 @@ function bindDailyForm() {
         );
 
       if (
-        !selectedDate
+        !selectedDate ||
 
          selectedDate ===
          "dd/mm/yyyy"
