@@ -101,12 +101,20 @@ function bindDailyForm() {
       alert(
         "Daily entry saved successfully"
       );
-      
+
 
 
 
 
       form.reset();
+
+      document
+        .getElementById(
+          "dailyDate"
+        )
+        .focus();
+
+
 
 
 
