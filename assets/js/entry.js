@@ -146,6 +146,24 @@ function bindMonthlyForm() {
 
       event.preventDefault();
 
+      const selectedDate =
+
+        getValue(
+          "dailyDate"
+        );
+
+      if (
+        !selectedDate
+      ) {
+
+        alert(
+          "Please select date first"
+        );
+
+        return;
+
+      }
+
 
 
       saveMonthlyTarget({
