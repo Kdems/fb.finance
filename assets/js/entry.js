@@ -50,8 +50,16 @@ function bindDailyForm() {
           "dailyDate"
         );
 
+        alert(
+          selectedDate
+        );
+
       if (
         !selectedDate
+
+         selectedDate ===
+         "dd/mm/yyyy"
+
       ) {
 
         alert(
