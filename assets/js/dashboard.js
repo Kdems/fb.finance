@@ -1411,6 +1411,23 @@ function renderTrend(
       month
     );
 
+  const today =
+  new Date().getDate();
+
+  const remainingDays =
+    Math.max(
+      31 - today,
+      1
+    );
+
+  const requiredPerDay =
+    dashboardData.targetRevenue > 0
+      ? (
+          dashboardData.targetRevenue -
+          dashboardData.totalRevenue
+        ) / remainingDays
+      : 0;
+
   const vsTarget =
     dashboardData.targetRevenue > 0
       ? (
@@ -1482,6 +1499,19 @@ function renderTrend(
                 ${forecastStatus}
               </h3>
             </div>
+
+          <div class="bg-slate-50 rounded-2xl p-5">
+
+            <p>Daily Required</p>
+            <h3 class="text-xl font-bold">
+              RM${Math.round(
+                requiredPerDay > 0
+                  ? requiredPerDay
+                  : 0
+              ).toLocaleString()}
+            </h3>
+
+          </div>  
           </div>
 
         </div>
