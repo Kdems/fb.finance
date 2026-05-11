@@ -505,57 +505,102 @@
 
 
 
-      <select
-        id="annualOutlet"
-        class="border rounded-xl p-3 w-full">
+      <div class="flex flex-col h-[95px]">
 
-        <option>
-          SKYBAR
-        </option>
+        <label
+          class="text-sm font-medium mb-2">
 
-        <option>
-          GCC
-        </option>
+          Outlet
 
-        <option>
-          BO6
-        </option>
+        </label>
 
-      </select>
+        <select
+          id="annualOutlet"
+          class="border rounded-xl p-3 w-full">
 
+            <option>SKYBAR</option>
+            <option>GCC</option>
+            <option>BO6</option>
 
+        </select>
 
-      <select
-      id="annualYear"
-      class="border rounded-xl p-3 w-full">
-
-      </select>
+      </div>
 
 
 
-      <input
-        id="annualRevenueTarget"
-        type="number"
-        placeholder="Annual Revenue"
-        class="border rounded-xl p-3 w-full">
+      <div class="flex flex-col h-[95px]">
+
+        <label
+          class="text-sm font-medium mb-2">
+
+          Year
+
+        </label>
+
+        <select
+          id="annualYear"
+          class="border rounded-xl p-3 w-full">
+
+        </select>
+
+      </div>
 
 
 
-      <input
-        id="annualGopTarget"
-        type="number"
-        placeholder="Annual GOP"
-        class="border rounded-xl p-3 w-full">
+      <div>
+
+        <label
+          class="block text-sm font-medium mb-2">
+
+          Annual Revenue
+
+        </label>
+
+        <input
+          id="annualRevenueTarget"
+          type="number"
+          class="border rounded-xl p-3 w-full">
+
+      </div>
 
 
 
-      <button
-        type="submit"
-        class="w-full bg-purple-600 text-white py-3 rounded-2xl font-medium">
+      <div>
 
-        Save Annual
+        <label
+          class="block text-sm font-medium mb-2">
 
-      </button>
+          Annual GOP
+
+        </label>
+
+        <input
+          id="annualGopTarget"
+          type="number"
+          class="border rounded-xl p-3 w-full">
+
+      </div>
+
+
+
+      <div class="flex flex-col h-[95px]">
+
+        <label
+          class="text-sm font-medium mb-2 opacity-0">
+
+          Action
+
+        </label>
+
+        <button
+          type="submit"
+          class="w-full bg-purple-600 text-white p-3 rounded-2xl font-medium">
+
+          Save Annual
+
+        </button>
+
+      </div>
 
     </form>
 
