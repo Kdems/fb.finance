@@ -458,7 +458,7 @@ function renderMtd(
 
 
         <div
-          class="grid grid-cols-5 gap-4">
+          class="grid grid-cols-7 gap-4">
 
 
 
@@ -1357,7 +1357,7 @@ function renderSummary(
 
 
         <div
-          class="grid grid-cols-5">
+          class="grid grid-cols-5 gap-4">
 
 
 
