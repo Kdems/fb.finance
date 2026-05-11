@@ -1244,7 +1244,6 @@ function renderTrend(
   year,
   month
 ) {
-
   const entries =
     getFilteredDailyEntries(
       outlet,
@@ -1255,118 +1254,71 @@ function renderTrend(
   const totalDays =
     entries.length;
 
-  const highestDay =
-    entries.reduce(
-      (
-        best,
-        current
-      ) =>
+  const currentPace =
+    totalDays > 0
+      ? entries.reduce(
+          (sum, item) =>
+            sum +
+            (item.totalRevenue || 0),
+          0
+        ) / totalDays
+      : 0;
 
-        !best ||
+  const projectedRevenue =
+    currentPace * 31;
 
-        current.totalRevenue >
-          best.totalRevenue
-
-          ? current
-
-          : best,
-
-      null
+  const dashboardData =
+    calculateDashboardData(
+      outlet,
+      year,
+      month
     );
 
-  const lowestDay =
-    entries.reduce(
-      (
-        worst,
-        current
-      ) =>
-
-        !worst ||
-
-        current.totalRevenue <
-          worst.totalRevenue
-
-          ? current
-
-          : worst,
-
-      null
-    );
-
-  const average =
-  totalDays > 0
-    ? entries.reduce(
-        (sum, item) =>
-          sum + (item.totalRevenue || 0),
-        0
-      ) / totalDays
-    : 0;
+  const vsTarget =
+    dashboardData.targetRevenue > 0
+      ? (
+          projectedRevenue /
+          dashboardData.targetRevenue
+        ) * 100
+      : 0;
 
   document
     .getElementById(
       "trendSection"
     )
-
     .innerHTML = `
 
       <div class="space-y-5">
 
         <h2 class="text-2xl font-bold">
-
           Performance Trend
-
         </h2>
 
         <div class="grid grid-cols-3 gap-4">
 
           <div class="bg-slate-50 rounded-2xl p-5">
-
-            <p>Best Day</p>
-
+            <p>Current Pace</p>
             <h3 class="text-xl font-bold">
-
               RM${Math.round(
-                highestDay?.totalRevenue || 0
+                currentPace
               ).toLocaleString()}
-
-              <p class="text-sm text-slate-500 mt-2">
-                ${highestDay?.date || "-"}
-              </p>
-
             </h3>
-
           </div>
 
           <div class="bg-slate-50 rounded-2xl p-5">
-
-            <p>Worst Day</p>
-
+            <p>Projected Month End</p>
             <h3 class="text-xl font-bold">
-
               RM${Math.round(
-                lowestDay?.totalRevenue || 0
+                projectedRevenue
               ).toLocaleString()}
-
-              <p class="text-sm text-slate-500 mt-2">
-                ${lowestDay?.date || "-"}
-              </p>
-
             </h3>
-
           </div>
 
           <div class="bg-slate-50 rounded-2xl p-5">
-
-            <p>Daily Average</p>
-
+            <p>Vs Target</p>
             <h3 class="text-xl font-bold">
-
-              RM${Math.round(
-                average
-              ).toLocaleString()}
-
+              ${vsTarget.toFixed(1)}%
             </h3>
-
           </div>
 
         </div>
