@@ -106,23 +106,26 @@
 
 
 
-      <select
-        id="dailyOutlet"
-        class="border rounded-xl p-3 w-full">
+      <div class="flex flex-col justify-end h-[95px]">
 
-        <option>
-          SKYBAR
-        </option>
+        <label
+          class="text-sm font-medium mb-2">
 
-        <option>
-          GCC
-        </option>
+          Outlet
 
-        <option>
-          BO6
-        </option>
+        </label>
 
-      </select>
+        <select
+          id="dailyOutlet"
+          class="border rounded-xl p-3 w-full">
+
+          <option>SKYBAR</option>
+          <option>GCC</option>
+          <option>BO6</option>
+
+        </select>
+
+      </div>
 
 
 
@@ -144,7 +147,7 @@
 
 
 
-    <div class="flex flex-col justify-between h-[95px]">
+    <div>
 
       <label
         class="block text-sm font-medium mb-2">
@@ -162,7 +165,7 @@
 
 
 
-    <div class="flex flex-col justify-between h-[95px]">
+    <div>
 
       <label
         class="block text-sm font-medium mb-2">
@@ -180,7 +183,7 @@
 
 
 
-    <div class="flex flex-col justify-between h-[95px]">
+    <div>
 
       <label
         class="block text-sm font-medium mb-2">
@@ -198,13 +201,24 @@
 
 
 
+     <div class="flex flex-col justify-end h-[95px]">
+
+      <label
+        class="text-sm font-medium mb-2 opacity-0">
+
+        Action
+
+      </label>
+
       <button
         type="submit"
-        class="bg-blue-600 text-white rounded-2xl font-medium">
+        class="bg-blue-600 text-white rounded-2xl p-3 font-medium w-full">
 
         Save Daily
 
       </button>
+
+    </div>
 
     </form>
 
