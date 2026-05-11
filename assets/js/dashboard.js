@@ -990,11 +990,78 @@ function renderRecent(
 
 
 
-function renderAlerts() {
-  document.getElementById(
-    "alertSection"
-  ).innerHTML =
-    "<h2 class='text-2xl font-bold'>Executive Alerts</h2>";
+function renderAlerts(
+  data
+) {
+  const alerts = [];
+
+  if (
+    data.revenueAchievement < 90
+  ) {
+    alerts.push(
+      "🔴 Revenue below target"
+    );
+  }
+
+  if (
+    data.foodCostVariance > 0
+  ) {
+    alerts.push(
+      "🟡 Food cost above budget"
+    );
+  }
+
+  if (
+    data.beverageCostVariance > 0
+  ) {
+    alerts.push(
+      "🟡 Beverage cost above budget"
+    );
+  }
+
+  if (
+    data.gopAchievement < 90
+  ) {
+    alerts.push(
+      "🔴 GOP below target"
+    );
+  }
+
+  if (
+    alerts.length === 0
+  ) {
+    alerts.push(
+      "🟢 All KPIs on track"
+    );
+  }
+
+  document
+    .getElementById(
+      "alertSection"
+    )
+    .innerHTML = `
+
+      <div class="space-y-5">
+
+        <h2 class="text-2xl font-bold">
+          Executive Alerts
+        </h2>
+
+        <div class="space-y-3">
+
+          ${alerts.map(alert => `
+
+            <div class="bg-slate-50 rounded-2xl p-4">
+              ${alert}
+            </div>
+
+          `).join("")}
+
+        </div>
+
+      </div>
+
+    `;
 }
 
 function buildYearDropdown(id) {
