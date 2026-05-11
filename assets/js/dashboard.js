@@ -1294,21 +1294,13 @@ function renderTrend(
     );
 
   const average =
-    totalDays > 0
-
-      ? entries.reduce(
-          (
-            sum,
-            item
-          ) =>
-
-            sum +
-            item.totalRevenue,
-
-          0
-        ) / totalDays
-
-      : 0;
+  totalDays > 0
+    ? entries.reduce(
+        (sum, item) =>
+          sum + (item.totalRevenue || 0),
+        0
+      ) / totalDays
+    : 0;
 
   document
     .getElementById(
