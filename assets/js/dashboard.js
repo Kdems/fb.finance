@@ -2,6 +2,21 @@ function formatCurrency(value) {
   return "RM" + Number(value || 0).toLocaleString();
 }
 
+function getPerformanceColor(value) {
+
+  if (value >= 100)
+    return "#22c55e";
+
+  if (value >= 90)
+    return "#eab308";
+
+  if (value >= 80)
+    return "#f97316";
+
+  return "#ef4444";
+
+}
+
 window.onload = function () {
 
   buildDashboardDropdowns();
