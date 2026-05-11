@@ -98,10 +98,10 @@ function bindDailyForm() {
 
 
 
-      console.log(
-        "Saved successfully"
+      alert(
+        "Daily entry saved successfully"
       );
-
+      
 
 
 
