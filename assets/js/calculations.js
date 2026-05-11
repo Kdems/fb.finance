@@ -631,7 +631,7 @@ const currentDate =
 const currentDay =
   currentDate.getDate()
 
-const daysInMonth =
+const totalDaysInMonth =
   new Date(
     year,
     month,
@@ -639,14 +639,14 @@ const daysInMonth =
   ).getDate();
 
 const daysLeft =
-  daysInMonth - currentDay;
+  totalDaysInMonth - currentDay
 
 const projectedMtd =
   currentDay > 0
     ? (
         totalRevenue /
         currentDay
-      ) * daysInMonth
+      ) * totalDaysInMonth
     : 0;
     
     
