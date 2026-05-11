@@ -1329,6 +1329,10 @@ function renderTrend(
                 highestDay?.totalRevenue || 0
               ).toLocaleString()}
 
+              <p class="text-sm text-slate-500 mt-2">
+                ${highestDay?.date || "-"}
+              </p>
+
             </h3>
 
           </div>
@@ -1342,6 +1346,10 @@ function renderTrend(
               RM${Math.round(
                 lowestDay?.totalRevenue || 0
               ).toLocaleString()}
+
+              <p class="text-sm text-slate-500 mt-2">
+                ${lowestDay?.date || "-"}
+              </p>
 
             </h3>
 
