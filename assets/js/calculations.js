@@ -625,7 +625,69 @@ let executiveAlert =
 
 
 
+const today =
+  new Date();
+
+const currentDay =
+  today.getDate();
+
+const daysInMonth =
+  new Date(
+    year,
+    month,
+    0
+  ).getDate();
+
+const daysLeft =
+  daysInMonth - currentDay;
+
+const projectedMtd =
+  currentDay > 0
+    ? (
+        totalRevenue /
+        currentDay
+      ) * daysInMonth
+    : 0;
+    
+    
+
+
+    const startOfYear =
+  new Date(
+    year,
+    0,
+    1
+  );
+
+const currentDayOfYear =
+  Math.floor(
+    (
+      today -
+      startOfYear
+    ) / 86400000
+  ) + 1;
+
+const projectedYtd =
+  currentDayOfYear > 0
+    ? (
+        totalRevenue /
+        currentDayOfYear
+      ) * 365
+    : 0;
+
+
+
+
   return {
+
+
+    projectedMtd,
+
+    projectedYtd,
+
+    daysLeft,
+
+    
 
     foodRevenue,
 
