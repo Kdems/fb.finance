@@ -908,11 +908,81 @@ function renderSummary() {
 
 
 
-function renderRecent() {
-  document.getElementById(
-    "recentSection"
-  ).innerHTML =
-    "<h2 class='text-2xl font-bold'>Recent Entries</h2>";
+function renderRecent(
+  outlet,
+  year,
+  month
+) {
+  const entries =
+    getFilteredDailyEntries(
+      outlet,
+      year,
+      month
+    )
+
+    .sort(
+      (a, b) =>
+        new Date(b.date) -
+        new Date(a.date)
+    )
+
+    .slice(0, 5);
+
+  document
+    .getElementById(
+      "recentSection"
+    )
+    .innerHTML = `
+
+      <div class="space-y-5">
+
+        <h2 class="text-2xl font-bold">
+          Recent Entries
+        </h2>
+
+        <div class="space-y-3">
+
+          ${entries.map(item => `
+
+            <div class="bg-slate-50 rounded-2xl p-4 flex justify-between">
+
+              <div>
+                <p class="font-semibold">
+                  ${item.date}
+                </p>
+
+                <p class="text-sm text-slate-500">
+                  ${item.outlet}
+                </p>
+              </div>
+
+              <div class="text-right">
+
+                <p class="font-bold">
+                  RM${Math.round(
+                    item.totalRevenue || 0
+                  ).toLocaleString()}
+                </p>
+
+                <p class="text-sm text-slate-500">
+                  Food:
+                  ${item.foodCostPercent || 0}%
+                  |
+                  Bev:
+                  ${item.beverageCostPercent || 0}%
+                </p>
+
+              </div>
+
+            </div>
+
+          `).join("")}
+
+        </div>
+
+      </div>
+
+    `;
 }
 
 
