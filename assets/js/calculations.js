@@ -638,7 +638,7 @@ const totalDaysInMonth =
     0
   ).getDate();
 
-const daysLeft =
+const remainingDays =
   totalDaysInMonth - currentDay
 
 const projectedMtd =
