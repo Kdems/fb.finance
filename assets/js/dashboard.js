@@ -343,6 +343,22 @@ function renderYtd(
 
             </h3>
 
+            <div
+              class="w-full bg-slate-200 rounded-full h-3 mt-3">
+
+              <div
+                class="bg-green-500 h-3 rounded-full"
+                style="
+                  width:
+                  ${Math.min(
+                    data.ytdAchievement,
+                    100
+                  )}%
+                ">
+              </div>
+
+            </div>
+
           </div>
 
 
@@ -517,6 +533,22 @@ function renderMtd(
               ${data.revenueAchievement.toFixed(1)}%
 
             </h3>
+
+            <div
+              class="w-full bg-slate-200 rounded-full h-3 mt-3">
+
+              <div
+                class="bg-blue-500 h-3 rounded-full"
+                style="
+                  width:
+                  ${Math.min(
+                    data.achievement,
+                    100
+                  )}%
+                ">
+              </div>
+
+            </div>
 
           </div>
 
