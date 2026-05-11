@@ -1500,29 +1500,97 @@ function renderRanking() {
 
   document.getElementById(
     "rankingSection"
-  ).innerHTML = `
-    <h2 class="text-2xl font-bold mb-4">
-      Outlet Ranking
-    </h2>
+const maxRevenue =
+  Math.max(
+    ...ranking.map(
+      x => x.revenue
+    )
+  );
 
-    <div class="grid grid-cols-2 gap-4">
+document
+  .getElementById(
+    "rankingSection"
+  )
+  .innerHTML = `
 
-      <div class="bg-slate-50 rounded-2xl p-4">
-        <p>Top Performer</p>
-        <h3 class="text-2xl font-bold">
-          ${best.name}
-        </h3>
-        <p>${formatCurrency(best.revenue)}</p>
-      </div>
+  <h2 class="text-2xl font-bold mb-5">
+    Outlet Ranking
+  </h2>
 
-      <div class="bg-slate-50 rounded-2xl p-4">
-        <p>Lowest Performer</p>
-        <h3 class="text-2xl font-bold">
-          ${worst.name}
-        </h3>
-        <p>${formatCurrency(worst.revenue)}</p>
-      </div>
+  <div class="grid grid-cols-2 gap-4 mb-6">
 
+    <div class="bg-slate-50 rounded-2xl p-4">
+      <p>Top Performer</p>
+      <h3 class="text-2xl font-bold">
+        ${best.name}
+      </h3>
+      <p>
+        RM${Math.round(
+          best.revenue
+        ).toLocaleString()}
+      </p>
     </div>
+
+    <div class="bg-slate-50 rounded-2xl p-4">
+      <p>Lowest Performer</p>
+      <h3 class="text-2xl font-bold">
+        ${worst.name}
+      </h3>
+      <p>
+        RM${Math.round(
+          worst.revenue
+        ).toLocaleString()}
+      </p>
+    </div>
+
+  </div>
+
+  <div class="space-y-4">
+
+    ${ranking.map(item => {
+
+      const width =
+        maxRevenue > 0
+        ? (
+            item.revenue /
+            maxRevenue
+          ) * 100
+        : 0;
+
+      return `
+
+        <div>
+
+          <div class="flex justify-between mb-1">
+
+            <span class="font-semibold">
+              ${item.name}
+            </span>
+
+            <span>
+              RM${Math.round(
+                item.revenue
+              ).toLocaleString()}
+            </span>
+
+          </div>
+
+          <div class="bg-slate-100 rounded-full h-3">
+
+            <div
+              class="bg-slate-800 h-3 rounded-full"
+              style="width:${width}%"
+            ></div>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("")}
+
+  </div>
+
   `;
 }
