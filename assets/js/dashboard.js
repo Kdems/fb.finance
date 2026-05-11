@@ -359,18 +359,20 @@ function renderYtd(
             </h3>
 
             <div
-              class="w-full bg-slate-200 rounded-full h-3 mt-3">
+              class="h-3 rounded-full"
+              style="
+                background:
+                ${getPerformanceColor(
+                  data.ytdAchievement
+                )};
 
-              <div
-                class="bg-green-500 h-3 rounded-full"
-                style="
-                  width:
-                  ${Math.min(
-                    data.ytdAchievement,
-                    100
-                  )}%
-                ">
-              </div>
+                width:
+                ${Math.min(
+                  data.ytdAchievement,
+                  100
+                )}%
+              ">
+            </div>
 
             </div>
 
@@ -553,11 +555,16 @@ function renderMtd(
               class="w-full bg-slate-200 rounded-full h-3 mt-3">
 
               <div
-                class="bg-blue-500 h-3 rounded-full"
+                class="h-3 rounded-full"
                 style="
+                  background:
+                  ${getPerformanceColor(
+                    data.revenueAchievement
+                  )};
+
                   width:
                   ${Math.min(
-                    data.achievement,
+                    data.revenueAchievement,
                     100
                   )}%
                 ">
