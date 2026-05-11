@@ -358,22 +358,6 @@ function renderYtd(
 
             </h3>
 
-            <div
-              class="h-3 rounded-full"
-              style="
-                background:
-                ${getPerformanceColor(
-                  data.ytdAchievement
-                )};
-
-                width:
-                ${Math.min(
-                  data.ytdAchievement,
-                  100
-                )}%
-              ">
-            </div>
-
             </div>
 
           </div>
@@ -400,6 +384,22 @@ function renderYtd(
               ${data.ytdAchievement.toFixed(1)}%
 
             </h3>
+
+            <div
+              class="h-3 rounded-full"
+              style="
+                background:
+                ${getPerformanceColor(
+                  data.ytdAchievement
+                )};
+
+                width:
+                ${Math.min(
+                  data.ytdAchievement,
+                  100
+                )}%
+              ">
+            </div>
 
           </div>
 
@@ -1357,7 +1357,7 @@ function renderSummary(
 
 
         <div
-          class="grid grid-cols-4 gap-4">
+          class="grid grid-cols-5">
 
 
 
