@@ -625,11 +625,11 @@ let executiveAlert =
 
 
 
-const today =
+const currentDate =
   new Date();
 
 const currentDay =
-  today.getDate();
+  currentDate.getDate()
 
 const daysInMonth =
   new Date(
@@ -662,8 +662,7 @@ const projectedMtd =
 const currentDayOfYear =
   Math.floor(
     (
-      today -
-      startOfYear
+      currentDate - startOfYear
     ) / 86400000
   ) + 1;
 
@@ -687,7 +686,7 @@ const projectedYtd =
 
     daysLeft,
 
-    
+
 
     foodRevenue,
 
