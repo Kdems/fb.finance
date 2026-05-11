@@ -360,6 +360,23 @@ function renderYtd(
 
             </div>
 
+            <div
+            class="bg-slate-50 rounded-2xl p-5">
+
+            <p class="text-sm text-slate-500">
+              Projected Year End
+            </p>
+
+            <h3 class="text-3xl font-bold">
+              RM${Math.round(
+                data.projectedYtd
+              ).toLocaleString()}
+            </h3>
+
+          </div>
+
+            </div>
+
           </div>
 
 
@@ -400,21 +417,6 @@ function renderYtd(
                 )}%
               ">
             </div>
-
-          </div>
-
-          <div
-            class="bg-slate-50 rounded-2xl p-5">
-
-            <p class="text-sm text-slate-500">
-              Projected Year End
-            </p>
-
-            <h3 class="text-3xl font-bold">
-              RM${Math.round(
-                data.projectedYtd
-              ).toLocaleString()}
-            </h3>
 
           </div>
 
