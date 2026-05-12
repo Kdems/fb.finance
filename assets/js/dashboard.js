@@ -1572,41 +1572,41 @@ function renderRanking() {
         Outlet Ranking
       </h2>
 
+     <div class="grid grid-cols-2 gap-4 mb-6">
+
+  <div class="bg-slate-50 rounded-2xl p-5">
+
+    <p class="text-sm text-slate-500">
+      Top Performer
+    </p>
+
+    <h3 class="text-2xl font-bold text-slate-900">
+      ${best.name}
+    </h3>
+
+    <p class="text-slate-700">
+      RM${Math.round(best.revenue).toLocaleString()}
+    </p>
+
+  </div>
+
+  <div class="bg-slate-50 rounded-2xl p-5">
+
+    <p class="text-sm text-slate-500">
+      Lowest Performer
+    </p>
+
+    <h3 class="text-2xl font-bold text-slate-900">
+      ${worst.name}
+    </h3>
+
+    <p class="text-slate-700">
+      RM${Math.round(worst.revenue).toLocaleString()}
+    </p>
+
+  </div>
+
 </div>
-
-      <div class="bg-slate-50 rounded-2xl p-5">
-
-  <p class="text-sm text-slate-500">
-    Top Performer
-  </p>
-
-  <h3 class="text-2xl font-bold text-slate-900">
-    ${best.name}
-  </h3>
-
-  <p class="text-slate-700">
-    RM${Math.round(best.revenue).toLocaleString()}
-  </p>
-
-</div>
-
-<div class="bg-slate-50 rounded-2xl p-5">
-
-  <p class="text-sm text-slate-500">
-    Lowest Performer
-  </p>
-
-  <h3 class="text-2xl font-bold text-slate-900">
-    ${worst.name}
-  </h3>
-
-  <p class="text-slate-700">
-    RM${Math.round(worst.revenue).toLocaleString()}
-  </p>
-
-</div>
-
-      </div>
 
       <div class="space-y-4">
 
