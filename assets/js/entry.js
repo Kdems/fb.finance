@@ -4,6 +4,8 @@ window.onload = function () {
 
   setupDailyAutoTotal();
 
+  setupDailyBudget();
+
   setupRecentFilters();
 
   setupTargetReload();
@@ -995,6 +997,110 @@ function buildMonthDropdown(id) {
 
 
 function setupDailyAutoTotal() {
+
+  function setupDailyBudget() {
+
+    const dateInput =
+      document.getElementById(
+        "dailyDate"
+      );
+
+    function updateBudget() {
+
+      const selectedDate =
+        dateInput.value;
+
+      if (!selectedDate) return;
+
+      const outlet =
+        getValue(
+          "dailyOutlet"
+        );
+
+      const date =
+        new Date(
+          selectedDate
+        );
+
+      const year =
+        date.getFullYear();
+
+      const month =
+        date.getMonth() + 1;
+
+      // ambil monthly target ikut outlet + year + month
+      const monthlyTarget =
+
+        getMonthlyTargets()
+
+          .find(
+            item =>
+
+              item.outlet === outlet &&
+
+              item.year === year &&
+
+              item.month === month
+          );
+
+      if (!monthlyTarget) {
+
+        document.getElementById(
+          "dailyBudget"
+        ).value = "";
+
+        return;
+
+      }
+
+      const totalMonthlyBudget =
+
+        Number(
+          monthlyTarget.foodTarget || 0
+        ) +
+
+        Number(
+          monthlyTarget.beverageTarget || 0
+        );
+
+      const daysInMonth =
+
+        new Date(
+          year,
+          month,
+          0
+        ).getDate();
+
+      const dailyBudget =
+
+        totalMonthlyBudget /
+        daysInMonth;
+
+      document.getElementById(
+        "dailyBudget"
+      ).value =
+
+        "RM " +
+
+        Math.round(
+          dailyBudget
+        ).toLocaleString();
+
+    }
+
+    dateInput.addEventListener(
+      "change",
+      updateBudget
+    );
+
+    document.getElementById(
+      "dailyOutlet"
+    ).addEventListener(
+      "change",
+      updateBudget
+    );
+
+  }
 
   const foodInput =
     document.getElementById(
