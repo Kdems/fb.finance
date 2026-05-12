@@ -445,7 +445,7 @@ function renderMtd(
 
 
         <div
-          class="grid grid-cols-7 gap-4">
+          class="grid grid-cols-6 gap-4">
 
 
 
@@ -518,22 +518,6 @@ function renderMtd(
 
 
 
-
-
-
-
-
-          
-
-          </div>
-
-
-
-
-
-
-
-
           <div
             class="bg-slate-50 rounded-2xl p-5">
 
@@ -600,6 +584,8 @@ function renderMtd(
           100
         )}%">
     </div>
+
+  </div>
 
   </div>
 
