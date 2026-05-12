@@ -970,12 +970,18 @@ function renderRecent(
                 </p>
 
                 <p class="text-sm text-slate-500">
-                  Food:
-                  ${item.foodCostPercent || 0}%
-                  |
-                  Bev:
-                  ${item.beverageCostPercent || 0}%
-                </p>
+
+  Food: RM${Math.round(
+    item.foodRevenue || 0
+  ).toLocaleString()}
+
+  |
+
+  Bev: RM${Math.round(
+    item.beverageRevenue || 0
+  ).toLocaleString()}
+
+</p>
 
               </div>
 
