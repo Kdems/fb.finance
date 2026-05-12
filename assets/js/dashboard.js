@@ -100,7 +100,11 @@ function buildDashboardDropdowns() {
 
 }
 
-
+const outletLogos = {
+  SKYBAR: "assets/logos/skybar.png",
+  GCC: "assets/logos/gcc.png",
+  BO6: "assets/logos/bo6.png"
+};
 
 
 
@@ -111,14 +115,23 @@ function buildDashboardDropdowns() {
 
 function setupDashboardFilters() {
 
-  document
-    .getElementById(
-      "dashboardOutlet"
-    )
-    .addEventListener(
-      "change",
-      renderDashboard
-    );
+const dashboardOutlet =
+  document.getElementById("dashboardOutlet");
+
+const dashboardLogo =
+  document.getElementById("dashboardLogo");  
+
+  dashboardOutlet.addEventListener(
+  "change",
+  function () {
+
+    dashboardLogo.src =
+      outletLogos[this.value];
+
+    renderDashboard();
+
+  }
+);
 
 
 
