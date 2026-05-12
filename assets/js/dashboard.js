@@ -408,8 +408,6 @@ function renderYtd(
 
   </div>
 
-</div>
-
 
 
     `;
