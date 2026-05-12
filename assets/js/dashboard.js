@@ -376,9 +376,6 @@ function renderYtd(
           </div>
 
 
-          </div>
-
-
 
 
 
