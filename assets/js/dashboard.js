@@ -1572,6 +1572,8 @@ function renderRanking() {
         Outlet Ranking
       </h2>
 
+</div>
+
       <div class="bg-slate-50 rounded-2xl p-5">
 
   <p class="text-sm text-slate-500">
