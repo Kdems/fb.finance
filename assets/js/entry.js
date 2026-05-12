@@ -183,6 +183,90 @@ function bindMonthlyForm() {
       event.preventDefault();
 
 
+  const foodTarget =
+    Number(
+      getValue(
+        "foodTarget"
+      )
+    );
+
+  const beverageTarget =
+    Number(
+      getValue(
+        "beverageTarget"
+      )
+    );
+
+  const lyFoodRevenue =
+    Number(
+      getValue(
+        "lyFoodRevenue"
+      )
+    );
+
+  const lyBeverageRevenue =
+    Number(
+      getValue(
+        "lyBeverageRevenue"
+      )
+    );
+
+  const foodCost =
+    Number(
+      getValue(
+        "foodCostPercent"
+      )
+    );
+
+  const beverageCost =
+    Number(
+      getValue(
+        "beverageCostPercent"
+      )
+    );
+
+  const fixedCost =
+    Number(
+      getValue(
+        "fixedCostPercent"
+      )
+    );
+
+  const gopTarget =
+    Number(
+      getValue(
+        "gopTarget"
+      )
+    );
+
+  if (
+
+    foodTarget < 0 ||
+
+    beverageTarget < 0 ||
+
+    lyFoodRevenue < 0 ||
+
+    lyBeverageRevenue < 0 ||
+
+    foodCost < 0 ||
+
+    beverageCost < 0 ||
+
+    fixedCost < 0 ||
+
+    gopTarget < 0
+
+  ) {
+
+    alert(
+      "Monthly values cannot be negative"
+    );
+
+    return;
+
+  }    
+
 
 
       saveMonthlyTarget({
@@ -212,75 +296,24 @@ function bindMonthlyForm() {
 
 
 
-        foodTarget:
-          Number(
-            getValue(
-              "foodTarget"
-            )
-          ),
+        foodTarget,
 
+        beverageTarget,
 
+        lyFoodRevenue,
 
-        beverageTarget:
-          Number(
-            getValue(
-              "beverageTarget"
-            )
-          ),
-
-
-
-        lyFoodRevenue:
-          Number(
-            getValue(
-              "lyFoodRevenue"
-            )
-          ),
-
-
-
-        lyBeverageRevenue:
-          Number(
-            getValue(
-              "lyBeverageRevenue"
-            )
-          ),
-
-
+        lyBeverageRevenue,
 
         foodCostPercent:
-          Number(
-            getValue(
-              "foodCostPercent"
-            )
-          ),
-
-
+          foodCost,
 
         beverageCostPercent:
-          Number(
-            getValue(
-              "beverageCostPercent"
-            )
-          ),
-
-
+          beverageCost,
 
         fixedCostPercent:
-          Number(
-            getValue(
-              "fixedCostPercent"
-            )
-          ),
+          fixedCost,
 
-
-
-        gopTarget:
-          Number(
-            getValue(
-              "gopTarget"
-            )
-          )
+        gopTarget
 
       });
 
