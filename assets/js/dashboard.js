@@ -556,8 +556,8 @@ function renderMtd(
           </div>
           </div>
           
-        <div
-  class="bg-slate-50 rounded-2xl p-5 mt-4">
+       <div
+  class="bg-slate-50 rounded-2xl p-5 mt-4 col-span-6">
 
   <p class="text-sm text-slate-500">
     Achievement
