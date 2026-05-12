@@ -374,6 +374,41 @@ function renderYtd(
             </h3>
 
           </div>
+          </div>
+
+          <div
+  class="bg-slate-50 rounded-2xl p-5 mt-4">
+
+  <p class="text-sm text-slate-500">
+    Achievement
+  </p>
+
+  <h3 class="text-3xl font-bold mb-3">
+
+    ${data.ytdAchievement.toFixed(1)}%
+
+  </h3>
+
+  <div class="w-full bg-slate-200 rounded-full h-3">
+
+    <div
+      class="h-3 rounded-full"
+      style="
+        background:
+        ${getPerformanceColor(
+          data.ytdAchievement
+        )};
+
+        width:
+        ${Math.min(
+          data.ytdAchievement,
+          100
+        )}%">
+    </div>
+
+  </div>
+
+</div>
 
 
 
