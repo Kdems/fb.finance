@@ -1395,6 +1395,7 @@ function renderTrend(
   year,
   month
 ) {
+
   const entries =
     getFilteredDailyEntries(
       outlet,
@@ -1426,7 +1427,7 @@ function renderTrend(
     );
 
   const today =
-  new Date().getDate();
+    new Date().getDate();
 
   const remainingDays =
     Math.max(
@@ -1451,18 +1452,14 @@ function renderTrend(
       : 0;
 
   let forecastStatus =
-  "🟢 Ahead of Target";
+    "🟢 Ahead of Target";
 
-  if (
-    vsTarget < 90
-  ) {
+  if (vsTarget < 90) {
     forecastStatus =
       "🔴 Critical";
   }
 
-  else if (
-    vsTarget < 100
-  ) {
+  else if (vsTarget < 100) {
     forecastStatus =
       "🟡 At Risk";
   }
@@ -1476,55 +1473,80 @@ function renderTrend(
       <div class="space-y-5">
 
         <h2 class="text-2xl font-bold text-white">
+
           Performance Trend
+
         </h2>
 
-        <div class="grid grid-cols-5 gap-4">
+        <div
+          class="grid grid-cols-5 gap-4">
 
           <div class="bg-slate-50 rounded-2xl p-5">
+
             <p>Current Pace</p>
+
             <h3 class="text-xl font-bold">
+
               RM${Math.round(
                 currentPace
               ).toLocaleString()}
+
             </h3>
+
           </div>
 
           <div class="bg-slate-50 rounded-2xl p-5">
+
             <p>Projected Month End</p>
+
             <h3 class="text-xl font-bold">
+
               RM${Math.round(
                 projectedRevenue
               ).toLocaleString()}
+
             </h3>
+
           </div>
 
           <div class="bg-slate-50 rounded-2xl p-5">
+
             <p>Vs Target</p>
+
             <h3 class="text-xl font-bold">
+
               ${vsTarget.toFixed(1)}%
+
             </h3>
 
-            <div class="bg-slate-50 rounded-2xl p-5">
-             <p>Status</p> 
+          </div>
 
-              <h3 class="text-xl font-bold">
-                ${forecastStatus}
-              </h3>
-            </div>
+          <div class="bg-slate-50 rounded-2xl p-5">
+
+            <p>Status</p>
+
+            <h3 class="text-xl font-bold">
+
+              ${forecastStatus}
+
+            </h3>
+
+          </div>
 
           <div class="bg-slate-50 rounded-2xl p-5">
 
             <p>Daily Required</p>
+
             <h3 class="text-xl font-bold">
+
               RM${Math.round(
                 requiredPerDay > 0
                   ? requiredPerDay
                   : 0
               ).toLocaleString()}
+
             </h3>
 
-          </div>  
           </div>
 
         </div>
@@ -1532,6 +1554,7 @@ function renderTrend(
       </div>
 
     `;
+
 }
 
 function renderRanking() {
