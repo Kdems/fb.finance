@@ -429,7 +429,6 @@ function renderMtd(
 
       <div class="space-y-5">
 
-
         <div>
 
           <h2 class="text-2xl font-bold text-white">
@@ -440,105 +439,65 @@ function renderMtd(
 
         </div>
 
-
-
-
-
         <div
           class="grid grid-cols-6 gap-4">
 
-
-
-
-
-          <div
-            class="bg-slate-50 rounded-2xl p-5">
+          <div class="bg-slate-50 rounded-2xl p-5">
 
             <p class="text-sm text-slate-500">
-
               MTD Revenue
-
             </p>
 
             <h3 class="text-3xl font-bold">
-
               RM${data.totalRevenue.toLocaleString()}
-
-            </h3>
-
-          </div>
-
-
-
-
-
-
-
-
-          <div
-            class="bg-slate-50 rounded-2xl p-5">
-
-            <p class="text-sm text-slate-500">
-
-              Target
-
-            </p>
-
-            <h3 class="text-3xl font-bold">
-
-              RM${data.targetRevenue.toLocaleString()}
-
-            </h3>
-
-          </div>
-
-
-
-
-
-
-
-
-          <div
-            class="bg-slate-50 rounded-2xl p-5">
-
-            <p class="text-sm text-slate-500">
-
-              Variance
-
-            </p>
-
-            <h3 class="text-3xl font-bold">
-
-              RM${data.revenueVariance.toLocaleString()}
-
-            </h3>
-
-          </div>
-
-
-
-          <div
-            class="bg-slate-50 rounded-2xl p-5">
-
-            <p class="text-sm text-slate-500">
-
-              Daily Pace
-
-            </p>
-
-            <h3 class="text-3xl font-bold">
-
-              RM${Math.round(
-                data.dailyPace
-              ).toLocaleString()}
-
             </h3>
 
           </div>
 
           <div class="bg-slate-50 rounded-2xl p-5">
-            <p>Projected</p>
+
+            <p class="text-sm text-slate-500">
+              Target
+            </p>
+
+            <h3 class="text-3xl font-bold">
+              RM${data.targetRevenue.toLocaleString()}
+            </h3>
+
+          </div>
+
+          <div class="bg-slate-50 rounded-2xl p-5">
+
+            <p class="text-sm text-slate-500">
+              Variance
+            </p>
+
+            <h3 class="text-3xl font-bold">
+              RM${data.revenueVariance.toLocaleString()}
+            </h3>
+
+          </div>
+
+          <div class="bg-slate-50 rounded-2xl p-5">
+
+            <p class="text-sm text-slate-500">
+              Daily Pace
+            </p>
+
+            <h3 class="text-3xl font-bold">
+              RM${Math.round(
+                data.dailyPace
+              ).toLocaleString()}
+            </h3>
+
+          </div>
+
+          <div class="bg-slate-50 rounded-2xl p-5">
+
+            <p>
+              Projected
+            </p>
+
             <h3 class="text-3xl font-bold">
               RM${Math.round(
                 data.projectedMtd
@@ -548,47 +507,52 @@ function renderMtd(
           </div>
 
           <div class="bg-slate-50 rounded-2xl p-5">
-            <p>Days Left</p>
+
+            <p>
+              Days Left
+            </p>
+
             <h3 class="text-3xl font-bold">
               ${data.daysLeft}
             </h3>
 
           </div>
+
+        </div>
+
+        <div
+          class="bg-slate-50 rounded-2xl p-5">
+
+          <p class="text-sm text-slate-500">
+            Achievement
+          </p>
+
+          <h3 class="text-3xl font-bold mb-3">
+            ${data.revenueAchievement.toFixed(1)}%
+          </h3>
+
+          <div class="w-full bg-slate-200 rounded-full h-3">
+
+            <div
+              class="h-3 rounded-full"
+              style="
+                background:
+                ${getPerformanceColor(
+                  data.revenueAchievement
+                )};
+
+                width:
+                ${Math.min(
+                  data.revenueAchievement,
+                  100
+                )}%">
+            </div>
+
           </div>
-          
-       <div
-  class="bg-slate-50 rounded-2xl p-5 mt-4 col-span-6">
 
-  <p class="text-sm text-slate-500">
-    Achievement
-  </p>
+        </div>
 
-  <h3 class="text-3xl font-bold mb-3">
-
-    ${data.revenueAchievement.toFixed(1)}%
-
-  </h3>
-
-  <div class="w-full bg-slate-200 rounded-full h-3">
-
-    <div
-      class="h-3 rounded-full"
-      style="
-        background:
-        ${getPerformanceColor(
-          data.revenueAchievement
-        )};
-
-        width:
-        ${Math.min(
-          data.revenueAchievement,
-          100
-        )}%">
-    </div>
-
-  </div>
-
-  </div>
+      </div>
 
     `;
 
