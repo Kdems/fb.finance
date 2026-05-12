@@ -1574,7 +1574,7 @@ function renderRanking() {
 
       <div class="grid grid-cols-2 gap-4 mb-6">
 
-        <div class="bg-slate-50 rounded-2xl p-4">
+        <div class="text-sm text-slate-500">
           <p>Top Performer</p>
           <h3 class="text-2xl font-bold">
             ${best.name}
@@ -1586,7 +1586,7 @@ function renderRanking() {
           </p>
         </div>
 
-        <div class="bg-slate-50 rounded-2xl p-4">
+        <div class="text-sm text-slate-500">
           <p>Lowest Performer</p>
           <h3 class="text-2xl font-bold">
             ${worst.name}
