@@ -1568,7 +1568,7 @@ function renderRanking() {
     )
     .innerHTML = `
 
-      <h2 class="text-2xl font-bold mb-5">
+      <h2 class="text-2xl font-bold text-white mb-5">
         Outlet Ranking
       </h2>
 
@@ -1626,11 +1626,11 @@ function renderRanking() {
 
               <div class="flex justify-between mb-1">
 
-                <span class="font-semibold">
+                <span class="font-semibold text-white">
                   ${item.name}
                 </span>
 
-                <span>
+                <span class="text-slate-200">
                   RM${Math.round(
                     item.revenue
                   ).toLocaleString()}
