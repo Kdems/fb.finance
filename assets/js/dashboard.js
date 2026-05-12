@@ -1507,7 +1507,7 @@ function renderTrend(
             </div>
 
             <div class="bg-slate-50 rounded-2xl p-5">
-              <p>Status</p>
+              
 
               <h3 class="text-xl font-bold">
                 ${forecastStatus}
