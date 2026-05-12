@@ -349,6 +349,37 @@ function bindAnnualForm() {
 
 
 
+  const annualRevenue =
+  Number(
+    getValue(
+      "annualRevenueTarget"
+    )
+  );
+
+  const annualGop =
+    Number(
+      getValue(
+        "annualGopTarget"
+      )
+    );
+
+  if (
+
+    annualRevenue < 0 ||
+
+    annualGop < 0
+
+  ) {
+
+    alert(
+      "Annual values cannot be negative"
+    );
+
+    return;
+
+  }
+
+
       saveAnnualTarget({
 
         outlet:
@@ -367,21 +398,13 @@ function bindAnnualForm() {
 
 
 
-        annualRevenueTarget:
-          Number(
-            getValue(
-              "annualRevenueTarget"
-            )
-          ),
+        annualRevenue:
+          annualRevenue,
 
 
 
-        annualGopTarget:
-          Number(
-            getValue(
-              "annualGopTarget"
-            )
-          )
+        annualGop:
+          annualGop
 
       });
 
