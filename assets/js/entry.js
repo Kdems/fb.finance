@@ -545,7 +545,7 @@ function renderRecentEntries() {
   let html = `
 
     <div
-      class="grid grid-cols-7 gap-4 font-semibold text-slate-600 border-b border-slate-200 pb-3 mb-3">
+      class="grid grid-cols-7 gap-4 font-semibold text-slate-900 border-b border-slate-200 pb-3 mb-3">
 
       <div>Date</div>
 
