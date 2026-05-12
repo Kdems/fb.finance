@@ -1148,8 +1148,6 @@ function setupDailyBudget() {
       "dailyBudget"
     ).value =
 
-      "RM " +
-
       Math.round(
         dailyBudget
       ).toLocaleString();
