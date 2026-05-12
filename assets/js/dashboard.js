@@ -964,8 +964,9 @@ function renderRecent(
 
                 <p class="font-bold">
                   RM${Math.round(
-                    item.totalRevenue || 0
-                  ).toLocaleString()}
+  (item.foodRevenue || 0) +
+  (item.beverageRevenue || 0)
+).toLocaleString()}
                 </p>
 
                 <p class="text-sm text-slate-500">
