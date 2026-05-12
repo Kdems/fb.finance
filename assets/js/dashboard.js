@@ -392,7 +392,7 @@ function renderYtd(
   <div class="w-full bg-slate-200 rounded-full h-3">
 
     <div
-      class="h-3 rounded-full"
+      class="bg-gradient-to-r from-cyan-400 to-teal-500 h-3 rounded-full"
       style="
         background:
         ${getPerformanceColor(
@@ -534,7 +534,7 @@ function renderMtd(
           <div class="w-full bg-slate-200 rounded-full h-3">
 
             <div
-              class="h-3 rounded-full"
+              class="bg-gradient-to-r from-cyan-400 to-teal-500 h-3 rounded-full"
               style="
                 background:
                 ${getPerformanceColor(
