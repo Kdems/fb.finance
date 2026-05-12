@@ -394,11 +394,6 @@ function renderYtd(
     <div
       class="bg-gradient-to-r from-cyan-400 to-teal-500 h-3 rounded-full"
       style="
-        background:
-        ${getPerformanceColor(
-          data.ytdAchievement
-        )};
-
         width:
         ${Math.min(
           data.ytdAchievement,
@@ -536,11 +531,6 @@ function renderMtd(
             <div
               class="bg-gradient-to-r from-cyan-400 to-teal-500 h-3 rounded-full"
               style="
-                background:
-                ${getPerformanceColor(
-                  data.revenueAchievement
-                )};
-
                 width:
                 ${Math.min(
                   data.revenueAchievement,
