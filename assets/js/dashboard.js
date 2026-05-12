@@ -1479,7 +1479,7 @@ function renderTrend(
         </h2>
 
         <div
-          class="grid grid-cols-5 gap-4">
+          class="grid grid-cols-1 lg:grid-cols-5 gap-3 items-start"
 
           <div class="bg-slate-50 rounded-2xl p-5">
 
