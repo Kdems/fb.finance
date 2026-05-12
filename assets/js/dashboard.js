@@ -270,7 +270,7 @@ function renderYtd(
 
         <div>
 
-          <h2 class="text-2xl font-bold">
+          <h2 class="text-2xl font-bold text-white">
 
             Year-To-Date Performance
 
@@ -447,7 +447,7 @@ function renderMtd(
 
         <div>
 
-          <h2 class="text-2xl font-bold">
+          <h2 class="text-2xl font-bold text-white">
 
             Month-To-Date Performance
 
@@ -672,7 +672,7 @@ function renderGop(
       <div class="space-y-5">
 
 
-        <h2 class="text-2xl font-bold">
+        <h2 class="text-2xl font-bold text-white">
 
           GOP Performance
 
@@ -898,7 +898,7 @@ function renderCost(
 
       <div class="space-y-5">
 
-        <h2 class="text-2xl font-bold">
+        <h2 class="text-2xl font-bold text-white">
 
           Cost Control
 
@@ -1021,7 +1021,7 @@ function renderRecent(
 
       <div class="space-y-5">
 
-        <h2 class="text-2xl font-bold">
+        <h2 class="text-2xl font-bold text-white">
           Recent Entries
         </h2>
 
@@ -1128,7 +1128,7 @@ function renderAlerts(
 
       <div class="space-y-5">
 
-        <h2 class="text-2xl font-bold">
+        <h2 class="text-2xl font-bold text-white">
           Executive Alerts
         </h2>
 
@@ -1345,7 +1345,7 @@ function renderSummary(
 
       <div class="space-y-5">
 
-        <h2 class="text-2xl font-bold">
+        <h2 class="text-2xl font-bold text-white">
 
           Executive Summary
 
@@ -1546,7 +1546,7 @@ function renderTrend(
 
       <div class="space-y-5">
 
-        <h2 class="text-2xl font-bold">
+        <h2 class="text-2xl font-bold text-white">
           Performance Trend
         </h2>
 
