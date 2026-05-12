@@ -1395,7 +1395,6 @@ function renderTrend(
   year,
   month
 ) {
-
   const entries =
     getFilteredDailyEntries(
       outlet,
@@ -1403,15 +1402,13 @@ function renderTrend(
       month
     );
 
-  const totalDays =
-    entries.length;
+  const totalDays = entries.length;
 
   const currentPace =
     totalDays > 0
       ? entries.reduce(
           (sum, item) =>
-            sum +
-            (item.totalRevenue || 0),
+            sum + (item.totalRevenue || 0),
           0
         ) / totalDays
       : 0;
@@ -1430,10 +1427,7 @@ function renderTrend(
     new Date().getDate();
 
   const remainingDays =
-    Math.max(
-      31 - today,
-      1
-    );
+    Math.max(31 - today, 1);
 
   const requiredPerDay =
     dashboardData.targetRevenue > 0
@@ -1457,104 +1451,66 @@ function renderTrend(
   if (vsTarget < 90) {
     forecastStatus =
       "🔴 Critical";
-  }
-
-  else if (vsTarget < 100) {
+  } else if (vsTarget < 100) {
     forecastStatus =
       "🟡 At Risk";
   }
 
   document
-    .getElementById(
-      "trendSection"
-    )
+    .getElementById("trendSection")
     .innerHTML = `
 
       <div class="space-y-5">
 
         <h2 class="text-2xl font-bold text-white">
-
           Performance Trend
-
         </h2>
 
-        <div
-          class="grid grid-cols-5 gap-3 items-start"
+        <div class="grid grid-cols-5 gap-4">
 
           <div class="bg-slate-50 rounded-2xl p-5">
-
             <p>Current Pace</p>
-
             <h3 class="text-xl font-bold">
-
-              RM${Math.round(
-                currentPace
-              ).toLocaleString()}
-
+              RM${Math.round(currentPace).toLocaleString()}
             </h3>
-
           </div>
 
           <div class="bg-slate-50 rounded-2xl p-5">
-
             <p>Projected Month End</p>
-
             <h3 class="text-xl font-bold">
-
-              RM${Math.round(
-                projectedRevenue
-              ).toLocaleString()}
-
+              RM${Math.round(projectedRevenue).toLocaleString()}
             </h3>
-
           </div>
 
           <div class="bg-slate-50 rounded-2xl p-5">
-
             <p>Vs Target</p>
-
             <h3 class="text-xl font-bold">
-
               ${vsTarget.toFixed(1)}%
-
             </h3>
-
           </div>
 
           <div class="bg-slate-50 rounded-2xl p-5">
-
             <p>Status</p>
-
             <h3 class="text-xl font-bold">
-
               ${forecastStatus}
-
             </h3>
-
           </div>
 
           <div class="bg-slate-50 rounded-2xl p-5">
-
             <p>Daily Required</p>
-
             <h3 class="text-xl font-bold">
-
               RM${Math.round(
                 requiredPerDay > 0
                   ? requiredPerDay
                   : 0
               ).toLocaleString()}
-
             </h3>
-
           </div>
 
         </div>
 
       </div>
-
     `;
-
 }
 
 function renderRanking() {
