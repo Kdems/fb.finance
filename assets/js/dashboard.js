@@ -1643,7 +1643,7 @@ function renderRanking() {
               <div class="bg-slate-100 rounded-full h-3">
 
                 <div
-                  class="bg-slate-800 h-3 rounded-full"
+                  class="bg-gradient-to-r from-cyan-400 to-teal-500 h-3 rounded-full"
                   style="width:${width}%"
                 ></div>
 
