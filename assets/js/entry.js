@@ -86,6 +86,23 @@ function bindDailyForm() {
         );
 
 
+        if (
+
+        foodRevenue < 0 ||
+
+        beverageRevenue < 0
+
+      ) {
+
+        alert(
+          "Revenue cannot be negative"
+        );
+
+        return;
+
+      }
+
+
 
 
 
