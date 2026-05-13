@@ -278,7 +278,7 @@ function renderYtd(
 
     .innerHTML = `
 
-      <div class="space-y-5">
+      <div class="w-full space-y-5">
 
 
         <div>
@@ -601,7 +601,7 @@ function renderGop(
 
     .innerHTML = `
 
-      <div class="space-y-5">
+      <div class="w-full space-y-5">
 
 
         <h2 class="text-2xl font-bold text-white">
@@ -828,7 +828,7 @@ function renderCost(
 
     .innerHTML = `
 
-      <div class="space-y-5">
+      <div class="w-full space-y-5">
 
         <h2 class="text-2xl font-bold text-white">
 
@@ -951,7 +951,7 @@ function renderRecent(
     )
     .innerHTML = `
 
-      <div class="space-y-5">
+      <div class="w-full space-y-5">
 
         <h2 class="text-2xl font-bold text-white">
           Recent Entries
@@ -1065,7 +1065,7 @@ function renderAlerts(
     )
     .innerHTML = `
 
-      <div class="space-y-5">
+      <div class="w-full space-y-5">
 
         <h2 class="text-2xl font-bold text-white">
           Executive Alerts
@@ -1282,7 +1282,7 @@ function renderSummary(
 
     .innerHTML = `
 
-      <div class="space-y-5">
+      <div class="w-full space-y-5">
 
         <h2 class="text-2xl font-bold text-white">
 
@@ -1470,7 +1470,7 @@ function renderTrend(
     .getElementById("trendSection")
     .innerHTML = `
 
-      <div class="space-y-5">
+      <div class="w-full space-y-5">
 
         <h2 class="text-2xl font-bold text-white">
           Performance Trend
