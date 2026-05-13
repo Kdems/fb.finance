@@ -298,7 +298,7 @@ function renderYtd(
 
 
         <div
-          class="grid grid-cols-4 gap-4">
+          class="grid grid-cols-2 md:grid-cols-4 gap-4">
 
 
 
