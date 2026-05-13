@@ -435,7 +435,7 @@ function renderMtd(
 
     .innerHTML = `
 
-      <div class="space-y-5">
+      <div class="w-full space-y-5">
 
         <div>
 
