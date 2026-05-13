@@ -1298,7 +1298,7 @@ function renderSummary(
 
 
         <div
-          class="grid grid-cols-4 gap-4">
+          class="grid grid-cols-2 md:grid-cols-4 gap-4">
 
 
 
@@ -1476,7 +1476,7 @@ function renderTrend(
           Performance Trend
         </h2>
 
-        <div class="grid grid-cols-5 gap-4">
+        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
 
           <div class="bg-slate-50 rounded-2xl p-5">
             <p>Current Pace</p>
