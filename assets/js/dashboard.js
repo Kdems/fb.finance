@@ -1476,37 +1476,37 @@ function renderTrend(
           Performance Trend
         </h2>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 w-full">
+        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
 
-          <div class="bg-slate-50 rounded-2xl p-5 w-full">
+          <div class="bg-slate-50 rounded-2xl p-5">
             <p>Current Pace</p>
             <h3 class="text-xl font-bold">
               RM${Math.round(currentPace).toLocaleString()}
             </h3>
           </div>
 
-          <div class="bg-slate-50 rounded-2xl p-5 w-full">
+          <div class="bg-slate-50 rounded-2xl p-5">
             <p>Projected Month End</p>
             <h3 class="text-xl font-bold">
               RM${Math.round(projectedRevenue).toLocaleString()}
             </h3>
           </div>
 
-          <div class="bg-slate-50 rounded-2xl p-5 w-full">
+          <div class="bg-slate-50 rounded-2xl p-5">
             <p>Vs Target</p>
             <h3 class="text-xl font-bold">
               ${vsTarget.toFixed(1)}%
             </h3>
           </div>
 
-          <div class="bg-slate-50 rounded-2xl p-5 w-full">
+          <div class="bg-slate-50 rounded-2xl p-5">
             <p>Status</p>
             <h3 class="text-xl font-bold">
               ${forecastStatus}
             </h3>
           </div>
 
-          <div class="bg-slate-50 rounded-2xl p-5 w-full">
+          <div class="bg-slate-50 rounded-2xl p-5">
             <p>Daily Required</p>
             <h3 class="text-xl font-bold">
               RM${Math.round(
